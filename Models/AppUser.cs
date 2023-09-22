@@ -1,11 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace FinalProject.Models
 {
-    // All User Props To Be Added With Appropriate Data Notations 
-    public class AppUser : IdentityUser
+    public class AppUser :IdentityUser
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        [Key]
+        public int Id {  get; set; }
+        public int EmpId { get; set; }
+        public virtual Employee Employee { get; set; }  
+
+        public virtual IEnumerable<Role> Roles { get; set;}
     }
 }

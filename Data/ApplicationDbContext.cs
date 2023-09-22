@@ -1,4 +1,5 @@
 ﻿using FinalProject.Models;
+using FinalProject.Utilities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ namespace FinalProject.Data
         {
         }
 
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -23,7 +25,7 @@ namespace FinalProject.Data
                     entity =>  entity.ToTable(name: "User")    
                 );
             builder.Entity<IdentityRole>(
-                    entity => entity.ToTable(name: "Role")
+                    entity => entity.ToTable(name: "IdentityRole")
                 );
             builder.Entity<IdentityUserRole<string>>(
                     entity => entity.ToTable(name: "UserRoles")
@@ -45,31 +47,27 @@ namespace FinalProject.Data
 
 
             //a hasher to hash the password before seeding the user to the db
-            var hasher = new PasswordHasher<IdentityUser>();
+            var hasher = new PasswordHasher<AppUser>();
 
 
-            //Seeding the User to Users table
-            builder.Entity<AppUser>().HasData(
-                new AppUser
-                {
-                    FirstName = "Test",
-                    LastName = "Test",
-                    Id = "8e445865-a24d-4543-a6c6-9443d048cdb9", // primary key
-                    UserName = "adminadmin",
-                    NormalizedUserName = "MYADMIN",
-                    PasswordHash = hasher.HashPassword(null, "password")
-                }
-            );
-
-
-            //Seeding the relation between our user and role to AspNetUserRoles table
-            builder.Entity<IdentityUserRole<string>>().HasData(
-                new IdentityUserRole<string>
-                {
-                    RoleId = "2c5e174e-3b0e-446f-86af-483d56fd7210",
-                    UserId = "8e445865-a24d-4543-a6c6-9443d048cdb9"
-                }
-            );
+          
         }
+
+        // Registering New Conversion Types For DateOnly, TimeOnly
+        protected override void ConfigureConventions(ModelConfigurationBuilder builder)
+        {
+            base.ConfigureConventions(builder);
+            builder.Properties<DateOnly>()
+                .HaveConversion<DateOnlyConverter>();
+            builder.Properties<TimeOnly>()
+                .HaveConversion<TimeOnlyConverter>();
+        }
+        public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<Department> Departments { get; set; }
+        public virtual DbSet<Attendance> Attendances { get; set; }
+        public virtual DbSet<Permission> Permissions { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<PhoneNumber> PhoneNumbers { get; set; }
+
     }
 }
