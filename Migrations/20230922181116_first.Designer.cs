@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230922173740_Initial")]
-    partial class Initial
+    [Migration("20230922181116_first")]
+    partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,6 +24,51 @@ namespace FinalProject.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("AppRoleAppUser", b =>
+                {
+                    b.Property<Guid>("AppRolesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("AppRolesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("AppRoleAppUser", "dbo");
+                });
+
+            modelBuilder.Entity("AppRolePermission", b =>
+                {
+                    b.Property<Guid>("AppRolesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("PermissionsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AppRolesId", "PermissionsId");
+
+                    b.HasIndex("PermissionsId");
+
+                    b.ToTable("AppRolePermission", "dbo");
+                });
+
+            modelBuilder.Entity("FinalProject.Models.AppRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppRoles", "dbo");
+                });
 
             modelBuilder.Entity("FinalProject.Models.AppUser", b =>
                 {
@@ -81,6 +126,8 @@ namespace FinalProject.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmpId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -185,9 +232,6 @@ namespace FinalProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("RoleId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<double>("Salary")
                         .HasColumnType("float");
 
@@ -195,18 +239,9 @@ namespace FinalProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("DeptID");
-
-                    b.HasIndex("RoleId");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.ToTable("Employees", "dbo");
                 });
@@ -253,26 +288,6 @@ namespace FinalProject.Migrations
                     b.ToTable("PhoneNumbers", "dbo");
                 });
 
-            modelBuilder.Entity("FinalProject.Models.Role", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
-
-                    b.ToTable("Roles", "dbo");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -298,15 +313,6 @@ namespace FinalProject.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("IdentityRole", "dbo");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
-                            ConcurrencyStamp = "9601ca04-21c0-4cc5-9767-21755c7fe92f",
-                            Name = "Amin",
-                            NormalizedName = "ADMIN"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -331,7 +337,7 @@ namespace FinalProject.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RoleClaims", "dbo");
+                    b.ToTable("IdentityRoleClaims", "dbo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -356,7 +362,7 @@ namespace FinalProject.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserClaims", "dbo");
+                    b.ToTable("IdentityUserClaims", "dbo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -380,7 +386,7 @@ namespace FinalProject.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserLogins", "dbo");
+                    b.ToTable("IdentityUserLogins", "dbo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -395,7 +401,7 @@ namespace FinalProject.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles", "dbo");
+                    b.ToTable("IdentityUserRoles", "dbo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -416,22 +422,48 @@ namespace FinalProject.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("UserTokens", "dbo");
+                    b.ToTable("IdentityUserTokens", "dbo");
                 });
 
-            modelBuilder.Entity("PermissionRole", b =>
+            modelBuilder.Entity("AppRoleAppUser", b =>
                 {
-                    b.Property<int>("PermissionsId")
-                        .HasColumnType("int");
+                    b.HasOne("FinalProject.Models.AppRole", null)
+                        .WithMany()
+                        .HasForeignKey("AppRolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<Guid>("RolesId")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasOne("FinalProject.Models.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-                    b.HasKey("PermissionsId", "RolesId");
+            modelBuilder.Entity("AppRolePermission", b =>
+                {
+                    b.HasOne("FinalProject.Models.AppRole", null)
+                        .WithMany()
+                        .HasForeignKey("AppRolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasIndex("RolesId");
+                    b.HasOne("FinalProject.Models.Permission", null)
+                        .WithMany()
+                        .HasForeignKey("PermissionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-                    b.ToTable("PermissionRole", "dbo");
+            modelBuilder.Entity("FinalProject.Models.AppUser", b =>
+                {
+                    b.HasOne("FinalProject.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmpId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("FinalProject.Models.Attendance", b =>
@@ -453,19 +485,7 @@ namespace FinalProject.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FinalProject.Models.Role", null)
-                        .WithMany("Employees")
-                        .HasForeignKey("RoleId");
-
-                    b.HasOne("FinalProject.Models.AppUser", "User")
-                        .WithOne("Employee")
-                        .HasForeignKey("FinalProject.Models.Employee", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Department");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FinalProject.Models.PhoneNumber", b =>
@@ -477,13 +497,6 @@ namespace FinalProject.Migrations
                         .IsRequired();
 
                     b.Navigation("Employee");
-                });
-
-            modelBuilder.Entity("FinalProject.Models.Role", b =>
-                {
-                    b.HasOne("FinalProject.Models.AppUser", null)
-                        .WithMany("Roles")
-                        .HasForeignKey("AppUserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -537,29 +550,6 @@ namespace FinalProject.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PermissionRole", b =>
-                {
-                    b.HasOne("FinalProject.Models.Permission", null)
-                        .WithMany()
-                        .HasForeignKey("PermissionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FinalProject.Models.Role", null)
-                        .WithMany()
-                        .HasForeignKey("RolesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("FinalProject.Models.AppUser", b =>
-                {
-                    b.Navigation("Employee")
-                        .IsRequired();
-
-                    b.Navigation("Roles");
-                });
-
             modelBuilder.Entity("FinalProject.Models.Department", b =>
                 {
                     b.Navigation("Employees");
@@ -570,11 +560,6 @@ namespace FinalProject.Migrations
                     b.Navigation("Attendances");
 
                     b.Navigation("PhoneNumbers");
-                });
-
-            modelBuilder.Entity("FinalProject.Models.Role", b =>
-                {
-                    b.Navigation("Employees");
                 });
 #pragma warning restore 612, 618
         }

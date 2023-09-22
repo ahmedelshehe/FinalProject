@@ -28,29 +28,21 @@ namespace FinalProject.Data
                     entity => entity.ToTable(name: "IdentityRole")
                 );
             builder.Entity<IdentityUserRole<string>>(
-                    entity => entity.ToTable(name: "UserRoles")
+                    entity => entity.ToTable(name: "IdentityUserRoles")
                 );
             builder.Entity<IdentityUserClaim<string>>(
-                    entity => entity.ToTable(name: "UserClaims")
+                    entity => entity.ToTable(name: "IdentityUserClaims")
                 );
             builder.Entity<IdentityUserLogin<string>>(
-                    entity => entity.ToTable(name: "UserLogins")
+                    entity => entity.ToTable(name: "IdentityUserLogins")
                 );
             builder.Entity<IdentityRoleClaim<string>>(
-                    entity => entity.ToTable(name: "RoleClaims")
+                    entity => entity.ToTable(name: "IdentityRoleClaims")
                 );
             builder.Entity<IdentityUserToken<string>>(
-                    entity => entity.ToTable(name: "UserTokens")
+                    entity => entity.ToTable(name: "IdentityUserTokens")
                 );
-            //Seeding a  'Administrator' role to Roles table
-            builder.Entity<IdentityRole>().HasData(new IdentityRole { Id = "2c5e174e-3b0e-446f-86af-483d56fd7210", Name = "Amin", NormalizedName = "Admin".ToUpper() });
-
-
-            //a hasher to hash the password before seeding the user to the db
-            var hasher = new PasswordHasher<AppUser>();
-
-
-          
+      
         }
 
         // Registering New Conversion Types For DateOnly, TimeOnly
@@ -66,7 +58,7 @@ namespace FinalProject.Data
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Attendance> Attendances { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
-        public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<AppRole> AppRoles { get; set; }
         public virtual DbSet<PhoneNumber> PhoneNumbers { get; set; }
 
     }

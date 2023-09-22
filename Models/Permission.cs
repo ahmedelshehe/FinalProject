@@ -14,7 +14,7 @@ namespace FinalProject.Models
         [EnumDataType(typeof(Gender), ErrorMessage = "Invalid Operation value.")]
         public Operation Operation { get; set; }
 
-        public virtual IEnumerable<Role> Roles { get; set; }
+        public virtual IEnumerable<AppRole> AppRoles { get; set; }
 
     }
 }

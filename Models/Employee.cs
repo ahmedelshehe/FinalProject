@@ -11,11 +11,6 @@ namespace FinalProject.Models
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey("User")]
-        public string UserId { get; set; }
-
-        public virtual AppUser? User { get; set; }
-
         [Required(ErrorMessage = "The FirstName field is required.")]
         public string FirstName { get; set; }
 

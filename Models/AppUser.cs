@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinalProject.Models
 {
@@ -7,9 +8,10 @@ namespace FinalProject.Models
     {
         [Key]
         public int Id {  get; set; }
+        [ForeignKey("Employee")]
         public int EmpId { get; set; }
-        public virtual Employee Employee { get; set; }  
+        public virtual Employee Employee { get; set; }
 
-        public virtual IEnumerable<Role> Roles { get; set;}
+        public virtual IEnumerable<AppRole>? AppRoles { get; set;}
     }
 }

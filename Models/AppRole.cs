@@ -2,7 +2,7 @@
 
 namespace FinalProject.Models
 {
-    public class Role
+    public class AppRole
     {
         [Key]
         public Guid Id { get; set; }
@@ -12,6 +12,6 @@ namespace FinalProject.Models
 
 
         public virtual IEnumerable<Permission>? Permissions { get; set;}
-        public virtual IEnumerable<Employee>? Employees { get; set;}
+        public virtual IEnumerable<AppUser>? Users { get; set;}
     }
 }
