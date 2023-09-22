@@ -5,25 +5,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FinalProject.Migrations
 {
-    public partial class first : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
                 name: "dbo");
-
-            migrationBuilder.CreateTable(
-                name: "AppRoles",
-                schema: "dbo",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppRoles", x => x.Id);
-                });
 
             migrationBuilder.CreateTable(
                 name: "Departments",
@@ -41,33 +28,18 @@ namespace FinalProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "IdentityRole",
+                name: "Role",
                 schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_IdentityRole", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Permissions",
-                schema: "dbo",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Operation = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Permissions", x => x.Id);
+                    table.PrimaryKey("PK_Role", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -103,51 +75,33 @@ namespace FinalProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "IdentityRoleClaims",
+                name: "Permissions",
                 schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Operation = table.Column<int>(type: "int", nullable: false),
+                    AppRoleId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_IdentityRoleClaims", x => x.Id);
+                    table.PrimaryKey("PK_Permissions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_IdentityRoleClaims_IdentityRole_RoleId",
+                        name: "FK_Permissions_Role_AppRoleId",
+                        column: x => x.AppRoleId,
+                        principalSchema: "dbo",
+                        principalTable: "Role",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Permissions_Role_RoleId",
                         column: x => x.RoleId,
                         principalSchema: "dbo",
-                        principalTable: "IdentityRole",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AppRolePermission",
-                schema: "dbo",
-                columns: table => new
-                {
-                    AppRolesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PermissionsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppRolePermission", x => new { x.AppRolesId, x.PermissionsId });
-                    table.ForeignKey(
-                        name: "FK_AppRolePermission_AppRoles_AppRolesId",
-                        column: x => x.AppRolesId,
-                        principalSchema: "dbo",
-                        principalTable: "AppRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AppRolePermission_Permissions_PermissionsId",
-                        column: x => x.PermissionsId,
-                        principalSchema: "dbo",
-                        principalTable: "Permissions",
+                        principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -237,17 +191,17 @@ namespace FinalProject.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    AppRolesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AppRolesId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UsersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AppRoleAppUser", x => new { x.AppRolesId, x.UsersId });
                     table.ForeignKey(
-                        name: "FK_AppRoleAppUser_AppRoles_AppRolesId",
+                        name: "FK_AppRoleAppUser_Role_AppRolesId",
                         column: x => x.AppRolesId,
                         principalSchema: "dbo",
-                        principalTable: "AppRoles",
+                        principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -260,7 +214,7 @@ namespace FinalProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "IdentityUserClaims",
+                name: "UserClaims",
                 schema: "dbo",
                 columns: table => new
                 {
@@ -272,9 +226,9 @@ namespace FinalProject.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_IdentityUserClaims", x => x.Id);
+                    table.PrimaryKey("PK_UserClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_IdentityUserClaims_User_UserId",
+                        name: "FK_UserClaims_User_UserId",
                         column: x => x.UserId,
                         principalSchema: "dbo",
                         principalTable: "User",
@@ -283,20 +237,20 @@ namespace FinalProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "IdentityUserLogins",
+                name: "UserLogins",
                 schema: "dbo",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_IdentityUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.PrimaryKey("PK_UserLogins", x => new { x.LoginProvider, x.ProviderKey });
                     table.ForeignKey(
-                        name: "FK_IdentityUserLogins_User_UserId",
+                        name: "FK_UserLogins_User_UserId",
                         column: x => x.UserId,
                         principalSchema: "dbo",
                         principalTable: "User",
@@ -305,7 +259,7 @@ namespace FinalProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "IdentityUserRoles",
+                name: "UserRoles",
                 schema: "dbo",
                 columns: table => new
                 {
@@ -314,16 +268,16 @@ namespace FinalProject.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_IdentityUserRoles", x => new { x.UserId, x.RoleId });
+                    table.PrimaryKey("PK_UserRoles", x => new { x.UserId, x.RoleId });
                     table.ForeignKey(
-                        name: "FK_IdentityUserRoles_IdentityRole_RoleId",
+                        name: "FK_UserRoles_Role_RoleId",
                         column: x => x.RoleId,
                         principalSchema: "dbo",
-                        principalTable: "IdentityRole",
+                        principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_IdentityUserRoles_User_UserId",
+                        name: "FK_UserRoles_User_UserId",
                         column: x => x.UserId,
                         principalSchema: "dbo",
                         principalTable: "User",
@@ -332,20 +286,20 @@ namespace FinalProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "IdentityUserTokens",
+                name: "UserTokens",
                 schema: "dbo",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_IdentityUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.PrimaryKey("PK_UserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
-                        name: "FK_IdentityUserTokens_User_UserId",
+                        name: "FK_UserTokens_User_UserId",
                         column: x => x.UserId,
                         principalSchema: "dbo",
                         principalTable: "User",
@@ -360,12 +314,6 @@ namespace FinalProject.Migrations
                 column: "UsersId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AppRolePermission_PermissionsId",
-                schema: "dbo",
-                table: "AppRolePermission",
-                column: "PermissionsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Attendances_EmployeeId",
                 schema: "dbo",
                 table: "Attendances",
@@ -378,35 +326,15 @@ namespace FinalProject.Migrations
                 column: "DeptID");
 
             migrationBuilder.CreateIndex(
-                name: "RoleNameIndex",
+                name: "IX_Permissions_AppRoleId",
                 schema: "dbo",
-                table: "IdentityRole",
-                column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
+                table: "Permissions",
+                column: "AppRoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_IdentityRoleClaims_RoleId",
+                name: "IX_Permissions_RoleId",
                 schema: "dbo",
-                table: "IdentityRoleClaims",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_IdentityUserClaims_UserId",
-                schema: "dbo",
-                table: "IdentityUserClaims",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_IdentityUserLogins_UserId",
-                schema: "dbo",
-                table: "IdentityUserLogins",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_IdentityUserRoles_RoleId",
-                schema: "dbo",
-                table: "IdentityUserRoles",
+                table: "Permissions",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
@@ -414,6 +342,14 @@ namespace FinalProject.Migrations
                 schema: "dbo",
                 table: "PhoneNumbers",
                 column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                schema: "dbo",
+                table: "Role",
+                column: "NormalizedName",
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
@@ -434,6 +370,24 @@ namespace FinalProject.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserClaims_UserId",
+                schema: "dbo",
+                table: "UserClaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserLogins_UserId",
+                schema: "dbo",
+                table: "UserLogins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRoles_RoleId",
+                schema: "dbo",
+                table: "UserRoles",
+                column: "RoleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -443,39 +397,7 @@ namespace FinalProject.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "AppRolePermission",
-                schema: "dbo");
-
-            migrationBuilder.DropTable(
                 name: "Attendances",
-                schema: "dbo");
-
-            migrationBuilder.DropTable(
-                name: "IdentityRoleClaims",
-                schema: "dbo");
-
-            migrationBuilder.DropTable(
-                name: "IdentityUserClaims",
-                schema: "dbo");
-
-            migrationBuilder.DropTable(
-                name: "IdentityUserLogins",
-                schema: "dbo");
-
-            migrationBuilder.DropTable(
-                name: "IdentityUserRoles",
-                schema: "dbo");
-
-            migrationBuilder.DropTable(
-                name: "IdentityUserTokens",
-                schema: "dbo");
-
-            migrationBuilder.DropTable(
-                name: "PhoneNumbers",
-                schema: "dbo");
-
-            migrationBuilder.DropTable(
-                name: "AppRoles",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
@@ -483,7 +405,27 @@ namespace FinalProject.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "IdentityRole",
+                name: "PhoneNumbers",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "UserClaims",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "UserLogins",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "UserRoles",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "UserTokens",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "Role",
                 schema: "dbo");
 
             migrationBuilder.DropTable(

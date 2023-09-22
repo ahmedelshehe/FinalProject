@@ -17,7 +17,7 @@ namespace FinalProject
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
-            builder.Services.AddDefaultIdentity<AppUser>()
+            builder.Services.AddIdentity<AppUser,AppRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddRazorPages();
 
