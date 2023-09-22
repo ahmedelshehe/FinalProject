@@ -3,11 +3,12 @@ using FinalProject.Utilities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 
 namespace FinalProject.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<AppUser>
+    public class ApplicationDbContext 
+        : IdentityDbContext<AppUser,AppRole,string,IdentityUserClaim<string>,IdentityUserRole<string>,IdentityUserLogin<string>,
+            Permission,IdentityUserToken<string>>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -24,23 +25,23 @@ namespace FinalProject.Data
             builder.Entity<AppUser>(
                     entity =>  entity.ToTable(name: "User")    
                 );
-            builder.Entity<IdentityRole>(
-                    entity => entity.ToTable(name: "IdentityRole")
+            builder.Entity<AppRole>(
+                    entity => entity.ToTable(name: "Role")
                 );
             builder.Entity<IdentityUserRole<string>>(
-                    entity => entity.ToTable(name: "IdentityUserRoles")
+                    entity => entity.ToTable(name: "UserRoles")
                 );
             builder.Entity<IdentityUserClaim<string>>(
-                    entity => entity.ToTable(name: "IdentityUserClaims")
+                    entity => entity.ToTable(name: "UserClaims")
                 );
             builder.Entity<IdentityUserLogin<string>>(
-                    entity => entity.ToTable(name: "IdentityUserLogins")
+                    entity => entity.ToTable(name: "UserLogins")
                 );
-            builder.Entity<IdentityRoleClaim<string>>(
-                    entity => entity.ToTable(name: "IdentityRoleClaims")
+            builder.Entity<Permission>(
+                    entity => entity.ToTable(name: "Permissions")
                 );
             builder.Entity<IdentityUserToken<string>>(
-                    entity => entity.ToTable(name: "IdentityUserTokens")
+                    entity => entity.ToTable(name: "UserTokens")
                 );
       
         }
@@ -58,7 +59,6 @@ namespace FinalProject.Data
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Attendance> Attendances { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
-        public virtual DbSet<AppRole> AppRoles { get; set; }
         public virtual DbSet<PhoneNumber> PhoneNumbers { get; set; }
 
     }
