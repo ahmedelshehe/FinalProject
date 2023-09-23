@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using FinalProject.Utilities;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -11,45 +12,51 @@ namespace FinalProject.Models
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "The FirstName field is required.")]
+        [Required(ErrorMessage = "You should enter the first name")]
+        [MaxLength(10,ErrorMessage = "You should enter at most 10 Letters")]
+        [Display(Name ="First Name")]
         public string FirstName { get; set; }
 
-        [Required(ErrorMessage = "The LastName field is required.")]
+        [Required(ErrorMessage = "You should enter the last name")]
+        [MaxLength(10, ErrorMessage = "You should enter at most 10 Letters")]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "The Street field is required.")]
         public string Street { get; set; }
 
-        [Required(ErrorMessage = "The City field is required.")]
+        [Required(ErrorMessage = "You should enter a city")]
         public string City { get; set; }
 
-        [Required(ErrorMessage = "The Country field is required.")]
+        [Required(ErrorMessage = "You should enter a country")]
         public string Country { get; set; }
 
-        [Required(ErrorMessage = "The Gender field is required.")]
+        [Required(ErrorMessage = "You should choose a gender")]
         [EnumDataType(typeof(Gender), ErrorMessage = "Invalid Gender value.")]
         public Gender Gender { get; set; }
 
-        [Required(ErrorMessage = "The BirthDate field is required.")]
+        [Required(ErrorMessage = "You should enter a birthdate")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime BirthDate { get; set; }
 
-        [Required(ErrorMessage = "The ContractDate field is required.")]
+        [Required(ErrorMessage = "You should enter a contract date")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime ContractDate { get; set; }
 
-        [Required(ErrorMessage = "The Email field is required.")]
+        [Required(ErrorMessage = "You should enter an email")]
         [DataType(DataType.EmailAddress)]
+        [UniqueEmployeeEmail(ErrorMessage = "Email Address already exists")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "The NationalId field is required.")]
+        [Required(ErrorMessage = "You should enter a national id")]
         [RegularExpression(@"^\d{14}$", ErrorMessage = "National Id must be exactly 14 digits.")]
+        [UniqueEmployeeNationalId(ErrorMessage ="National Id already exists")]
         public string NationalId { get; set; }
 
 
-        [Required(ErrorMessage = "The Salary field is required.")]
+        [Required(ErrorMessage = "You should enter a salary")]
+        [Range(5000,500000,ErrorMessage ="You should enter a salary between 5K and 500K")]
         public double Salary { get; set; }
 
 
@@ -66,7 +73,7 @@ namespace FinalProject.Models
         public virtual Department? Department { get; set; }
 
         // Employee's Attendance Recors
-        public virtual IEnumerable<Attendance> Attendances { get; set; }
+        public virtual IEnumerable<Attendance>? Attendances { get; set; }
 
     }
 }

@@ -8,7 +8,7 @@ namespace FinalProject.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="You should enter a role name")]
         public string Name { get; set; }
 
         public virtual IEnumerable<AppUser>? Users { get; set;}

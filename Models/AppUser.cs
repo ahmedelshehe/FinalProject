@@ -8,9 +8,11 @@ namespace FinalProject.Models
     {
         [Key]
         public int Id {  get; set; }
+        [Required(ErrorMessage = "You should enter an employee")]
         [ForeignKey("Employee")]
         public int EmpId { get; set; }
-        public virtual Employee Employee { get; set; }
+        public virtual Employee? Employee { get; set; }
+
 
     }
 }
