@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230923171220_Initial")]
-    partial class Initial
+    [Migration("20230923184117_Initial-Tables")]
+    partial class InitialTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -77,7 +77,6 @@ namespace FinalProject.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("AppRoleId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -385,19 +384,15 @@ namespace FinalProject.Migrations
 
             modelBuilder.Entity("FinalProject.Models.AppUser", b =>
                 {
-                    b.HasOne("FinalProject.Models.AppRole", "AppRole")
+                    b.HasOne("FinalProject.Models.AppRole", null)
                         .WithMany("Users")
-                        .HasForeignKey("AppRoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppRoleId");
 
                     b.HasOne("FinalProject.Models.Employee", "Employee")
                         .WithMany()
                         .HasForeignKey("EmpId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("AppRole");
 
                     b.Navigation("Employee");
                 });
