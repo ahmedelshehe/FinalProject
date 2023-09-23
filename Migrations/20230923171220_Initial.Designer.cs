@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230922234731_Initial")]
+    [Migration("20230923171220_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,19 +25,19 @@ namespace FinalProject.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("AppRoleAppUser", b =>
+            modelBuilder.Entity("AppRolePermission", b =>
                 {
                     b.Property<string>("AppRolesId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("UsersId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("PermissionsId")
+                        .HasColumnType("int");
 
-                    b.HasKey("AppRolesId", "UsersId");
+                    b.HasKey("AppRolesId", "PermissionsId");
 
-                    b.HasIndex("UsersId");
+                    b.HasIndex("PermissionsId");
 
-                    b.ToTable("AppRoleAppUser", "dbo");
+                    b.ToTable("AppRolePermission", "dbo");
                 });
 
             modelBuilder.Entity("FinalProject.Models.AppRole", b =>
@@ -75,6 +75,10 @@ namespace FinalProject.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("AppRoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -125,6 +129,8 @@ namespace FinalProject.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AppRoleId");
+
                     b.HasIndex("EmpId");
 
                     b.HasIndex("NormalizedEmail")
@@ -140,25 +146,19 @@ namespace FinalProject.Migrations
 
             modelBuilder.Entity("FinalProject.Models.Attendance", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<TimeSpan>("ArrivalTime")
-                        .HasColumnType("time");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
-
-                    b.Property<TimeSpan>("DepartureTime")
-                        .HasColumnType("time");
 
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<TimeSpan>("ArrivalTime")
+                        .HasColumnType("time");
+
+                    b.Property<TimeSpan>("DepartureTime")
+                        .HasColumnType("time");
+
+                    b.HasKey("Date", "EmployeeId");
 
                     b.HasIndex("EmployeeId");
 
@@ -172,10 +172,6 @@ namespace FinalProject.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -252,9 +248,6 @@ namespace FinalProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("AppRoleId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
 
@@ -274,8 +267,6 @@ namespace FinalProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppRoleId");
-
                     b.HasIndex("RoleId");
 
                     b.ToTable("Permissions", "dbo");
@@ -283,20 +274,13 @@ namespace FinalProject.Migrations
 
             modelBuilder.Entity("FinalProject.Models.PhoneNumber", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("Number")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Number")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
+                    b.HasKey("Number", "EmployeeId");
 
                     b.HasIndex("EmployeeId");
 
@@ -384,7 +368,7 @@ namespace FinalProject.Migrations
                     b.ToTable("UserTokens", "dbo");
                 });
 
-            modelBuilder.Entity("AppRoleAppUser", b =>
+            modelBuilder.Entity("AppRolePermission", b =>
                 {
                     b.HasOne("FinalProject.Models.AppRole", null)
                         .WithMany()
@@ -392,20 +376,28 @@ namespace FinalProject.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FinalProject.Models.AppUser", null)
+                    b.HasOne("FinalProject.Models.Permission", null)
                         .WithMany()
-                        .HasForeignKey("UsersId")
+                        .HasForeignKey("PermissionsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("FinalProject.Models.AppUser", b =>
                 {
+                    b.HasOne("FinalProject.Models.AppRole", "AppRole")
+                        .WithMany("Users")
+                        .HasForeignKey("AppRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("FinalProject.Models.Employee", "Employee")
                         .WithMany()
                         .HasForeignKey("EmpId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("AppRole");
 
                     b.Navigation("Employee");
                 });
@@ -434,10 +426,6 @@ namespace FinalProject.Migrations
 
             modelBuilder.Entity("FinalProject.Models.Permission", b =>
                 {
-                    b.HasOne("FinalProject.Models.AppRole", null)
-                        .WithMany("Permissions")
-                        .HasForeignKey("AppRoleId");
-
                     b.HasOne("FinalProject.Models.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
@@ -500,7 +488,7 @@ namespace FinalProject.Migrations
 
             modelBuilder.Entity("FinalProject.Models.AppRole", b =>
                 {
-                    b.Navigation("Permissions");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("FinalProject.Models.Department", b =>

@@ -19,8 +19,7 @@ namespace FinalProject.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -83,7 +82,6 @@ namespace FinalProject.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Operation = table.Column<int>(type: "int", nullable: false),
-                    AppRoleId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -91,12 +89,6 @@ namespace FinalProject.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Permissions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Permissions_Role_AppRoleId",
-                        column: x => x.AppRoleId,
-                        principalSchema: "dbo",
-                        principalTable: "Role",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Permissions_Role_RoleId",
                         column: x => x.RoleId,
@@ -111,16 +103,14 @@ namespace FinalProject.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ArrivalTime = table.Column<TimeSpan>(type: "time", nullable: false),
-                    DepartureTime = table.Column<TimeSpan>(type: "time", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    ArrivalTime = table.Column<TimeSpan>(type: "time", nullable: false),
+                    DepartureTime = table.Column<TimeSpan>(type: "time", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Attendances", x => x.Id);
+                    table.PrimaryKey("PK_Attendances", x => new { x.Date, x.EmployeeId });
                     table.ForeignKey(
                         name: "FK_Attendances_Employees_EmployeeId",
                         column: x => x.EmployeeId,
@@ -135,14 +125,12 @@ namespace FinalProject.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Number = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Number = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     EmployeeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PhoneNumbers", x => x.Id);
+                    table.PrimaryKey("PK_PhoneNumbers", x => new { x.Number, x.EmployeeId });
                     table.ForeignKey(
                         name: "FK_PhoneNumbers_Employees_EmployeeId",
                         column: x => x.EmployeeId,
@@ -159,6 +147,7 @@ namespace FinalProject.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     EmpId = table.Column<int>(type: "int", nullable: false),
+                    AppRoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -184,33 +173,40 @@ namespace FinalProject.Migrations
                         principalTable: "Employees",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AppRoleAppUser",
-                schema: "dbo",
-                columns: table => new
-                {
-                    AppRolesId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UsersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppRoleAppUser", x => new { x.AppRolesId, x.UsersId });
                     table.ForeignKey(
-                        name: "FK_AppRoleAppUser_Role_AppRolesId",
-                        column: x => x.AppRolesId,
+                        name: "FK_User_Role_AppRoleId",
+                        column: x => x.AppRoleId,
                         principalSchema: "dbo",
                         principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppRolePermission",
+                schema: "dbo",
+                columns: table => new
+                {
+                    AppRolesId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PermissionsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppRolePermission", x => new { x.AppRolesId, x.PermissionsId });
                     table.ForeignKey(
-                        name: "FK_AppRoleAppUser_User_UsersId",
-                        column: x => x.UsersId,
+                        name: "FK_AppRolePermission_Permissions_PermissionsId",
+                        column: x => x.PermissionsId,
                         principalSchema: "dbo",
-                        principalTable: "User",
+                        principalTable: "Permissions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AppRolePermission_Role_AppRolesId",
+                        column: x => x.AppRolesId,
+                        principalSchema: "dbo",
+                        principalTable: "Role",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -282,7 +278,7 @@ namespace FinalProject.Migrations
                         principalSchema: "dbo",
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -308,10 +304,10 @@ namespace FinalProject.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AppRoleAppUser_UsersId",
+                name: "IX_AppRolePermission_PermissionsId",
                 schema: "dbo",
-                table: "AppRoleAppUser",
-                column: "UsersId");
+                table: "AppRolePermission",
+                column: "PermissionsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Attendances_EmployeeId",
@@ -324,12 +320,6 @@ namespace FinalProject.Migrations
                 schema: "dbo",
                 table: "Employees",
                 column: "DeptID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Permissions_AppRoleId",
-                schema: "dbo",
-                table: "Permissions",
-                column: "AppRoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Permissions_RoleId",
@@ -356,6 +346,12 @@ namespace FinalProject.Migrations
                 schema: "dbo",
                 table: "User",
                 column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_AppRoleId",
+                schema: "dbo",
+                table: "User",
+                column: "AppRoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_EmpId",
@@ -393,15 +389,11 @@ namespace FinalProject.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AppRoleAppUser",
+                name: "AppRolePermission",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
                 name: "Attendances",
-                schema: "dbo");
-
-            migrationBuilder.DropTable(
-                name: "Permissions",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
@@ -425,7 +417,7 @@ namespace FinalProject.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "Role",
+                name: "Permissions",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
@@ -434,6 +426,10 @@ namespace FinalProject.Migrations
 
             migrationBuilder.DropTable(
                 name: "Employees",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "Role",
                 schema: "dbo");
 
             migrationBuilder.DropTable(

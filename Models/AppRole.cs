@@ -13,6 +13,6 @@ namespace FinalProject.Models
 
         public virtual IEnumerable<AppUser>? Users { get; set;}
 
-        public virtual IEnumerable<Permission> Permissions { get; set;}
+        public virtual IEnumerable<Permission>? Permissions { get; set;}
     }
 }

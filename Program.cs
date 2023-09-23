@@ -1,5 +1,6 @@
 using FinalProject.Data;
 using FinalProject.Models;
+using FinalProject.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,18 @@ namespace FinalProject
 
             builder.Services.AddIdentity<AppUser,AppRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            // Register Services / Reposotories Here
+
+            builder.Services.AddScoped<DepartmentRepository>();
+            builder.Services.AddScoped<EmployeeRepository>();
+            builder.Services.AddScoped<AppUserRepository>();
+            builder.Services.AddScoped<AppRoleRepository>();
+            builder.Services.AddScoped<AttendanceRepository>();
+            builder.Services.AddScoped<PermissionRepository>();
+            builder.Services.AddScoped<PhoneNumberRepository>();
+
+
             builder.Services.AddRazorPages();
 
             var app = builder.Build();

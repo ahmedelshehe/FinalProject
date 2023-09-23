@@ -5,8 +5,6 @@ namespace FinalProject.Models
 {
     public class Attendance
     {
-        [Key]
-        public int Id { get; set; }
 
         [Required]
         public TimeOnly ArrivalTime { get; set; }
@@ -30,7 +28,6 @@ namespace FinalProject.Models
 
         [ForeignKey("Employee")]
         public int EmployeeId { get; set; }
-
         public virtual Employee Employee { get; set; }  
     }
 }

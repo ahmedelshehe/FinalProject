@@ -43,7 +43,13 @@ namespace FinalProject.Data
             builder.Entity<IdentityUserToken<string>>(
                     entity => entity.ToTable(name: "UserTokens")
                 );
-      
+            builder.Entity<Attendance>(
+                entity => entity.HasKey("Date", "EmployeeId")
+                );
+            builder.Entity<PhoneNumber>(
+                entity => entity.HasKey("Number", "EmployeeId")
+                );
+
         }
 
         // Registering New Conversion Types For DateOnly, TimeOnly
@@ -56,6 +62,10 @@ namespace FinalProject.Data
                 .HaveConversion<TimeOnlyConverter>();
         }
         public virtual DbSet<Employee> Employees { get; set; }
+        
+        public virtual DbSet<AppRole> AppRoles { get; set; }
+        public virtual DbSet<AppUser> AppUsers { get; set; }
+
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Attendance> Attendances { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
