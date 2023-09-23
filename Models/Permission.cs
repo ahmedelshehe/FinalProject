@@ -12,9 +12,9 @@ namespace FinalProject.Models
         public string Name { get; set; }
 
         [Required(ErrorMessage = "The Operation field is required.")]
-        [EnumDataType(typeof(Gender), ErrorMessage = "Invalid Operation value.")]
+        [EnumDataType(typeof(Operation), ErrorMessage = "Invalid Operation value.")]
         public Operation Operation { get; set; }
 
-
+        public virtual IEnumerable<AppRole>? AppRoles { get; set; }
     }
 }
