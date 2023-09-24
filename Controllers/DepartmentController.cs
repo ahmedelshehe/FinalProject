@@ -7,14 +7,6 @@ namespace FinalProject.Controllers
 {
     public class DepartmentController : Controller
     {
-        public IDepartmentRepository DepartmentRepository { get; set; }
-        public IEmployeeRepository EmployeeRepository { get; set; }
-
-        public DepartmentController(IEmployeeRepository employeeRepository, IDepartmentRepository departmentRepository)
-        {
-            DepartmentRepository = departmentRepository;
-            EmployeeRepository = employeeRepository;
-        }
         public ActionResult Index()
         {
             return View(DepartmentRepository.GetDepartments());
@@ -44,8 +36,8 @@ namespace FinalProject.Controllers
                 if (ModelState.IsValid)
                 {
                     DepartmentRepository.InsertDepartment(department);
-                    return RedirectToAction(nameof(Index));
-                }
+                return RedirectToAction(nameof(Index));
+            }
                 else
                 {
                     return View();
@@ -74,8 +66,8 @@ namespace FinalProject.Controllers
                 if (ModelState.IsValid)
                 {
                     DepartmentRepository.UpdateDepartment(id, department);
-                    return RedirectToAction(nameof(Index));
-                }
+                return RedirectToAction(nameof(Index));
+            }
                 else
                 {
                     return View();
