@@ -258,6 +258,7 @@ namespace FinalProject.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("Date")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
@@ -335,6 +336,7 @@ namespace FinalProject.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("EndDate")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<int>("VacationType")

@@ -6,9 +6,12 @@ namespace FinalProject.Models
 {
         public enum VacationTypes { Sick ,Casual ,Paternity , Other }
         public class Vacation
-        { 
+        {
 
+        [Required(ErrorMessage ="You should choose startdate")]
         public DateTime? StartDate { get; set; }
+
+        [Required(ErrorMessage = "You should choose enddate")]
 
         public DateTime? EndDate { get; set; }
 

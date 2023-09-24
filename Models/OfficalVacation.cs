@@ -7,7 +7,9 @@ namespace FinalProject.Models
     {
         [Key]
         public int Id { get; set; }
+        [Required(ErrorMessage ="You should enter title of vacation")]
         public string Title { get; set; }
+        [Required]
         public DateTime? Date { get; set; }
 
         [ForeignKey("User")]

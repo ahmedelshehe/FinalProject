@@ -5,11 +5,10 @@ namespace FinalProject.Models
 {
     public class AppRole :IdentityRole
     {
-        [Key]
-        public int Id { get; set; }
+        public AppRole(string name):base(name) 
+        {
 
-        [Required(ErrorMessage ="You should enter a role name")]
-        public string Name { get; set; }
+        }
 
         public virtual IEnumerable<AppUser>? Users { get; set;}
 

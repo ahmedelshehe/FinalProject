@@ -1,0 +1,38 @@
+﻿@model FinalProject.Models.Department
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h3>@Model.Name</h3>
+    <hr />
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Employee Name</th>
+                <th>Employee Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in Model.Employees)
+            {
+                <tr>
+                    <td>@employee.FirstName @employee.LastName</td>
+                    <td>@employee.Email</td>
+                </tr>
+            }
+        
+        
+
+        </tbody>
+        
+    </table>
+    <h5>Employees Count : @Model.Employees.Count()</h5>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

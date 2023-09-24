@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FinalProject.Migrations
 {
-    public partial class First : Migration
+    public partial class @new : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -50,6 +50,7 @@ namespace FinalProject.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AvailableVacations = table.Column<int>(type: "int", nullable: false),
                     Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -190,7 +191,7 @@ namespace FinalProject.Migrations
                 {
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     VacationType = table.Column<int>(type: "int", nullable: false),
                     Approved = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -241,7 +242,7 @@ namespace FinalProject.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>

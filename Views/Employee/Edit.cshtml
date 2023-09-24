@@ -1,17 +1,20 @@
 ﻿@model FinalProject.Models.Employee
 
 @{
-    ViewData["Title"] = "Create";
+    SelectList alldept = new SelectList(ViewBag.allDepts, "Id", "Name");
+
+    ViewData["Title"] = "Edit";
 }
 
-<h1>Create</h1>
+<h1>Edit</h1>
 
 <h4>Employee</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
@@ -69,10 +72,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="DeptID" class="control-label"></label>
-                <select asp-for="DeptID" class ="form-control" asp-items="ViewBag.DeptID"></select>
+                <select asp-for="DeptID" class="form-control" asp-items="alldept"></select>
+                <span asp-validation-for="DeptID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -84,6 +88,4 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    
 }
-

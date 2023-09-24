@@ -72,6 +72,7 @@ namespace FinalProject.Models
 
         // Employee's Departments
         [ForeignKey("Department")]
+        [Display(Name ="Departments")]
         public int DeptID { get; set; }
 
         public virtual Department? Department { get; set; }

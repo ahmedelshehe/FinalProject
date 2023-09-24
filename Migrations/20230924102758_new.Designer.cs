@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230924204130_Second")]
-    partial class Second
+    [Migration("20230924102758_new")]
+    partial class @new
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -260,6 +260,7 @@ namespace FinalProject.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("Date")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
@@ -337,6 +338,7 @@ namespace FinalProject.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("EndDate")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<int>("VacationType")
