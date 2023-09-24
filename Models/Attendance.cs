@@ -6,6 +6,7 @@ namespace FinalProject.Models
     public class Attendance
     {
 
+
         [Required(ErrorMessage ="You should enter arrival time")]
         [Display(Name ="Arrival Time")]
         public DateTime ArrivalTime { get; set; }

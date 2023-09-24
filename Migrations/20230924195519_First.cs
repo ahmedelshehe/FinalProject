@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FinalProject.Migrations
 {
-    public partial class Initial : Migration
+    public partial class First : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -50,6 +50,7 @@ namespace FinalProject.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    AvailableVacations = table.Column<int>(type: "int", nullable: false),
                     Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -146,6 +147,7 @@ namespace FinalProject.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AppId = table.Column<int>(type: "int", nullable: false),
                     EmpId = table.Column<int>(type: "int", nullable: false),
                     AppRoleId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -182,6 +184,29 @@ namespace FinalProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Vacations",
+                schema: "dbo",
+                columns: table => new
+                {
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    VacationType = table.Column<int>(type: "int", nullable: false),
+                    Approved = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vacations", x => new { x.StartDate, x.EmployeeId });
+                    table.ForeignKey(
+                        name: "FK_Vacations_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalSchema: "dbo",
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AppRolePermission",
                 schema: "dbo",
                 columns: table => new
@@ -206,6 +231,29 @@ namespace FinalProject.Migrations
                         principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OfficalVacations",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OfficalVacations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OfficalVacations_User_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "dbo",
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -321,6 +369,12 @@ namespace FinalProject.Migrations
                 column: "DeptID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_OfficalVacations_UserId",
+                schema: "dbo",
+                table: "OfficalVacations",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Permissions_RoleId",
                 schema: "dbo",
                 table: "Permissions",
@@ -383,6 +437,12 @@ namespace FinalProject.Migrations
                 schema: "dbo",
                 table: "UserRoles",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vacations_EmployeeId",
+                schema: "dbo",
+                table: "Vacations",
+                column: "EmployeeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -393,6 +453,10 @@ namespace FinalProject.Migrations
 
             migrationBuilder.DropTable(
                 name: "Attendances",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "OfficalVacations",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
@@ -413,6 +477,10 @@ namespace FinalProject.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserTokens",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "Vacations",
                 schema: "dbo");
 
             migrationBuilder.DropTable(

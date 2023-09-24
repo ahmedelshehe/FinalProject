@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230923224803_Initial")]
-    partial class Initial
+    [Migration("20230924204130_Second")]
+    partial class Second
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -74,6 +74,9 @@ namespace FinalProject.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AppId")
                         .HasColumnType("int");
 
                     b.Property<string>("AppRoleId")
@@ -189,6 +192,9 @@ namespace FinalProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("AvailableVacations")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
@@ -227,6 +233,10 @@ namespace FinalProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("Salary")
                         .HasColumnType("float");
 
@@ -239,6 +249,32 @@ namespace FinalProject.Migrations
                     b.HasIndex("DeptID");
 
                     b.ToTable("Employees", "dbo");
+                });
+
+            modelBuilder.Entity("FinalProject.Models.OfficalVacation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("OfficalVacations", "dbo");
                 });
 
             modelBuilder.Entity("FinalProject.Models.Permission", b =>
@@ -287,6 +323,30 @@ namespace FinalProject.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.ToTable("PhoneNumbers", "dbo");
+                });
+
+            modelBuilder.Entity("FinalProject.Models.Vacation", b =>
+                {
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Approved")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("VacationType")
+                        .HasColumnType("int");
+
+                    b.HasKey("StartDate", "EmployeeId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Vacations", "dbo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -422,6 +482,17 @@ namespace FinalProject.Migrations
                     b.Navigation("Department");
                 });
 
+            modelBuilder.Entity("FinalProject.Models.OfficalVacation", b =>
+                {
+                    b.HasOne("FinalProject.Models.AppUser", "User")
+                        .WithMany("OfficalVacations")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("FinalProject.Models.Permission", b =>
                 {
                     b.HasOne("FinalProject.Models.AppRole", null)
@@ -435,6 +506,17 @@ namespace FinalProject.Migrations
                 {
                     b.HasOne("FinalProject.Models.Employee", "Employee")
                         .WithMany("PhoneNumbers")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("FinalProject.Models.Vacation", b =>
+                {
+                    b.HasOne("FinalProject.Models.Employee", "Employee")
+                        .WithMany("Vacations")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -489,6 +571,11 @@ namespace FinalProject.Migrations
                     b.Navigation("Users");
                 });
 
+            modelBuilder.Entity("FinalProject.Models.AppUser", b =>
+                {
+                    b.Navigation("OfficalVacations");
+                });
+
             modelBuilder.Entity("FinalProject.Models.Department", b =>
                 {
                     b.Navigation("Employees");
@@ -499,6 +586,8 @@ namespace FinalProject.Migrations
                     b.Navigation("Attendances");
 
                     b.Navigation("PhoneNumbers");
+
+                    b.Navigation("Vacations");
                 });
 #pragma warning restore 612, 618
         }

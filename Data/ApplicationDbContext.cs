@@ -49,7 +49,9 @@ namespace FinalProject.Data
             builder.Entity<PhoneNumber>(
                 entity => entity.HasKey("Number", "EmployeeId")
                 );
-
+            builder.Entity<Vacation>(
+                entity => entity.HasKey("StartDate", "EmployeeId")
+                );
         }
 
         // Registering New Conversion Types For DateOnly, TimeOnly
@@ -70,6 +72,9 @@ namespace FinalProject.Data
         public virtual DbSet<Attendance> Attendances { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<PhoneNumber> PhoneNumbers { get; set; }
+        public virtual DbSet<OfficalVacation> OfficalVacations { get; set; }
+
+        public virtual DbSet<Vacation> Vacations { get; set; }
 
     }
 }

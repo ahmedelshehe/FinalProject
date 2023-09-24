@@ -22,6 +22,10 @@ namespace FinalProject.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+        [DataType(DataType.Password)]
+        public string Password { get; set; } = "12345678";
+
+        public int AvailableVacations { get; set; } = 21;
         public string Street { get; set; }
 
         [Required(ErrorMessage = "You should enter a city")]
@@ -72,8 +76,8 @@ namespace FinalProject.Models
 
         public virtual Department? Department { get; set; }
 
-        // Employee's Attendance Recors
+        // Employee's Attendance Records
         public virtual IEnumerable<Attendance>? Attendances { get; set; }
-
+        public virtual IEnumerable<Vacation>? Vacations { get; set; }
     }
 }

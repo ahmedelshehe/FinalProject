@@ -7,12 +7,12 @@ namespace FinalProject.Models
     public class AppUser :IdentityUser
     {
         [Key]
-        public int Id {  get; set; }
+        public int AppId {  get; set; }
         [Required(ErrorMessage = "You should enter an employee")]
         [ForeignKey("Employee")]
         public int EmpId { get; set; }
         public virtual Employee? Employee { get; set; }
 
-
+        public IEnumerable<OfficalVacation> OfficalVacations { get; set; } 
     }
 }
