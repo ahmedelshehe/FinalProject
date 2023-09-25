@@ -2,7 +2,7 @@ using FinalProject.Data;
 using FinalProject.Models;
 using FinalProject.RepoServices;
 using Microsoft.AspNetCore.Identity;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace FinalProject
 {

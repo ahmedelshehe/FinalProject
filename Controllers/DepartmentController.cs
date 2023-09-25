@@ -7,6 +7,13 @@ namespace FinalProject.Controllers
 {
     public class DepartmentController : Controller
     {
+        public DepartmentController(IDepartmentRepository departmentRepository)
+        {
+            DepartmentRepository = departmentRepository;
+        }
+
+        public IDepartmentRepository DepartmentRepository { get; set; }
+
         public ActionResult Index()
         {
             return View(DepartmentRepository.GetDepartments());
