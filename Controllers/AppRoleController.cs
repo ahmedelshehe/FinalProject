@@ -5,15 +5,20 @@ using Microsoft.AspNetCore.Mvc;
 namespace FinalProject.Controllers
 {
     using FinalProject.Models;
+    using FinalProject.RepoServices;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
 
     public class AppRoleController : Controller
     {
         private readonly RoleManager<AppRole> _roleManager;
-        public AppRoleController(RoleManager<AppRole> roleManager)
+        private readonly IPermissionRepository permissionRepository;
+        private readonly IAppRoleRepository appRoleRepository;
+        public AppRoleController(RoleManager<AppRole> roleManager,IPermissionRepository repository ,IAppRoleRepository roleRepository)
         {
+            permissionRepository = repository;
             _roleManager = roleManager;
+            appRoleRepository = roleRepository;
         }
 
         // GET: AppRoleController/Index
@@ -27,8 +32,9 @@ namespace FinalProject.Controllers
         // GET: AppRoleController/Details/5
         public ActionResult Details(string id)
         {
+            var role = appRoleRepository.GetAppRoleWithPermissions(id);
+            ViewBag.permissions = permissionRepository.GetPermissions();
             // Display details of a specific role
-            var role = _roleManager.FindByIdAsync(id).Result;
             return View(role);
         }
 
@@ -71,7 +77,8 @@ namespace FinalProject.Controllers
         public ActionResult Edit(string id)
         {
             // Display the edit form for a specific role
-            var role = _roleManager.FindByIdAsync(id).Result;
+            var role = appRoleRepository.GetAppRoleWithPermissions(id);
+            ViewBag.permissions = permissionRepository.GetPermissions();
             return View(role);
         }
 
@@ -134,5 +141,28 @@ namespace FinalProject.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public IActionResult AddPermissions(string Id,[FromForm] Dictionary<string, int> formData)
+        {
+            // Get all the IDs of permissions submitted by the user.
+            var permissionIds = formData.Values.ToList();
+            var role = _roleManager.FindByIdAsync(Id).Result;
+            List<Permission> NewPermissions = new List<Permission> { }; 
+            if(role != null)
+            {
+                foreach (var permission in permissionIds)
+                {
+                    if(permission != 0)
+                    {
+                        var NewPermission =  permissionRepository.GetPermission(permission);
+                        NewPermissions.Add(NewPermission);
+                    }
+                }
+                permissionRepository.AddPermissionToRole(Id, NewPermissions);
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
