@@ -265,7 +265,6 @@ namespace FinalProject.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -418,25 +417,25 @@ namespace FinalProject.Migrations
                         new
                         {
                             Id = -21,
-                            Name = "Permission",
+                            Name = "Department",
                             Operation = 1
                         },
                         new
                         {
                             Id = -22,
-                            Name = "Permission",
+                            Name = "Department",
                             Operation = 2
                         },
                         new
                         {
                             Id = -23,
-                            Name = "Permission",
+                            Name = "Department",
                             Operation = 3
                         },
                         new
                         {
                             Id = -24,
-                            Name = "Permission",
+                            Name = "Department",
                             Operation = 0
                         },
                         new
@@ -672,9 +671,7 @@ namespace FinalProject.Migrations
                 {
                     b.HasOne("FinalProject.Models.AppUser", "User")
                         .WithMany("OfficalVacations")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });

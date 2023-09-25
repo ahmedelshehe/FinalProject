@@ -267,8 +267,7 @@ namespace FinalProject.Migrations
                         column: x => x.UserId,
                         principalSchema: "dbo",
                         principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -375,10 +374,10 @@ namespace FinalProject.Migrations
                     { -27, "OfficialVacation", 3 },
                     { -26, "OfficialVacation", 2 },
                     { -25, "OfficialVacation", 1 },
-                    { -24, "Permission", 0 },
-                    { -23, "Permission", 3 },
-                    { -22, "Permission", 2 },
-                    { -21, "Permission", 1 },
+                    { -24, "Department", 0 },
+                    { -23, "Department", 3 },
+                    { -22, "Department", 2 },
+                    { -21, "Department", 1 },
                     { -20, "Permission", 0 },
                     { -19, "Permission", 3 },
                     { -18, "Permission", 2 },

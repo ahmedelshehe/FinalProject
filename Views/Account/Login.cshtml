@@ -4,35 +4,42 @@
     ViewData["Title"] = "Login";
 }
 
-<h1>Login</h1>
-
-<hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Login">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="@Model" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
+	<div class="account-box">
+		<div class="account-wrapper">
+			<h3 class="account-title">Login</h3>
+			<p class="account-subtitle">Access to our dashboard</p>
 
-            <div class="form-group">
-                <label asp-for="RemeberMe" class="control-label"></label>
-                <input asp-for="RemeberMe" type="checkbox" />
-                <span asp-validation-for="RemeberMe" class="text-danger"></span>
-            </div>
+			<!-- Account Form -->
+			<form action="index.html">
+				<div class="form-group">
+					<label>Email Address</label>
+					<input class="form-control" type="text">
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col">
+							<label>Password</label>
+						</div>
+						<div class="col-auto">
+							<a class="text-muted" href="forgot-password.html">
+								Forgot password?
+							</a>
+						</div>
+					</div>
+					<input class="form-control" type="password">
+				</div>
+				<div class="form-group text-center">
+					<button class="btn btn-primary account-btn" type="submit">Login</button>
+				</div>
+				<div class="account-footer">
+					<p>Don't have an account yet? <a asp-action="Register" asp-controller="Account">Register</a></p>
+				</div>
+			</form>
+			<!-- /Account Form -->
 
-            <div class="form-group">
-                <input type="submit" value="Login" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+		</div>
+	</div>
 </div>
 
 

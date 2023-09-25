@@ -52,7 +52,7 @@ namespace FinalProject.Data
                 entity => entity.HasKey("StartDate", "EmployeeId")
                 );
             List<string> entityNames = 
-                new List<string> { "Employee", "Attendance", "AppRole","AppUser","Permission","Permission","OfficialVacation" };
+                new List<string> { "Employee", "Attendance", "AppRole","AppUser","Permission","Department","OfficialVacation" };
             List<Permission> permissions = new List<Permission>();
             int id = -1;
             foreach (string entityName in entityNames)
