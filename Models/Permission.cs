@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace FinalProject.Models
 {
     public enum Operation { Add , Show , Update ,Delete}
-    public class Permission : IdentityRoleClaim<string>
+    public class Permission 
     {
         [Key]
         public int Id { get; set; }

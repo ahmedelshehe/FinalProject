@@ -15,7 +15,13 @@ namespace FinalProject.Models
 
         public DateTime? EndDate { get; set; }
 
-        // public int VacationDays {  }
+        TimeSpan _vacationDuration { get
+            {
+                return EndDate.Value.Subtract(StartDate.Value);
+            } }
+        public int VacationDays { get {
+                return (int)_vacationDuration.TotalDays;
+            } }
 
         public VacationTypes VacationType { get; set; } 
         public bool Approved { get; set; } = false;
@@ -27,5 +33,6 @@ namespace FinalProject.Models
 
         public virtual Employee? Employee { get; set; }
 
+        public string Description { get; set; }
     }
 }
