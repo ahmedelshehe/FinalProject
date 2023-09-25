@@ -9,5 +9,7 @@ namespace FinalProject.RepoServices
         public void InsertPermission(Permission permission);
         public void UpdatePermission(int id, Permission permission);
         public void DeletePermission(int id);
+
+        public void AddPermissionToRole(string RoleId,List<Permission> permission);
     }
 }

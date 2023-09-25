@@ -26,6 +26,7 @@ namespace FinalProject
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepoService>();
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepoService>();
             builder.Services.AddScoped<IPermissionRepository, PermissionRepoService>();
+            builder.Services.AddScoped<IAppRoleRepository, AppRoleRepoService>();
 
 
 
