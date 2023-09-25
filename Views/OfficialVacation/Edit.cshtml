@@ -1,0 +1,30 @@
+﻿@model FinalProject.Models.OfficialVacation
+
+<div class="container">
+    <h1>Edit Official Vacation</h1>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" asp-for="Id" />
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Title)
+            @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Date)
+            <input asp-for="Date" type="date" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Edit" class="btn btn-primary" />
+        </div>
+        
+    }
+
+    <a asp-action="Index" class="btn btn-info">Back to List</a>
+
+</div>

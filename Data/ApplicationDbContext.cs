@@ -90,7 +90,7 @@ namespace FinalProject.Data
         public virtual DbSet<Attendance> Attendances { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<PhoneNumber> PhoneNumbers { get; set; }
-        public virtual DbSet<OfficalVacation> OfficalVacations { get; set; }
+        public virtual DbSet<OfficialVacation> OfficalVacations { get; set; }
 
         public virtual DbSet<Vacation> Vacations { get; set; }
 
