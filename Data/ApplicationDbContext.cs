@@ -8,14 +8,13 @@ namespace FinalProject.Data
 {
     public class ApplicationDbContext 
         : IdentityDbContext<AppUser,AppRole,string,IdentityUserClaim<string>,IdentityUserRole<string>,IdentityUserLogin<string>,
-            Permission,IdentityUserToken<string>>
+            IdentityRoleClaim<string>,IdentityUserToken<string>>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
 
-        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -37,8 +36,8 @@ namespace FinalProject.Data
             builder.Entity<IdentityUserLogin<string>>(
                     entity => entity.ToTable(name: "UserLogins")
                 );
-            builder.Entity<Permission>(
-                    entity => entity.ToTable(name: "Permissions")
+            builder.Entity<IdentityRoleClaim<string>>(
+                    entity => entity.ToTable(name: "RoleClaims")
                 );
             builder.Entity<IdentityUserToken<string>>(
                     entity => entity.ToTable(name: "UserTokens")
@@ -52,6 +51,25 @@ namespace FinalProject.Data
             builder.Entity<Vacation>(
                 entity => entity.HasKey("StartDate", "EmployeeId")
                 );
+            List<string> entityNames = 
+                new List<string> { "Employee", "Attendance", "AppRole","AppUser","Permission","Permission","OfficialVacation" };
+            List<Permission> permissions = new List<Permission>();
+            int id = -1;
+            foreach (string entityName in entityNames)
+            {
+                permissions.Add(new Permission { Id = id, Name = entityName, Operation = Operation.Show });
+                permissions.Add(new Permission { Id = id - 1, Name = entityName, Operation = Operation.Update });
+                permissions.Add(new Permission { Id = id - 2, Name = entityName, Operation = Operation.Delete });
+                permissions.Add(new Permission { Id = id - 3, Name = entityName, Operation = Operation.Add });
+                id -= 4; // Decrease the id value by 4 for each iteration
+            }
+
+            builder.Entity<Permission>(entity =>
+            {
+                entity.HasData(permissions);
+            });
+
+
         }
 
         // Registering New Conversion Types For DateOnly, TimeOnly
