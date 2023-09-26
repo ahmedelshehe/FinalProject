@@ -1,0 +1,17 @@
+[
+  {
+    "outputFileName": "wwwroot/css/AllStyles.css",
+    "inputFiles": [
+      "wwwroot/css/bootstrap.min.css",
+      "wwwroot/css/bootstrap-datetimepicker.min.css",
+      "wwwroot/css/dataTables.bootstrap4.min.css",
+      "wwwroot/css/font-awesome.min.css",
+      "wwwroot/css/fullcalemder.min.css",
+      "wwwroot/css/line-awesome.min.css",
+      "wwwroot/css/select2.min.css",
+      "wwwroot/css/site.css",
+      "wwwroot/css/style.css"
+    ],
+    "minify": { "enabled": true }
+  }
+]
