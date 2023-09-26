@@ -1,4 +1,5 @@
-﻿@model IEnumerable<FinalProject.Models.Employee>
+﻿@using FinalProject.RepoServices;
+@model IEnumerable<FinalProject.ViewModels.EmployeeViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -14,87 +15,103 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                @Html.DisplayNameFor(model => model.employee.FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayNameFor(model => model.employee.LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Street)
+                @Html.DisplayNameFor(model => model.employee.Street)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.City)
+                @Html.DisplayNameFor(model => model.employee.City)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Country)
+                @Html.DisplayNameFor(model => model.employee.Country)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Gender)
+                @Html.DisplayNameFor(model => model.employee.Gender)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BirthDate)
+                @Html.DisplayNameFor(model => model.employee.BirthDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ContractDate)
+                @Html.DisplayNameFor(model => model.employee.ContractDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                @Html.DisplayNameFor(model => model.employee.Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NationalId)
+                @Html.DisplayNameFor(model => model.employee.NationalId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Salary)
+                @Html.DisplayNameFor(model => model.employee.Salary)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Department)
+                @Html.DisplayNameFor(model => model.employee.Department)
             </th>
-            <th></th>
+            <th>
+            </th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
+                @Html.DisplayFor(modelItem => item.employee.FirstName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LastName)
+                @Html.DisplayFor(modelItem => item.employee.LastName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Street)
+                @Html.DisplayFor(modelItem => item.employee.Street)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.City)
+                @Html.DisplayFor(modelItem => item.employee.City)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Country)
+                @Html.DisplayFor(modelItem => item.employee.Country)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Gender)
+                @Html.DisplayFor(modelItem => item.employee.Gender)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BirthDate)
+                @Html.DisplayFor(modelItem => item.employee.BirthDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ContractDate)
+                @Html.DisplayFor(modelItem => item.employee.ContractDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Email)
+                @Html.DisplayFor(modelItem => item.employee.Email)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NationalId)
+                @Html.DisplayFor(modelItem => item.employee.NationalId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Salary)
+                @Html.DisplayFor(modelItem => item.employee.Salary)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Department.Name)
+                @Html.DisplayFor(modelItem => item.employee.Department.Name)
             </td>
+                
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+
+                
+                    @{
+                        if (item.isUserAdded)
+                        {
+
+                        }
+                        else
+                        {
+                            <a asp-route-id="@item.employee.Id" asp-action="AddUser" asp-controller="Account">Add Users</a>
+
+                        }
+                    }
+                    
+                    <a asp-action="Edit" asp-route-id="@item.employee.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.employee.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.employee.Id">Delete</a>
             </td>
         </tr>
 }
