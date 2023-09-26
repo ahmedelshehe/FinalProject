@@ -1,7 +1,9 @@
 ﻿using FinalProject.Data;
 using FinalProject.Models;
 using FinalProject.RepoServices;
+using FinalProject.ViewModels;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -9,20 +11,43 @@ namespace FinalProject.Controllers
 {
     public class EmployeeController : Controller
     {
+        private readonly UserManager<AppUser> userManager;
         public IEmployeeRepository EmployeeRepository { get; set; }
         public IDepartmentRepository DepartmentRepository { get; set; }
 
-        public EmployeeController(IEmployeeRepository employeeRepository, IDepartmentRepository departmentRepository)
+        public EmployeeController(IEmployeeRepository employeeRepository, IDepartmentRepository departmentRepository, UserManager<AppUser> userManager)
         {
             EmployeeRepository = employeeRepository;
             DepartmentRepository = departmentRepository;
+            this.userManager = userManager;
+
+
         }
         // GET: EmployeeController
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
+            var employees = EmployeeRepository.GetEmployees();
+
+            List<EmployeeViewModel> employeeViews = new List<EmployeeViewModel>();
+            
             SelectList allDepartment = new SelectList(DepartmentRepository.GetDepartments(), "Id", "Name");
             ViewBag.allDepts = allDepartment;
-            return View(EmployeeRepository.GetEmployees());
+            foreach (var emp in employees)
+            {
+                var isExits = await userManager.FindByEmailAsync(emp.Email);
+                if (isExits != null)
+                {
+                    employeeViews.Add(new EmployeeViewModel() { employee = emp, isUserAdded = true });
+
+                }
+                else
+                {
+                    employeeViews.Add(new EmployeeViewModel() { employee = emp, isUserAdded = false });
+
+                }
+            }
+            return View(employeeViews);
+
         }
 
         // GET: EmployeeController/Details/5

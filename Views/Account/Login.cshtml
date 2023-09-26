@@ -1,51 +1,43 @@
-﻿@model LoginVM
+﻿@model FinalProject.ViewModels.LoginViewModel
 
 @{
     ViewData["Title"] = "Login";
 }
 
+<h1>Login</h1>
+
+<h4>User</h4>
+<hr />
 <div class="row">
-	<div class="account-box">
-		<div class="account-wrapper">
-			<h3 class="account-title">Login</h3>
-			<p class="account-subtitle">Access to our dashboard</p>
-
-			<!-- Account Form -->
-			<form action="index.html">
-				<div class="form-group">
-					<label>Email Address</label>
-					<input class="form-control" type="text">
-				</div>
-				<div class="form-group">
-					<div class="row">
-						<div class="col">
-							<label>Password</label>
-						</div>
-						<div class="col-auto">
-							<a class="text-muted" href="forgot-password.html">
-								Forgot password?
-							</a>
-						</div>
-					</div>
-					<input class="form-control" type="password">
-				</div>
-				<div class="form-group text-center">
-					<button class="btn btn-primary account-btn" type="submit">Login</button>
-				</div>
-				<div class="account-footer">
-					<p>Don't have an account yet? <a asp-action="Register" asp-controller="Account">Register</a></p>
-				</div>
-			</form>
-			<!-- /Account Form -->
-
-		</div>
-	</div>
+    <div class="col-md-4">
+        <form asp-action="Login">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RememberMe" class="control-label"></label>
+                <input asp-for="RememberMe" type="checkbox" />
+                <span asp-validation-for="RememberMe" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
 </div>
 
-
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

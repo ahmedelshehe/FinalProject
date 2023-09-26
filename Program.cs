@@ -30,6 +30,7 @@ namespace FinalProject
           builder.Services.AddScoped<IAttendanceRepositoryService, AttendanceRepositoryService>();
             builder.Services.AddScoped<IAppRoleRepository, AppRoleRepoService>();
             builder.Services.AddScoped<IOfficialVacationRepository, OfficialVacationRepoService>();
+            builder.Services.AddScoped<IUserRepository, AppUserRepository>();
 
 
 
