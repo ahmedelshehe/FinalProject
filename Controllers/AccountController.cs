@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Runtime.InteropServices;
 
 namespace FinalProject.Controllers
 {
@@ -39,6 +40,8 @@ namespace FinalProject.Controllers
             var createUser = await userManager.CreateAsync(userDbModel);
             if (createUser.Succeeded)
             {
+                emp_user.UserId = userManager.Users.FirstOrDefault(e => e.EmpId == id).Id;
+               EmployeeRepository.UpdateEmployee(id,emp_user);
                 return RedirectToAction( "Index", "Employee");
             }
             else

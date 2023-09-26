@@ -6,6 +6,9 @@ namespace FinalProject.RepoServices
     {
         public List<AppUser> GetUsers();
         public AppUser GetUser(int id);
+        public void InsertUser(AppUser appUser);
+        public void UpdateUser(int id, AppUser appUser);
+        public void DeleteUser(int id);
 
     }
 }

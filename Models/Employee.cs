@@ -78,6 +78,10 @@ namespace FinalProject.Models
         public virtual Department? Department { get; set; }
 
         // Employee's Attendance Records
+        [ForeignKey("User")]
+        public string? UserId { get; set; }
+
+        public virtual AppUser? User { get; set; } 
         public virtual IEnumerable<Attendance>? Attendances { get; set; }
         public virtual IEnumerable<Vacation>? Vacations { get; set; }
     }

@@ -11,13 +11,46 @@ namespace FinalProject.RepoServices
         {
             context = _context;
         }
+
         public List<AppUser> GetUsers()
         {
-            throw new NotImplementedException();
+            return context.AppUsers.Include(a => a.Employee).ToList();
         }
 
         public AppUser GetUser(int id)
         {
+            return context.AppUsers.Include(a => a.Employee).FirstOrDefault(a => a.AppId == id); ;
+        }
+
+        public void InsertUser(AppUser appUser)
+        {
+            if (appUser != null)
+            {
+                context.AppUsers.Add(appUser);
+                context.SaveChanges();
+
+            }
+        }
+
+        public void UpdateUser(int id, AppUser appUser)
+        {
+            AppUser editUser = context.AppUsers.Include(a => a.Employee).FirstOrDefault(a => a.AppId == id);
+            if (editUser != null)
+            {
+                editUser.UserName = appUser.UserName;
+                editUser.Email = appUser.Email;
+                context.SaveChanges();
+            }
+        }
+
+        public void DeleteUser(int id)
+        {
+            AppUser deleteUser = context.AppUsers.Include(a => a.Employee).FirstOrDefault(a => a.AppId == id);
+            if (deleteUser != null)
+            {
+                context.AppUsers.Remove(deleteUser);
+                context.SaveChanges();
+            }
             throw new NotImplementedException();
         }
     }
