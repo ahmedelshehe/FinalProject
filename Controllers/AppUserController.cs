@@ -120,11 +120,15 @@ namespace FinalProject.Controllers
         }
 
         // POST: AppUserController/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async  Task<IActionResult> Delete(int Id, IFormCollection collection)
         {
-            userRepository.DeleteUser(id);
+            var user = userRepository.GetUser(Id);
+            if(user != null)
+            {
+                await userManager.DeleteAsync(user);
+            }
             return RedirectToAction("Index");
         }
     }

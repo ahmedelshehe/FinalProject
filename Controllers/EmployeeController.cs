@@ -15,11 +15,14 @@ namespace FinalProject.Controllers
         public IEmployeeRepository EmployeeRepository { get; set; }
         public IDepartmentRepository DepartmentRepository { get; set; }
 
-        public EmployeeController(IEmployeeRepository employeeRepository, IDepartmentRepository departmentRepository, UserManager<AppUser> userManager)
+        private readonly IUserRepository userRepository;
+
+        public EmployeeController(IUserRepository UserRepository,IEmployeeRepository employeeRepository, IDepartmentRepository departmentRepository, UserManager<AppUser> userManager)
         {
             EmployeeRepository = employeeRepository;
             DepartmentRepository = departmentRepository;
             this.userManager = userManager;
+            userRepository = UserRepository;
 
 
         }
@@ -34,7 +37,7 @@ namespace FinalProject.Controllers
             ViewBag.allDepts = allDepartment;
             foreach (var emp in employees)
             {
-                var isExits = await userManager.FindByEmailAsync(emp.Email);
+                var isExits = userRepository.GetUsers().FirstOrDefault(u => u.EmpId == emp.Id);
                 if (isExits != null)
                 {
                     employeeViews.Add(new EmployeeViewModel() { employee = emp, isUserAdded = true });
