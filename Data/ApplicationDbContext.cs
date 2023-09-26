@@ -52,7 +52,7 @@ namespace FinalProject.Data
                 entity => entity.HasKey("StartDate", "EmployeeId")
                 );
             List<string> entityNames = 
-                new List<string> { "Employee", "Attendance", "AppRole","AppUser","Permission","Permission","OfficialVacation" };
+                new List<string> { "Employee", "Attendance", "AppRole","AppUser","Permission","Department","OfficialVacation" };
             List<Permission> permissions = new List<Permission>();
             int id = -1;
             foreach (string entityName in entityNames)
@@ -90,7 +90,7 @@ namespace FinalProject.Data
         public virtual DbSet<Attendance> Attendances { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<PhoneNumber> PhoneNumbers { get; set; }
-        public virtual DbSet<OfficalVacation> OfficalVacations { get; set; }
+        public virtual DbSet<OfficialVacation> OfficalVacations { get; set; }
 
         public virtual DbSet<Vacation> Vacations { get; set; }
 

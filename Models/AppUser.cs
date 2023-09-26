@@ -13,6 +13,6 @@ namespace FinalProject.Models
         public int EmpId { get; set; }
         public virtual Employee? Employee { get; set; }
 
-        public IEnumerable<OfficalVacation> OfficalVacations { get; set; } 
+        public IEnumerable<OfficialVacation> OfficalVacations { get; set; } 
     }
 }

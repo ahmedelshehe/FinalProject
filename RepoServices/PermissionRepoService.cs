@@ -1,5 +1,7 @@
 ﻿using FinalProject.Data;
 using FinalProject.Models;
+using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging;
 
 namespace FinalProject.RepoServices
 {
@@ -50,6 +52,17 @@ namespace FinalProject.RepoServices
                 context.SaveChanges();
             }
 
+        }
+
+        public void AddPermissionToRole(string RoleId, List<Permission> permissions)
+        {
+            var role = context.AppRoles.Include(e => e.Permissions).FirstOrDefault(r => r.Id == RoleId);
+            if (role != null)
+            {
+                role.Permissions.Clear();
+                role.Permissions.AddRange(permissions);
+                context.SaveChanges();
+            }
         }
     }
 }
