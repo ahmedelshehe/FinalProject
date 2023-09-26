@@ -69,18 +69,25 @@ namespace FinalProject.Controllers
         public ActionResult Create(Employee employee)
         {
             ViewBag.allDepts = DepartmentRepository.GetDepartments();
-
-            try
+            if (ModelState.IsValid)
             {
-                EmployeeRepository.InsertEmployee(employee);
-                return RedirectToAction("Index");
+                try
+                {
 
+                    EmployeeRepository.InsertEmployee(employee);
+                    return RedirectToAction("Index");
+
+                }
+                catch
+                {
+                    return View(employee);
+                }
             }
-            catch
+            else
             {
-                return View(employee);
-            }
-        }
+				return View(employee);
+			}
+		}
 
         // GET: EmployeeController/Edit/5
         public ActionResult Edit(int id)
@@ -95,15 +102,21 @@ namespace FinalProject.Controllers
         public ActionResult Edit(int id, Employee employee)
         {
             ViewBag.allDepts = DepartmentRepository.GetDepartments();
-
-            try
+            if (ModelState.IsValid)
             {
-                EmployeeRepository.UpdateEmployee(id, employee);
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    EmployeeRepository.UpdateEmployee(id, employee);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                    return View(employee);
+                }
             }
-            catch
+            else
             {
-                return View();
+                return View(employee);
             }
         }
 
