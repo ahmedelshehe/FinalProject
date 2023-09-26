@@ -164,7 +164,7 @@ namespace FinalProject.Migrations
                     b.ToTable("Attendances", "dbo");
                 });
 
-            modelBuilder.Entity("FinalProject.Models.Permission", b =>
+            modelBuilder.Entity("FinalProject.Models.Department", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -659,13 +659,13 @@ namespace FinalProject.Migrations
 
             modelBuilder.Entity("FinalProject.Models.Employee", b =>
                 {
-                    b.HasOne("FinalProject.Models.Permission", "Permission")
+                    b.HasOne("FinalProject.Models.Department", "Department")
                         .WithMany("Employees")
                         .HasForeignKey("DeptID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Permission");
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("FinalProject.Models.OfficalVacation", b =>
@@ -762,7 +762,7 @@ namespace FinalProject.Migrations
                     b.Navigation("OfficalVacations");
                 });
 
-            modelBuilder.Entity("FinalProject.Models.Permission", b =>
+            modelBuilder.Entity("FinalProject.Models.Department", b =>
                 {
                     b.Navigation("Employees");
                 });

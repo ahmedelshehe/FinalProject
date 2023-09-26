@@ -34,12 +34,12 @@
                 @Html.DisplayFor(modelItem => item.DepartureTime)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Employee.City)
+                @Html.DisplayFor(modelItem => item.Employee.FirstName  )
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @Html.ActionLink("Edit", "Edit", new { id=item.EmployeeId , date=item.Date  }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.EmployeeId , date=item.Date }) |
+                @Html.ActionLink("Delete", "Delete", new {  id=item.EmployeeId , date=item.Date })
             </td>
         </tr>
 }
