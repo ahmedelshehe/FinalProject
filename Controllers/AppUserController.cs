@@ -10,14 +10,19 @@ namespace FinalProject.Controllers
     public class AppUserController : Controller
     {
         private readonly UserManager<AppUser> userManager;
+        private readonly RoleManager<AppRole> roleManager;
         private readonly IUserRepository userRepository;
         private readonly IEmployeeRepository employeeRepository;
+        private readonly IAppRoleRepository appRoleRepository;
 
-        public AppUserController(UserManager<AppUser> userManager, IUserRepository userRepository,IEmployeeRepository _employeeRepository)
+        public AppUserController(UserManager<AppUser> userManager,RoleManager<AppRole> roleManager, IUserRepository userRepository,IEmployeeRepository _employeeRepository, IAppRoleRepository roleRepository)
         {
             this.userManager = userManager;
             this.userRepository = userRepository;
             employeeRepository = _employeeRepository;
+            appRoleRepository = roleRepository;
+            this.roleManager = roleManager;
+
         }
 
         // GET: AppUserController
@@ -28,36 +33,44 @@ namespace FinalProject.Controllers
         }
 
         // GET: AppUserController/Details/5
-        public async Task<IActionResult> Details(int id)
+        public IActionResult Details(int id)
         {
-            var user = userRepository.GetUser(id);
+            var user =  userRepository.GetUser(id);
+
             if (user == null)
             {
                 return NotFound();
             }
 
+            var roleName = user.Role != null ? user.Role.Name : "";
+
+            ViewData["RoleName"] = roleName;
+
             return View(user);
         }
 
-        // GET: AppUserController/Create
+
 
 
         public IActionResult Create()
         {
             var allEmps = employeeRepository.GetEmployees().Where(e => e.UserId == null).ToList();
             ViewBag.Emps = allEmps;
-
+            var allRolesOfUser = appRoleRepository.getAllRoles().ToList();
+            ViewBag.AllRules = allRolesOfUser;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserName,Email,Password,EmpId")] AppUser user)
+        public async Task<IActionResult> Create([Bind("UserName,Email,Password,EmpId,RoleAppId")] AppUser user)
         {
             if (ModelState.IsValid)
             {
                 var allEmps = employeeRepository.GetEmployees().Where(e => e.UserId == null).ToList();
                 ViewBag.Emps = allEmps;
+                var allRolesOfUser = appRoleRepository.getAllRoles().ToList();
+                ViewBag.AllRules = allRolesOfUser;
                 var createUserResult = await userManager.CreateAsync(user);
                 if (createUserResult.Succeeded)
                 {
@@ -77,6 +90,8 @@ namespace FinalProject.Controllers
     
     public async Task<IActionResult> Edit(int id)
         {
+            var allRolesOfUser = appRoleRepository.getAllRoles().ToList();
+            ViewBag.AllRules = allRolesOfUser;
             var user = userRepository.GetUser(id);
             if (user == null)
             {
@@ -93,6 +108,8 @@ namespace FinalProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("AppId,UserName,Email")] AppUser user)
         {
+            var allRolesOfUser = appRoleRepository.getAllRoles().ToList();
+            ViewBag.AllRules = allRolesOfUser;
             if (id != user.AppId)
             {
                 return NotFound();

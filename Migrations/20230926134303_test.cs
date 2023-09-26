@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FinalProject.Migrations
 {
-    public partial class First : Migration
+    public partial class test : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -184,7 +184,7 @@ namespace FinalProject.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AppId = table.Column<int>(type: "int", nullable: false),
                     EmpId = table.Column<int>(type: "int", nullable: false),
-                    AppRoleId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    RoleAppId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -211,8 +211,8 @@ namespace FinalProject.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_User_Role_AppRoleId",
-                        column: x => x.AppRoleId,
+                        name: "FK_User_Role_RoleAppId",
+                        column: x => x.RoleAppId,
                         principalSchema: "dbo",
                         principalTable: "Role",
                         principalColumn: "Id");
@@ -451,16 +451,16 @@ namespace FinalProject.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_AppRoleId",
-                schema: "dbo",
-                table: "User",
-                column: "AppRoleId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_User_EmpId",
                 schema: "dbo",
                 table: "User",
                 column: "EmpId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_RoleAppId",
+                schema: "dbo",
+                table: "User",
+                column: "RoleAppId");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
@@ -517,7 +517,7 @@ namespace FinalProject.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_User_Role_AppRoleId",
+                name: "FK_User_Role_RoleAppId",
                 schema: "dbo",
                 table: "User");
 

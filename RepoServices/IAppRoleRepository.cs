@@ -6,5 +6,10 @@ namespace FinalProject.RepoServices
     {
         public AppRole GetAppRoleWithPermissions(string id);
 
+        public List<AppRole> getAllRoles();
+
+        public AppRole GetAppRole(string id);
+
+
     }
 }

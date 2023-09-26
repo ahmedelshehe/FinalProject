@@ -17,5 +17,15 @@ namespace FinalProject.RepoServices
         {
             return context.AppRoles.Include(r => r.Permissions).FirstOrDefault(r => r.Id == id);
         }
+        public List<AppRole> getAllRoles()
+        {
+            return context.AppRoles.ToList();
+        }
+        public AppRole GetAppRole(string id)
+        {
+            return context.AppRoles.FirstOrDefault(e => e.Id == id);
+        }
+
+
     }
 }

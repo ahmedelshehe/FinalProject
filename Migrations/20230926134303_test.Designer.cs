@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230926193114_First")]
-    partial class First
+    [Migration("20230926134303_test")]
+    partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -78,9 +78,6 @@ namespace FinalProject.Migrations
                     b.Property<int>("AppId")
                         .HasColumnType("int");
 
-                    b.Property<string>("AppRoleId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -118,6 +115,9 @@ namespace FinalProject.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("RoleAppId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -130,8 +130,6 @@ namespace FinalProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppRoleId");
-
                     b.HasIndex("EmpId");
 
                     b.HasIndex("NormalizedEmail")
@@ -141,6 +139,8 @@ namespace FinalProject.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("RoleAppId");
 
                     b.ToTable("User", "dbo");
                 });
@@ -639,17 +639,19 @@ namespace FinalProject.Migrations
 
             modelBuilder.Entity("FinalProject.Models.AppUser", b =>
                 {
-                    b.HasOne("FinalProject.Models.AppRole", null)
-                        .WithMany("Users")
-                        .HasForeignKey("AppRoleId");
-
                     b.HasOne("FinalProject.Models.Employee", "Employee")
                         .WithMany()
                         .HasForeignKey("EmpId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FinalProject.Models.AppRole", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleAppId");
+
                     b.Navigation("Employee");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("FinalProject.Models.Attendance", b =>
