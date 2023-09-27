@@ -1,5 +1,6 @@
 using FinalProject.Controllers;
 using FinalProject.Data;
+using FinalProject.Middleware;
 using FinalProject.Models;
 using FinalProject.RepoServices;
 using Microsoft.AspNetCore.Identity;
@@ -60,7 +61,7 @@ namespace FinalProject
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseMiddleware<PermissionsMiddleware>();
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");

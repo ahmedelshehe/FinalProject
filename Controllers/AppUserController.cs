@@ -106,7 +106,7 @@ namespace FinalProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AppId,UserName,Email")] AppUser user)
+        public async Task<IActionResult> Edit(int id, [Bind("AppId,UserName,Email","RoleAppId")] AppUser user)
         {
             var allRolesOfUser = appRoleRepository.getAllRoles().ToList();
             ViewBag.AllRules = allRolesOfUser;
