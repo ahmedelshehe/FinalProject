@@ -1,8 +1,13 @@
-﻿@{
+﻿@using FinalProject.Middleware;
+
+@{
 	ViewData["Title"] = "Index";
 	var permissions = Context.Items["Permissions"] as List<Permission>;
 	var canViewEmployees = false;
 	var canViewDepartments = false;
+	var canViewPermissions = Context.Items["CanViewPermissions"] as bool?;
+
+	
 	bool havePermissions = permissions == null ? false : true;
 	if (havePermissions)
 	{
@@ -171,7 +176,13 @@
 						<li>
 						<li @(canViewEmployees ? "" : "hidden")><a asp-controller="Employee" asp-action="Index"><i class="la la-external-link-square"></i> <span>Employees</span></a></li>
 						<li @(canViewDepartments ? "" : "hidden")><a asp-controller="Department" asp-action="Index"><i class="la la-external-link-square"></i> <span>Departments</span></a></li>
-						<li><a asp-controller="Permission" asp-action="Index"><i class="la la-external-link-square"></i> <span>Permissions</span></a></li>
+
+							@if (canViewPermissions != null)
+							{
+								<li><a asp-controller="Permission" asp-action="Index"><i class="la la-external-link-square"></i> <span>Permissions</span></a></li>
+							}
+
+							
 						<li><a asp-controller="AppRole" asp-action="Index"><i class="la la-external-link-square"></i> <span>Roles</span></a></li>
 						<li><a asp-controller="OfficialVacation" asp-action="Index"><i class="la la-external-link-square"></i> <span>Official Vacations</span></a></li>
 						<li class="menu-title">
