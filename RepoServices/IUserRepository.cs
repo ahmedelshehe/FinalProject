@@ -5,10 +5,10 @@ namespace FinalProject.RepoServices
     public interface IUserRepository
     {
         public List<AppUser> GetUsers();
-        public AppUser GetUser(int id);
+        public AppUser GetUser(string id);
         public void InsertUser(AppUser appUser);
-        public void UpdateUser(int id, AppUser appUser);
-        public void DeleteUser(int id);
+        public void UpdateUser(string id, AppUser appUser);
+        public void DeleteUser(string id);
 
     }
 }

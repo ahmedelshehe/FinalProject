@@ -17,9 +17,9 @@ namespace FinalProject.RepoServices
             return context.AppUsers.Include(a => a.Employee).Include(a => a.Role).ToList();
         }
 
-        public AppUser GetUser(int id)
+        public AppUser GetUser(string id)
         {
-            return context.AppUsers.Include(a => a.Employee).Include(a => a.Role).FirstOrDefault(a => a.AppId == id); ;
+            return context.AppUsers.Include(a => a.Employee).Include(a => a.Role).FirstOrDefault(a => a.Id == id); ;
         }
 
         public void InsertUser(AppUser appUser)
@@ -32,9 +32,9 @@ namespace FinalProject.RepoServices
             }
         }
 
-        public void UpdateUser(int id, AppUser appUser)
+        public void UpdateUser(string id, AppUser appUser)
         {
-            AppUser editUser = context.AppUsers.Include(a => a.Employee).Include(a => a.Role).FirstOrDefault(a => a.AppId == id);
+            AppUser editUser = context.AppUsers.Include(a => a.Employee).Include(a => a.Role).FirstOrDefault(a => a.Id == id);
             if (editUser != null)
             {
                 editUser.UserName = appUser.UserName;
@@ -45,9 +45,9 @@ namespace FinalProject.RepoServices
             }
         }
 
-        public void DeleteUser(int id)
+        public void DeleteUser(string id)
         {
-            AppUser deleteUser = context.AppUsers.Include(a => a.Employee).Include(a => a.Role).FirstOrDefault(a => a.AppId == id);
+            AppUser deleteUser = context.AppUsers.Include(a => a.Employee).Include(a => a.Role).FirstOrDefault(a => a.Id == id);
             if (deleteUser != null)
             {
                 context.AppUsers.Remove(deleteUser);

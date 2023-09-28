@@ -39,7 +39,7 @@ namespace FinalProject.Controllers
         // GET: AppUserController/Details/5
         [AuthorizeByPermission("AppUser", Operation.Show)]
 
-        public IActionResult Details(int id)
+        public IActionResult Details(string id)
         {
             var user =  userRepository.GetUser(id);
 
@@ -72,17 +72,24 @@ namespace FinalProject.Controllers
         [ValidateAntiForgeryToken]
       [AuthorizeByPermission("AppUser", Operation.Add)]
 
-        public async Task<IActionResult> Create([Bind("UserName,Email,Password,EmpId,RoleAppId")] AppUser user)
+        public async Task<IActionResult> Create([Bind("UserName,Email,EmpId,RoleAppId")] AppUser user,string NewPassword)
         {
             if (ModelState.IsValid)
-            {
+            {  var hasher = new PasswordHasher<AppUser>();
                 var allEmps = employeeRepository.GetEmployees().Where(e => e.UserId == null).ToList();
                 ViewBag.Emps = allEmps;
                 var allRolesOfUser = appRoleRepository.getAllRoles().ToList();
                 ViewBag.AllRules = allRolesOfUser;
+                var hashedPassword = hasher.HashPassword(null, NewPassword); 
+                user.PasswordHash = hashedPassword;
                 var createUserResult = await userManager.CreateAsync(user);
+
                 if (createUserResult.Succeeded)
                 {
+                    var updatedEmp = employeeRepository.GetEmployee(user.EmpId);
+                    updatedEmp.Email = user.Email;
+                    updatedEmp.Password = hashedPassword;
+                    employeeRepository.UpdateEmployee(user.EmpId, updatedEmp);
                     return RedirectToAction("Index");
                 }
                 else
@@ -98,7 +105,7 @@ namespace FinalProject.Controllers
         }
         [AuthorizeByPermission("AppUser", Operation.Update)]
 
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(string id)
 
         {
             var allRolesOfUser = appRoleRepository.getAllRoles().ToList();
@@ -119,16 +126,11 @@ namespace FinalProject.Controllers
         [ValidateAntiForgeryToken]
         [AuthorizeByPermission("AppUser", Operation.Update)]
 
-        public async Task<IActionResult> Edit(int id, [Bind("AppId,UserName,Email","RoleAppId")] AppUser user)
+        public async Task<IActionResult> Edit(string id, [Bind("AppId,UserName,Email","RoleAppId")] AppUser user)
         {
 
             var allRolesOfUser = appRoleRepository.getAllRoles().ToList();
             ViewBag.AllRules = allRolesOfUser;
-            if (id != user.AppId)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 userRepository.UpdateUser(id, user);
@@ -140,7 +142,7 @@ namespace FinalProject.Controllers
         [AuthorizeByPermission("AppUser", Operation.Delete)]
 
         // GET: AppUserController/Delete/5
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
             var user = userRepository.GetUser(id);
             if (user == null)
@@ -156,7 +158,7 @@ namespace FinalProject.Controllers
         [ValidateAntiForgeryToken]
         [AuthorizeByPermission("AppUser", Operation.Delete)]
 
-        public async  Task<IActionResult> Delete(int Id, IFormCollection collection)
+        public async  Task<IActionResult> Delete(string Id, IFormCollection collection)
         {
             var user = userRepository.GetUser(Id);
             if(user != null)

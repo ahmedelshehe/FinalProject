@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230927095525_Initial")]
-    partial class Initial
+    [Migration("20230928222005_remove-appId")]
+    partial class removeappId
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -73,9 +73,6 @@ namespace FinalProject.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AppId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")

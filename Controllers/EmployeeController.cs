@@ -60,8 +60,8 @@ namespace FinalProject.Controllers
         }
 
 		// GET: EmployeeController/Create
-		[AuthorizeByPermission("Employee", Operation.Add)]
-		public ActionResult Create()
+/*		[AuthorizeByPermission("Employee", Operation.Add)]
+*/		public ActionResult Create()
         {
             ViewBag.allDepts = DepartmentRepository.GetDepartments();
             return View();
@@ -70,8 +70,8 @@ namespace FinalProject.Controllers
         // POST: EmployeeController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-		[AuthorizeByPermission("Employee", Operation.Add)]
-		public ActionResult Create(Employee employee)
+/*		[AuthorizeByPermission("Employee", Operation.Add)]
+*/		public ActionResult Create(Employee employee)
         {
             ViewBag.allDepts = DepartmentRepository.GetDepartments();
             if (ModelState.IsValid)

@@ -25,7 +25,8 @@ namespace FinalProject.Utilities
 
 			// Check if the user has the required operation permission
 			var userPermissions = (List<Permission>)context.HttpContext.Items["Permissions"];
-			var hasPermission = userPermissions.Any(p => p.Operation == Operation && p.Name == Name);
+			var hasPermission = userPermissions == null ? false :
+				userPermissions.Any(p => p.Operation == Operation && p.Name == Name);
 
 			if (!hasPermission)
 			{

@@ -20,6 +20,14 @@ namespace FinalProject.Utilities
             timeSpan => TimeOnly.FromTimeSpan(timeSpan))
         { }
     }
+    public static class PermissionExtensions
+    {
+        public static string HasPermission(this List<Permission> permissions, string entityName, Operation operation)
+        {
+            return permissions != null ? permissions.Any(p => p.Name == entityName && p.Operation == operation) ? "" : "hidden" : "hidden";
+        }
+    }
+
 
 
 }
