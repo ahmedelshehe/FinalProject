@@ -1,4 +1,17 @@
-﻿<!DOCTYPE html>
+﻿@{
+	ViewData["Title"] = "Index";
+	var permissions = Context.Items["Permissions"] as List<Permission>;
+	var canShowEmployees = false;
+	bool havePermissions = permissions == null ? false : true;
+	if (havePermissions)
+	{
+		canShowEmployees =
+			permissions.Any(p => p.Name == "Employee" && p.Operation == Operation.Show);
+	}
+	}
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
@@ -112,11 +125,11 @@
 		</div>
 		<!-- /Header -->
 		<!-- Sidebar -->
-		<div class="sidebar" id="sidebar">
+		<div class="sidebar" id="sidebar" @(havePermissions ? "" :"hidden")>
 			<div class="sidebar-inner slimscroll">
 				<div id="sidebar-menu" class="sidebar-menu">
 					<ul>
-						<li class="menu-title">
+						<li class="menu-title" >
 							<span>Main</span>
 						</li>
 						<li class="submenu">
@@ -126,7 +139,7 @@
 								<li><a href="employee-dashboard.html">Employee Dashboard</a></li>
 							</ul>
 						</li>
-						<li class="menu-title">
+						<li class="menu-title" >
 							<span>Employees</span>
 						</li>
 						<li class="submenu">
@@ -152,7 +165,7 @@
 							</ul>
 						</li>
 						<li>
-						<li><a asp-controller="Employee" asp-action="Index"><i class="la la-external-link-square"></i> <span>Employees</span></a></li>
+						<li @(canShowEmployees ? "" : "hidden")><a asp-controller="Employee" asp-action="Index"><i class="la la-external-link-square"></i> <span>Employees</span></a></li>
 						<li><a asp-controller="Department" asp-action="Index"><i class="la la-external-link-square"></i> <span>Departments</span></a></li>
 						<li><a asp-controller="Permission" asp-action="Index"><i class="la la-external-link-square"></i> <span>Permissions</span></a></li>
 						<li><a asp-controller="AppRole" asp-action="Index"><i class="la la-external-link-square"></i> <span>Roles</span></a></li>

@@ -1,6 +1,7 @@
 ﻿using FinalProject.Data;
 using FinalProject.Models;
 using FinalProject.RepoServices;
+using FinalProject.Utilities;
 using FinalProject.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FinalProject.Controllers
 {
-    public class EmployeeController : Controller
+	public class EmployeeController : Controller
     {
         private readonly UserManager<AppUser> userManager;
         public IEmployeeRepository EmployeeRepository { get; set; }
@@ -23,8 +24,6 @@ namespace FinalProject.Controllers
             DepartmentRepository = departmentRepository;
             this.userManager = userManager;
             userRepository = UserRepository;
-
-
         }
         // GET: EmployeeController
         public async Task<ActionResult> Index()
@@ -53,14 +52,16 @@ namespace FinalProject.Controllers
 
         }
 
-        // GET: EmployeeController/Details/5
-        public ActionResult Details(int id)
+		// GET: EmployeeController/Details/5
+		[AuthorizeByPermission("Employee", Operation.Show)]
+		public ActionResult Details(int id)
         {
             return View(EmployeeRepository.GetEmployee(id));
         }
 
-        // GET: EmployeeController/Create
-        public ActionResult Create()
+		// GET: EmployeeController/Create
+		[AuthorizeByPermission("Employee", Operation.Add)]
+		public ActionResult Create()
         {
             ViewBag.allDepts = DepartmentRepository.GetDepartments();
             return View();
@@ -69,7 +70,8 @@ namespace FinalProject.Controllers
         // POST: EmployeeController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Employee employee)
+		[AuthorizeByPermission("Employee", Operation.Add)]
+		public ActionResult Create(Employee employee)
         {
             ViewBag.allDepts = DepartmentRepository.GetDepartments();
             if (ModelState.IsValid)
@@ -92,8 +94,9 @@ namespace FinalProject.Controllers
 			}
 		}
 
-        // GET: EmployeeController/Edit/5
-        public ActionResult Edit(int id)
+		// GET: EmployeeController/Edit/5
+		[AuthorizeByPermission("Employee", Operation.Update)]
+		public ActionResult Edit(int id)
         {
             ViewBag.allDepts = DepartmentRepository.GetDepartments();
             return View(EmployeeRepository.GetEmployee(id));
@@ -102,11 +105,11 @@ namespace FinalProject.Controllers
         // POST: EmployeeController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Employee employee)
+		[AuthorizeByPermission("Employee", Operation.Update)]
+		public ActionResult Edit(int id, Employee employee)
         {
             ViewBag.allDepts = DepartmentRepository.GetDepartments();
-            if (ModelState.IsValid)
-            {
+
                 try
                 {
                     EmployeeRepository.UpdateEmployee(id, employee);
@@ -116,15 +119,11 @@ namespace FinalProject.Controllers
                 {
                     return View(employee);
                 }
-            }
-            else
-            {
-                return View(employee);
-            }
         }
 
-        // GET: EmployeeController/Delete/5
-        public ActionResult Delete(int id)
+		// GET: EmployeeController/Delete/5
+		[AuthorizeByPermission("Employee", Operation.Delete)]
+		public ActionResult Delete(int id)
         {
             return View(EmployeeRepository.GetEmployee(id));
         }
@@ -133,8 +132,8 @@ namespace FinalProject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Delete")]
-
-        public ActionResult DeleteConfirmed(int id)
+		[AuthorizeByPermission("Employee", Operation.Delete)]
+		public ActionResult DeleteConfirmed(int id)
         {
             try
             {
