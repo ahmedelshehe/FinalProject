@@ -1,5 +1,6 @@
 ﻿using FinalProject.Models;
 using FinalProject.RepoServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
@@ -108,6 +109,7 @@ namespace FinalProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("AppId,UserName,Email","RoleAppId")] AppUser user)
         {
+
             var allRolesOfUser = appRoleRepository.getAllRoles().ToList();
             ViewBag.AllRules = allRolesOfUser;
             if (id != user.AppId)

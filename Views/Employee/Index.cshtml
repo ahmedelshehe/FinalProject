@@ -1,27 +1,19 @@
 ﻿@model IEnumerable<FinalProject.ViewModels.EmployeeViewModel>
-
+@using FinalProject.Utilities
 @{
     ViewData["Title"] = "Index";
     var permissions = Context.Items["Permissions"] as List<Permission>;
-    var canShowEmployees = false;
-    var canAddEmployees = false;
-    var canUpdateEmployees = false;
-    var canDeleteEmployees = false;
-    var canAddUsers = false;
-    bool havePermissions = permissions == null ? false : true;
-    if (havePermissions)
-    {
-        canShowEmployees = permissions.Any(p => p.Name == "Employee" && p.Operation == Operation.Show);
-        canAddEmployees = permissions.Any(p => p.Name == "Employee" && p.Operation == Operation.Add);
-        canUpdateEmployees = permissions.Any(p => p.Name == "Employee" && p.Operation == Operation.Update);
-        canDeleteEmployees = permissions.Any(p => p.Name == "Employee" && p.Operation == Operation.Delete);
-        canAddUsers = permissions.Any(p => p.Name == "AppUser" && p.Operation == Operation.Add);
-    }
+
+    var canShowEmployees = permissions.HasPermission("Employee",Operation.Show);
+    var canAddEmployees = permissions.HasPermission("Employee", Operation.Add);
+    var canUpdateEmployees = permissions.HasPermission("Employee", Operation.Update);
+    var canDeleteEmployees = permissions.HasPermission("Employee", Operation.Delete);
+    var canAddUsers = permissions.HasPermission("AppUser", Operation.Add);
 }
 
 <h1>Index</h1>
 
-<p @(canAddEmployees ? "" : "hidden")>
+<p @(canAddEmployees)>
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table table-striped table-hover">
@@ -51,16 +43,16 @@
             <th>
                 <i class="fa fa-calendar"></i> Contract Date
             </th>
-            <th @(canAddUsers ? "" : "hidden")>
+            <th @(canAddUsers)>
                 <i class="fa fa-user-plus"></i> Add User
             </th>
-            <th @(canUpdateEmployees ? "" : "hidden")>
+            <th @(canUpdateEmployees)>
                 <i class="fa fa-pencil"></i> Update
             </th>
-            <th @(canShowEmployees ? "" : "hidden")>
+            <th @(canShowEmployees)>
                 <i class="fa fa-eye"></i> Details
             </th>
-            <th @(canDeleteEmployees ? "" : "hidden")>
+            <th @(canDeleteEmployees)>
                 <i class="fa fa-trash"></i> Delete
             </th>
         </tr>
@@ -96,20 +88,20 @@
                 <td>
                     @if (!item.isUserAdded)
                     {
-                        <a asp-route-id="@item.employee.Id" asp-action="AddUser" asp-controller="Account">Add User</a>
+                        <a asp-route-id="@item.employee.Id" asp-action="AddUser" asp-controller="Account" class="btn btn-outline-primary">Add User</a>
                     }
                     else{
                         <span>Already A User</span>
                         
                         }
                     </td>
-                <td @(canUpdateEmployees ? "" : "hidden")>
+                <td @(canUpdateEmployees)>
                     <a asp-action="Edit" asp-route-id="@item.employee.Id" class="btn btn-outline-secondary">Edit</a>
                 </td>
-                <td @(canShowEmployees ? "" : "hidden")>
+                <td @(canShowEmployees)>
                     <a asp-action="Details" asp-route-id="@item.employee.Id" class="btn btn-outline-info">Details</a>
                 </td>
-                <td @(canDeleteEmployees ? "" : "hidden")>
+                <td @(canDeleteEmployees)>
                     <a asp-action="Delete" asp-route-id="@item.employee.Id" class="btn btn-outline-danger">Delete</a>
                 </td>
         </tr>
