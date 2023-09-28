@@ -23,13 +23,14 @@ namespace FinalProject.Middleware
                 if (user != null)
                 {
                     var appRole = appRoleRepository.GetAppRoleWithPermissions(user.RoleAppId);
+
                     if (appRole != null)
                     {
-                        var permissions = appRole.Permissions;
+                        context.Items.Add("Role", appRole.Name);
+                    
+                    var permissions = appRole.Permissions;
 
                         context.Items.Add("Permissions", permissions.ToList());
-
-                        
                     }
                 }
             }

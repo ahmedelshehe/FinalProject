@@ -3,7 +3,8 @@
 @{
     ViewData["Title"] = "Index";
     var permissions = Context.Items["Permissions"] as List<Permission>;
-
+    var role = Context.Items["Role"] as string;
+    var isAdmin = role == "Admin" ? true : false;
     var canShowEmployees = permissions.HasPermission("Employee",Operation.Show);
     var canAddEmployees = permissions.HasPermission("Employee", Operation.Add);
     var canUpdateEmployees = permissions.HasPermission("Employee", Operation.Update);
