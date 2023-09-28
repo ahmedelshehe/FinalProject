@@ -27,8 +27,12 @@ namespace FinalProject.Middleware
                     if (appRole != null)
                     {
                         context.Items.Add("Role", appRole.Name);
-                    
-                    var permissions = appRole.Permissions;
+						if (appRole.Name == "Admin")
+						{
+							context.Items.Add("CanViewPermissions", true);
+						}
+
+						var permissions = appRole.Permissions;
 
                         context.Items.Add("Permissions", permissions.ToList());
                     }
