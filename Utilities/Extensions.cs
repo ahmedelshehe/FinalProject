@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+﻿using FinalProject.Models;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FinalProject.Utilities
 {
@@ -19,6 +20,12 @@ namespace FinalProject.Utilities
             timeSpan => TimeOnly.FromTimeSpan(timeSpan))
         { }
     }
-
+    public static class PermissionExtensions
+    {
+        public static string HasPermission(this List<Permission> permissions, string entityName, Operation operation)
+        {
+            return permissions != null ? permissions.Any(p => p.Name == entityName && p.Operation == operation) ? "" : "hidden" : "hidden";
+        }
+    }
 
 }

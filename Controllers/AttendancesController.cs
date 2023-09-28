@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using FinalProject.Data;
 using FinalProject.Models;
 using FinalProject.RepoServices;
+using FinalProject.Utilities;
+
 
 namespace FinalProject.Controllers
 {
@@ -34,6 +36,8 @@ namespace FinalProject.Controllers
         }
 
         // GET: Attendances/Details/5
+        [AuthorizeByPermission("Attendances", Operation.Show)]
+
         public async Task<IActionResult> Details(int id, DateTime date)
         {
 
@@ -47,6 +51,8 @@ namespace FinalProject.Controllers
         }
 
         // GET: Attendances/Create
+        [AuthorizeByPermission("Attendances", Operation.Add)]
+
         public IActionResult Create()
         {
             ViewData["EmployeeId"] = new SelectList(employeeRepository.GetEmployees(), "Id", "FirstName");
@@ -58,6 +64,8 @@ namespace FinalProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeByPermission("Attendances", Operation.Add)]
+
         public async Task<IActionResult> Create([Bind("ArrivalTime,DepartureTime,Date,EmployeeId")] Attendance attendance)
         {
 			ViewData["EmployeeId"] = new SelectList(employeeRepository.GetEmployees(), "Id", "FirstName");
@@ -87,6 +95,8 @@ namespace FinalProject.Controllers
         }
 
         // GET: Attendances/Edit/5
+        [AuthorizeByPermission("Attendances", Operation.Update)]
+
         public async Task<IActionResult> Edit(int id,DateTime date)
         {
            var ediedAttendane = attendanceRepository.GetAttendance(id,date);
@@ -97,6 +107,8 @@ namespace FinalProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeByPermission("Attendances", Operation.Update)]
+
         public async Task<IActionResult> Edit([Bind("ArrivalTime,DepartureTime,Date,EmployeeId")] Attendance attendance)
         {
             if (ModelState.IsValid)
@@ -128,6 +140,8 @@ namespace FinalProject.Controllers
         }
 
         // GET: Attendances/Delete/5
+        [AuthorizeByPermission("Attendances", Operation.Delete)]
+
         public async Task<IActionResult> Delete(int id,DateTime date)
         {
             var delAttendance = attendanceRepository.GetAttendance(id,date);
@@ -137,6 +151,8 @@ namespace FinalProject.Controllers
         // POST: Attendances/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [AuthorizeByPermission("Attendances", Operation.Delete)]
+
         public async Task<IActionResult> DeleteConfirmed(int id, DateTime date)
         {
 

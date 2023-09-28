@@ -21,7 +21,7 @@ namespace FinalProject.Controllers
         }
 
         // GET: DepartmentController/Details/5
-        [AuthorizeByPermission("Department", Operation.Show)]
+       [AuthorizeByPermission("Department", Operation.Show)]
         public ActionResult Details(int id)
         {
             var department = DepartmentRepository.GetDepartment(id);

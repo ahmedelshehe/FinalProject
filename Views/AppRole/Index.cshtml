@@ -1,9 +1,20 @@
 ﻿@model IEnumerable<AppRole>
+@using FinalProject.Utilities
 
+@{
+    ViewData["Title"] = "Index";
+    var permissions = Context.Items["Permissions"] as List<Permission>;
+    var canShowRole = permissions.HasPermission("AppRole", Operation.Show); 
+    var canAddRole = permissions.HasPermission("AppRole", Operation.Add); ;
+    var canUpdateRole = permissions.HasPermission("AppRole", Operation.Update); ;
+    var canDeleteRole = permissions.HasPermission("AppRole", Operation.Delete); ;
+    
+}
 <h1>Roles</h1>
-<p>
+<p @(canAddRole)>
     <a asp-action="Create">Create New</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -16,16 +27,22 @@
     <tbody>
         @foreach (var role in Model)
         {
-            <tr>
+
+          
+               
+                          <tr>
                 <td>@role.Name</td>
-                <td>
-                
+                <td @(canUpdateRole)>
+
                     <a asp-action="Edit" asp-route-id="@role.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@role.Id">View Permissions</a> |
-                    <a asp-action="Delete" asp-route-id="@role.Id">Delete</a>
-                
                 </td>
+                <td @(canShowRole)>   <a asp-action="Details" asp-route-id="@role.Id">View Permissions</a> |</td>
+                <td @(canDeleteRole )>    <a asp-action="Delete" asp-route-id="@role.Id">Delete</a></td>
+
+
             </tr>
+
+                            
             
         }
     </tbody>

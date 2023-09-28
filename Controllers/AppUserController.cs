@@ -2,6 +2,8 @@
 using FinalProject.RepoServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using FinalProject.Utilities;
+
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,13 +28,16 @@ namespace FinalProject.Controllers
         }
 
         // GET: AppUserController
-        public  IActionResult Index()
+
+        public IActionResult Index()
         {
             var users = userRepository.GetUsers();
             return View(users);
         }
 
         // GET: AppUserController/Details/5
+        [AuthorizeByPermission("AppUser", Operation.Show)]
+
         public IActionResult Details(int id)
         {
             var user =  userRepository.GetUser(id);
@@ -51,6 +56,7 @@ namespace FinalProject.Controllers
 
 
 
+        [AuthorizeByPermission("AppUser", Operation.Add)]
 
         public IActionResult Create()
         {
@@ -63,6 +69,8 @@ namespace FinalProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+      [AuthorizeByPermission("AppUser", Operation.Add)]
+
         public async Task<IActionResult> Create([Bind("UserName,Email,Password,EmpId,RoleAppId")] AppUser user)
         {
             if (ModelState.IsValid)
@@ -87,8 +95,10 @@ namespace FinalProject.Controllers
 
             return View(user);
         }
-    
-    public async Task<IActionResult> Edit(int id)
+        [AuthorizeByPermission("AppUser", Operation.Update)]
+
+        public async Task<IActionResult> Edit(int id)
+
         {
             var allRolesOfUser = appRoleRepository.getAllRoles().ToList();
             ViewBag.AllRules = allRolesOfUser;
@@ -106,6 +116,8 @@ namespace FinalProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeByPermission("AppUser", Operation.Update)]
+
         public async Task<IActionResult> Edit(int id, [Bind("AppId,UserName,Email","RoleAppId")] AppUser user)
         {
             var allRolesOfUser = appRoleRepository.getAllRoles().ToList();
@@ -123,6 +135,7 @@ namespace FinalProject.Controllers
 
             return View(user);
         }
+        [AuthorizeByPermission("AppUser", Operation.Delete)]
 
         // GET: AppUserController/Delete/5
         public async Task<IActionResult> Delete(int id)
@@ -139,6 +152,8 @@ namespace FinalProject.Controllers
         // POST: AppUserController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeByPermission("AppUser", Operation.Delete)]
+
         public async  Task<IActionResult> Delete(int Id, IFormCollection collection)
         {
             var user = userRepository.GetUser(Id);

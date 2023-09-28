@@ -1,7 +1,14 @@
 ﻿@model AppUser
+@using FinalProject.Utilities
 
 @{
     ViewData["Title"] = "User Details";
+}
+@{
+    var permissions = Context.Items["Permissions"] as List<Permission>;
+  
+    var canUpdateUser = permissions.HasPermission("AppUser", Operation.Update); 
+ 
 }
 
 <h1>User Details</h1>
@@ -37,6 +44,8 @@
             <td>
                 @ViewData["RoleName"]
             </td>
+            
         </tr>
     </tbody>
 </table>
+        <p @(canUpdateUser )><a  asp-action="Edit" asp-route-id="@Model?.Id">Edit</a></p>

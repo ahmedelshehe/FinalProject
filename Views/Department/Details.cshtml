@@ -1,7 +1,13 @@
 ﻿@model FinalProject.Models.Department
-
+@using FinalProject.Utilities;
 @{
     ViewData["Title"] = "Details";
+}
+@{
+    var permissions = Context.Items["Permissions"] as List<Permission>;
+  
+    var canUpdateDepartments = permissions.HasPermission("Department", Operation.Update); 
+ 
 }
 
 <h1>Details</h1>
@@ -33,6 +39,6 @@
     <h5>Employees Count : @Model.Employees.Count()</h5>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+  <p @(canUpdateDepartments )>  <a  asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |<p>
     <a asp-action="Index">Back to List</a>
 </div>

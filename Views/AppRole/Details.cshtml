@@ -4,6 +4,12 @@
     List<Permission> permissions = (List<Permission>)ViewBag.permissions;
     List<string> permissionNames = permissions.Select(p => p.Name).Distinct().ToList();
 }
+@{
+    var permission = Context.Items["Permissions"] as List<Permission>;
+  
+    var canUpdateRole = permissions.HasPermission("AppRole", Operation.Update) ;
+   
+}
 <h1>Role Details</h1>
 
 <table class="table table-striped">
@@ -103,6 +109,6 @@
     <input type="submit" value="Submit">
 </form>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+  <p @(canUpdateRole )>  <a  asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |<p>
     <a asp-action="Index">Back to List</a>
 </div>

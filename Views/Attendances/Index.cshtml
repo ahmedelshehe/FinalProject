@@ -3,11 +3,26 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+@{
+    ViewData["Title"] = "Index";
+    var permissions = Context.Items["Permissions"] as List<Permission>;
+    var canShowAttendance = false;
+    var canAddAttendance = false;
+    var canUpdateAttendance = false;
+    var canDeleteAttendance = false;
+    bool havePermissions = permissions == null ? false : true;
+    if (havePermissions)
+    {
+        canShowAttendance = permissions.Any(p => p.Name == "Attendances" && p.Operation == Operation.Show);
+        canAddAttendance = permissions.Any(p => p.Name == "Attendances" && p.Operation == Operation.Add);
+        canUpdateAttendance = permissions.Any(p => p.Name == "Attendances" && p.Operation == Operation.Update);
+        canDeleteAttendance = permissions.Any(p => p.Name == "Attendances" && p.Operation == Operation.Delete);
+    }
+}
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
+<p @(canAddAttendance ? "" : "hidden")>
+    <a asp-action="Create" class="btn btn-outline-primary">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -36,11 +51,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Employee.FirstName  )
             </td>
-            <td>
-                    @Html.ActionLink("Edit", "Edit", new { id=item.EmployeeId , date=item.Date  }) |
-                    @Html.ActionLink("Details", "Details", new { id=item.EmployeeId , date=item.Date }) |
-                @Html.ActionLink("Delete", "Delete", new {  id=item.EmployeeId , date=item.Date })
-            </td>
+                <td @(canUpdateAttendance ? "" : "hidden")>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.EmployeeId , date=item.Date  }) |</td>
+                <td @(canShowAttendance ? "" : "hidden")>  @Html.ActionLink("Details", "Details", new { id=item.EmployeeId , date=item.Date }) |</td>
+
+                <td @(canDeleteAttendance ? "" : "hidden")> @Html.ActionLink("Delete", "Delete", new {  id=item.EmployeeId , date=item.Date })</td>
+            
         </tr>
 }
     </tbody>

@@ -1,5 +1,13 @@
 ﻿@model FinalProject.Models.OfficialVacation
-
+@{
+    var permissions = Context.Items["Permissions"] as List<Permission>;
+    var canUpdateOfficialVacation = false;
+    bool havePermissions = permissions == null ? false : true;
+    if (havePermissions)
+    {
+        canUpdateOfficialVacation = permissions.Any(p => p.Name == "OfficialVacation" && p.Operation == Operation.Update);
+    }
+}
 <div class="container">
     <h1>Official Vacation Details</h1>
 
@@ -20,8 +28,8 @@
         </tbody>
     </table>
 
-    <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-primary">Edit</a> |
-    <a href="@Url.Action("Delete", new { id = Model.Id })" class="btn btn-danger">Delete</a>
-    <a asp-action="Index" class="btn btn-info">Back to List</a>
+   <p @(canUpdateOfficialVacation ? "" : "hidden")> <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-primary">Edit</a> </p>
+@*    <a href="@Url.Action("Delete", new { id = Model.Id })" class="btn btn-danger">Delete</a>
+*@    <a asp-action="Index" class="btn btn-info">Back to List</a>
 </div>
 
