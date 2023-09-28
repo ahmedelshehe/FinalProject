@@ -2,12 +2,25 @@
 
 @{
     ViewData["Title"] = "Index";
+    var permissions = Context.Items["Permissions"] as List<Permission>;
+    var canShowDepartments = false;
+    var canAddDepartments = false;
+    var canUpdateDepartments = false;
+    var canDeleteDepartments = false;
+    bool havePermissions = permissions == null ? false : true;
+    if (havePermissions)
+    {
+        canShowDepartments = permissions.Any(p => p.Name == "Department" && p.Operation == Operation.Show);
+        canAddDepartments = permissions.Any(p => p.Name == "Department" && p.Operation == Operation.Add);
+        canUpdateDepartments = permissions.Any(p => p.Name == "Department" && p.Operation == Operation.Update);
+        canDeleteDepartments = permissions.Any(p => p.Name == "Department" && p.Operation == Operation.Delete);
+    }
 }
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
+<p @(canAddDepartments ? "" : "hidden")>
+    <a asp-action="Create" class="btn btn-outline-primary" >Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -15,7 +28,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th></th>
+            <th @(canUpdateDepartments ? "" : "hidden")>Edit</th>
+            <th @(canShowDepartments ? "" : "hidden")>Details</th>
+            <th @(canDeleteDepartments ? "" : "hidden")>Delete</th>
         </tr>
     </thead>
     <tbody>
@@ -24,10 +39,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">View Employees</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <td @(canUpdateDepartments ? "" : "hidden")>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary">Edit</a> 
+
+            </td>
+                <td @(canShowDepartments ? "" : "hidden")>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info">View Employees</a> 
+            </td>
+                <td @(canDeleteDepartments ? "" : "hidden")>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Delete</a>
             </td>
         </tr>
 }

@@ -1,12 +1,16 @@
 ﻿@{
 	ViewData["Title"] = "Index";
 	var permissions = Context.Items["Permissions"] as List<Permission>;
-	var canShowEmployees = false;
+	var canViewEmployees = false;
+	var canViewDepartments = false;
 	bool havePermissions = permissions == null ? false : true;
 	if (havePermissions)
 	{
-		canShowEmployees =
-			permissions.Any(p => p.Name == "Employee" && p.Operation == Operation.Show);
+		canViewEmployees =
+			permissions.Any(p => p.Name == "Employee");
+		canViewDepartments =
+			permissions.Any(p => p.Name == "Department");
+		
 	}
 	}
 
@@ -165,8 +169,8 @@
 							</ul>
 						</li>
 						<li>
-						<li @(canShowEmployees ? "" : "hidden")><a asp-controller="Employee" asp-action="Index"><i class="la la-external-link-square"></i> <span>Employees</span></a></li>
-						<li><a asp-controller="Department" asp-action="Index"><i class="la la-external-link-square"></i> <span>Departments</span></a></li>
+						<li @(canViewEmployees ? "" : "hidden")><a asp-controller="Employee" asp-action="Index"><i class="la la-external-link-square"></i> <span>Employees</span></a></li>
+						<li @(canViewDepartments ? "" : "hidden")><a asp-controller="Department" asp-action="Index"><i class="la la-external-link-square"></i> <span>Departments</span></a></li>
 						<li><a asp-controller="Permission" asp-action="Index"><i class="la la-external-link-square"></i> <span>Permissions</span></a></li>
 						<li><a asp-controller="AppRole" asp-action="Index"><i class="la la-external-link-square"></i> <span>Roles</span></a></li>
 						<li><a asp-controller="OfficialVacation" asp-action="Index"><i class="la la-external-link-square"></i> <span>Official Vacations</span></a></li>
