@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using FinalProject.Data;
 using FinalProject.Models;
 using FinalProject.RepoServices;
+using FinalProject.Utilities;
 
 namespace FinalProject.Controllers
 {
@@ -27,6 +28,8 @@ namespace FinalProject.Controllers
         }
 
         // GET: Permissions/Details/5
+        [AuthorizeByPermission("Permission", Operation.Show)]
+
         public async Task<IActionResult> Details(int id)
         {
             var permission = permissionRepository.GetPermission(id);
@@ -35,6 +38,8 @@ namespace FinalProject.Controllers
         }
 
         // GET: Permissions/Create
+        [AuthorizeByPermission("Permission", Operation.Add)]
+
         public IActionResult Create()
         {
             return View();
@@ -45,7 +50,9 @@ namespace FinalProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public  IActionResult Create(Permission permission)
+        [AuthorizeByPermission("Permission", Operation.Add)]
+
+        public IActionResult Create(Permission permission)
         {
             if (ModelState.IsValid)
             {
@@ -56,6 +63,8 @@ namespace FinalProject.Controllers
         }
 
         // GET: Permissions/Edit/5
+        [AuthorizeByPermission("Permission", Operation.Update)]
+
         public async Task<IActionResult> Edit(int id)
         {
             var permission = permissionRepository.GetPermission(id);
@@ -71,6 +80,8 @@ namespace FinalProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeByPermission("Permission", Operation.Update)]
+
         public async Task<IActionResult> Edit(Permission permission)
         {
 
@@ -98,6 +109,8 @@ namespace FinalProject.Controllers
         }
 
         // GET: Permissions/Delete/5
+        [AuthorizeByPermission("Permission", Operation.Delete)]
+
         public async Task<IActionResult> Delete(int id)
         {
 
@@ -113,6 +126,8 @@ namespace FinalProject.Controllers
         // POST: Permissions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [AuthorizeByPermission("Permission", Operation.Delete)]
+
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
 

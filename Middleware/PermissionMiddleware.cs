@@ -30,6 +30,7 @@ namespace FinalProject.Middleware
 						if (appRole.Name == "Admin")
 						{
 							context.Items.Add("CanViewPermissions", true);
+                            context.Items.Add("CheckUncheckAllForAdmin",true);
 						}
 
 						var permissions = appRole.Permissions;

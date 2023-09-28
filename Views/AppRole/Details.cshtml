@@ -4,6 +4,7 @@
     List<Permission> permissions = (List<Permission>)ViewBag.permissions;
     List<string> permissionNames = permissions.Select(p => p.Name).Distinct().ToList();
     var UserPermissions = Context.Items["Permissions"] as List<Permission>;
+    var checkUncheckAllForAdmin = Context.Items["CheckUncheckAllForAdmin"] as bool?;
 
     var canEditRoles = UserPermissions == null ? false :
             UserPermissions.Any(p => p.Name == "AppRole" && p.Operation == Operation.Update) ? true : false;
@@ -101,7 +102,13 @@
                         }
                     }
                 </tr>
+
             }
+            @if (checkUncheckAllForAdmin != null){
+                <button type="button" class="btn btn-outline-primary" onclick="checkAllCheckboxes()" @(hiddenToggle)>Check All</button>
+                <button type="button" class="btn btn-outline-primary" onclick="uncheckAllCheckboxes()" @(hiddenToggle)>Uncheck All</button>
+            }
+            
 
         </tbody>
     </table>
@@ -113,3 +120,5 @@
     <a asp-action="Edit" asp-route-id="@Model?.Id">  Edit</a> |
 </div>
 <a asp-action="Index">Back to List</a>
+<script src="~/js/main.js"></script>
+

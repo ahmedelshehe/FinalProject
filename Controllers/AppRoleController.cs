@@ -4,6 +4,7 @@ namespace FinalProject.Controllers
 {
     using FinalProject.Models;
     using FinalProject.RepoServices;
+    using FinalProject.Utilities;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
 
@@ -28,15 +29,18 @@ namespace FinalProject.Controllers
         }
 
         // GET: AppRoleController/Details/5
+        [AuthorizeByPermission("AppRole", Operation.Show)]
+
         public ActionResult Details(string id)
         {
             var role = appRoleRepository.GetAppRoleWithPermissions(id);
             ViewBag.permissions = permissionRepository.GetPermissions();
-            // Display details of a specific role
             return View(role);
         }
 
         // GET: AppRoleController/Create
+        [AuthorizeByPermission("AppRole", Operation.Add)]
+
         public ActionResult Create()
         {
             return View();
@@ -45,6 +49,8 @@ namespace FinalProject.Controllers
         // POST: AppRoleController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeByPermission("AppRole", Operation.Add)]
+
         public async Task<IActionResult> Create(string name)
         {
             // Create a new role
@@ -72,6 +78,8 @@ namespace FinalProject.Controllers
         }
 
         // GET: AppRoleController/Edit/5
+        [AuthorizeByPermission("AppRole", Operation.Update)]
+
         public ActionResult Edit(string id)
         {
             // Display the edit form for a specific role
@@ -83,6 +91,8 @@ namespace FinalProject.Controllers
         // POST: AppRoleController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeByPermission("AppRole", Operation.Update)]
+
         public async Task<IActionResult> Edit(string id, IFormCollection collection)
         {
             // Update the role
@@ -107,6 +117,8 @@ namespace FinalProject.Controllers
         }
 
         // GET: AppRoleController/Delete/5
+        [AuthorizeByPermission("AppRole", Operation.Delete)]
+
         public ActionResult Delete(string id)
         {
             // Display the delete confirmation page for a specific role
@@ -117,6 +129,8 @@ namespace FinalProject.Controllers
         // POST: AppRoleController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeByPermission("AppRole", Operation.Delete)]
+
         public async Task<ActionResult> Delete(string id, IFormCollection collection)
         {
             // Delete the role
