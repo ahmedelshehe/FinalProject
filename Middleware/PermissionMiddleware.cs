@@ -23,13 +23,19 @@ namespace FinalProject.Middleware
                 if (user != null)
                 {
                     var appRole = appRoleRepository.GetAppRoleWithPermissions(user.RoleAppId);
+
                     if (appRole != null)
                     {
-                        var permissions = appRole.Permissions;
+                        context.Items.Add("Role", appRole.Name);
+						if (appRole.Name == "Admin")
+						{
+							context.Items.Add("CanViewPermissions", true);
+                            context.Items.Add("CheckUncheckAllForAdmin",true);
+						}
+
+						var permissions = appRole.Permissions;
 
                         context.Items.Add("Permissions", permissions.ToList());
-
-                        
                     }
                 }
             }

@@ -1,7 +1,5 @@
 ﻿@model IEnumerable<FinalProject.Models.Department>
 @using FinalProject.Utilities
-
-
 @{
     ViewData["Title"] = "Index";
     var permissions = Context.Items["Permissions"] as List<Permission>;
@@ -23,10 +21,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th @(canUpdateDepartments)>Edit</th>
-            <th @(canShowDepartments)>Details</th>
-            <th @(canDeleteDepartments)>Delete</th>
-            
+            <th @(canUpdateDepartments ? "" : "hidden")>Edit</th>
+            <th @(canShowDepartments ? "" : "hidden")>Details</th>
+            <th @(canDeleteDepartments ? "" : "hidden")>Delete</th>
         </tr>
     </thead>
     <tbody>
@@ -35,14 +32,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-                <td @(canUpdateDepartments )>
+                <td @(canUpdateDepartments ? "" : "hidden")>
                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary">Edit</a> 
 
             </td>
-                <td @(canShowDepartments )>
+                <td @(canShowDepartments ? "" : "hidden")>
                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info">View Employees</a> 
             </td>
-                <td @(canDeleteDepartments )>
+                <td @(canDeleteDepartments ? "" : "hidden")>
                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Delete</a>
             </td>
         </tr>
