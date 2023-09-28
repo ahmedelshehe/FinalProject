@@ -1,16 +1,21 @@
 ﻿@model IEnumerable<FinalProject.Models.Permission>
-
+@using FinalProject.Utilities
 @{
     ViewData["Title"] = "Index";
+    var permissions = Context.Items["Permissions"] as List<Permission>;
+    var canShowPermission = permissions.HasPermission("Permission", Operation.Show);
+    var canAddPermission = permissions.HasPermission("Permission", Operation.Add);
+    var canUpdatePermission = permissions.HasPermission("Permission", Operation.Update);
+    var canDeletePermission = permissions.HasPermission("Permission", Operation.Delete);
     
 }
 
 <h1>Index</h1>
 
-<p>
+<p @(canAddPermission)>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table table-striped table-hover">
     <thead>
         <tr>
             <th>
@@ -31,11 +36,17 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Operation)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+            
+                <td @(canUpdatePermission)>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                </td>
+                <td @(canDeletePermission)>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+                <td @(canShowPermission)>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            
         </tr>
 }
     </tbody>
