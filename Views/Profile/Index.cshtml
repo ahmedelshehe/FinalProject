@@ -1,0 +1,452 @@
+﻿@model FinalProject.Models.Employee
+
+@{
+	SelectList alldept = new SelectList(ViewBag.allDepts, "Id", "Name");
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+	<meta name="description" content="Smarthr - Bootstrap Admin Template">
+	<meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
+	<meta name="author" content="Dreamguys - Bootstrap Admin Template">
+	<meta name="robots" content="noindex, nofollow">
+	<title>Users - HRMS admin template</title>
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="../wwwroot/css/bootstrap.min.css">
+
+
+	<!-- Fontawesome CSS -->
+	<link rel="stylesheet" href="../wwwroot/css/font-awesome.min.css">
+
+	<!-- Lineawesome CSS -->
+	<link rel="stylesheet" href="../wwwroot/css/line-awesome.min.css">
+
+	<!-- Datatable CSS -->
+	<link rel="stylesheet" href="../wwwroot/css/dataTables.bootstrap4.min.css">
+
+	<!-- Select2 CSS -->
+	<link rel="stylesheet" href="../wwwroot/css/select2.min.css">
+
+	<!-- Datetimepicker CSS -->
+	<link rel="stylesheet" href="../wwwroot/css/bootstrap-datetimepicker.min.css">
+
+	<!-- Main CSS -->
+	<link rel="stylesheet" href="../wwwroot/css/style.css">
+
+
+
+</head>
+<body>
+	<!-- Main Wrapper -->
+	<div class="main-wrapper">
+
+		<!-- Header -->
+		<div class="header">
+
+			<!-- Logo -->
+			<div class="header-left">
+				<a href="index.html" class="logo">
+					<img src="../wwwroot/img/logo.png" width="40" height="40" alt="">
+				</a>
+			</div>
+			<!-- /Logo -->
+
+			<a id="toggle_btn" href="javascript:void(0);">
+				<span class="bar-icon">
+					<span></span>
+					<span></span>
+					<span></span>
+				</span>
+			</a>
+
+			<!-- Header Title -->
+			<div class="page-title-box">
+				<h3>HoiChoi Technologies Pvt. Ltd.</h3>
+			</div>
+			<!-- /Header Title -->
+
+			<a id="mobile_btn" class="mobile_btn" href="#sidebar"><i class="fa fa-bars"></i></a>
+
+			<!-- Header Menu -->
+			<ul class="nav user-menu">
+
+
+
+				<li class="nav-item dropdown has-arrow main-drop">
+					<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+						<span class="user-img">
+							<img src="../wwwroot/img/profiles/avatar-21.jpg" alt="">
+							<span class="status online"></span>
+						</span>
+						<span>Admin</span>
+					</a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" asp-controller="Profile" asp-action="Index">My Profile</a>
+						<a class="dropdown-item" href="settings.html">Settings</a>
+						<a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a>
+					</div>
+				</li>
+			</ul>
+			<!-- /Header Menu -->
+			<!-- Mobile Menu -->
+			<div class="dropdown mobile-user-menu">
+				<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+				<div class="dropdown-menu dropdown-menu-right">
+					<a class="dropdown-item" asp-controller="Profile" asp-action="Index">My Profile</a>
+					<a class="dropdown-item" href="settings.html">Settings</a>
+					<a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a>
+				</div>
+			</div>
+			<!-- /Mobile Menu -->
+
+		</div>
+		<!-- /Header -->
+		<!-- Sidebar -->
+		<div class="sidebar" id="sidebar">
+			<div class="sidebar-inner slimscroll">
+				<div id="sidebar-menu" class="sidebar-menu">
+					<ul>
+
+						<li class="submenu">
+							=
+							<ul style="display: none;">
+								<li><a href="chat.html">Chat</a></li>
+								<li class="submenu">
+									<a href="#"><span> Calls</span> <span class="menu-arrow"></span></a>
+									<ul style="display: none;">
+										<li><a href="voice-call.html">Voice Call</a></li>
+										<li><a href="video-call.html">Video Call</a></li>
+										<li><a href="outgoing-call.html">Outgoing Call</a></li>
+										<li><a href="incoming-call.html">Incoming Call</a></li>
+									</ul>
+								</li>
+								<li><a href="events.html">Calendar</a></li>
+								<li><a href="contacts.html">Contacts</a></li>
+								<li><a href="inbox.html">Email</a></li>
+								<li><a href="file-manager.html">File Manager</a></li>
+							</ul>
+						</li>
+						<li class="menu-title">
+							<span>Employees</span>
+						</li>
+						<li class="submenu">
+							<a href="#" class="noti-dot"><i class="la la-user"></i> <span> Employees</span> <span class="menu-arrow"></span></a>
+							<ul style="display: none;">
+								<li><a href="employees.html">All Employees</a></li>
+								<li><a href="holidays.html">Holidays</a></li>
+								<li><a href="leaves.html">Leaves (Admin) <span class="badge badge-pill bg-primary float-right">1</span></a></li>
+								<li><a href="leaves-employee.html">Leaves (Employee)</a></li>
+								<li><a href="leave-settings.html">Leave Settings</a></li>
+								<li><a href="attendance.html">Attendance (Admin)</a></li>
+								<li><a href="attendance-employee.html">Attendance (Employee)</a></li>
+								<li><a href="departments.html">Departments</a></li>
+								<li><a href="designations.html">Designations</a></li>
+								<li><a href="timesheet.html">Timesheet</a></li>
+								<li><a href="overtime.html">Overtime</a></li>
+							</ul>
+						</li>
+
+						<li class="active">
+							<a href="users.html"><i class="la la-user-plus"></i> <span>Users</span></a>
+						</li>
+
+					</ul>
+					</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- /Sidebar -->
+		<!-- Page Wrapper -->
+		<div class="page-wrapper">
+
+			<!-- Page Content -->
+			<div class="content container-fluid">
+
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row">
+						<div class="col-sm-12">
+							<h3 class="page-title">Profile</h3>
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+								<li class="breadcrumb-item active">Profile</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /Page Header -->
+
+
+
+
+
+				<div class="card mb-0">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="profile-view">
+									<div class="profile-img-wrap">
+										<div class="profile-img">
+											<a href="#"><img alt="" src="assets/img/profiles/avatar-02.jpg"></a>
+										</div>
+									</div>
+									<div class="profile-basic">
+										<div class="row">
+											<div class="col-md-5">
+												<div class="profile-info-left">
+													<h2 class="user-name m-t-0 mb-0">@Model.FirstName @Model.LastName</h2>
+													
+														<h4 class="text-muted">@Model.Department.Name</h4>
+													
+													<small class="text-muted">Admin </small>
+													<div class="staff-id">Employee ID : @Model.Id</div>
+													<div class="small doj text-muted">Date of Birth : @Model.BirthDate</div>
+													<div class="staff-msg"><a class="btn btn-custom">Send Mail</a></div>
+												</div>
+											</div>
+											<div class="col-md-7">
+												<ul class="personal-info">
+													<li>
+														<div class="title">First Name:</div>
+														<div class="text"><a href="">@Model.FirstName</a></div>
+													</li>
+													<li>
+														<div class="title">Last Name:</div>
+														<div class="text"><a href="">@Model.LastName</a></div>
+													</li>
+													<li>
+														<div class="title">Phone:</div>
+														<div class="text"><a href="">01096366618</a></div>
+													</li>
+													<li>
+														<div class="title">Street:</div>
+														<div class="text"><a href="">@Model.Street</a></div>
+													</li>
+													<li>
+														<div class="title">City:</div>
+														<div class="text"><a href="">@Model.City</a></div>
+													</li>
+													<li>
+														<div class="title">Country:</div>
+														<div class="text"><a href="">@Model.Country</a></ div>
+													</li>
+													<li>
+														<div class="title">Email:</div>
+														<div class="text"><a href="">@Model.Email</a></div>
+													</li>
+						
+													<li>
+														<div class="title">Contract Date:</div>
+														<div class="text">@Model.ContractDate</div>
+													</li>
+													<li>
+														<div class="title">National ID:</div>
+														<div class="text">@Model.NationalId</div>
+													</li>
+
+													<li>
+														<div class="title">Gender:</div>
+														<div class="text">@Model.Gender</div>
+													</li>
+													<li>
+														<div class="title">Reports to:</div>
+														<div class="text">
+															<div class="avatar-box">
+																<div class="avatar avatar-xs">
+																	<img src="assets/img/profiles/avatar-16.jpg" alt="">
+																</div>
+															</div>
+															<a href="profile.html">
+																Jeffery Lalor
+															</a>
+														</div>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="pro-edit"><a data-target="#profile_info" data-toggle="modal" class="edit-icon" href="#"><i class="fa fa-pencil"></i></a></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="card tab-box">
+					<div class="row user-tabs">
+						<div class="col-lg-12 col-md-12 col-sm-12 line-tabs">
+							<ul class="nav nav-tabs nav-tabs-bottom">
+								<li class="nav-item"><a href="#emp_profile" data-toggle="tab" class="nav-link active">Profile</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+			<!-- /Page Content -->
+			<form action="Profile/Edit">
+				<!-- Profile Modal -->
+				<div id="profile_info" class="modal custom-modal fade" role="dialog">
+					<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Profile Information</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="profile-img-wrap edit-img">
+											<img class="inline-block" src="assets/img/profiles/avatar-02.jpg" alt="user">
+											<div class="fileupload btn">
+												<span class="btn-text">edit</span>
+												<input class="upload" type="file">
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>First Name</label>
+													<input type="text" class="form-control" value="@Model.FirstName">
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Last Name</label>
+													<input type="text" class="form-control" value="@Model.LastName">
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Birth Date</label>
+													<div class="cal-icon">
+														<input class="form-control datetimepicker" type="datetime" value="@Model.BirthDate">
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Contract Date</label>
+													<div class="cal-icon">
+														<input class="form-control datetimepicker" type="datetime" value="@Model.ContractDate">
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Gender</label>
+													<select class="select form-control" asp-for="Gender" asp-items="@Html.GetEnumSelectList<Gender>()">
+														
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label>Street</label>
+											<input type="text" class="form-control" value="@Model.Street">
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>City</label>
+											<input type="text" class="form-control" value="@Model.City">
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Country</label>
+											<input type="text" class="form-control" value="@Model.Country">
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Email</label>
+											<input type="text" class="form-control" value="@Model.Email">
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>National ID</label>
+											<input type="text" class="form-control" value="@Model.NationalId">
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Phone Number</label>
+											<input type="text" class="form-control" value="631-889-3206">
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Department <span class="text-danger">*</span></label>
+											<select class="select form-control" asp-for="DeptID" asp-items="alldept">
+												<option value="" selected disabled hidden>Choose a department</option>
+
+											</select>
+										</div>
+									</div>
+									
+							
+								</div>
+								<div class="submit-section">
+									<button class="btn btn-primary submit-btn">Submit</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /Profile Modal -->
+
+
+
+
+
+
+
+			</form>
+		</div>
+		<!-- /Page Wrapper -->
+
+	</div>
+	<!-- /Main Wrapper -->
+	<!-- jQuery -->
+	
+
+</body>
+</html>
+<script src="../wwwroot/js/jquery-3.2.1.min.js"></script>
+
+<!-- Bootstrap Core JS -->
+<script src="../wwwroot/js/popper.min.js"></script>
+<script src="../wwwroot/js/bootstrap.min.js"></script>
+
+<!-- Slimscroll JS -->
+<script src="../wwwroot/js/jquery.slimscroll.min.js"></script>
+
+<!-- Select2 JS -->
+<script src="../wwwroot/js/select2.min.js"></script>
+
+<!-- Datetimepicker JS -->
+<script src="../wwwroot/js/moment.min.js"></script>
+<script src="../wwwroot/js/bootstrap-datetimepicker.min.js"></script>
+
+<!-- Tagsinput JS -->
+<script src="../wwwroot/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
+
+<!-- Custom JS -->
+<script src="../wwwroot/js/app.js"></script>
