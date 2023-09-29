@@ -45,7 +45,7 @@ namespace FinalProject.RepoServices
         {
             try
             {
-                Attendance selectedAttendance = context.Attendances.Where(a => a.EmployeeId == attendance.EmployeeId && a.Date == attendance.Date).Include("Employee").FirstOrDefault();
+                Attendance selectedAttendance = context.Attendances.Where(a => a.EmployeeId == id && a.Date == Date).Include("Employee").FirstOrDefault();
 				if(selectedAttendance !=null)
                 {
                 return selectedAttendance;
