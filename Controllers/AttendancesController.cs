@@ -23,7 +23,7 @@ namespace FinalProject.Controllers
 
     public class AttendancesController : Controller
     {
-        private IHostingEnvironment Environment;
+        private readonly IHostingEnvironment Environment;
         private IConfiguration Configuration;
         public IEmployeeRepository employeeRepository { get; set; }
         public IDepartmentRepository departmentRepository { get; set; }
