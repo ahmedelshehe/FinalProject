@@ -2,6 +2,7 @@
 
 @{
 	SelectList alldept = new SelectList(ViewBag.allDepts, "Id", "Name");
+	
 
 }
 				<div class="card mb-0">
@@ -22,7 +23,7 @@
 													
 														<h4 class="text-muted">@Model.Department.Name</h4>
 													
-													<small class="text-muted">Admin </small>
+													<small class="text-muted">Username : @Model.User.UserName </small>
 													<div class="staff-id">Employee ID : @Model.Id</div>
 													<div class="small doj text-muted">Date of Birth : @Model.BirthDate</div>
 													<div class="staff-msg"><a class="btn btn-custom">Send Mail</a></div>
@@ -38,6 +39,16 @@
 														<div class="title">Last Name:</div>
 														<div class="text"><a href="">@Model.LastName</a></div>
 													</li>
+									<li>
+										<div class="title">Age:</div>
+										<div class="text">
+											@{
+												int age = (int)Math.Floor((DateTime.Now - Model.BirthDate).TotalDays / 365);
+											}
+											<a href="">@age</a>
+										</div>
+									</li>
+													
 													<li>
 														<div class="title">Phone:</div>
 														<div class="text"><a href="">01096366618</a></div>

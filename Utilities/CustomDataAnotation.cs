@@ -75,4 +75,21 @@ namespace FinalProject.Utilities
             return ValidationResult.Success;
         }
     }
+	public class AgeRangeAttribute : ValidationAttribute
+	{
+		protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+		{
+			DateTime birthDate = (DateTime)value;
+			DateTime today = DateTime.Today;
+			int age = today.Year - birthDate.Year;
+
+			if (birthDate > today.AddYears(-age))
+				age--;
+
+			if (age < 20 || age > 60)
+				return new ValidationResult("Age should be between 20 and 60 years.");
+
+			return ValidationResult.Success;
+		}
+	}
 }
