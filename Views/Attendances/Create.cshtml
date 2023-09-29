@@ -8,6 +8,31 @@
 
 <h4>Attendance</h4>
 <hr />
+<div class="text-center">
+    <form asp-action="UploadFile" method="post" enctype="multipart/form-data">
+        <input type="file" name="postedFile" />
+        <input type="submit" class="btn btn-primary" value="Upload Attendance File" />
+    </form>
+   
+</div>
+
+
+<div class="text-center">
+    <h1>Upload File With Download Status</h1>
+    <form asp-action="UploadFileWithSaveFileStatusWithDownloadButton" method="post" enctype="multipart/form-data">
+        <input type="file" name="postedFile" />
+        <input type="submit" class="btn btn-primary" value="Upload Attendance File" />
+    </form>
+    @if (ViewBag.flagDownload == true)
+    {
+
+
+        <button>@Html.ActionLink("Download Attendance Log File", "DownloadFile",new {fullPath= ViewBag.fullPath}) </button>
+
+    }
+
+</div>
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
