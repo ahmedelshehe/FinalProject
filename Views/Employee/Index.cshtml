@@ -1,101 +1,111 @@
-﻿@model IEnumerable<FinalProject.Models.Employee>
-
+﻿@model IEnumerable<FinalProject.ViewModels.EmployeeViewModel>
+@using FinalProject.Utilities
 @{
     ViewData["Title"] = "Index";
-
+    var permissions = Context.Items["Permissions"] as List<Permission>;
+    var canShowEmployees = permissions.HasPermission("Employee",Operation.Show);
+    var canAddEmployees = permissions.HasPermission("Employee", Operation.Add);
+    var canUpdateEmployees = permissions.HasPermission("Employee", Operation.Update);
+    var canDeleteEmployees = permissions.HasPermission("Employee", Operation.Delete);
+    var canAddUsers = permissions.HasPermission("AppUser", Operation.Add);
 }
 
 <h1>Index</h1>
 
-<p>
+<p @(canAddEmployees )>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+
+<table class="table table-striped table-hover">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                <i class="fa fa-user"></i> Full Name
+            </th>     
+            <th>
+                <i class="fa fa-envelope"></i> Email
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                <i class="fa fa-money"></i> Salary
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Street)
+                <i class="fa fa-briefcase"></i> Department
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.City)
+                <i class="fa fa-flag"></i> Country
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Country)
+                <i class="fa fa-venus-mars"></i> Gender
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Gender)
+                <i class="fa fa-calendar"></i> Birth Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BirthDate)
+                <i class="fa fa-calendar"></i> Contract Date
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ContractDate)
+            <th @(canAddUsers)>
+                <i class="fa fa-user-plus"></i> Add User
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
+            <th @(canUpdateEmployees)>
+                <i class="fa fa-pencil"></i> Update
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NationalId)
+            <th @(canShowEmployees)>
+                <i class="fa fa-eye"></i> Details
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Salary)
+            <th @(canDeleteEmployees)>
+                <i class="fa fa-trash"></i> Delete
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Department)
-            </th>
-            <th></th>
+          
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
+                @Html.DisplayFor(modelItem => item.employee.FirstName) @Html.DisplayFor(modelItem => item.employee.LastName)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.employee.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.employee.Salary)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.employee.Department.Name)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.employee.Country)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LastName)
+                @Html.DisplayFor(modelItem => item.employee.Gender)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Street)
+                @Html.DisplayFor(modelItem => item.employee.BirthDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.City)
+                @Html.DisplayFor(modelItem => item.employee.ContractDate)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Country)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BirthDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContractDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NationalId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Salary)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Department.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+            
+                <td>
+                    @if (!item.isUserAdded)
+                    {
+                        <a asp-route-id="@item.employee.Id" asp-action="AddUser" asp-controller="Account" class="btn btn-outline-primary">Add User</a>
+                    }
+                    else{
+                        <span>Already A User</span>
+                        
+                        }
+                    </td>
+                <td @(canUpdateEmployees)>
+                    <a asp-action="Edit" asp-route-id="@item.employee.Id" class="btn btn-outline-secondary">Edit</a>
+                </td>
+                <td @(canShowEmployees)>
+                    <a asp-action="Details" asp-route-id="@item.employee.Id" class="btn btn-outline-info">Details</a>
+                </td>
+                <td @(canDeleteEmployees)>
+                    <a asp-action="Delete" asp-route-id="@item.employee.Id" class="btn btn-outline-danger">Delete</a>
+                </td>
+           
         </tr>
 }
     </tbody>

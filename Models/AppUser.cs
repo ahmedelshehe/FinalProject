@@ -6,13 +6,14 @@ namespace FinalProject.Models
 {
     public class AppUser :IdentityUser
     {
-        [Key]
-        public int AppId {  get; set; }
         [Required(ErrorMessage = "You should enter an employee")]
         [ForeignKey("Employee")]
         public int EmpId { get; set; }
         public virtual Employee? Employee { get; set; }
 
-        public IEnumerable<OfficialVacation> OfficalVacations { get; set; } 
+        [ForeignKey("Role")]
+        public string? RoleAppId { get; set; }
+        public virtual AppRole? Role { get; set; }
+        public IEnumerable<OfficialVacation>? OfficalVacations { get; set; } 
     }
 }

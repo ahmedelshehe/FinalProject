@@ -1,9 +1,14 @@
 ﻿@model FinalProject.Models.Attendance
-
+@using FinalProject.Utilities;
 @{
     ViewData["Title"] = "Details";
 }
+@{
+    var permissions = Context.Items["Permissions"] as List<Permission>;
 
+    var canUpdateAttendence = permissions.HasPermission("Attendances", Operation.Update);
+   
+}
 <h1>Details</h1>
 
 <div>
@@ -31,6 +36,6 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.EmployeeId , date=Model.Date }) |
+    <p @(canUpdateAttendence )> @Html.ActionLink("Edit", "Edit", new { id=Model.EmployeeId , date=Model.Date }) |</p>
     <a asp-action="Index">Back to List</a>
 </div>

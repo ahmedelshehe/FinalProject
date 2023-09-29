@@ -3,6 +3,19 @@
 @{
     List<Permission> permissions = (List<Permission>)ViewBag.permissions;
     List<string> permissionNames = permissions.Select(p => p.Name).Distinct().ToList();
+    var UserPermissions = Context.Items["Permissions"] as List<Permission>;
+    var checkUncheckAllForAdmin = Context.Items["CheckUncheckAllForAdmin"] as bool?;
+
+    var canEditRoles = UserPermissions == null ? false :
+            UserPermissions.Any(p => p.Name == "AppRole" && p.Operation == Operation.Update) ? true : false;
+    var disabledToggle = canEditRoles ? "" : "disabled";
+    var hiddenToggle = UserPermissions.HasPermission("AppRole",Operation.Update);
+}
+@{
+    var permission = Context.Items["Permissions"] as List<Permission>;
+  
+    var canUpdateRole = permissions.HasPermission("AppRole", Operation.Update) ;
+   
 }
 <h1>Role Details</h1>
 
@@ -43,12 +56,12 @@
                         {
                             @if (Model.Permissions.Contains(AddPermission))
                             {
-                                <td><input type="checkbox" name="@permissionName+Add" value="@AddPermission.Id" class="form-check-input" checked></td>
+                                <td><input type="checkbox" name="@permissionName+Add" value="@AddPermission.Id" class="form-check-input" checked @(disabledToggle)></td>
                             }
                             else
                             {
 
-                                <td><input type="checkbox" name="@permissionName+Add" value="@AddPermission.Id" class="form-check-input"></td>
+                                <td><input type="checkbox" name="@permissionName+Add" value="@AddPermission.Id" class="form-check-input" @(disabledToggle)></td>
                             }
                         }
                     }
@@ -58,11 +71,11 @@
                         {
                             @if (Model.Permissions.Contains(ShowPermission))
                             {
-                                <td><input type="checkbox" name="@permissionName+Show" value="@ShowPermission.Id" class="form-check-input" checked></td>
+                                <td><input type="checkbox" name="@permissionName+Show" value="@ShowPermission.Id" class="form-check-input" checked @(disabledToggle)></td>
                             }
                             else
                             {
-                                <td><input type="checkbox" name="@permissionName+Show" value="@ShowPermission.Id" class="form-check-input"></td>
+                                <td><input type="checkbox" name="@permissionName+Show" value="@ShowPermission.Id" class="form-check-input" @(disabledToggle)></td>
                             }
                         }
                     }
@@ -72,11 +85,11 @@
                         {
                             @if (Model.Permissions.Contains(UpdatePermission))
                             {
-                                <td><input type="checkbox" name="@permissionName+Update" value="@UpdatePermission.Id" class="form-check-input" checked></td>
+                                <td><input type="checkbox" name="@permissionName+Update" value="@UpdatePermission.Id" class="form-check-input" checked @(disabledToggle)></td>
                             }
                             else
                             {
-                                <td><input type="checkbox" name="@permissionName+Update" value="@UpdatePermission.Id" class="form-check-input"></td>
+                                <td><input type="checkbox" name="@permissionName+Update" value="@UpdatePermission.Id" class="form-check-input" @(disabledToggle)></td>
                             }
                         }
                     }
@@ -86,23 +99,33 @@
                         {
                             @if (Model.Permissions.Contains(DeletePermission))
                             {
-                                <td><input type="checkbox" name="@permissionName+Delete" value="@DeletePermission.Id" class="form-check-input" checked></td>
+                                <td><input type="checkbox" name="@permissionName+Delete" value="@DeletePermission.Id" class="form-check-input" checked @(disabledToggle)></td>
                             }
                             else
                             {
-                                <td><input type="checkbox" name="@permissionName+Delete" value="@DeletePermission.Id" class="form-check-input"></td>
+                                <td><input type="checkbox" name="@permissionName+Delete" value="@DeletePermission.Id" class="form-check-input" @(disabledToggle)></td>
                             }
                         }
                     }
                 </tr>
+
             }
+            @if (checkUncheckAllForAdmin != null){
+                <button type="button" class="btn btn-outline-primary" onclick="checkAllCheckboxes()" @(hiddenToggle)>Check All</button>
+                <button type="button" class="btn btn-outline-primary" onclick="uncheckAllCheckboxes()" @(hiddenToggle)>Uncheck All</button>
+            }
+            
 
         </tbody>
     </table>
 
-    <input type="submit" value="Submit">
+    <input type="submit" value="Edit" class="btn btn-outline-primary" @(disabledToggle) @(hiddenToggle)>
 </form>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+<div @(hiddenToggle)>
+    
+ <p @(canUpdateRole )>  <a  asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |<p>
+    <a asp-action="Index">Back to List</a></div>
+<a asp-action="Index">Back to List</a>
+<script src="~/js/main.js"></script>
+

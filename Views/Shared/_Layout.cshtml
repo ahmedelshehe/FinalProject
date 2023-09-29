@@ -1,4 +1,26 @@
-﻿<!DOCTYPE html>
+﻿@using FinalProject.Middleware;
+
+@{
+	ViewData["Title"] = "Index";
+	var permissions = Context.Items["Permissions"] as List<Permission>;
+	var canViewEmployees = false;
+	var canViewDepartments = false;
+	var canViewPermissions = Context.Items["CanViewPermissions"] as bool?;
+
+	
+	bool havePermissions = permissions == null ? false : true;
+	if (havePermissions)
+	{
+		canViewEmployees =
+			permissions.Any(p => p.Name == "Employee");
+		canViewDepartments =
+			permissions.Any(p => p.Name == "Department");
+		
+	}
+	}
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
@@ -67,22 +89,35 @@
 
 			<!-- Header Menu -->
 			<ul class="nav user-menu">
+				@if (User.Identity.IsAuthenticated)
+				{
+					<li class="nav-item dropdown has-arrow main-drop">
+						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+							<span class="user-img">
+								<img src="assets\img\profiles\avatar-21.jpg" alt="">
+								<span class="status online"></span>
+							</span>
+							@{
+								var loggedInUser = Context.Request.Cookies["LoggedInUser"];
+							}
+							<span>Welcome, @loggedInUser</span>
 
 
-				<li class="nav-item dropdown has-arrow main-drop">
-					<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-						<span class="user-img">
-							<img src="assets\img\profiles\avatar-21.jpg" alt="">
-							<span class="status online"></span>
-						</span>
-						<span>Admin</span>
-					</a>
-					<div class="dropdown-menu">
-						<a class="dropdown-item" href="profile.html">My Profile</a>
-						<a class="dropdown-item" href="settings.html">Settings</a>
-						<a class="dropdown-item" href="login.html">Logout</a>
-					</div>
-				</li>
+						</a>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" href="profile.html">My Profile</a>
+							<a class="dropdown-item" href="settings.html">Settings</a>
+							<a class="dropdown-item" asp-asp-route="Login.html" asp-controller="Account" asp-action="Logout">Logout</a>
+						</div>
+					</li>
+				}
+				else
+				{
+					<li>
+						<a href="/Account/Login" class="btn btn-primary">Login</a>
+					</li>
+				}
+				
 			</ul>
 			<!-- /Header Menu -->
 			<!-- Mobile Menu -->
@@ -99,11 +134,11 @@
 		</div>
 		<!-- /Header -->
 		<!-- Sidebar -->
-		<div class="sidebar" id="sidebar">
+		<div class="sidebar" id="sidebar" @(havePermissions ? "" :"hidden")>
 			<div class="sidebar-inner slimscroll">
 				<div id="sidebar-menu" class="sidebar-menu">
 					<ul>
-						<li class="menu-title">
+						<li class="menu-title" >
 							<span>Main</span>
 						</li>
 						<li class="submenu">
@@ -113,7 +148,7 @@
 								<li><a href="employee-dashboard.html">Employee Dashboard</a></li>
 							</ul>
 						</li>
-						<li class="menu-title">
+						<li class="menu-title" >
 							<span>Employees</span>
 						</li>
 						<li class="submenu">
@@ -140,9 +175,15 @@
 							</ul>
 						</li>
 						<li>
-						<li><a asp-controller="Employee" asp-action="Index"><i class="la la-external-link-square"></i> <span>Employees</span></a></li>
-						<li><a asp-controller="Department" asp-action="Index"><i class="la la-external-link-square"></i> <span>Departments</span></a></li>
-						<li><a asp-controller="Permission" asp-action="Index"><i class="la la-external-link-square"></i> <span>Permissions</span></a></li>
+						<li @(canViewEmployees ? "" : "hidden")><a asp-controller="Employee" asp-action="Index"><i class="la la-external-link-square"></i> <span>Employees</span></a></li>
+						<li @(canViewDepartments ? "" : "hidden")><a asp-controller="Department" asp-action="Index"><i class="la la-external-link-square"></i> <span>Departments</span></a></li>
+
+							@if (canViewPermissions != null)
+							{
+								<li><a asp-controller="Permission" asp-action="Index"><i class="la la-external-link-square"></i> <span>Permissions</span></a></li>
+							}
+
+							
 						<li><a asp-controller="AppRole" asp-action="Index"><i class="la la-external-link-square"></i> <span>Roles</span></a></li>
 						<li><a asp-controller="OfficialVacation" asp-action="Index"><i class="la la-external-link-square"></i> <span>Official Vacations</span></a></li>
 						<li class="menu-title">

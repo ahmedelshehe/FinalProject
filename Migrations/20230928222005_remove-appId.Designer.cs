@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230925192226_first")]
-    partial class first
+    [Migration("20230928222005_remove-appId")]
+    partial class removeappId
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -75,12 +75,6 @@ namespace FinalProject.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("AppId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("AppRoleId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -118,6 +112,9 @@ namespace FinalProject.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("RoleAppId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -130,8 +127,6 @@ namespace FinalProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppRoleId");
-
                     b.HasIndex("EmpId");
 
                     b.HasIndex("NormalizedEmail")
@@ -141,6 +136,8 @@ namespace FinalProject.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("RoleAppId");
 
                     b.ToTable("User", "dbo");
                 });
@@ -243,14 +240,19 @@ namespace FinalProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DeptID");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Employees", "dbo");
                 });
 
-            modelBuilder.Entity("FinalProject.Models.OfficalVacation", b =>
+            modelBuilder.Entity("FinalProject.Models.OfficialVacation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -267,7 +269,6 @@ namespace FinalProject.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -420,25 +421,25 @@ namespace FinalProject.Migrations
                         new
                         {
                             Id = -21,
-                            Name = "Permission",
+                            Name = "Department",
                             Operation = 1
                         },
                         new
                         {
                             Id = -22,
-                            Name = "Permission",
+                            Name = "Department",
                             Operation = 2
                         },
                         new
                         {
                             Id = -23,
-                            Name = "Permission",
+                            Name = "Department",
                             Operation = 3
                         },
                         new
                         {
                             Id = -24,
-                            Name = "Permission",
+                            Name = "Department",
                             Operation = 0
                         },
                         new
@@ -635,17 +636,19 @@ namespace FinalProject.Migrations
 
             modelBuilder.Entity("FinalProject.Models.AppUser", b =>
                 {
-                    b.HasOne("FinalProject.Models.AppRole", null)
-                        .WithMany("Users")
-                        .HasForeignKey("AppRoleId");
-
                     b.HasOne("FinalProject.Models.Employee", "Employee")
                         .WithMany()
                         .HasForeignKey("EmpId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FinalProject.Models.AppRole", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleAppId");
+
                     b.Navigation("Employee");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("FinalProject.Models.Attendance", b =>
@@ -667,16 +670,20 @@ namespace FinalProject.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FinalProject.Models.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Department");
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FinalProject.Models.OfficalVacation", b =>
+            modelBuilder.Entity("FinalProject.Models.OfficialVacation", b =>
                 {
                     b.HasOne("FinalProject.Models.AppUser", "User")
                         .WithMany("OfficalVacations")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });

@@ -1,0 +1,51 @@
+﻿@model AppUser
+@using FinalProject.Utilities
+
+@{
+    ViewData["Title"] = "User Details";
+}
+@{
+    var permissions = Context.Items["Permissions"] as List<Permission>;
+  
+    var canUpdateUser = permissions.HasPermission("AppUser", Operation.Update); 
+ 
+}
+
+<h1>User Details</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                Password
+            </th>
+            <th>
+                Role Name
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Html.DisplayFor(model => model.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Employee.Password)
+            </td>
+            <td>
+                @ViewData["RoleName"]
+            </td>
+            
+        </tr>
+    </tbody>
+</table>
+        <p @(canUpdateUser )><a  asp-action="Edit" asp-route-id="@Model?.Id">Edit</a></p>

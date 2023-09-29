@@ -1,4 +1,6 @@
+using FinalProject.Controllers;
 using FinalProject.Data;
+using FinalProject.Middleware;
 using FinalProject.Models;
 using FinalProject.RepoServices;
 using Microsoft.AspNetCore.Identity;
@@ -30,6 +32,7 @@ namespace FinalProject
           builder.Services.AddScoped<IAttendanceRepositoryService, AttendanceRepositoryService>();
             builder.Services.AddScoped<IAppRoleRepository, AppRoleRepoService>();
             builder.Services.AddScoped<IOfficialVacationRepository, OfficialVacationRepoService>();
+            builder.Services.AddScoped<IUserRepository, AppUserRepository>();
 
 
 
@@ -49,6 +52,8 @@ namespace FinalProject
                 app.UseHsts();
             }
 
+            
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -56,7 +61,7 @@ namespace FinalProject
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseMiddleware<PermissionsMiddleware>();
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");

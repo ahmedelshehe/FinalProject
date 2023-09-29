@@ -40,13 +40,19 @@ namespace FinalProject.RepoServices
             return context.Attendances.Include("Employee").ToList();
         }
 
-        public Attendance GetAttendance(Attendance attendance)
+
+        public  Attendance GetAttendance(int id,DateTime Date)
         {
             try
             {
                 Attendance selectedAttendance = context.Attendances.Where(a => a.EmployeeId == attendance.EmployeeId && a.Date == attendance.Date).Include("Employee").FirstOrDefault();
-
+				if(selectedAttendance !=null)
+                {
                 return selectedAttendance;
+                }else
+                {
+                    return null;
+                }
             }
             catch (Exception ex)
             {
@@ -69,7 +75,8 @@ namespace FinalProject.RepoServices
         {
             try
             {
-                Attendance editAttendance = context.Attendances.Where(a => a.EmployeeId == attendance.EmployeeId && a.Date == attendance.Date).Include("Employee").FirstOrDefault();
+                Attendance editAttendance = context.Attendances.Include("Employee")
+                    .FirstOrDefault(a => a.EmployeeId == attendance.EmployeeId && a.Date == attendance.Date);
                 if (editAttendance != null)
                 {
                     editAttendance.ArrivalTime = attendance.ArrivalTime;
@@ -88,10 +95,11 @@ namespace FinalProject.RepoServices
         {
             try
             {
-                Attendance editAttendance = context.Attendances.Where(a => attendance.EmployeeId == attendance.EmployeeId && a.Date == attendance.Date).Include("Employee").FirstOrDefault();
-                if (editAttendance != null)
+				Attendance deleteAttendance = context.Attendances.Include("Employee")
+					.FirstOrDefault(a => a.EmployeeId == attendance.EmployeeId && a.Date == attendance.Date); 
+                if (deleteAttendance != null)
                 {
-                    context.Attendances.Remove(editAttendance);
+                    context.Attendances.Remove(deleteAttendance);
                     context.SaveChanges();
                 }
             }

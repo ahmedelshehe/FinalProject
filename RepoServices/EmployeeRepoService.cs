@@ -21,6 +21,7 @@ namespace FinalProject.RepoServices
             return context.Employees.Include(e => e.Attendances).Include(e => e.Department).Include(e => e.PhoneNumbers).FirstOrDefault(e => e.Id == id);
         }
 
+       
         public void InsertEmployee(Employee employee)
         {
             if (employee != null)
@@ -64,6 +65,6 @@ namespace FinalProject.RepoServices
 
         }
 
-      
+       
     }
 }

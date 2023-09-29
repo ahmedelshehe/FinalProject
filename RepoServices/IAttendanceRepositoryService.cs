@@ -8,7 +8,7 @@ namespace FinalProject.RepoServices
     {
 
         public List<Attendance> GetAttendances();
-        public Attendance GetAttendance(Attendance attendance);
+        public Attendance GetAttendance(int id, DateTime Date);
         public void InsertAttendance(Attendance attendance);
         public void UpdateAttendance( Attendance attendance);
         public void DeleteAttendance(Attendance attendance);
