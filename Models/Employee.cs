@@ -41,9 +41,8 @@ namespace FinalProject.Models
         [Required(ErrorMessage = "You should enter a birthdate")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
-		[AgeRange(ErrorMessage = "Age should be between 20 and 60 years.")]
-
-		public DateTime BirthDate { get; set; }
+/*		[AgeRange(ErrorMessage = "Age should be between 20 and 60 years.")]
+*/		public DateTime BirthDate { get; set; }
 
         [Required(ErrorMessage = "You should enter a contract date")]
         [DataType(DataType.Date)]

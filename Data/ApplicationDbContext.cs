@@ -52,23 +52,7 @@ namespace FinalProject.Data
             builder.Entity<Vacation>(
                 entity => entity.HasKey("StartDate", "EmployeeId")
                 );
-            List<string> entityNames = 
-                new List<string> { "Employee", "Attendance", "AppRole","AppUser","Permission","Department","OfficialVacation" };
-            List<Permission> permissions = new List<Permission>();
-            int id = -1;
-            foreach (string entityName in entityNames)
-            {
-                permissions.Add(new Permission { Id = id, Name = entityName, Operation = Operation.Show });
-                permissions.Add(new Permission { Id = id - 1, Name = entityName, Operation = Operation.Update });
-                permissions.Add(new Permission { Id = id - 2, Name = entityName, Operation = Operation.Delete });
-                permissions.Add(new Permission { Id = id - 3, Name = entityName, Operation = Operation.Add });
-                id -= 4; // Decrease the id value by 4 for each iteration
-            }
-
-            builder.Entity<Permission>(entity =>
-            {
-                entity.HasData(permissions);
-            });
+            
             builder.Entity<Attendance>()
                 .Property(a => a.ExtraHours)
                 .HasComputedColumnSql("CASE WHEN DATEDIFF(HOUR, ArrivalTime, DepartureTime) > 8  THEN DATEDIFF(HOUR, ArrivalTime, DepartureTime) - 8 ELSE 0 END");
@@ -80,6 +64,8 @@ namespace FinalProject.Data
             builder.Entity<Attendance>()
                 .Property(a => a.IsAbsent)
                 .HasComputedColumnSql("CONVERT(bit, CASE WHEN DATEDIFF(HOUR, ArrivalTime, DepartureTime) <= 3 THEN 1 ELSE 0 END)");
+            var Seeder = new SeedData(builder);
+            Seeder.SeedDatabase();
         }
 
         // Registering New Conversion Types For DateOnly, TimeOnly

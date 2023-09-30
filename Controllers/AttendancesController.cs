@@ -184,7 +184,7 @@ namespace FinalProject.Controllers
             return attendanceRepository.AttendanceExists(id, date);
         }
 
-        public async Task<IActionResult> UploadFile()
+        public  IActionResult UploadFile()
         {
             return View();
         }
