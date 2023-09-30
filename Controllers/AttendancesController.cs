@@ -49,7 +49,7 @@ namespace FinalProject.Controllers
         }
 
         // GET: Attendances/Details/5
-        [AuthorizeByPermission("Attendances", Operation.Show)]
+        [AuthorizeByPermission("Attendance", Operation.Show)]
 
         public async Task<IActionResult> Details(int id, DateTime date)
         {
@@ -64,7 +64,7 @@ namespace FinalProject.Controllers
         }
 
         // GET: Attendances/Create
-        [AuthorizeByPermission("Attendances", Operation.Add)]
+        [AuthorizeByPermission("Attendance", Operation.Add)]
 
         public IActionResult Create()
         {
@@ -78,7 +78,7 @@ namespace FinalProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthorizeByPermission("Attendances", Operation.Add)]
+        [AuthorizeByPermission("Attendance", Operation.Add)]
 
         public async Task<IActionResult> Create([Bind("ArrivalTime,DepartureTime,Date,EmployeeId")] Attendance attendance)
         {
@@ -110,7 +110,7 @@ namespace FinalProject.Controllers
 
         // GET: Attendances/Edit/5
 
-        [AuthorizeByPermission("Attendances", Operation.Update)]
+        [AuthorizeByPermission("Attendance", Operation.Update)]
 
         public async Task<IActionResult> Edit(int id,DateTime date)
         {
@@ -122,7 +122,7 @@ namespace FinalProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthorizeByPermission("Attendances", Operation.Update)]
+        [AuthorizeByPermission("Attendance", Operation.Update)]
 
         public async Task<IActionResult> Edit([Bind("ArrivalTime,DepartureTime,Date,EmployeeId")] Attendance attendance)
         {
@@ -158,7 +158,7 @@ namespace FinalProject.Controllers
 
         // GET: Attendances/Delete/5
 
-        [AuthorizeByPermission("Attendances", Operation.Delete)]
+        [AuthorizeByPermission("Attendance", Operation.Delete)]
 
         public async Task<IActionResult> Delete(int id,DateTime date)
         {
@@ -169,7 +169,7 @@ namespace FinalProject.Controllers
         // POST: Attendances/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [AuthorizeByPermission("Attendances", Operation.Delete)]
+        [AuthorizeByPermission("Attendance", Operation.Delete)]
 
         public async Task<IActionResult> DeleteConfirmed(int id, DateTime date)
         {
