@@ -5,15 +5,20 @@ using FinalProject.Models;
 namespace FinalProject.Models
 {
         public enum VacationTypes { Sick ,Casual ,Paternity , Other }
-        public class Vacation
+        public enum VacationStatus { Pending, Approved, Rejected }
+
+    public class Vacation
         {
 
-        [Required(ErrorMessage ="You should choose startdate")]
+        [Key]
+		[Required(ErrorMessage ="You should choose startdate")]
         public DateTime? StartDate { get; set; }
 
         [Required(ErrorMessage = "You should choose enddate")]
 
         public DateTime? EndDate { get; set; }
+
+        public VacationStatus Status { get; set; } = VacationStatus.Pending;
 
         TimeSpan _vacationDuration { get
             {
@@ -24,7 +29,6 @@ namespace FinalProject.Models
             } }
 
         public VacationTypes VacationType { get; set; } 
-        public bool Approved { get; set; } = false;
 
         [ForeignKey("Employee")]
         [Required(ErrorMessage = "You should choose an employee")]
