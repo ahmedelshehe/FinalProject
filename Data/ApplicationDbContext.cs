@@ -1,8 +1,11 @@
 ﻿using FinalProject.Models;
 using FinalProject.Utilities;
+using FinalProject.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Reflection.Emit;
 
 namespace FinalProject.Data
 {
@@ -69,7 +72,18 @@ namespace FinalProject.Data
                 entity.HasData(permissions);
             });
 
+            builder.Entity<EmployeeAttendanceVM>(entity =>
+            {
+                entity.HasNoKey();
+                entity.Property(e => e.DepartureTime);
+                entity.Property(e => e.DeptName);
+                entity.Property(e => e.EmployeeId);
+                entity.Property(e => e.FulllName);
+                entity.Property(e => e.LastName);
+                entity.Property(e => e.ArrivalTime);
+                entity.Property(e => e.Date);
 
+            });
         }
 
         // Registering New Conversion Types For DateOnly, TimeOnly
@@ -93,6 +107,9 @@ namespace FinalProject.Data
         public virtual DbSet<OfficialVacation> OfficalVacations { get; set; }
 
         public virtual DbSet<Vacation> Vacations { get; set; }
+
+        public virtual DbSet<EmployeeAttendanceVM> EmployeeAttendanceReport { get; set; }
+
 
     }
 }
