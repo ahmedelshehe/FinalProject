@@ -22,7 +22,7 @@ namespace FinalProject.Controllers
 
     public class AttendancesController : Controller
     {
-        private IHostingEnvironment Environment;
+        private readonly IHostingEnvironment Environment;
         private IConfiguration Configuration;
         public IEmployeeRepository employeeRepository { get; set; }
         public IDepartmentRepository departmentRepository { get; set; }
@@ -40,7 +40,8 @@ namespace FinalProject.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(attendanceRepository.GetAttendances().ToList());
+            var attendances = attendanceRepository.GetAttendances().ToList();
+            return View(attendances);
 
         }
 
@@ -67,17 +68,21 @@ namespace FinalProject.Controllers
 
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> Search(DateTime Date)
+        {
+
+            var attendaces = attendanceRepository.GetAttendances().Where(a => a.Date.Date == Date.Date);
+
+            return View("Index",attendaces);
+
+        }
         // GET: Attendances/Details/5
+        [AuthorizeByPermission("Attendance", Operation.Show)]
         public async Task<IActionResult> Details(int id, DateTime date)
         {
-            Attendance attendance = new Attendance();
-            attendance.EmployeeId = id;
-            attendance.Date = date;
-            if (id == null || id <= 0 || date == null)
-            {
-                return NotFound();
-            }
-
+           
             var attendanceSelected = attendanceRepository.GetAttendance(id,date);
             if (attendanceSelected == null)
             {
@@ -88,6 +93,8 @@ namespace FinalProject.Controllers
         }
 
         // GET: Attendances/Create
+        [AuthorizeByPermission("Attendance", Operation.Add)]
+
         public IActionResult Create()
         {
             //if (employeeRepository.GetEmployees() != null)
@@ -109,6 +116,10 @@ namespace FinalProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+        [AuthorizeByPermission("Attendance", Operation.Add)]
+
+
         public async Task<IActionResult> Create([Bind("ArrivalTime,DepartureTime,Date,EmployeeId")] Attendance attendance)
         {
             if (ModelState.IsValid)
@@ -130,7 +141,11 @@ namespace FinalProject.Controllers
         }
 
         // GET: Attendances/Edit/5
-        public async Task<IActionResult> Edit(int id, DateTime date)
+
+
+        [AuthorizeByPermission("Attendance", Operation.Update)]
+
+        public async Task<IActionResult> Edit(int id,DateTime date)
         {
            
             var editedAttendane = attendanceRepository.GetAttendance(id,date);
@@ -147,6 +162,9 @@ namespace FinalProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+        [AuthorizeByPermission("Attendance", Operation.Update)]
+
         public async Task<IActionResult> Edit([Bind("ArrivalTime,DepartureTime,Date,EmployeeId")] Attendance attendance)
         {
            
@@ -172,6 +190,11 @@ namespace FinalProject.Controllers
 
         // GET: Attendances/Delete/5
         public async Task<IActionResult> Delete(int id, DateTime date)
+
+
+        [AuthorizeByPermission("Attendance", Operation.Delete)]
+
+        public async Task<IActionResult> Delete(int id,DateTime date)
         {
            
 
@@ -184,6 +207,9 @@ namespace FinalProject.Controllers
         // POST: Attendances/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+
+        [AuthorizeByPermission("Attendance", Operation.Delete)]
+
         public async Task<IActionResult> DeleteConfirmed(int id, DateTime date)
         {
             if (id == null || id <= 0 || date == null)
@@ -204,7 +230,7 @@ namespace FinalProject.Controllers
             return attendanceRepository.AttendanceExists(id, date);
         }
 
-        public async Task<IActionResult> UploadFile()
+        public  IActionResult UploadFile()
         {
             return View();
         }

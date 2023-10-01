@@ -10,40 +10,39 @@
     var canDeleteRole = permissions.HasPermission("AppRole", Operation.Delete); ;
     
 }
-<h1>Roles</h1>
-<p @(canAddRole)>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="d-flex justify-content-between">
+    <h1>Roles</h1>
+    <p @(canAddRole)>
+        <a asp-action="Create" class="btn btn-outline-success">Create New</a>
+    </p>
+</div>
+
 
 <table class="table">
     <thead>
         <tr>
             <th>Name</th>
-        </tr>
-        <tr>
-
+            <th>Edit</th>
+            <th>View Permissions</th>
+            <th>Delete</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var role in Model)
         {
-
-          
-               
-                          <tr>
+            <tr>
                 <td>@role.Name</td>
                 <td @(canUpdateRole)>
-
-                    <a asp-action="Edit" asp-route-id="@role.Id">Edit</a> |
+                    <a asp-action="Edit" asp-route-id="@role.Id" class="btn btn-outline-info">Edit</a>
                 </td>
-                <td @(canShowRole)>   <a asp-action="Details" asp-route-id="@role.Id">View Permissions</a> |</td>
-                <td @(canDeleteRole )>    <a asp-action="Delete" asp-route-id="@role.Id">Delete</a></td>
-
-
+                <td @(canShowRole)>
+                    <a asp-action="Details" asp-route-id="@role.Id" class="btn btn-outline-dark">View Permissions</a>
+                </td>
+                <td @(canDeleteRole)>
+                    <a asp-action="Delete" asp-route-id="@role.Id" class="btn btn-outline-danger">Delete</a>
+                </td>
             </tr>
 
-                            
-            
         }
     </tbody>
 </table>

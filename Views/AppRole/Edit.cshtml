@@ -3,6 +3,14 @@
 @{
     List<Permission> permissions = (List<Permission>)ViewBag.permissions;
     List<string> permissionNames = permissions.Select(p => p.Name).Distinct().ToList();
+    var UserPermissions = Context.Items["Permissions"] as List<Permission>;
+    var checkUncheckAllForAdmin = Context.Items["CheckUncheckAllForAdmin"] as bool?;
+
+    var canEditRoles = UserPermissions == null ? false :
+            UserPermissions.Any(p => p.Name == "AppRole" && p.Operation == Operation.Update) ? true : false;
+    var disabledToggle = canEditRoles ? "" : "disabled";
+    var hiddenToggle = UserPermissions == null ? "hidden" :
+    UserPermissions.HasPermission("AppRole", Operation.Update);
 }
 <h1>Edit Role</h1>
 
@@ -14,7 +22,25 @@
 
     <button type="submit" class="btn btn-primary">Update Role</button>
 </form>
-
+<br />
+<table class="table">
+    <tbody>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            @if (checkUncheckAllForAdmin != null)
+            {
+                <td>
+                    <button type="button" class="btn btn-outline-primary" onclick="checkAllCheckboxes()" @(hiddenToggle)>Check All</button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-primary" onclick="uncheckAllCheckboxes()" @(hiddenToggle)>Uncheck All</button>
+                </td>
+            }
+        </tr>
+    </tbody>
+</table>
 <form asp-action="AddPermissions" method="post">
     @Html.AntiForgeryToken()
     <input asp-for="Id" type="hidden" name="Id" />
@@ -91,11 +117,20 @@
             }
 
         </tbody>
-        <button type="button" class="btn btn-outline-primary" onclick="checkAllCheckboxes()">Check All</button>
-        <button type="button" class="btn btn-outline-primary" onclick="uncheckAllCheckboxes()">Uncheck All</button>
     </table>
 
-    <input type="submit" value="Submit">
+    <input type="submit" value="Update Permissions" class="btn btn-outline-primary" @(disabledToggle) @(hiddenToggle)>
 </form>
+<hr />
+<div class="container d-inline-block m-2 p-2">
+    <div class="row w-25">
+        <div class="col @(hiddenToggle)">
+            <a asp-action="Details" asp-route-id="@Model?.Id" class="btn btn-outline-info">Details</a>
+        </div>
+        <div class="col">
+            <a asp-action="Index" class="btn btn-outline-dark">Back to List</a>
+        </div>
+    </div>
+</div>
 <script src="~/js/main.js"></script>
 
