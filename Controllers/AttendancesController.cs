@@ -15,8 +15,8 @@ using System.IO.Pipes;
 using System.Net.Mime;
 using Microsoft.AspNetCore.StaticFiles;
 using FinalProject.Helper;
+using FinalProject.ViewModels;
 using FinalProject.Utilities;
-
 
 namespace FinalProject.Controllers
 {
@@ -39,15 +39,36 @@ namespace FinalProject.Controllers
             Configuration = _configuration;
         }
 
-
-
-
         public async Task<IActionResult> Index()
         {
             var attendances = attendanceRepository.GetAttendances().ToList();
             return View(attendances);
 
         }
+
+        public async Task<IActionResult> SearchIndex(string name)
+        {
+            var list = new List<EmployeeAttendanceVM>();
+
+            if (name != null || name != "")
+            {
+                if (attendanceRepository.GetAttendances() != null)
+                {
+
+                     list = await attendanceRepository.GetEmployeeAttendancesByName(name);
+                    if (list == null)
+                    {
+                        list = await attendanceRepository.GetEmployeeAttendancesByDeptName(name);
+
+                    }
+                    //return list;
+                }
+            }
+
+            return View(list) ;
+
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Search(DateTime Date)
@@ -60,11 +81,10 @@ namespace FinalProject.Controllers
         }
         // GET: Attendances/Details/5
         [AuthorizeByPermission("Attendance", Operation.Show)]
-
         public async Task<IActionResult> Details(int id, DateTime date)
         {
-
-            var attendanceSelected =attendanceRepository.GetAttendance(id,date);
+           
+            var attendanceSelected = attendanceRepository.GetAttendance(id,date);
             if (attendanceSelected == null)
             {
                 return NotFound();
@@ -78,8 +98,17 @@ namespace FinalProject.Controllers
 
         public IActionResult Create()
         {
-
+            //if (employeeRepository.GetEmployees() != null)
+            //{
             ViewData["EmployeeId"] = new SelectList(employeeRepository.GetEmployees(), "Id", "FirstName");
+
+            //}
+            //else
+            //{
+            //    ViewData["EmployeeId"] = null;
+
+            //}
+
             return View();
         }
 
@@ -88,24 +117,18 @@ namespace FinalProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+
         [AuthorizeByPermission("Attendance", Operation.Add)]
+
 
         public async Task<IActionResult> Create([Bind("ArrivalTime,DepartureTime,Date,EmployeeId")] Attendance attendance)
         {
-			ViewData["EmployeeId"] = new SelectList(employeeRepository.GetEmployees(), "Id", "FirstName");
-			if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {
-                    if(attendance.DepartureTime.TimeOfDay < attendance.ArrivalTime.TimeOfDay)
-                    {
-                        ModelState.AddModelError("DepartureTime", "DepartureTime has to be after arrival time");
-                        return View(attendance);
-                    }else if(attendance.Date.Date > DateTime.Now.Date) {
-						ModelState.AddModelError("Date", "Date Cannot be in the future");
-						return View(attendance);
-					}
-					attendanceRepository.InsertAttendance(attendance);
+
+                    attendanceRepository.InsertAttendance(attendance);
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception e)
@@ -120,41 +143,41 @@ namespace FinalProject.Controllers
 
         // GET: Attendances/Edit/5
 
+
         [AuthorizeByPermission("Attendance", Operation.Update)]
 
         public async Task<IActionResult> Edit(int id,DateTime date)
         {
-           var editedAttendane = attendanceRepository.GetAttendance(id,date);
-            ViewData["EmployeeId"] = new SelectList(employeeRepository.GetEmployees(), "Id", "FirstName", id);
+           
+            var editedAttendane = attendanceRepository.GetAttendance(id,date);
+            if (editedAttendane == null)
+            {
+                return NotFound();
+            }
+            ViewData["EmployeeId"] = new SelectList(employeeRepository.GetEmployees(), "Id", "FirstName", editedAttendane.EmployeeId);
             return View(editedAttendane);
         }
 
-
+        // POST: Attendances/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+
         [AuthorizeByPermission("Attendance", Operation.Update)]
 
         public async Task<IActionResult> Edit([Bind("ArrivalTime,DepartureTime,Date,EmployeeId")] Attendance attendance)
         {
+           
 
             if (ModelState.IsValid)
             {
                 try
                 {
 
-					if (attendance.DepartureTime.TimeOfDay < attendance.ArrivalTime.TimeOfDay)
-					{
-						ModelState.AddModelError("DepartureTime", "DepartureTime has to be after arrival time");
-						return View(attendance);
-					}
-					else if (attendance.Date.Date > DateTime.Now.Date)
-					{
-						ModelState.AddModelError("Date", "Date Cannot be in the future");
-						return View(attendance);
-					}
 
-					attendanceRepository.UpdateAttendance(attendance);
-                    
+                    attendanceRepository.UpdateAttendance(attendance);
+
                 }
                 catch (Exception e)
                 {
@@ -167,25 +190,37 @@ namespace FinalProject.Controllers
         }
 
         // GET: Attendances/Delete/5
-
+        
         [AuthorizeByPermission("Attendance", Operation.Delete)]
 
         public async Task<IActionResult> Delete(int id,DateTime date)
         {
+           
+
             var delAttendance = attendanceRepository.GetAttendance(id,date);
+           
+
             return View(delAttendance);
         }
 
         // POST: Attendances/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+
         [AuthorizeByPermission("Attendance", Operation.Delete)]
 
         public async Task<IActionResult> DeleteConfirmed(int id, DateTime date)
         {
+            if (id == null || id <= 0 || date == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Attendances'  is null.");
+            }
+            Attendance attendance = new Attendance();
+            attendance.EmployeeId = id;
+            attendance.Date = date;
 
-			var delAttendance = attendanceRepository.GetAttendance(id, date);
-			attendanceRepository.DeleteAttendance(delAttendance);
+
+            attendanceRepository.DeleteAttendance(attendance);
             return RedirectToAction(nameof(Index));
         }
 
