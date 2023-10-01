@@ -8,60 +8,76 @@
 
 <h4>Attendance</h4>
 <hr />
-<div class="text-center">
-    <form asp-action="UploadFile" method="post" enctype="multipart/form-data">
-        <input type="file" name="postedFile" />
-        <input type="submit" class="btn btn-primary" value="Upload Attendance File" />
-    </form>
-   
-</div>
-
-
-<div class="text-center">
-    <h1>Upload File With Download Status</h1>
-    <form asp-action="UploadFileWithSaveFileStatusWithDownloadButton" method="post" enctype="multipart/form-data">
-        <input type="file" name="postedFile" />
-        <input type="submit" class="btn btn-primary" value="Upload Attendance File" />
-    </form>
-    @if (ViewBag.flagDownload == true)
-    {
-
-
-        <button>@Html.ActionLink("Download Attendance Log File", "DownloadFile",new {fullPath= ViewBag.fullPath}) </button>
-
-    }
-
-</div>
-
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ArrivalTime" class="control-label"></label>
-                <input asp-for="ArrivalTime" class="form-control" />
-                <span asp-validation-for="ArrivalTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DepartureTime" class="control-label"></label>
-                <input asp-for="DepartureTime" class="form-control" />
-                <span asp-validation-for="DepartureTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EmployeeId" class="control-label"></label>
-                <select asp-for="EmployeeId" class ="form-control" asp-items="ViewBag.EmployeeId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+    <div class="row col-8">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="ArrivalTime" class="control-label"></label>
+                    <input asp-for="ArrivalTime" class="form-control" />
+                    <span asp-validation-for="ArrivalTime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DepartureTime" class="control-label"></label>
+                    <input asp-for="DepartureTime" class="form-control" />
+                    <span asp-validation-for="DepartureTime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Date" class="control-label"></label>
+                    <input asp-for="Date" class="form-control" />
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EmployeeId" class="control-label"></label>
+                    <select asp-for="EmployeeId" class="form-control" asp-items="ViewBag.EmployeeId"></select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
+    <div class="row col-4 h-50">
+        <div class="col">
+            <div class="input-group">
+                <form asp-action="UploadFile" method="post" class="form-inline" enctype="multipart/form-data">
+                    <h5>Upload File Without Download Status</h5>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile01" name="postedFile"
+                               aria-describedby="inputGroupFileAddon01" required>
+                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                    </div>
+                    <div class="form-group mt-3">
+                        <input type="submit" class="btn btn-primary form-control" value="Upload" />
+                    </div>
+                </form>
+            </div>
+            <hr />
+            <div class="input-group">
+                <form asp-action="UploadFileWithSaveFileStatusWithDownloadButton" method="post" class="form-inline" enctype="multipart/form-data">
+                    <h5>Upload File With Download Status</h5>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" name="postedFile" id="inputGroupFile02"
+                               aria-describedby="inputGroupFileAddon02" required>
+                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                    </div>
+                    <div class="form-group mt-3">
+                        <input type="submit" class="btn btn-primary form-control" value="Upload" />
+                    </div>
+                </form>
+                @if (ViewBag.flagDownload == true)
+                {
+                    <button>@Html.ActionLink("Download Attendance Log File", "DownloadFile",new {fullPath= ViewBag.fullPath}) </button>
+                }
+            </div>
+        </div>
+    </div>
+    
+
 </div>
+
+
 
 <div>
     <a asp-action="Index">Back to List</a>

@@ -44,10 +44,20 @@ namespace FinalProject.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(attendanceRepository.GetAttendances().ToList());
+            var attendances = attendanceRepository.GetAttendances().ToList();
+            return View(attendances);
 
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Search(DateTime Date)
+        {
+
+            var attendaces = attendanceRepository.GetAttendances().Where(a => a.Date.Date == Date.Date);
+
+            return View("Index",attendaces);
+
+        }
         // GET: Attendances/Details/5
         [AuthorizeByPermission("Attendance", Operation.Show)]
 

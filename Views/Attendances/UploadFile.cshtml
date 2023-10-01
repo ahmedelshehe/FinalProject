@@ -7,28 +7,39 @@
 
 <h4>Attendance</h4>
 <hr />
-<div class="text-center">
-    <form asp-action="UploadFile" method="post" enctype="multipart/form-data">
-        <input type="file" name="postedFile" />
-        <input type="submit" class="btn btn-primary" value="Upload Attendance File" />
-    </form>
-
-</div>
-
-
-<div class="text-center">
-    <h1>Upload File With Download Status</h1>
-    <form asp-action="UploadFileWithSaveFileStatusWithDownloadButton" method="post" enctype="multipart/form-data">
-        <input type="file" name="postedFile" />
-        <input type="submit" class="btn btn-primary" value="Upload Attendance File" />
-    </form>
-    @if (ViewBag.flagDownload == true)
-    {
-
-
-        <button>@Html.ActionLink("Download Attendance Log File", "DownloadFile",new {fullPath= ViewBag.fullPath}) </button>
-
-    }
-
+<div class="row col-4 h-50">
+    <div class="col">
+        <div class="input-group">
+            <form asp-action="UploadFile" method="post" class="form-inline" enctype="multipart/form-data">
+                <h5>Upload File Without Download Status</h5>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputGroupFile01" name="postedFile"
+                           aria-describedby="inputGroupFileAddon01" required>
+                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                </div>
+                <div class="form-group mt-3">
+                    <input type="submit" class="btn btn-primary form-control" value="Upload" />
+                </div>
+            </form>
+        </div>
+        <hr />
+        <div class="input-group">
+            <form asp-action="UploadFileWithSaveFileStatusWithDownloadButton" method="post" class="form-inline" enctype="multipart/form-data">
+                <h5>Upload File With Download Status</h5>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" name="postedFile" id="inputGroupFile02"
+                           aria-describedby="inputGroupFileAddon02" required>
+                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                </div>
+                <div class="form-group mt-3">
+                    <input type="submit" class="btn btn-primary form-control" value="Upload" />
+                </div>
+            </form>
+            @if (ViewBag.flagDownload == true)
+            {
+                <button>@Html.ActionLink("Download Attendance Log File", "DownloadFile",new {fullPath= ViewBag.fullPath}) </button>
+            }
+        </div>
+    </div>
 </div>
 
