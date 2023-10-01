@@ -71,7 +71,7 @@ namespace FinalProject.Data
                 entity.Property(e => e.ArrivalTime);
                 entity.Property(e => e.Date);
 
-            })
+            });
             
             builder.Entity<Attendance>()
                 .Property(a => a.DiscountHours)
