@@ -1,8 +1,11 @@
 ﻿using FinalProject.Models;
 using FinalProject.Utilities;
+using FinalProject.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+
 using System.Reflection.Emit;
 
 namespace FinalProject.Data
@@ -57,6 +60,19 @@ namespace FinalProject.Data
                 .Property(a => a.ExtraHours)
                 .HasComputedColumnSql("CASE WHEN DATEDIFF(HOUR, ArrivalTime, DepartureTime) > 8  THEN DATEDIFF(HOUR, ArrivalTime, DepartureTime) - 8 ELSE 0 END");
 
+            builder.Entity<EmployeeAttendanceVM>(entity =>
+            {
+                entity.HasNoKey();
+                entity.Property(e => e.DepartureTime);
+                entity.Property(e => e.DeptName);
+                entity.Property(e => e.EmployeeId);
+                entity.Property(e => e.FulllName);
+                entity.Property(e => e.LastName);
+                entity.Property(e => e.ArrivalTime);
+                entity.Property(e => e.Date);
+
+            });
+            
             builder.Entity<Attendance>()
                 .Property(a => a.DiscountHours)
                 .HasComputedColumnSql("CASE WHEN DATEDIFF(HOUR, ArrivalTime, DepartureTime) < 8 AND DATEDIFF(HOUR, ArrivalTime, DepartureTime) > 3 THEN 8 - DATEDIFF(HOUR, ArrivalTime, DepartureTime) ELSE 0 END");
@@ -91,6 +107,9 @@ namespace FinalProject.Data
 
         public virtual DbSet<Vacation> Vacations { get; set; }
         public DbSet<FinalProject.ViewModels.SettingViewModel>? SettingViewModel { get; set; }
+
+        public virtual DbSet<EmployeeAttendanceVM> EmployeeAttendanceReport { get; set; }
+
 
     }
 }

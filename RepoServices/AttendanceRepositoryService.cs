@@ -14,6 +14,10 @@ using ExcelDataReader;
 using System.ComponentModel;
 using FinalProject.Helper;
 using FinalProject.ViewModels.FinalProject.Models;
+using FinalProject.ViewModels;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Net.Http.Headers;
+using ExcelDataReader.Log.Logger;
 
 namespace FinalProject.RepoServices
 {
@@ -69,6 +73,90 @@ namespace FinalProject.RepoServices
                 context.Attendances.Add(attendance);
                 context.SaveChanges();
             }
+        }
+        //public List<EmployeeAttendanceVM> searchAttendance(string name)
+        //{
+        //    var students = context.Attendances.FromSqlRaw("GetStudents 'Bill'").ToList();
+
+
+
+        //    //var employeesList = context.Employees.Where(s => s.FirstName.Contains(name)).ToList();
+        //    //foreach (var employee in employeesList)
+        //    //{
+        //    //    context.Attendances.Where(e => e.EmployeeId == employee.Id);
+
+        //    //}
+
+        //    //var attendances = from m in context.Attendances
+        //    //             select m
+        //    //             ;
+
+        //}
+
+
+        public async Task<List<EmployeeAttendanceVM>> GetEmployeeAttendancesByDeptName(string Deptname)
+        {
+            if (Deptname != null)
+            {
+                if (GetAttendances() != null)
+                {
+
+                    var parameter = new List<SqlParameter>();
+                    parameter.Add(new SqlParameter("@DeptName", Deptname));
+
+                    var list = context.EmployeeAttendanceReport.FromSqlRaw("exec SelectAllEmployeesByDeptName  @DeptName", parameter.ToArray()).ToList();
+
+
+
+                    return list;
+                }
+            }
+            return null;
+        }
+
+        public async Task<List<EmployeeAttendanceVM>> GetEmployeeAttendancesByName(string name)
+        {
+            if (name != null)
+            {
+                if (GetAttendances() != null)
+                {
+
+
+
+                    var words = name.Split(' ');
+                    string fname = words[0];
+                    string lname = "";
+
+                    if (words.Length > 0)
+                    {
+
+                        if (words.Length == 1)
+                        {
+                            fname = words[0];
+
+                        }
+                        else if (words.Length >= 2)
+                        {
+                            var start = name.IndexOf(" ");
+                            lname = name.Substring(start, name.Length);
+
+                        }
+                    }
+
+                    var parameter = new List<SqlParameter>();
+                    parameter.Add(new SqlParameter("@FName", fname));
+                    parameter.Add(new SqlParameter("@LName", lname));
+
+                    // var result = context.EmployeeAttendanceReport.ExecuteSqlRaw(@"exec SelectAllEmployeesByName @FName, @LName, @ProductPrice", parameter.ToArray()).ToList();
+                    var list = context.EmployeeAttendanceReport.FromSqlRaw("exec SelectAllEmployeesByName b {0} {1}", parameter.ToArray()).ToList();
+
+
+                    //  var result = context.Database.ExecuteSqlRaw(@"exec SelectAllEmployeesByName @FName, @LName, @ProductPrice", parameter.ToArray());
+
+                    return list;
+                }
+            }
+            return null;
         }
 
         public void UpdateAttendance(Attendance attendance)
@@ -390,6 +478,11 @@ namespace FinalProject.RepoServices
             }
            var file = HelperShared.writeStatusInsertInCsvFileAndReturnFile(attendanceStatuses, dirPath);
             return file;
+        }
+
+        public List<Attendance> SearchAtendance()
+        {
+            throw new NotImplementedException();
         }
 
 

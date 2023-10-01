@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<FinalProject.Models.Department>
 @using FinalProject.Utilities
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Departments";
     var permissions = Context.Items["Permissions"] as List<Permission>;
     var canShowDepartments = permissions.HasPermission("Department", Operation.Show);
     var canAddDepartments = permissions.HasPermission("Department", Operation.Add);
@@ -9,7 +9,7 @@
     var canDeleteDepartments = permissions.HasPermission("Department", Operation.Delete);
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p @(canAddDepartments)>
     <a asp-action="Create" class="btn btn-outline-primary">Create New</a>

@@ -1,32 +1,39 @@
 ﻿@model IEnumerable<FinalProject.Models.Attendance>
+@using FinalProject.Utilities;
 
 @{
-    ViewData["Title"] = "Index";
-}
-@{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Attendance Dashboard";
     var permissions = Context.Items["Permissions"] as List<Permission>;
-    var canShowAttendance = false;
-    var canAddAttendance = false;
-    var canUpdateAttendance = false;
-    var canDeleteAttendance = false;
-    bool havePermissions = permissions == null ? false : true;
-    if (havePermissions)
-    {
-        canShowAttendance = permissions.Any(p => p.Name == "Attendances" && p.Operation == Operation.Show);
-        canAddAttendance = permissions.Any(p => p.Name == "Attendances" && p.Operation == Operation.Add);
-        canUpdateAttendance = permissions.Any(p => p.Name == "Attendances" && p.Operation == Operation.Update);
-        canDeleteAttendance = permissions.Any(p => p.Name == "Attendances" && p.Operation == Operation.Delete);
-    }
-}
-<h1>Index</h1>
 
-<p @(canAddAttendance ? "" : "hidden")>
-    <a asp-action="Create" class="btn btn-outline-primary">Create New</a>
-</p>
-<p>
-<a asp-action="UploadFile">Create New From Excel</a>
-</p>
+
+    var canShowAttendance = permissions.HasPermission("Attendance",Operation.Show);
+    var canAddAttendance = permissions.HasPermission("Attendance", Operation.Show);
+    var canUpdateAttendance = permissions.HasPermission("Attendance", Operation.Show);
+    var canDeleteAttendance = permissions.HasPermission("Attendance", Operation.Show);
+}
+<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <div class="col">
+        <p @(canAddAttendance)>
+            <a asp-action="Create" class="btn btn-outline-primary">Create New</a>
+        </p>
+        <p>
+            <a asp-action="UploadFile">Create New From Excel</a>
+        </p>
+    </div>
+    <div class="col">
+        <form asp-action="Search" class="form-inline">
+            <div class="form-group">
+                <input type="date" name="Date" class="form-control mr-2" />
+                <button type="submit" class="btn btn-outline-info  mr-2">Search</button>
+                <a asp-action="Index" class="btn btn-outline-warning">Clear</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
 <table class="table">
     <thead>
         <tr>
@@ -37,9 +44,21 @@
                 @Html.DisplayNameFor(model => model.DepartureTime)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Employee)
             </th>
-            <th></th>
+            <th>
+                Edit
+            </th>
+            <th>
+                Details
+            </th>
+            <th>
+                Delete
+            </th>
+
         </tr>
     </thead>
     <tbody>
@@ -52,13 +71,20 @@
                 @Html.DisplayFor(modelItem => item.DepartureTime)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Employee.FirstName  )
             </td>
-                <td @(canUpdateAttendance ? "" : "hidden")>
-                    @Html.ActionLink("Edit", "Edit", new { id=item.EmployeeId , date=item.Date  }) |</td>
-                <td @(canShowAttendance ? "" : "hidden")>  @Html.ActionLink("Details", "Details", new { id=item.EmployeeId , date=item.Date }) |</td>
-
-                <td @(canDeleteAttendance ? "" : "hidden")> @Html.ActionLink("Delete", "Delete", new {  id=item.EmployeeId , date=item.Date })</td>
+            <td @(canUpdateAttendance) >
+                @Html.ActionLink("Edit", "Edit", new { id=item.EmployeeId , date=item.Date })
+            </td>
+            <td @(canShowAttendance)>
+                @Html.ActionLink("Details", "Details", new { id=item.EmployeeId , date=item.Date })
+            </td>
+            <td @(canDeleteAttendance) >
+                @Html.ActionLink("Delete", "Delete", new { id=item.EmployeeId , date=item.Date })
+            </td>
             
         </tr>
 }

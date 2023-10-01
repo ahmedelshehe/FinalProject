@@ -25,7 +25,6 @@ namespace FinalProject.Controllers
             employeeRepository = _employeeRepository;
             appRoleRepository = roleRepository;
             this.roleManager = roleManager;
-
         }
 
         // GET: AppUserController
