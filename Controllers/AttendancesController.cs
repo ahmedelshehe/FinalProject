@@ -16,6 +16,7 @@ using System.Net.Mime;
 using Microsoft.AspNetCore.StaticFiles;
 using FinalProject.Helper;
 using FinalProject.ViewModels;
+using FinalProject.Utilities;
 
 namespace FinalProject.Controllers
 {
@@ -189,9 +190,7 @@ namespace FinalProject.Controllers
         }
 
         // GET: Attendances/Delete/5
-        public async Task<IActionResult> Delete(int id, DateTime date)
-
-
+        
         [AuthorizeByPermission("Attendance", Operation.Delete)]
 
         public async Task<IActionResult> Delete(int id,DateTime date)
