@@ -134,7 +134,7 @@ namespace FinalProject.Controllers
             vacation.Status = VacationStatus.Approved;
             VacationRepository.UpdateVacation(id, vacation, date);
 
-            employee.AvailableVacations--;
+            employee.AvailableVacations  -= vacation.VacationDays;
             EmployeeRepository.UpdateEmployee(id, employee);
 
             return RedirectToAction(nameof(Index));

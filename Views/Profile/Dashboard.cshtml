@@ -1,0 +1,208 @@
+﻿@model EmployeeDashboardVM
+<div class="content container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="welcome-box">
+				<div class="welcome-img">
+					<img alt="" src="assets\img\profiles\avatar-02.jpg">
+				</div>
+				<div class="welcome-det">
+					<h3>Welcome, @Model.Employee.FirstName @Model.Employee.LastName</h3>
+					<p>@DateTime.Now.ToString("dd MMMM yyyy")</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-8 col-md-8">
+			<section class="dash-section">
+				<h1 class="dash-sec-title">Today</h1>
+				<div class="dash-sec-content">
+
+					<div class="dash-info-list">
+						<a href="#" class="dash-card">
+							<div class="dash-card-container">
+								<div class="dash-card-icon">
+									<i class="fa fa-building-o"></i>
+								</div>
+								<div class="dash-card-content">
+									@if (DateTime.Today.DayOfWeek == DayOfWeek.Friday || DateTime.Today.DayOfWeek == DayOfWeek.Saturday)
+									{
+										<p>Today is @DateTime.Today.DayOfWeek</p>
+									}
+									else if(!Model.IsTodayWork)
+									{
+										<p>Today is Your Vacation</p>
+									}
+									else
+									{
+										<p>Today is A Normal Work Day</p>
+									}
+									
+								</div>
+							</div>
+						</a>
+					</div>
+
+				</div>
+			</section>
+			<section class="dash-section">
+				<h1 class="dash-sec-title">Tommorow</h1>
+				<div class="dash-sec-content">
+
+					<div class="dash-info-list">
+						<a href="#" class="dash-card">
+							<div class="dash-card-container">
+								<div class="dash-card-icon">
+									<i class="fa fa-building-o"></i>
+								</div>
+								<div class="dash-card-content">
+									@if (DateTime.Today.AddDays(1).DayOfWeek == DayOfWeek.Friday ||
+											DateTime.Today.AddDays(1).DayOfWeek == DayOfWeek.Saturday)
+									{
+										<p>Tommorow is @DateTime.Today.AddDays(1).DayOfWeek</p>
+									}
+									else if (!Model.IsTommorowWork)
+									{
+										<p>Tommorow is Your Vacation</p>
+									}
+									else
+									{
+										<p>Tommorow is A Normal Work Day</p>
+									}
+
+								</div>
+							</div>
+						</a>
+					</div>
+
+				</div>
+			</section>
+			<section class="dash-section">
+				<h1 class="dash-sec-title">Yesterday</h1>
+				<div class="dash-sec-content">
+
+					<div class="dash-info-list">
+						<a href="#" class="dash-card">
+							<div class="dash-card-container">
+								<div class="dash-card-icon">
+									<i class="fa fa-building-o"></i>
+								</div>
+								<div class="dash-card-content">
+									@if (DateTime.Today.AddDays(-1).DayOfWeek == DayOfWeek.Friday ||
+											DateTime.Today.AddDays(-1).DayOfWeek == DayOfWeek.Saturday)
+									{
+										<p>Yesterday was @DateTime.Today.AddDays(-1).DayOfWeek</p>
+									}
+									else if (!Model.IsYesterdayWork)
+									{
+										<p>Yesterday was Your Vacation</p>
+									}
+									else
+									{
+										<p>Yesterday was A Normal Work Day</p>
+									}
+
+								</div>
+							</div>
+						</a>
+					</div>
+
+				</div>
+			</section>
+			<section class="dash-section">
+                <div class="card">
+                    <h4 class="card-header">Vacations</h4>
+                    <h4 class="card-header " >Available Vacations Days @Model.Employee.AvailableVacations</h4>
+					<h4 class="text-center mt-3">
+						Your Vacations Requests
+					</h4>
+                    <div class="card-body">
+						@Html.Partial("_VacationsTable",Model.Vacations)
+                    </div>
+                </div>
+
+			</section>
+			<section class="dash-section">
+				<div class="card">
+					<h4 class="card-header">Request Vacation</h4>
+					<div class="card-body">
+						@Html.Partial("_RequstVacationForm",new Vacation(){EmployeeId = Model.Employee.Id , Description = "Quick Request"})
+					</div>
+				</div>
+
+			</section>
+
+
+		</div>
+
+		<div class="col-lg-4 col-md-4">
+			<div class="dash-sidebar">
+				<section>
+					<h5 class="dash-title">Attendance Summanry</h5>
+					<div class="card">
+						<h5 class="card-header">This Month</h5>
+						<h5 class="card-header">@DateTime.Now.ToString("MMMM")</h5>
+						<div class="card-body">
+							<div class="time-list">
+								<div class="dash-stats-list">
+									<h4>@Model.ThisMonthWorkDays</h4>
+									<p>@DateTime.Now.ToString("MMM") Work Days</p>
+								</div>
+								<div class="dash-stats-list">
+									<h4>@Model.ThisMonthAttendanceCount / @Model.ThisMonthWorkDaysUntilToday</h4>
+									<p>@DateTime.Now.ToString("MMM") Attendance</p>
+								</div>
+							</div>
+							<hr />
+							<div class="time-list">
+								<div class="dash-stats-list">
+									<h4>@Model.ThisMonthExtraHours</h4>
+									<p>Extra Hours</p>
+								</div>
+								<div class="dash-stats-list">
+									<h4>@Model.ThisMonthDiscountHours</h4>
+									<p>Discount Hours</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="card">
+						<h5 class="card-header">Last Month </h5>
+						<h5 class="card-header">@DateTime.Now.AddMonths(-1).ToString("MMMM")</h5>
+						<div class="card-body">
+							<div class="time-list">
+								<div class="dash-stats-list">
+									<h4>@Model.LastMonthWorkDays</h4>
+									<p> Work Days</p>
+								</div>
+								<div class="dash-stats-list">
+									<h4>@Model.LastMonthAttendanceCount / @Model.LastMonthWorkDays</h4>
+									<p>Attendance</p>
+								</div>
+							</div>
+							<hr />
+							<div class="time-list">
+								<div class="dash-stats-list">
+									<h4>@Model.LastMonthExtraHours</h4>
+									<p>Extra Hours</p>
+								</div>
+								<div class="dash-stats-list">
+									<h4>@Model.LastMonthDiscountHours</h4>
+									<p>Discount Hours</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					@Html.Partial("_AttendanceChart",Model)
+				</section>
+			</div>
+		</div>
+
+
+	</div>
+
+</div>
+

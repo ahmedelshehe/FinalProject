@@ -51,5 +51,12 @@ namespace FinalProject.RepoServices
 				context.SaveChanges();
 			}
 		}
+
+		public bool IsVacation(int id, DateTime date)
+		{
+			var vacations = context.Vacations.Include(v => v.Employee).Where(v => v.EmployeeId == id && v.Status == VacationStatus.Approved).ToList();
+			return !vacations.Any(v => v.StartDate?.Date <= date.Date && date.Date <= v.EndDate?.Date);
+		}
+
 	}
 }
