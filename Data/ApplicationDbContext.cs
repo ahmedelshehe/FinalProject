@@ -66,7 +66,7 @@ namespace FinalProject.Data
                 entity.Property(e => e.DepartureTime);
                 entity.Property(e => e.DeptName);
                 entity.Property(e => e.EmployeeId);
-                entity.Property(e => e.FulllName);
+                //entity.Property(e => e.FulllName);
                 entity.Property(e => e.LastName);
                 entity.Property(e => e.ArrivalTime);
                 entity.Property(e => e.Date);

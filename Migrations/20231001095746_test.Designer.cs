@@ -4,6 +4,7 @@ using FinalProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231001095746_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -211,7 +213,6 @@ namespace FinalProject.Migrations
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
                             ConcurrencyStamp = "1d2c5f89-22d8-48ed-b92e-c0b9b963bf40",
-
                             Name = "Adminstrator"
                         });
                 });
@@ -455,7 +456,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 423773.0,
                             Street = "Lowe Vista"
-
                         },
                         new
                         {
@@ -474,7 +474,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 99304.0,
                             Street = "Kaylie Shoals"
-
                         },
                         new
                         {
@@ -493,7 +492,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 46123.0,
                             Street = "Bartoletti Walk"
-
                         },
                         new
                         {
@@ -512,7 +510,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 287485.0,
                             Street = "Maymie Wells"
-
                         },
                         new
                         {
@@ -531,7 +528,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 326975.0,
                             Street = "Brandt Canyon"
-
                         },
                         new
                         {
@@ -550,7 +546,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 115742.0,
                             Street = "Treutel Rapids"
-
                         },
                         new
                         {
@@ -569,7 +564,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 217397.0,
                             Street = "Huel Brook"
-
                         },
                         new
                         {
@@ -588,7 +582,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 46139.0,
                             Street = "Tabitha Walk"
-
                         },
                         new
                         {
@@ -607,7 +600,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 99254.0,
                             Street = "Johnson Coves"
-
                         },
                         new
                         {
@@ -626,7 +618,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 484758.0,
                             Street = "Hauck Hill"
-
                         },
                         new
                         {
@@ -645,7 +636,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 131701.0,
                             Street = "Waelchi Spurs"
-
                         },
                         new
                         {
@@ -664,7 +654,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 169273.0,
                             Street = "Glover Haven"
-
                         },
                         new
                         {
@@ -683,7 +672,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 107465.0,
                             Street = "Wilkinson Summit"
-
                         },
                         new
                         {
@@ -702,7 +690,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 457255.0,
                             Street = "Ole Groves"
-
                         },
                         new
                         {
@@ -721,7 +708,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 239848.0,
                             Street = "Terrance Tunnel"
-
                         },
                         new
                         {
@@ -740,7 +726,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 17530.0,
                             Street = "Baumbach Stream"
-
                         },
                         new
                         {
@@ -777,7 +762,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 444258.0,
                             Street = "Davin Parks"
-
                         },
                         new
                         {
@@ -796,7 +780,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 369096.0,
                             Street = "Marlon Shoal"
-
                         },
                         new
                         {
@@ -815,7 +798,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 197549.0,
                             Street = "Marta Path"
-
                         },
                         new
                         {
@@ -834,14 +816,12 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 485084.0,
                             Street = "Nitzsche Estate"
-
                         },
                         new
                         {
                             Id = -22,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-
                             City = "Dietrichland",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Country = "Antigua and Barbuda",
@@ -872,7 +852,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 469494.0,
                             Street = "Jaiden Cove"
-
                         },
                         new
                         {
@@ -891,7 +870,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 177296.0,
                             Street = "Arjun Corners"
-
                         },
                         new
                         {
@@ -910,7 +888,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 86250.0,
                             Street = "Lindgren Run"
-
                         },
                         new
                         {
@@ -929,7 +906,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 139954.0,
                             Street = "Barrows Light"
-
                         },
                         new
                         {
@@ -948,7 +924,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 174335.0,
                             Street = "Clifford Plains"
-
                         },
                         new
                         {
@@ -967,7 +942,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 83793.0,
                             Street = "Flavio Overpass"
-
                         },
                         new
                         {
@@ -986,7 +960,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 25825.0,
                             Street = "Nathaniel Greens"
-
                         },
                         new
                         {
@@ -1005,7 +978,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 271743.0,
                             Street = "Smith Greens"
-
                         },
                         new
                         {
@@ -1024,7 +996,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 122221.0,
                             Street = "Manuela Mills"
-
                         },
                         new
                         {
@@ -1043,7 +1014,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 317933.0,
                             Street = "Carter Knoll"
-
                         },
                         new
                         {
@@ -1062,7 +1032,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 352994.0,
                             Street = "Fadel Mountain"
-
                         },
                         new
                         {
@@ -1081,7 +1050,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 134076.0,
                             Street = "Parisian Union"
-
                         },
                         new
                         {
@@ -1100,14 +1068,12 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 221608.0,
                             Street = "Langosh Isle"
-
                         },
                         new
                         {
                             Id = -36,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-
                             City = "West Carolyn",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Country = "Micronesia",
@@ -1120,14 +1086,12 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 254368.0,
                             Street = "Graham Manors"
-
                         },
                         new
                         {
                             Id = -37,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-
                             City = "Ryanchester",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Country = "Ethiopia",
@@ -1140,7 +1104,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 435842.0,
                             Street = "Hilpert Walks"
-
                         },
                         new
                         {
@@ -1159,7 +1122,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 461081.0,
                             Street = "Ila Circle"
-
                         },
                         new
                         {
@@ -1178,7 +1140,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 256353.0,
                             Street = "O'Kon Ridge"
-
                         },
                         new
                         {
@@ -1197,7 +1158,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 89327.0,
                             Street = "Polly Parkway"
-
                         },
                         new
                         {
@@ -1216,7 +1176,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 298643.0,
                             Street = "Jordan Row"
-
                         },
                         new
                         {
@@ -1235,7 +1194,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 50219.0,
                             Street = "Zander Orchard"
-
                         },
                         new
                         {
@@ -1254,7 +1212,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 338685.0,
                             Street = "Robel Wells"
-
                         },
                         new
                         {
@@ -1273,7 +1230,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 377417.0,
                             Street = "Garrison Plain"
-
                         },
                         new
                         {
@@ -1292,7 +1248,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 425272.0,
                             Street = "Murphy Courts"
-
                         },
                         new
                         {
@@ -1311,7 +1266,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 358245.0,
                             Street = "Rosendo Valley"
-
                         },
                         new
                         {
@@ -1330,7 +1284,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 398942.0,
                             Street = "Strosin Heights"
-
                         },
                         new
                         {
@@ -1349,7 +1302,6 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 44319.0,
                             Street = "Funk Dale"
-
                         },
                         new
                         {
@@ -1368,33 +1320,7 @@ namespace FinalProject.Migrations
                             Password = "12345678",
                             Salary = 208668.0,
                             Street = "Janelle Plains"
-
                         });
-                });
-
-            modelBuilder.Entity("FinalProject.Models.GeneralSetting", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("DiscountHourPrice")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ExtraHourPrice")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PriceForDayOvernumberofvacationInyear")
-                        .HasColumnType("int");
-
-                    b.Property<int>("numberofvacationInyear")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GeneralSetting", "dbo");
                 });
 
             modelBuilder.Entity("FinalProject.Models.OfficialVacation", b =>
@@ -1637,6 +1563,9 @@ namespace FinalProject.Migrations
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Approved")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -1644,9 +1573,6 @@ namespace FinalProject.Migrations
                     b.Property<DateTime?>("EndDate")
                         .IsRequired()
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
 
                     b.Property<int>("VacationType")
                         .HasColumnType("int");
@@ -1691,27 +1617,6 @@ namespace FinalProject.Migrations
                         .HasColumnType("nvarchar(10)");
 
                     b.ToTable("EmployeeAttendanceReport", "dbo");
-                                    });
-
-
-            modelBuilder.Entity("FinalProject.ViewModels.SettingViewModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
-
-                    b.Property<int>("Discount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Extra")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.ToTable("SettingViewModel", "dbo");
-
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
