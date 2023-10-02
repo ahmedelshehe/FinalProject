@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FinalProject.Migrations
 {
-    public partial class @new : Migration
+    public partial class ahmedaymanwahebbs : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -24,6 +24,24 @@ namespace FinalProject.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Departments", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmployeeAttendanceReport",
+                schema: "dbo",
+                columns: table => new
+                {
+                    ArrivalTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DepartureTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    FulllName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    DeptName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
                 });
 
             migrationBuilder.CreateTable(
@@ -114,7 +132,10 @@ namespace FinalProject.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EmployeeId = table.Column<int>(type: "int", nullable: false),
                     ArrivalTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DepartureTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DepartureTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ExtraHours = table.Column<int>(type: "int", nullable: false, computedColumnSql: "CASE WHEN DATEDIFF(HOUR, ArrivalTime, DepartureTime) > 8  THEN DATEDIFF(HOUR, ArrivalTime, DepartureTime) - 8 ELSE 0 END"),
+                    DiscountHours = table.Column<int>(type: "int", nullable: false, computedColumnSql: "CASE WHEN DATEDIFF(HOUR, ArrivalTime, DepartureTime) < 8 AND DATEDIFF(HOUR, ArrivalTime, DepartureTime) > 3 THEN 8 - DATEDIFF(HOUR, ArrivalTime, DepartureTime) ELSE 0 END"),
+                    IsAbsent = table.Column<bool>(type: "bit", nullable: false, computedColumnSql: "CONVERT(bit, CASE WHEN DATEDIFF(HOUR, ArrivalTime, DepartureTime) <= 3 THEN 1 ELSE 0 END)")
                 },
                 constraints: table =>
                 {
@@ -359,6 +380,18 @@ namespace FinalProject.Migrations
 
             migrationBuilder.InsertData(
                 schema: "dbo",
+                table: "Departments",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { -4, "Department 4" },
+                    { -3, "Department 3" },
+                    { -2, "Department 2" },
+                    { -1, "Department 1" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "dbo",
                 table: "Permissions",
                 columns: new[] { "Id", "Name", "Operation" },
                 values: new object[,]
@@ -391,6 +424,113 @@ namespace FinalProject.Migrations
                     { -3, "Employee", 3 },
                     { -2, "Employee", 2 },
                     { -1, "Employee", 1 }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "dbo",
+                table: "Role",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "2c5e174e-3b0e-446f-86af-483d56fd7210", "a2aab11f-5224-4fb1-aa84-5261f04911c1", "Adminstrator", null });
+
+            migrationBuilder.InsertData(
+                schema: "dbo",
+                table: "AppRolePermission",
+                columns: new[] { "AppRolesId", "PermissionsId" },
+                values: new object[,]
+                {
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -28 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -27 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -26 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -25 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -24 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -23 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -22 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -21 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -20 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -19 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -18 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -17 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -16 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -15 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -14 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -13 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -12 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -11 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -10 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -9 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -8 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -7 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -6 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -5 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -4 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -3 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -2 },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", -1 }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "dbo",
+                table: "Employees",
+                columns: new[] { "Id", "AvailableVacations", "BirthDate", "City", "ContractDate", "Country", "DeptID", "Email", "FirstName", "Gender", "LastName", "NationalId", "Password", "Salary", "Street", "UserId" },
+                values: new object[,]
+                {
+                    { -49, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "New Aimee", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Palau", -3, "employee-49@example.com", "Victor", 1, "Alverta", "12345678901234", "12345678", 418871.0, "Lelia Turnpike", null },
+                    { -48, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lake Rhiannafurt", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Colombia", -3, "employee-48@example.com", "Lindsay", 0, "Roscoe", "12345678901234", "12345678", 197639.0, "Afton Route", null },
+                    { -47, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Marvintown", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Eritrea", -4, "employee-47@example.com", "Lucas", 1, "Providenci", "12345678901234", "12345678", 414770.0, "Preston Knoll", null },
+                    { -46, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Port Sagefort", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Brazil", -1, "employee-46@example.com", "Heidi", 0, "Henriette", "12345678901234", "12345678", 464590.0, "America Court", null },
+                    { -45, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "New Mallie", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ukraine", -1, "employee-45@example.com", "Columbus", 0, "Stephan", "12345678901234", "12345678", 167773.0, "Toy Roads", null },
+                    { -44, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Schaeferside", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Armenia", -2, "employee-44@example.com", "Dewayne", 1, "Anissa", "12345678901234", "12345678", 177981.0, "Carlie Brook", null },
+                    { -43, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ignatiusmouth", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Kenya", -3, "employee-43@example.com", "Garrison", 0, "Yesenia", "12345678901234", "12345678", 160974.0, "McGlynn Mountains", null },
+                    { -42, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sidneyberg", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Korea", -1, "employee-42@example.com", "Christian", 0, "Macy", "12345678901234", "12345678", 376095.0, "Justus Junction", null },
+                    { -41, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lancetown", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Cayman Islands", -3, "employee-41@example.com", "Geo", 1, "Elliott", "12345678901234", "12345678", 410813.0, "Metz Plaza", null },
+                    { -40, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "West Joseph", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ukraine", -3, "employee-40@example.com", "Benjamin", 1, "Willard", "12345678901234", "12345678", 287234.0, "Runte Cliffs", null },
+                    { -39, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "New Tyreekview", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Equatorial Guinea", -2, "employee-39@example.com", "Myrtice", 1, "Providenci", "12345678901234", "12345678", 443063.0, "Tony Crescent", null },
+                    { -38, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lake Watsonstad", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Saint Martin", -3, "employee-38@example.com", "Jordane", 0, "Mike", "12345678901234", "12345678", 185877.0, "Harvey Greens", null },
+                    { -37, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lake Dejonfort", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Heard Island and McDonald Islands", -3, "employee-37@example.com", "Zachary", 1, "Aurelio", "12345678901234", "12345678", 475413.0, "Dooley Run", null },
+                    { -36, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lake Blaze", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Belgium", -4, "employee-36@example.com", "Norberto", 0, "Skylar", "12345678901234", "12345678", 380399.0, "June Pike", null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "dbo",
+                table: "Employees",
+                columns: new[] { "Id", "AvailableVacations", "BirthDate", "City", "ContractDate", "Country", "DeptID", "Email", "FirstName", "Gender", "LastName", "NationalId", "Password", "Salary", "Street", "UserId" },
+                values: new object[,]
+                {
+                    { -35, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "East Magdalenborough", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Denmark", -2, "employee-35@example.com", "Daniela", 1, "Eduardo", "12345678901234", "12345678", 214553.0, "Daniel Trace", null },
+                    { -34, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lake Doyle", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Egypt", -1, "employee-34@example.com", "Ayana", 0, "Rebeca", "12345678901234", "12345678", 232230.0, "Predovic Harbor", null },
+                    { -33, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lake Joseph", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "San Marino", -3, "employee-33@example.com", "Alanis", 1, "Rosendo", "12345678901234", "12345678", 10654.0, "Kirlin Roads", null },
+                    { -32, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lake Camryn", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Andorra", -3, "employee-32@example.com", "Noah", 0, "Gladyce", "12345678901234", "12345678", 381544.0, "Kub Summit", null },
+                    { -31, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "West Donnaberg", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Panama", -2, "employee-31@example.com", "Alana", 1, "Lambert", "12345678901234", "12345678", 351334.0, "Jailyn Track", null },
+                    { -30, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Reinholdview", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Vanuatu", -2, "employee-30@example.com", "Jamal", 1, "Sage", "12345678901234", "12345678", 401787.0, "Nichole Road", null },
+                    { -29, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Torpfurt", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Holy See (Vatican City State)", -4, "employee-29@example.com", "Alda", 0, "Dock", "12345678901234", "12345678", 187388.0, "Owen Island", null },
+                    { -28, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lake Destineyfort", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Tuvalu", -4, "employee-28@example.com", "April", 1, "Savanna", "12345678901234", "12345678", 484628.0, "Kianna Streets", null },
+                    { -27, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Port Dorthaton", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Maldives", -3, "employee-27@example.com", "Emelie", 0, "Adelbert", "12345678901234", "12345678", 191181.0, "Kale Common", null },
+                    { -26, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "West Christina", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Martinique", -1, "employee-26@example.com", "Paris", 0, "Beulah", "12345678901234", "12345678", 44198.0, "Gislason Squares", null },
+                    { -25, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Gloriastad", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Holy See (Vatican City State)", -2, "employee-25@example.com", "Ilene", 1, "Jazmyne", "12345678901234", "12345678", 170614.0, "Mueller Forest", null },
+                    { -24, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Kelsistad", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Niue", -4, "employee-24@example.com", "Wiley", 0, "Coby", "12345678901234", "12345678", 34304.0, "Elmira Brook", null },
+                    { -23, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "New Jerodchester", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "South Africa", -2, "employee-23@example.com", "Alexander", 0, "Randal", "12345678901234", "12345678", 291060.0, "Krajcik ", null },
+                    { -22, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "South Jackiebury", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Burundi", -4, "employee-22@example.com", "Sigmund", 1, "Afton", "12345678901234", "12345678", 60103.0, "Ankunding Mission", null },
+                    { -21, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "New Janetchester", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lao People's Democratic Republic", -2, "employee-21@example.com", "Felipe", 0, "Lauren", "12345678901234", "12345678", 163419.0, "Magdalen Prairie", null },
+                    { -20, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "East Clarabellechester", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Norway", -2, "employee-20@example.com", "Justina", 0, "Celestine", "12345678901234", "12345678", 377907.0, "Jovany Islands", null },
+                    { -19, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Shirleyberg", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Saint Barthelemy", -4, "employee-19@example.com", "Amiya", 0, "Anabel", "12345678901234", "12345678", 155234.0, "Marvin Dam", null },
+                    { -18, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ryanchester", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Puerto Rico", -4, "employee-18@example.com", "Raphael", 1, "Dax", "12345678901234", "12345678", 12581.0, "Helga Hollow", null },
+                    { -17, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "West Charitystad", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Kyrgyz Republic", -4, "employee-17@example.com", "Eula", 0, "Myriam", "12345678901234", "12345678", 128081.0, "Dare Loop", null },
+                    { -16, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Port Josiahchester", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Martinique", -2, "employee-16@example.com", "Forest", 0, "Jasper", "12345678901234", "12345678", 43137.0, "Richie Village", null },
+                    { -15, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Leifland", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Central African Republic", -3, "employee-15@example.com", "Aron", 1, "Eleanora", "12345678901234", "12345678", 491870.0, "Kamryn Heights", null },
+                    { -14, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "East Blaise", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Micronesia", -1, "employee-14@example.com", "Orion", 1, "Flo", "12345678901234", "12345678", 52322.0, "Davis Heights", null },
+                    { -13, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "West Winston", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Jordan", -2, "employee-13@example.com", "Baby", 1, "Olaf", "12345678901234", "12345678", 323769.0, "Hegmann Flat", null },
+                    { -12, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Cruickshankborough", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "French Southern Territories", -2, "employee-12@example.com", "Meghan", 0, "Corbin", "12345678901234", "12345678", 359138.0, "Arianna Manors", null },
+                    { -11, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lorenzashire", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Bhutan", -1, "employee-11@example.com", "Lorenza", 0, "Lindsay", "12345678901234", "12345678", 445898.0, "Magdalen Meadows", null },
+                    { -10, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "West Margeview", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Cambodia", -2, "employee-10@example.com", "Stephan", 0, "Daryl", "12345678901234", "12345678", 9339.0, "Heathcote Valley", null },
+                    { -9, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Trentonside", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Slovakia (Slovak Republic)", -2, "employee-9@example.com", "Karianne", 0, "Jordy", "12345678901234", "12345678", 245042.0, "Amparo Brooks", null },
+                    { -8, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Eichmannmouth", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Gambia", -4, "employee-8@example.com", "Constance", 0, "Delia", "12345678901234", "12345678", 345641.0, "Parisian Station", null },
+                    { -7, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Brownview", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Nigeria", -3, "employee-7@example.com", "Derek", 0, "Alba", "12345678901234", "12345678", 347426.0, "Jane Courts", null },
+                    { -6, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Collinsmouth", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "French Guiana", -3, "employee-6@example.com", "Mohammed", 0, "Eugenia", "12345678901234", "12345678", 107071.0, "Gislason Divide", null },
+                    { -5, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Cassinberg", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Djibouti", -3, "employee-5@example.com", "Eliezer", 0, "Mazie", "12345678901234", "12345678", 129952.0, "Ceasar Garden", null },
+                    { -4, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Andrewville", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Cameroon", -2, "employee-4@example.com", "Jody", 1, "Adela", "12345678901234", "12345678", 342815.0, "Muhammad Cliff", null },
+                    { -3, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Aracelystad", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Cook Islands", -4, "employee-3@example.com", "Muriel", 0, "Marcella", "12345678901234", "12345678", 55486.0, "Charlotte Loop", null },
+                    { -2, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Carolynhaven", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Poland", -4, "employee-2@example.com", "Chelsey", 0, "Ollie", "12345678901234", "12345678", 173196.0, "Adriana Prairie", null },
+                    { -1, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Myaview", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Netherlands Antilles", -4, "employee-1@example.com", "Celestino", 0, "Maximilian", "12345678901234", "12345678", 313802.0, "Ottilie Mall", null }
                 });
 
             migrationBuilder.CreateIndex(
@@ -531,6 +671,10 @@ namespace FinalProject.Migrations
 
             migrationBuilder.DropTable(
                 name: "Attendances",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "EmployeeAttendanceReport",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
