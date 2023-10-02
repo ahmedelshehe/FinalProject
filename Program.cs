@@ -5,7 +5,6 @@ using FinalProject.Models;
 using FinalProject.RepoServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
 namespace FinalProject
 {
     public class Program
@@ -28,12 +27,14 @@ namespace FinalProject
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepoService>();
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepoService>();
             builder.Services.AddScoped<IPermissionRepository, PermissionRepoService>();
-
-          builder.Services.AddScoped<IAttendanceRepositoryService, AttendanceRepositoryService>();
+			builder.Services.AddScoped<IVacationRepository, VacationRepoService>();
+			builder.Services.AddScoped<IAttendanceRepositoryService, AttendanceRepositoryService>();
             builder.Services.AddScoped<IAppRoleRepository, AppRoleRepoService>();
             builder.Services.AddScoped<IOfficialVacationRepository, OfficialVacationRepoService>();
             builder.Services.AddScoped<IUserRepository, AppUserRepository>();
-            builder.Services.AddScoped<IVacationRepository, VacationRepoService>();
+            builder.Services.AddScoped<ISalaryService, SalaryService>();
+            builder.Services.AddScoped<IGeneralSettingRepository, GeneralSetiingRepository>();
+
 
 
             builder.Services.AddRazorPages();
@@ -49,12 +50,13 @@ namespace FinalProject
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            using (var scope = app.Services.CreateScope())
+            /*using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<ApplicationDbContext>();
                 await AdminSeeder.InitializeAdminUser(context);
-            }
+            }*/
+
 
 
             app.UseHttpsRedirection();
@@ -68,8 +70,8 @@ namespace FinalProject
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-
-            app.Run();
+			var env = app.Environment;
+			app.Run();
         }
     }
 }

@@ -79,6 +79,8 @@
 
                                 <td><input type="checkbox" name="@permissionName+Add" value="@AddPermission.Id" class="form-check-input" @(disabledToggle)></td>
                             }
+                        }else{
+                            <td></td>
                         }
                     }
                     @{
@@ -94,6 +96,10 @@
                                 <td><input type="checkbox" name="@permissionName+Show" value="@ShowPermission.Id" class="form-check-input" @(disabledToggle)></td>
                             }
                         }
+                        else
+                        {
+                            <td></td>
+                        }
                     }
                     @{
                         var UpdatePermission = permissions.FirstOrDefault(p => p.Name == permissionName && p.Operation == Operation.Update);
@@ -108,6 +114,10 @@
                                 <td><input type="checkbox" name="@permissionName+Update" value="@UpdatePermission.Id" class="form-check-input" @(disabledToggle)></td>
                             }
                         }
+                        else
+                        {
+                            <td></td>
+                        }
                     }
                     @{
                         var DeletePermission = permissions.FirstOrDefault(p => p.Name == permissionName && p.Operation == Operation.Delete);
@@ -121,6 +131,10 @@
                             {
                                 <td><input type="checkbox" name="@permissionName+Delete" value="@DeletePermission.Id" class="form-check-input" @(disabledToggle)></td>
                             }
+                        }
+                        else
+                        {
+                            <td></td>
                         }
                     }
                 </tr>

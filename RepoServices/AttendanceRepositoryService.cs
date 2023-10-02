@@ -18,6 +18,7 @@ using FinalProject.ViewModels;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Net.Http.Headers;
 using ExcelDataReader.Log.Logger;
+using System.Collections.Generic;
 
 namespace FinalProject.RepoServices
 {
@@ -94,7 +95,7 @@ namespace FinalProject.RepoServices
         //}
 
 
-        public async Task<List<EmployeeAttendanceVM>> GetEmployeeAttendancesByDeptName(string Deptname)
+        public  List<EmployeeAttendanceVM> GetEmployeeAttendancesByDeptName(string Deptname)
         {
             if (Deptname != null)
             {
@@ -113,19 +114,25 @@ namespace FinalProject.RepoServices
             }
             return null;
         }
-
-        public async Task<List<EmployeeAttendanceVM>> GetEmployeeAttendancesByName(string name)
+        public List<EmployeeAttendanceVM> GetEmployeeAttendancesByName(string name = "")
         {
-            if (name != null)
+            //if (name != null)
+            //{
+            string fname = "";
+            string lname = "";
+
+            if (GetAttendances() != null)
             {
-                if (GetAttendances() != null)
+                if (name == null || name == "")
                 {
 
 
-
+                }
+                else
+                {
                     var words = name.Split(' ');
-                    string fname = words[0];
-                    string lname = "";
+                    fname = words[0];
+                    lname = "";
 
                     if (words.Length > 0)
                     {
@@ -135,26 +142,157 @@ namespace FinalProject.RepoServices
                             fname = words[0];
 
                         }
-                        else if (words.Length >= 2)
+                        else if (words.Length == 2)
                         {
-                            var start = name.IndexOf(" ");
-                            lname = name.Substring(start, name.Length);
+                            lname = words[1];
+                            //var start = name.IndexOf(" ");
+                            //lname = name.Substring(start+1, name.Length-1);
 
                         }
                     }
+                }
+
+
+
+
+                var parameter = new List<SqlParameter>();
+                parameter.Add(new SqlParameter("@FName", fname));
+                parameter.Add(new SqlParameter("@LName", lname));
+               
+
+                try
+                {
+                    var list = context.EmployeeAttendanceReport.FromSqlRaw("EXECUTE SelectAllEmployeesByName @FName , @LName", parameter.ToArray()).ToList();
+                    // SqlParameter pContactName = new SqlParameter("@ContactName", contactName);
+                    // return this.Customers.FromSql("EXECUTE Customers_SearchCustomers @ContactName", pContactName);
+                    return list;
+
+                }
+                catch (Exception ex)
+                {
+                    return null;
+
+                    Console.WriteLine(ex.Message);
+                }
+                // var result = context.EmployeeAttendanceReport.ExecuteSqlRaw(@"exec SelectAllEmployeesByName @FName, @LName, @ProductPrice", parameter.ToArray()).ToList();
+
+
+                //  var result = context.Database.ExecuteSqlRaw(@"exec SelectAllEmployeesByName @FName, @LName, @ProductPrice", parameter.ToArray());
+
+                // }
+            }
+            return null;
+        }
+
+        public List<EmployeeAttendanceVM> GetEmployeeAttendancesByNameAndDate(DateTime startDate, DateTime endDate, string name = "")
+        {
+            //if (name != null)
+            //{
+            string fname = "";
+            string lname = "";
+
+            if (GetAttendances() != null)
+                {
+                if (name == null || name == "" )
+                {
+                   
+
+                }
+                else
+                {
+                    var words = name.Split(' ');
+                    fname = words[0];
+                    lname = "";
+
+                    if (words.Length > 0)
+                    {
+
+                        if (words.Length == 1)
+                        {
+                            fname = words[0];
+
+                        }
+                        else if (words.Length == 2)
+                        {
+                            lname = words[1];
+                            //var start = name.IndexOf(" ");
+                            //lname = name.Substring(start+1, name.Length-1);
+
+                        }
+                    }
+                }
+
+                
+                    
 
                     var parameter = new List<SqlParameter>();
                     parameter.Add(new SqlParameter("@FName", fname));
                     parameter.Add(new SqlParameter("@LName", lname));
+                    parameter.Add(new SqlParameter("@startDate", startDate));
+                    parameter.Add(new SqlParameter("@EndDate", endDate));
 
+                    try
+                    {
+                    var list = context.EmployeeAttendanceReport.FromSqlRaw("EXECUTE SelectAllEmployeesByNameAndDate @FName , @LName ,@startDate,@EndDate", parameter.ToArray()).ToList();
+                    // SqlParameter pContactName = new SqlParameter("@ContactName", contactName);
+                    // return this.Customers.FromSql("EXECUTE Customers_SearchCustomers @ContactName", pContactName);
+                    return list;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        return null;
+
+                        Console.WriteLine(ex.Message);
+                    }
                     // var result = context.EmployeeAttendanceReport.ExecuteSqlRaw(@"exec SelectAllEmployeesByName @FName, @LName, @ProductPrice", parameter.ToArray()).ToList();
-                    var list = context.EmployeeAttendanceReport.FromSqlRaw("exec SelectAllEmployeesByName b {0} {1}", parameter.ToArray()).ToList();
 
 
                     //  var result = context.Database.ExecuteSqlRaw(@"exec SelectAllEmployeesByName @FName, @LName, @ProductPrice", parameter.ToArray());
 
+               // }
+            }
+            return null;
+        }
+        public List<EmployeeAttendanceVM> GetEmployeeAttendancesByDeptNameAndDate(DateTime startDate, DateTime endDate, string name = "")
+        {
+            //if (name != null)
+            //{
+            string fname = "";
+            string lname = "";
+
+            if (GetAttendances() != null)
+                {
+                
+
+                
+                    
+
+                    var parameter = new List<SqlParameter>();
+                    parameter.Add(new SqlParameter("@DeptName", fname));
+                    parameter.Add(new SqlParameter("@startDate", startDate));
+                    parameter.Add(new SqlParameter("@EndDate", endDate));
+
+                    try
+                    {
+                    var list = context.EmployeeAttendanceReport.FromSqlRaw("EXECUTE SelectAllEmployeesByDeptNameAndDate @DeptName ,@startDate,@EndDate", parameter.ToArray()).ToList();
+                    // SqlParameter pContactName = new SqlParameter("@ContactName", contactName);
+                    // return this.Customers.FromSql("EXECUTE Customers_SearchCustomers @ContactName", pContactName);
                     return list;
-                }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        return null;
+
+                        Console.WriteLine(ex.Message);
+                    }
+                    // var result = context.EmployeeAttendanceReport.ExecuteSqlRaw(@"exec SelectAllEmployeesByName @FName, @LName, @ProductPrice", parameter.ToArray()).ToList();
+
+
+                    //  var result = context.Database.ExecuteSqlRaw(@"exec SelectAllEmployeesByName @FName, @LName, @ProductPrice", parameter.ToArray());
+
+               // }
             }
             return null;
         }
@@ -410,7 +548,7 @@ namespace FinalProject.RepoServices
                         EmployeeId = attendance.EmployeeId,
                         status = ex.Message
 
-                    }); ;
+                    });
                     Console.WriteLine(ex.Message);
                 }
 

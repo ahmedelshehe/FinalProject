@@ -5,7 +5,7 @@ namespace FinalProject.Helper
     public static class HelperShared
     {
 
-        public static string  SaveToCsv<T>(List<T> reportData, string path)
+        public static async Task <string>  SaveToCsv<T>(List<T> reportData, string path)
         {
             var lines = new List<string>();
             IEnumerable<PropertyDescriptor> props = TypeDescriptor.GetProperties(typeof(T)).OfType<PropertyDescriptor>();
@@ -43,5 +43,65 @@ namespace FinalProject.Helper
             var file = Path.Combine(Path.Combine(currentDirectory, "attachments"), fileName);
             return new FileStream(file, FileMode.Open, FileAccess.Read);
         }
-    }
+
+        //Helper Method Gets The Number Of Work Days In a specific month
+		public static int GetWorkDays(DateTime date)
+		{
+			int days = DateTime.DaysInMonth(date.Year, date.Month);
+			int workDays = 0;
+			for (int i = 1; i <= days; i++)
+			{
+				DateTime day = new DateTime(date.Year, date.Month, i);
+				if (day.DayOfWeek != DayOfWeek.Friday && day.DayOfWeek != DayOfWeek.Saturday)
+				{
+					workDays++;
+				}
+			}
+			return workDays;
+		}
+		//Helper Method Gets The Number Of Work Days Between Two Days
+		public static int GetWorkDays(DateTime startDate, DateTime endDate)
+		{
+			int days = (int)(endDate - startDate).TotalDays + 1;
+			int workDays = 0;
+			for (int i = 0; i < days; i++)
+			{
+				DateTime day = startDate.AddDays(i);
+				if (day.DayOfWeek != DayOfWeek.Friday && day.DayOfWeek != DayOfWeek.Saturday)
+				{
+					workDays++;
+				}
+			}
+			return workDays;
+		}
+		public static int GetWorkDaysLastMonth()
+		{
+			DateTime today = DateTime.Today;
+			DateTime firstDayOfLastMonth = new DateTime(today.Year, today.Month, 1).AddMonths(-1);
+			DateTime lastDayOfLastMonth = firstDayOfLastMonth.AddMonths(1).AddDays(-1);
+			int workDays = 0;
+			for (DateTime date = firstDayOfLastMonth; date <= lastDayOfLastMonth; date = date.AddDays(1))
+			{
+				if (date.DayOfWeek != DayOfWeek.Friday && date.DayOfWeek != DayOfWeek.Saturday)
+				{
+					workDays++;
+				}
+			}
+			return workDays;
+		}
+		public static int GetWorkDaysThisMonth()
+		{
+			DateTime today = DateTime.Today;
+			DateTime firstDayOfThisMonth = new DateTime(today.Year, today.Month, 1);
+			int workDays = 0;
+			for (DateTime date = firstDayOfThisMonth; date <= today; date = date.AddDays(1))
+			{
+				if (date.DayOfWeek != DayOfWeek.Friday && date.DayOfWeek != DayOfWeek.Saturday)
+				{
+					workDays++;
+				}
+			}
+			return workDays;
+		}
+	}
 }

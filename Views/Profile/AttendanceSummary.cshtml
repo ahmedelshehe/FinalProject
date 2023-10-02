@@ -1,0 +1,66 @@
+﻿@model EmployeeDashboardVM
+@{
+	Layout = "_PrintLayout";
+}
+<div class="dash-section">
+	<section>
+		<h1 class="dash-title text-center">Attendance Summanry</h1>
+		<h3 class="dash-title text-center">@Model.Employee.FirstName @Model.Employee.LastName</h3>
+		<div class="card">
+			<h5 class="card-header">This Month</h5>
+			<h5 class="card-header">@DateTime.Now.ToString("MMMM")</h5>
+			<div class="card-body">
+				<div class="time-list">
+					<div class="dash-stats-list">
+						<h2>@Model.ThisMonthWorkDays</h2>
+						<h4>@DateTime.Now.ToString("MMM") Work Days</h4>
+					</div>
+					<div class="dash-stats-list">
+						<h2>@Model.ThisMonthAttendanceCount / @Model.ThisMonthWorkDaysUntilToday</h2>
+						<h4>@DateTime.Now.ToString("MMM") Attendance</h4>
+					</div>
+				</div>
+				<hr />
+				<div class="time-list">
+					<div class="dash-stats-list">
+						<h2>@Model.ThisMonthExtraHours</h2>
+						<h4>Extra Hours</h4>
+					</div>
+					<div class="dash-stats-list">
+						<h2>@Model.ThisMonthDiscountHours</h2>
+						<h4>Discount Hours</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card">
+			<h5 class="card-header">Last Month </h5>
+			<h5 class="card-header">@DateTime.Now.AddMonths(-1).ToString("MMMM")</h5>
+			<div class="card-body">
+				<div class="time-list">
+					<div class="dash-stats-list">
+						<h2>@Model.LastMonthWorkDays</h2>
+						<h4> Work Days</h4>
+					</div>
+					<div class="dash-stats-list">
+						<h2>@Model.LastMonthAttendanceCount / @Model.LastMonthWorkDays</h2>
+						<h4>Attendance</h4>
+					</div>
+				</div>
+				<hr />
+				<div class="time-list">
+					<div class="dash-stats-list">
+						<h2>@Model.LastMonthExtraHours</h2>
+						<h4>Extra Hours</h4>
+					</div>
+					<div class="dash-stats-list">
+						<h2>@Model.LastMonthDiscountHours</h2>
+						<h4>Discount Hours</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+			@Html.Partial("_AttendanceChart",Model)
+	</section>
+</div>

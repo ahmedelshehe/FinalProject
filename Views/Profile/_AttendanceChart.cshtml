@@ -1,0 +1,28 @@
+﻿@model EmployeeDashboardVM
+<div class="card">
+	<h5 class="card-header">
+		Work Hours / @DateTime.Now.AddMonths(-1).ToString("MMMM")
+	</h5>
+	<canvas id="myChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+	const ctx = document.getElementById('myChart');
+
+	new Chart(ctx, {
+		type: 'line',
+		data: {
+			labels: @Html.Raw(Model.ChartLabels) ,
+			datasets: [{
+				label: '# of Hours',
+				data: @Html.Raw(Model.ChartValues),
+				borderWidth: 1
+			}]
+		},
+		options: {
+
+		}
+	});
+</script>
