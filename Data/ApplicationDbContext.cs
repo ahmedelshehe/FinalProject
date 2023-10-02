@@ -103,8 +103,10 @@ namespace FinalProject.Data
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<PhoneNumber> PhoneNumbers { get; set; }
         public virtual DbSet<OfficialVacation> OfficalVacations { get; set; }
+        public virtual DbSet<GeneralSetting> GeneralSetting { get; set; }
 
         public virtual DbSet<Vacation> Vacations { get; set; }
+        public DbSet<FinalProject.ViewModels.SettingViewModel>? SettingViewModel { get; set; }
 
         public virtual DbSet<EmployeeAttendanceVM> EmployeeAttendanceReport { get; set; }
 

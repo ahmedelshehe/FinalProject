@@ -33,6 +33,9 @@ namespace FinalProject
             builder.Services.AddScoped<IAppRoleRepository, AppRoleRepoService>();
             builder.Services.AddScoped<IOfficialVacationRepository, OfficialVacationRepoService>();
             builder.Services.AddScoped<IUserRepository, AppUserRepository>();
+            builder.Services.AddScoped<ISalaryService, SalaryService>();
+            builder.Services.AddScoped<IGeneralSettingRepository, GeneralSetiingRepository>();
+
 
 
             builder.Services.AddRazorPages();
