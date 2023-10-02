@@ -8,8 +8,8 @@ namespace FinalProject.RepoServices
       
             int OverTimePricePerHour();
             int DiscountTimePricePerHour();
-        Task AddAsync(GeneralSetting generalSetting);
+            Task AddAsync(GeneralSetting generalSetting);
 
-        public void insert(GeneralSetting generalSetting);
+            public void insert(GeneralSetting generalSetting);
     }
 }

@@ -19,11 +19,12 @@ namespace FinalProject.RepoServices
             var li = db.Departments.Include(w => w.Employees).ToList();
             foreach (var ob in li)
             {
-                SalaryViewModel o = new SalaryViewModel();
-                o.DepartmentName = ob.Name;
+
                 foreach (var emp in ob.Employees)
                 {
-                    o.EmployeeName = emp.FirstName + ' ' + emp.LastName;
+					SalaryViewModel o = new SalaryViewModel();
+					o.DepartmentName = ob.Name;
+					o.EmployeeName = emp.FirstName + ' ' + emp.LastName;
                     var Attandance = db.Attendances.Where(w => w.EmployeeId == emp.Id).ToList();
                     if (currentyear != null)
                     {
