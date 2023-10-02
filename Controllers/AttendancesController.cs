@@ -45,25 +45,61 @@ namespace FinalProject.Controllers
             return View(attendances);
 
         }
+        public async Task<IActionResult> SearchIndex()
+        {
+            
 
-        public async Task<IActionResult> SearchIndex(string name)
+            return View(attendanceRepository.GetEmployeeAttendancesByName(""));
+        }
+            [HttpPost]
+        public  IActionResult SearchIndex(string searchName,DateTime to ,DateTime from)
         {
             var list = new List<EmployeeAttendanceVM>();
 
-            if (name != null || name != "")
-            {
+           // if (searchName != null || searchName != "")
+           // {
+
                 if (attendanceRepository.GetAttendances() != null)
                 {
+                if( to == new DateTime() || from == new DateTime())
+                {
+                    list = attendanceRepository.GetEmployeeAttendancesByName(searchName);
 
-                     list = await attendanceRepository.GetEmployeeAttendancesByName(name);
-                    if (list == null)
-                    {
-                        list = await attendanceRepository.GetEmployeeAttendancesByDeptName(name);
-
-                    }
-                    //return list;
                 }
+                if (list == null || list.Count == 0 && to == new DateTime() && from == new DateTime())
+                {
+                    list = attendanceRepository.GetEmployeeAttendancesByDeptName(searchName);
+
+                }
+                if (list == null || list.Count==0 )
+                    {
+                    if (to != new DateTime() && from == new DateTime())
+                    {
+                        from = to;
+                    }
+
+
+                    else if (to == new DateTime() && from != new DateTime())
+                        {
+                            to = from;
+                        }
+                    list = attendanceRepository.GetEmployeeAttendancesByNameAndDate(to, from, searchName);
+                 
+                }
+                if (list == null || list.Count == 0)
+                {
+                    list = attendanceRepository.GetEmployeeAttendancesByDeptNameAndDate(to, from, searchName);
+
+                }
+
+
+                //  list =  attendanceRepository.GetEmployeeAttendancesByDeptName(searchName);
+
             }
+                    //return list;
+                
+           // }
+          
 
             return View(list) ;
 
@@ -309,8 +345,8 @@ namespace FinalProject.Controllers
             {
                 var dt = attendanceRepository.ReadExcel(postedFile);
                 var attendanceList = attendanceRepository.convertDataTableToListAttendance(dt);
-                  var statusList = attendanceRepository.InsertAttendanceList(attendanceList);
-               // var statusList = attendanceRepository.InsertBulkAttendanceAndUpdateIFExist(attendanceList);
+                  //var statusList = attendanceRepository.InsertAttendanceList(attendanceList);
+               var statusList = attendanceRepository.InsertBulkAttendanceAndUpdateIFExist(attendanceList);
                 if (statusList.Count != 0)
                 {
                     var file = attendanceRepository.InsertDataInfileAndDownloadIt(statusList);

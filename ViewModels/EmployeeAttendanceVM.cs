@@ -21,7 +21,6 @@ namespace FinalProject.ViewModels
         [MaxLength(10, ErrorMessage = "You should enter at most 10 Letters")]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
-        public string FulllName { get; set; }
 
         [Required(ErrorMessage = "You should enter the last name")]
         [MaxLength(10, ErrorMessage = "You should enter at most 10 Letters")]
@@ -34,6 +33,7 @@ namespace FinalProject.ViewModels
         public int EmployeeId { get; set; }
 
 
+        //public string ? FulllName { get; set; }
 
     }
 }
