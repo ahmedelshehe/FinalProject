@@ -5,7 +5,7 @@ namespace FinalProject.Helper
     public static class HelperShared
     {
 
-        public static string  SaveToCsv<T>(List<T> reportData, string path)
+        public static async Task <string>  SaveToCsv<T>(List<T> reportData, string path)
         {
             var lines = new List<string>();
             IEnumerable<PropertyDescriptor> props = TypeDescriptor.GetProperties(typeof(T)).OfType<PropertyDescriptor>();

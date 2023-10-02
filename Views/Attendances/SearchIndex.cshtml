@@ -28,8 +28,15 @@
 
 <div class="text-center">
     <form asp-action="SearchIndex" method="post" enctype="multipart/form-data">
-        <input type="text" name="name" placeholder="Search By Employee Name or Department"/>
-       
+        <input type="text" name="searchName" placeholder="Search By Employee Name or Department"/>
+         <div class="form-group">
+                    <label class="control-label">to</label>
+        <input type="datetime-local" name="to"/>
+                </div>
+              <div class="form-group">
+                    <label class="control-label">from</label>
+        <input type="datetime-local" name="from"/>
+                </div>
         <input type="submit" class="btn btn-primary" value="Search" />
     </form>
 
@@ -45,7 +52,11 @@
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.FulllName)
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+
+             <th>
+                @Html.DisplayNameFor(model => model.LastName)
             </th>
 
             <th>
@@ -67,42 +78,62 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @if (Model != null)
         {
-            <tr>
-               
+            @foreach (var item in Model)
+            {
+                <tr>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmployeeId)
-                </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.FulllName)
-                </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EmployeeId)
+                    </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.DeptName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
 
-              
-                <td>
-                    @Html.DisplayFor(modelItem => item.ArrivalTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DepartureTime)
-                </td>
-                
-                <td @(canUpdateAttendance ? "" : "hidden")>
-                    @Html.ActionLink("Edit", "Edit", new { id=item.EmployeeId , date=item.Date  }) |
-                </td>
-                <td @(canShowAttendance ? "" : "hidden")>  @Html.ActionLink("Details", "Details", new { id=item.EmployeeId , date=item.Date }) |</td>
+                            <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                            </td>
 
-                <td @(canDeleteAttendance ? "" : "hidden")> @Html.ActionLink("Delete", "Delete", new {  id=item.EmployeeId , date=item.Date })</td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DeptName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
 
-            </tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ArrivalTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DepartureTime)
+                    </td>
+
+                    <td @(
+                canUpdateAttendance ? "" : "hidden"
+                )>
+                        @Html.ActionLink("Edit", "Edit", new { id=item.EmployeeId , date=item.Date  }) |
+                    </td>
+                    <td @(
+                canShowAttendance ? "" : "hidden"
+                )>  @Html.ActionLink("Details", "Details", new { id=item.EmployeeId , date=item.Date }) |</td>
+
+                    <td @(
+                canDeleteAttendance ? "" : "hidden"
+                )> @Html.ActionLink("Delete", "Delete", new {  id=item.EmployeeId , date=item.Date })</td>
+
+                </tr>
+            }
+
         }
+        else
+        {
+            <tr colspan="8">NO DATA</tr>
+        }
+
+        
     </tbody>
 </table>
