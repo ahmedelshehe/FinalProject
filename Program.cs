@@ -5,8 +5,6 @@ using FinalProject.Models;
 using FinalProject.RepoServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Rotativa.AspNetCore;
-
 namespace FinalProject
 {
     public class Program

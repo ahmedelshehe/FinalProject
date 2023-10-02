@@ -1085,8 +1085,7 @@ namespace FinalProject.Migrations
                         {
                             Id = -36,
                             AvailableVacations = 21,
-                            BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-
+                            BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             City = "West Carolyn",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Country = "Micronesia",

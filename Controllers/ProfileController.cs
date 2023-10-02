@@ -5,10 +5,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using FinalProject.Helper;
 using FinalProject.ViewModels;
-using Newtonsoft.Json;
-using Rotativa;
-using Rotativa.AspNetCore;
-
 namespace FinalProject.Controllers
 {
 	public class ProfileController : Controller
@@ -70,15 +66,6 @@ namespace FinalProject.Controllers
 			EmployeeDashboardVM vM = new (EmployeeAttendances, employee, vacationRepository);
 			return View(vM);
 
-		}
-		public async Task<IActionResult> PrintAttendanceSummary()
-		{
-			var user = await userManager.GetUserAsync(User);
-			var employee = employeeRepository.GetEmployee(user.EmpId);
-			var EmployeeAttendances = attendanceRepository.GetAttendances().Where(a => a.EmployeeId == employee.Id).ToList();
-
-			EmployeeDashboardVM vM = new (EmployeeAttendances, employee, vacationRepository);
-			return new ViewAsPdf("AttendanceSummary",vM);
 		}
 	}
 	}
