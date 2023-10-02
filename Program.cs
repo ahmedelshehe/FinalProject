@@ -5,6 +5,7 @@ using FinalProject.Models;
 using FinalProject.RepoServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Rotativa.AspNetCore;
 
 namespace FinalProject
 {
@@ -49,12 +50,12 @@ namespace FinalProject
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            using (var scope = app.Services.CreateScope())
+            /*using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<ApplicationDbContext>();
                 await AdminSeeder.InitializeAdminUser(context);
-            }
+            }*/
 
 
             app.UseHttpsRedirection();
@@ -68,8 +69,8 @@ namespace FinalProject
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-
-            app.Run();
+			var env = app.Environment;
+			app.Run();
         }
     }
 }
