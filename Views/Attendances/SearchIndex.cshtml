@@ -30,13 +30,26 @@
                 <div @(canAddAttendance)>
                     <a asp-action="Create" class="btn btn-outline-primary  ml-2">Create New</a>
                 </div>
-            </form>
+
 
         </div>
     </div>
 </div>
 
 
+<center> 
+
+<h1>
+    Attendance Report For <bold>
+
+@*@if(ViewBag.to)!=
+*@</bold>
+</h1>
+</center>
+<br />
+<br />
+
+<br />
 
 
 
@@ -46,9 +59,7 @@
         <tr>
 
 
-            <th>
-                @Html.DisplayNameFor(model => model.EmployeeId)
-            </th>
+        
 
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
@@ -86,9 +97,7 @@
                 <tr>
 
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EmployeeId)
-                    </td>
+                  
 
                     <td>
                         @Html.DisplayFor(modelItem => item.FirstName)
