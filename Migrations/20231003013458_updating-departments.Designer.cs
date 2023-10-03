@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231002212415_seed")]
-    partial class seed
+    [Migration("20231003013458_updating-departments")]
+    partial class updatingdepartments
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -183,6 +183,11 @@ namespace FinalProject.Migrations
                         new
                         {
                             AppRolesId = "2c5e174e-3b0e-446f-86af-483d56fd7210",
+                            PermissionsId = -29
+                        },
+                        new
+                        {
+                            AppRolesId = "2c5e174e-3b0e-446f-86af-483d56fd7210",
                             PermissionsId = -30
                         },
                         new
@@ -194,6 +199,21 @@ namespace FinalProject.Migrations
                         {
                             AppRolesId = "2c5e174e-3b0e-446f-86af-483d56fd7210",
                             PermissionsId = -32
+                        },
+                        new
+                        {
+                            AppRolesId = "2c5e174e-3b0e-446f-86af-483d56fd7210",
+                            PermissionsId = -34
+                        },
+                        new
+                        {
+                            AppRolesId = "2c5e174e-3b0e-446f-86af-483d56fd7210",
+                            PermissionsId = -35
+                        },
+                        new
+                        {
+                            AppRolesId = "2c5e174e-3b0e-446f-86af-483d56fd7210",
+                            PermissionsId = -36
                         });
                 });
 
@@ -227,7 +247,7 @@ namespace FinalProject.Migrations
                         new
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
-                            ConcurrencyStamp = "be9e501e-8040-4a2c-a1eb-c0d2c49f5236",
+                            ConcurrencyStamp = "f931912e-333c-4a2c-a271-274429d0b5d3",
                             Name = "Adminstrator"
                         });
                 });
@@ -363,22 +383,22 @@ namespace FinalProject.Migrations
                         new
                         {
                             Id = -1,
-                            Name = "Department 1"
+                            Name = "HR"
                         },
                         new
                         {
                             Id = -2,
-                            Name = "Department 2"
+                            Name = "R & D"
                         },
                         new
                         {
                             Id = -3,
-                            Name = "Department 3"
+                            Name = "IT"
                         },
                         new
                         {
                             Id = -4,
-                            Name = "Department 4"
+                            Name = "Sales"
                         });
                 });
 
@@ -459,882 +479,882 @@ namespace FinalProject.Migrations
                             Id = -1,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Alessandroview",
+                            City = "Ivyberg",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Botswana",
-                            DeptID = -3,
+                            Country = "Guadeloupe",
+                            DeptID = -2,
                             Email = "employee-1@example.com",
-                            FirstName = "Eulalia",
-                            Gender = 0,
-                            LastName = "Oran",
+                            FirstName = "Jacky",
+                            Gender = 1,
+                            LastName = "Emerson",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 470155.0,
-                            Street = "Grimes Forks"
+                            Salary = 308513.0,
+                            Street = "Cristina Ports"
                         },
                         new
                         {
                             Id = -2,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Port Rhiannon",
+                            City = "Emorytown",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Serbia",
-                            DeptID = -2,
+                            Country = "Monaco",
+                            DeptID = -1,
                             Email = "employee-2@example.com",
-                            FirstName = "Krystina",
+                            FirstName = "Ashlynn",
                             Gender = 1,
-                            LastName = "Ryder",
+                            LastName = "Kendrick",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 168229.0,
-                            Street = "Lelah Mount"
+                            Salary = 312619.0,
+                            Street = "Metz Lights"
                         },
                         new
                         {
                             Id = -3,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Willbury",
+                            City = "Lake Kari",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Faroe Islands",
-                            DeptID = -1,
+                            Country = "Bhutan",
+                            DeptID = -2,
                             Email = "employee-3@example.com",
-                            FirstName = "Camden",
+                            FirstName = "Consuelo",
                             Gender = 0,
-                            LastName = "Keanu",
+                            LastName = "Federico",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 135398.0,
-                            Street = "Melyssa Forest"
+                            Salary = 333385.0,
+                            Street = "Walsh Field"
                         },
                         new
                         {
                             Id = -4,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "South Rowena",
+                            City = "Mohammadside",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Guinea",
+                            Country = "Equatorial Guinea",
                             DeptID = -3,
                             Email = "employee-4@example.com",
-                            FirstName = "Maida",
-                            Gender = 0,
-                            LastName = "Dena",
+                            FirstName = "Shyanne",
+                            Gender = 1,
+                            LastName = "Effie",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 414052.0,
-                            Street = "Susanna Groves"
+                            Salary = 239494.0,
+                            Street = "Joelle Passage"
                         },
                         new
                         {
                             Id = -5,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "New Sammiehaven",
+                            City = "North Arianna",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Hungary",
-                            DeptID = -3,
+                            Country = "Brunei Darussalam",
+                            DeptID = -2,
                             Email = "employee-5@example.com",
-                            FirstName = "Francesco",
+                            FirstName = "Rebeka",
                             Gender = 1,
-                            LastName = "Donavon",
+                            LastName = "Hallie",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 271772.0,
-                            Street = "Tatum Summit"
+                            Salary = 142971.0,
+                            Street = "Sydni Spring"
                         },
                         new
                         {
                             Id = -6,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Lewisville",
+                            City = "New Arvilla",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Zambia",
-                            DeptID = -1,
+                            Country = "Norfolk Island",
+                            DeptID = -3,
                             Email = "employee-6@example.com",
-                            FirstName = "Tanner",
+                            FirstName = "Cooper",
                             Gender = 1,
-                            LastName = "Cali",
+                            LastName = "Julio",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 58514.0,
-                            Street = "Hyatt Forest"
+                            Salary = 366751.0,
+                            Street = "Evelyn Isle"
                         },
                         new
                         {
                             Id = -7,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "West Jarrett",
+                            City = "New Van",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Macedonia",
-                            DeptID = -1,
+                            Country = "Romania",
+                            DeptID = -4,
                             Email = "employee-7@example.com",
-                            FirstName = "Mireille",
-                            Gender = 0,
-                            LastName = "Caroline",
+                            FirstName = "Silas",
+                            Gender = 1,
+                            LastName = "Cortez",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 160478.0,
-                            Street = "Rowe Road"
+                            Salary = 11956.0,
+                            Street = "Wisozk Landing"
                         },
                         new
                         {
                             Id = -8,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Lake Isaac",
+                            City = "Naderberg",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Senegal",
-                            DeptID = -1,
+                            Country = "Jamaica",
+                            DeptID = -4,
                             Email = "employee-8@example.com",
-                            FirstName = "Billie",
-                            Gender = 0,
-                            LastName = "Lonnie",
+                            FirstName = "Melany",
+                            Gender = 1,
+                            LastName = "Kitty",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 407641.0,
-                            Street = "Predovic Curve"
+                            Salary = 451641.0,
+                            Street = "Dion Spring"
                         },
                         new
                         {
                             Id = -9,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Abigalestad",
+                            City = "Lavernafurt",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Malawi",
-                            DeptID = -3,
+                            Country = "Central African Republic",
+                            DeptID = -4,
                             Email = "employee-9@example.com",
-                            FirstName = "Stanton",
-                            Gender = 0,
-                            LastName = "Flo",
+                            FirstName = "Jacinthe",
+                            Gender = 1,
+                            LastName = "Matteo",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 443518.0,
-                            Street = "Connelly Ranch"
+                            Salary = 381746.0,
+                            Street = "Schuster Vista"
                         },
                         new
                         {
                             Id = -10,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "New Andreaneland",
+                            City = "Quigleymouth",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Germany",
-                            DeptID = -4,
+                            Country = "Iraq",
+                            DeptID = -1,
                             Email = "employee-10@example.com",
-                            FirstName = "Amiya",
+                            FirstName = "Casper",
                             Gender = 0,
-                            LastName = "Trever",
+                            LastName = "Nico",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 422783.0,
-                            Street = "Jairo Unions"
+                            Salary = 377009.0,
+                            Street = "Krista Trail"
                         },
                         new
                         {
                             Id = -11,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Velvashire",
+                            City = "West Ivory",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Puerto Rico",
-                            DeptID = -1,
+                            Country = "Gambia",
+                            DeptID = -3,
                             Email = "employee-11@example.com",
-                            FirstName = "Alessia",
+                            FirstName = "Hardy",
                             Gender = 0,
-                            LastName = "Ryleigh",
+                            LastName = "Dereck",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 25585.0,
-                            Street = "Swift Tunnel"
+                            Salary = 141389.0,
+                            Street = "Herman River"
                         },
                         new
                         {
                             Id = -12,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Runolfssonhaven",
+                            City = "East Amani",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Trinidad and Tobago",
-                            DeptID = -3,
+                            Country = "Wallis and Futuna",
+                            DeptID = -4,
                             Email = "employee-12@example.com",
-                            FirstName = "Javon",
-                            Gender = 1,
-                            LastName = "Elfrieda",
+                            FirstName = "Barbara",
+                            Gender = 0,
+                            LastName = "Karen",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 433607.0,
-                            Street = "Cassin Haven"
+                            Salary = 400331.0,
+                            Street = "Raynor Extensions"
                         },
                         new
                         {
                             Id = -13,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Schmidtmouth",
+                            City = "Wuckertmouth",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Malta",
-                            DeptID = -4,
+                            Country = "Bahrain",
+                            DeptID = -2,
                             Email = "employee-13@example.com",
-                            FirstName = "Margaret",
-                            Gender = 1,
-                            LastName = "Bernie",
+                            FirstName = "Spencer",
+                            Gender = 0,
+                            LastName = "Amiya",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 291646.0,
-                            Street = "Casandra Cove"
+                            Salary = 385769.0,
+                            Street = "Roob Club"
                         },
                         new
                         {
                             Id = -14,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "South Zack",
+                            City = "Port Aditya",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Ghana",
-                            DeptID = -1,
+                            Country = "Botswana",
+                            DeptID = -3,
                             Email = "employee-14@example.com",
-                            FirstName = "Agustina",
-                            Gender = 1,
-                            LastName = "Nichole",
+                            FirstName = "Lyda",
+                            Gender = 0,
+                            LastName = "Gayle",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 358777.0,
-                            Street = "Bartholome Viaduct"
+                            Salary = 277494.0,
+                            Street = "Franecki Vista"
                         },
                         new
                         {
                             Id = -15,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Lake Jaida",
+                            City = "West Eloyton",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Honduras",
-                            DeptID = -1,
+                            Country = "Tanzania",
+                            DeptID = -3,
                             Email = "employee-15@example.com",
-                            FirstName = "Violet",
-                            Gender = 0,
-                            LastName = "Victor",
+                            FirstName = "Alvah",
+                            Gender = 1,
+                            LastName = "Lennie",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 418014.0,
-                            Street = "Gunner Summit"
+                            Salary = 460353.0,
+                            Street = "Davis Drive"
                         },
                         new
                         {
                             Id = -16,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "South Woodrow",
+                            City = "North Tonibury",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Turkmenistan",
-                            DeptID = -2,
+                            Country = "Congo",
+                            DeptID = -3,
                             Email = "employee-16@example.com",
-                            FirstName = "Josefa",
+                            FirstName = "Elisha",
                             Gender = 0,
-                            LastName = "Edmund",
+                            LastName = "Rae",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 17399.0,
-                            Street = "Auer Greens"
+                            Salary = 291917.0,
+                            Street = "Audra Pike"
                         },
                         new
                         {
                             Id = -17,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Lake Mozelleberg",
+                            City = "South Frederiqueton",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Kenya",
-                            DeptID = -1,
+                            Country = "Tokelau",
+                            DeptID = -4,
                             Email = "employee-17@example.com",
-                            FirstName = "Vallie",
-                            Gender = 1,
-                            LastName = "Bette",
+                            FirstName = "Courtney",
+                            Gender = 0,
+                            LastName = "Gail",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 377083.0,
-                            Street = "Devonte Shoal"
+                            Salary = 297318.0,
+                            Street = "Tristin Locks"
                         },
                         new
                         {
                             Id = -18,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Emilstad",
+                            City = "Feeneymouth",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Philippines",
-                            DeptID = -2,
+                            Country = "Congo",
+                            DeptID = -1,
                             Email = "employee-18@example.com",
-                            FirstName = "Grayson",
-                            Gender = 0,
-                            LastName = "Gillian",
+                            FirstName = "Lennie",
+                            Gender = 1,
+                            LastName = "Sheldon",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 423474.0,
-                            Street = "Lisandro Burg"
+                            Salary = 117466.0,
+                            Street = "Schaden Route"
                         },
                         new
                         {
                             Id = -19,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Marquardtshire",
+                            City = "Strosintown",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Cuba",
-                            DeptID = -1,
+                            Country = "Switzerland",
+                            DeptID = -2,
                             Email = "employee-19@example.com",
-                            FirstName = "Allen",
-                            Gender = 1,
-                            LastName = "Lindsey",
+                            FirstName = "Zoey",
+                            Gender = 0,
+                            LastName = "Lynn",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 115946.0,
-                            Street = "Misael Lock"
+                            Salary = 209916.0,
+                            Street = "Destini Rue"
                         },
                         new
                         {
                             Id = -20,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Lake Giovanna",
+                            City = "South Ahmedbury",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Iraq",
-                            DeptID = -2,
+                            Country = "China",
+                            DeptID = -3,
                             Email = "employee-20@example.com",
-                            FirstName = "Donald",
-                            Gender = 0,
-                            LastName = "Alba",
+                            FirstName = "Monica",
+                            Gender = 1,
+                            LastName = "Kariane",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 334546.0,
-                            Street = "Zoey Shore"
+                            Salary = 93629.0,
+                            Street = "Alford Valley"
                         },
                         new
                         {
                             Id = -21,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Lake Antonia",
+                            City = "Arneland",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "South Georgia and the South Sandwich Islands",
-                            DeptID = -4,
+                            Country = "Bouvet Island (Bouvetoya)",
+                            DeptID = -1,
                             Email = "employee-21@example.com",
-                            FirstName = "Stefanie",
+                            FirstName = "Omari",
                             Gender = 1,
-                            LastName = "Anderson",
+                            LastName = "Lizeth",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 277753.0,
-                            Street = "Lenna Drive"
+                            Salary = 66576.0,
+                            Street = "Herman Harbor"
                         },
                         new
                         {
                             Id = -22,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Guidofurt",
+                            City = "Jayceefort",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Algeria",
+                            Country = "Tuvalu",
                             DeptID = -1,
                             Email = "employee-22@example.com",
-                            FirstName = "Manley",
+                            FirstName = "Federico",
                             Gender = 1,
-                            LastName = "Anthony",
+                            LastName = "Anjali",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 277274.0,
-                            Street = "Blanca Ridges"
+                            Salary = 401388.0,
+                            Street = "Dach Isle"
                         },
                         new
                         {
                             Id = -23,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Keeblerport",
+                            City = "Wehnerton",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "South Georgia and the South Sandwich Islands",
-                            DeptID = -4,
+                            Country = "Holy See (Vatican City State)",
+                            DeptID = -1,
                             Email = "employee-23@example.com",
-                            FirstName = "Imogene",
-                            Gender = 0,
-                            LastName = "Lilly",
+                            FirstName = "Herminio",
+                            Gender = 1,
+                            LastName = "Monty",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 276256.0,
-                            Street = "Kendrick Plains"
+                            Salary = 421998.0,
+                            Street = "Collier Drive"
                         },
                         new
                         {
                             Id = -24,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "South Genevieveshire",
+                            City = "Treutelville",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Sierra Leone",
-                            DeptID = -3,
+                            Country = "Fiji",
+                            DeptID = -4,
                             Email = "employee-24@example.com",
-                            FirstName = "Merritt",
+                            FirstName = "Dillan",
                             Gender = 0,
-                            LastName = "Anabel",
+                            LastName = "Hayley",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 20064.0,
-                            Street = "Maci Greens"
+                            Salary = 202387.0,
+                            Street = "Deckow River"
                         },
                         new
                         {
                             Id = -25,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Lake Lurlineburgh",
+                            City = "Port Bernhardberg",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Sri Lanka",
-                            DeptID = -4,
+                            Country = "Sao Tome and Principe",
+                            DeptID = -2,
                             Email = "employee-25@example.com",
-                            FirstName = "Emerald",
+                            FirstName = "Carmelo",
                             Gender = 0,
-                            LastName = "Lewis",
+                            LastName = "Gianni",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 59672.0,
-                            Street = "Camila Fort"
+                            Salary = 419267.0,
+                            Street = "O'Connell Track"
                         },
                         new
                         {
                             Id = -26,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Nyasiaborough",
+                            City = "East Meggiemouth",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Saint Pierre and Miquelon",
-                            DeptID = -4,
+                            Country = "Malaysia",
+                            DeptID = -2,
                             Email = "employee-26@example.com",
-                            FirstName = "Casimer",
-                            Gender = 0,
-                            LastName = "Crystel",
+                            FirstName = "Pasquale",
+                            Gender = 1,
+                            LastName = "Jace",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 305005.0,
-                            Street = "Haleigh Station"
+                            Salary = 93620.0,
+                            Street = "Thompson Valley"
                         },
                         new
                         {
                             Id = -27,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "South Hank",
+                            City = "North Adelle",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Latvia",
-                            DeptID = -2,
+                            Country = "France",
+                            DeptID = -4,
                             Email = "employee-27@example.com",
-                            FirstName = "Gregory",
+                            FirstName = "Tanya",
                             Gender = 0,
-                            LastName = "Dock",
+                            LastName = "Vella",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 305218.0,
-                            Street = "Hudson Way"
+                            Salary = 67583.0,
+                            Street = "Hansen Trace"
                         },
                         new
                         {
                             Id = -28,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Lake Moriahmouth",
+                            City = "West Pietro",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Antarctica (the territory South of 60 deg S)",
-                            DeptID = -4,
+                            Country = "Slovenia",
+                            DeptID = -1,
                             Email = "employee-28@example.com",
-                            FirstName = "Alexane",
+                            FirstName = "Noel",
                             Gender = 1,
-                            LastName = "Arne",
+                            LastName = "Otto",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 78706.0,
-                            Street = "Brett Lock"
+                            Salary = 277260.0,
+                            Street = "Andrew Canyon"
                         },
                         new
                         {
                             Id = -29,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Port Clementinaland",
+                            City = "Leannonville",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Paraguay",
-                            DeptID = -1,
+                            Country = "Tajikistan",
+                            DeptID = -4,
                             Email = "employee-29@example.com",
-                            FirstName = "Milan",
-                            Gender = 0,
-                            LastName = "Izabella",
+                            FirstName = "Kasandra",
+                            Gender = 1,
+                            LastName = "Wiley",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 259779.0,
-                            Street = "Brenda Flat"
+                            Salary = 444500.0,
+                            Street = "Baumbach Forest"
                         },
                         new
                         {
                             Id = -30,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Cummingsview",
+                            City = "South Keon",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Benin",
-                            DeptID = -4,
+                            Country = "Venezuela",
+                            DeptID = -1,
                             Email = "employee-30@example.com",
-                            FirstName = "Edwina",
+                            FirstName = "Rowan",
                             Gender = 0,
-                            LastName = "Kim",
+                            LastName = "Trent",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 197018.0,
-                            Street = "Toy Junction"
+                            Salary = 230035.0,
+                            Street = "Weimann Dam"
                         },
                         new
                         {
                             Id = -31,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "South Tinaton",
+                            City = "Oraburgh",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Botswana",
+                            Country = "Nicaragua",
                             DeptID = -1,
                             Email = "employee-31@example.com",
-                            FirstName = "Carmela",
+                            FirstName = "Josefina",
                             Gender = 1,
-                            LastName = "Carlotta",
+                            LastName = "Delilah",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 328701.0,
-                            Street = "Jermey Common"
+                            Salary = 143921.0,
+                            Street = "Jones Canyon"
                         },
                         new
                         {
                             Id = -32,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Michelleton",
+                            City = "Roscoefort",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "French Polynesia",
-                            DeptID = -1,
+                            Country = "Romania",
+                            DeptID = -4,
                             Email = "employee-32@example.com",
-                            FirstName = "Kirk",
-                            Gender = 1,
-                            LastName = "Taya",
+                            FirstName = "Ava",
+                            Gender = 0,
+                            LastName = "Aaliyah",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 247350.0,
-                            Street = "Toy Via"
+                            Salary = 315119.0,
+                            Street = "Douglas "
                         },
                         new
                         {
                             Id = -33,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Ernserhaven",
+                            City = "Beattytown",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Pitcairn Islands",
-                            DeptID = -3,
+                            Country = "Somalia",
+                            DeptID = -1,
                             Email = "employee-33@example.com",
-                            FirstName = "Cyrus",
+                            FirstName = "Catharine",
                             Gender = 0,
-                            LastName = "Orpha",
+                            LastName = "Ernesto",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 215528.0,
-                            Street = "Zena Locks"
+                            Salary = 351628.0,
+                            Street = "Schaden View"
                         },
                         new
                         {
                             Id = -34,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "South Alyssonland",
+                            City = "Ebertton",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "New Zealand",
-                            DeptID = -4,
+                            Country = "Rwanda",
+                            DeptID = -2,
                             Email = "employee-34@example.com",
-                            FirstName = "Emelia",
-                            Gender = 0,
-                            LastName = "Darien",
+                            FirstName = "Kristian",
+                            Gender = 1,
+                            LastName = "Fredrick",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 470428.0,
-                            Street = "Baumbach Fields"
+                            Salary = 207346.0,
+                            Street = "Nolan Streets"
                         },
                         new
                         {
                             Id = -35,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "O'Konborough",
+                            City = "Aracelytown",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Cambodia",
+                            Country = "French Polynesia",
                             DeptID = -1,
                             Email = "employee-35@example.com",
-                            FirstName = "Katelin",
-                            Gender = 1,
-                            LastName = "Taylor",
+                            FirstName = "Daphney",
+                            Gender = 0,
+                            LastName = "Duncan",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 253501.0,
-                            Street = "Brandt Center"
+                            Salary = 36735.0,
+                            Street = "Cale Falls"
                         },
                         new
                         {
                             Id = -36,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Archhaven",
+                            City = "Beckerhaven",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Brazil",
-                            DeptID = -3,
+                            Country = "Grenada",
+                            DeptID = -4,
                             Email = "employee-36@example.com",
-                            FirstName = "Diamond",
+                            FirstName = "Kyra",
                             Gender = 1,
-                            LastName = "Matteo",
+                            LastName = "Lennie",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 284642.0,
-                            Street = "Lexi Views"
+                            Salary = 351616.0,
+                            Street = "Jarod Mountain"
                         },
                         new
                         {
                             Id = -37,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "East Aureliehaven",
+                            City = "West Einomouth",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Congo",
-                            DeptID = -3,
+                            Country = "New Zealand",
+                            DeptID = -4,
                             Email = "employee-37@example.com",
-                            FirstName = "Jensen",
+                            FirstName = "Efren",
                             Gender = 0,
-                            LastName = "Randal",
+                            LastName = "Deanna",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 314104.0,
-                            Street = "Rempel Corner"
+                            Salary = 498758.0,
+                            Street = "Nienow Parkways"
                         },
                         new
                         {
                             Id = -38,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Kubport",
+                            City = "South Bettie",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Cuba",
-                            DeptID = -2,
+                            Country = "Chile",
+                            DeptID = -1,
                             Email = "employee-38@example.com",
-                            FirstName = "Barney",
-                            Gender = 0,
-                            LastName = "Miguel",
+                            FirstName = "Prudence",
+                            Gender = 1,
+                            LastName = "Carmine",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 68895.0,
-                            Street = "Lehner Burg"
+                            Salary = 17608.0,
+                            Street = "Mariana Spur"
                         },
                         new
                         {
                             Id = -39,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Loganburgh",
+                            City = "Vonburgh",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Jersey",
-                            DeptID = -2,
+                            Country = "Liechtenstein",
+                            DeptID = -3,
                             Email = "employee-39@example.com",
-                            FirstName = "Gerardo",
+                            FirstName = "Rico",
                             Gender = 1,
-                            LastName = "Waldo",
+                            LastName = "Stacey",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 130961.0,
-                            Street = "Maria Plaza"
+                            Salary = 202670.0,
+                            Street = "Tillman Mills"
                         },
                         new
                         {
                             Id = -40,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Lake Narciso",
+                            City = "Thielberg",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Albania",
-                            DeptID = -3,
+                            Country = "Saint Vincent and the Grenadines",
+                            DeptID = -2,
                             Email = "employee-40@example.com",
-                            FirstName = "Telly",
+                            FirstName = "Sylvia",
                             Gender = 1,
-                            LastName = "Mateo",
+                            LastName = "Melany",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 405486.0,
-                            Street = "Darren Springs"
+                            Salary = 184275.0,
+                            Street = "Leora Gateway"
                         },
                         new
                         {
                             Id = -41,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Osinskichester",
+                            City = "South Roscoeberg",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Czech Republic",
+                            Country = "Holy See (Vatican City State)",
                             DeptID = -4,
                             Email = "employee-41@example.com",
-                            FirstName = "Lucie",
+                            FirstName = "Pattie",
                             Gender = 1,
-                            LastName = "Mervin",
+                            LastName = "Khalid",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 160059.0,
-                            Street = "Addison Roads"
+                            Salary = 34173.0,
+                            Street = "Juliana Points"
                         },
                         new
                         {
                             Id = -42,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Bodemouth",
+                            City = "East Cheyannefort",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Isle of Man",
-                            DeptID = -1,
+                            Country = "Hong Kong",
+                            DeptID = -3,
                             Email = "employee-42@example.com",
-                            FirstName = "Karelle",
-                            Gender = 1,
-                            LastName = "Fausto",
+                            FirstName = "Boyd",
+                            Gender = 0,
+                            LastName = "Karianne",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 456655.0,
-                            Street = "Kunde Mall"
+                            Salary = 359801.0,
+                            Street = "Barney Grove"
                         },
                         new
                         {
                             Id = -43,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Bauchbury",
+                            City = "New Vincemouth",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Cook Islands",
-                            DeptID = -1,
+                            Country = "Sudan",
+                            DeptID = -4,
                             Email = "employee-43@example.com",
-                            FirstName = "Felix",
-                            Gender = 1,
-                            LastName = "Trycia",
+                            FirstName = "Milton",
+                            Gender = 0,
+                            LastName = "Ezra",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 331593.0,
-                            Street = "Gleason Motorway"
+                            Salary = 30570.0,
+                            Street = "Nicolas Common"
                         },
                         new
                         {
                             Id = -44,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Sethtown",
+                            City = "North Delphinefort",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Syrian Arab Republic",
-                            DeptID = -1,
+                            Country = "Mauritius",
+                            DeptID = -2,
                             Email = "employee-44@example.com",
-                            FirstName = "Demetrius",
+                            FirstName = "Remington",
                             Gender = 0,
-                            LastName = "Dewitt",
+                            LastName = "Jermey",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 492321.0,
-                            Street = "Dicki Gardens"
+                            Salary = 182075.0,
+                            Street = "Kyleigh Cliff"
                         },
                         new
                         {
                             Id = -45,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "North Retaborough",
+                            City = "Jacobsview",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Togo",
-                            DeptID = -4,
+                            Country = "Faroe Islands",
+                            DeptID = -1,
                             Email = "employee-45@example.com",
-                            FirstName = "Stone",
-                            Gender = 1,
-                            LastName = "Coby",
+                            FirstName = "Wade",
+                            Gender = 0,
+                            LastName = "Clarabelle",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 234303.0,
-                            Street = "Beahan Lakes"
+                            Salary = 46737.0,
+                            Street = "Maymie Course"
                         },
                         new
                         {
                             Id = -46,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "South Estellton",
+                            City = "Santiagostad",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Marshall Islands",
-                            DeptID = -4,
+                            Country = "Saint Barthelemy",
+                            DeptID = -3,
                             Email = "employee-46@example.com",
-                            FirstName = "Hertha",
-                            Gender = 0,
-                            LastName = "Crystel",
+                            FirstName = "Golda",
+                            Gender = 1,
+                            LastName = "Alta",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 87837.0,
-                            Street = "Andrew Isle"
+                            Salary = 203120.0,
+                            Street = "Hammes Forest"
                         },
                         new
                         {
                             Id = -47,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Cummingschester",
+                            City = "North Rosendo",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Kuwait",
-                            DeptID = -3,
+                            Country = "Niger",
+                            DeptID = -1,
                             Email = "employee-47@example.com",
-                            FirstName = "Mikel",
+                            FirstName = "Myrtice",
                             Gender = 0,
-                            LastName = "Afton",
+                            LastName = "Garrison",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 433480.0,
-                            Street = "Sam Center"
+                            Salary = 382825.0,
+                            Street = "Tatum Passage"
                         },
                         new
                         {
                             Id = -48,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Port Edwardoshire",
+                            City = "Margarettemouth",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Malaysia",
+                            Country = "Oman",
                             DeptID = -2,
                             Email = "employee-48@example.com",
-                            FirstName = "Bryce",
-                            Gender = 1,
-                            LastName = "Hildegard",
+                            FirstName = "Vita",
+                            Gender = 0,
+                            LastName = "Ezekiel",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 267214.0,
-                            Street = "Jakubowski Rue"
+                            Salary = 25710.0,
+                            Street = "Reynolds Forks"
                         },
                         new
                         {
                             Id = -49,
                             AvailableVacations = 21,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Port Frederic",
+                            City = "Lake Hermanport",
                             ContractDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "Saint Martin",
-                            DeptID = -2,
+                            Country = "Brunei Darussalam",
+                            DeptID = -1,
                             Email = "employee-49@example.com",
-                            FirstName = "Elian",
-                            Gender = 0,
-                            LastName = "Susie",
+                            FirstName = "Kellie",
+                            Gender = 1,
+                            LastName = "Vincenza",
                             NationalId = "12345678901234",
                             Password = "12345678",
-                            Salary = 79473.0,
-                            Street = "Ike Row"
+                            Salary = 218792.0,
+                            Street = "Leora Camp"
                         });
                 });
 
@@ -1589,19 +1609,43 @@ namespace FinalProject.Migrations
                         },
                         new
                         {
+                            Id = -29,
+                            Name = "Vacation",
+                            Operation = 1
+                        },
+                        new
+                        {
                             Id = -30,
+                            Name = "Vacation",
+                            Operation = 2
+                        },
+                        new
+                        {
+                            Id = -31,
+                            Name = "Vacation",
+                            Operation = 3
+                        },
+                        new
+                        {
+                            Id = -32,
+                            Name = "Vacation",
+                            Operation = 0
+                        },
+                        new
+                        {
+                            Id = -34,
                             Name = "GeneralSetting",
                             Operation = 1
                         },
                         new
                         {
-                            Id = -31,
+                            Id = -35,
                             Name = "GeneralSetting",
                             Operation = 2
                         },
                         new
                         {
-                            Id = -32,
+                            Id = -36,
                             Name = "Salary",
                             Operation = 1
                         });

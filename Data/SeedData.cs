@@ -27,7 +27,7 @@ namespace FinalProject.Data
         public void SeedDatabase()
         {
             List<string> entityNames =
-                new List<string> { "Employee", "Attendance", "AppRole", "AppUser", "Permission", "Department", "OfficialVacation"  };
+                new List<string> { "Employee", "Attendance", "AppRole", "AppUser", "Permission", "Department", "OfficialVacation","Vacation"  };
             List<Permission> permissions = new List<Permission>();
            
             int id = -1;
@@ -49,10 +49,10 @@ namespace FinalProject.Data
             });
             Random rnd = new Random();
             var departments = new List<Department>() { 
-                new Department(){Id = -1 , Name = "Department 1"  },            
-                new Department(){Id = -2 , Name = "Department 2"  },            
-                new Department(){Id = -3 , Name = "Department 3"  },            
-                new Department(){Id = -4 , Name = "Department 4"  },            
+                new Department(){Id = -1 , Name = "HR"  },            
+                new Department(){Id = -2 , Name = "R & D"  },            
+                new Department(){Id = -3 , Name = "IT"  },            
+                new Department(){Id = -4 , Name = "Sales"  },            
             };
             _builder.Entity<Department>(entity =>
             {
