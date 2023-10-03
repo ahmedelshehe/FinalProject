@@ -24,7 +24,6 @@ namespace FinalProject.Controllers
 			this.vacationRepository = vacationRepository;
 		}
 
-
 		public async Task<IActionResult> Index()
 		{
 			ViewBag.allDepts = DepartmentRepository.GetDepartments();

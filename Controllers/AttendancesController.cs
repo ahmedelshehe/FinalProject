@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.StaticFiles;
 using FinalProject.Helper;
 using FinalProject.ViewModels;
 using FinalProject.Utilities;
+using Microsoft.AspNetCore.Identity;
 
 namespace FinalProject.Controllers
 {
@@ -42,7 +43,7 @@ namespace FinalProject.Controllers
         public async Task<IActionResult> Index()
         {
             var attendances = attendanceRepository.GetAttendances().ToList();
-            return View(attendances);
+			return View(attendances);
 
         }
         public async Task<IActionResult> SearchIndex()

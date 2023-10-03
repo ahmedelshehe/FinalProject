@@ -1,4 +1,5 @@
 ﻿@model EmployeeDashboardVM
+
 <div class="content container-fluid">
 	<div class="row">
 		<div class="col-md-12">
@@ -118,7 +119,7 @@
 						<button class="btn col-2" type="submit" onclick="printContent('vacations-print')"><i class="fa fa-print"></i></button>
 
 					</div>
-                    <h4 class="card-header " >Available Vacations Days @Model.Employee.AvailableVacations</h4>
+                    <h4 class="card-header print-off" >Available Vacations Days @Model.Employee.AvailableVacations</h4>
 					<h4 class="text-center mt-3">
 						Your Vacations Requests
 					</h4>
@@ -137,15 +138,16 @@
 				</div>
 
 			</section>
-
-
 		</div>
 		<div  class="col-lg-4 col-md-4">
 			<div  class="dash-sidebar">
 				<section>
 					<div id="attendance-print">
 						<div class="row align-items-center">
-                            <h5 class="dash-title col-10">Attendance Summary</h5>
+							<h1 class="print-on">@Model.Employee.FirstName @Model.Employee.LastName</h1>
+
+							<h5 class="dash-title col-10">
+								Attendance Summary</h5>
 							<button class="btn col-2" type="submit" onclick="printContent('attendance-print')"><i class="fa fa-print"></i></button>
 						</div>
                         <div class="card">
