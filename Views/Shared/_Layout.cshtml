@@ -6,6 +6,8 @@
 	var canViewEmployees = false;
 	var canViewDepartments = false;
 	var canViewPermissions = Context.Items["CanViewPermissions"] as bool?;
+	var canViewVacation = Context.Items["CanViewVacationForAdmin"] as bool?;
+	var canViewVacationforUser = Context.Items["CanViewVacationForUser"] as bool?;
 
 	
 	bool havePermissions = permissions == null ? false : true;
@@ -54,6 +56,37 @@
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 	<![endif]-->
+	@await RenderSectionAsync("Head", required: false)
+	<script>
+		window.onload = function () {
+
+			var chart = new CanvasJS.Chart("chartContainer", {
+				animationEnabled: true,
+				title: {
+					text: "Ice Cream Sales Over a Month"
+				},
+				axisX: {
+					valueFormatString: "DD MMM"
+				},
+				axisY: {
+					title: "Sales (in USD)",
+					prefix: "$"
+				},
+				data: [{
+					type: "spline",
+					xValueType: "dateTime",
+					xValueFormatString: "DD MMM",
+					yValueFormatString: "$#,###",
+					dataPoints: @Html.Raw(Model)
+					}]
+			});
+			chart.render();
+
+		}
+	</script>
+	<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+
+
 </head>
 
 <body>
@@ -126,7 +159,7 @@
 				<div class="dropdown-menu dropdown-menu-right">
 					<a class="dropdown-item" asp-controller="Profile" asp-action="Index">My Profile</a>
 					<a class="dropdown-item" href="settings.html">Settings</a>
-					<a class="dropdown-item" href="login.html">Logout</a>
+					<a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a>
 				</div>
 			</div>
 			<!-- /Mobile Menu -->
@@ -145,7 +178,7 @@
 							<a href="#"><i class="la la-dashboard"></i> <span> Dashboard</span> <span class="menu-arrow"></span></a>
 							<ul style="display: none;">
 								<li><a class="active" href="index.html">Admin Dashboard</a></li>
-								<li><a href="employee-dashboard.html">Employee Dashboard</a></li>
+								<li><a asp-controller="Profile" asp-action="Dashboard">Employee Dashboard</a></li>
 							</ul>
 						</li>
 						<li class="menu-title" >
@@ -156,10 +189,9 @@
 							<ul style="display: none;">
 								<li><a href="employees.html">All Employees</a></li>
 								<li><a href="holidays.html">Holidays</a></li>
-								@*<li><a href="attendance.html">Attendance (Admin)</a></li>*@
 								<li><a asp-controller="Attendances" asp-action="Index">Attendance (Admin)</a></li>
 								<li><a href="attendance-employee.html">Attendance (Employee)</a></li>
-								<li><a href="departments.html">Departments</a></li>
+								<li><a asp-controller="Department" asp-action="Index">Departments</a></li>
 								<li><a href="overtime.html">Overtime</a></li>
 							</ul>
 						</li>
@@ -182,6 +214,17 @@
 							{
 								<li><a asp-controller="Permission" asp-action="Index"><i class="la la-external-link-square"></i> <span>Permissions</span></a></li>
 							}
+							@if (canViewVacation != null)
+							{
+							<li><a asp-controller="Vacation" asp-action="Index"><i class="la la-external-link-square"></i> <span>Vacation(Admin)</span></a></li>
+
+							}
+							@if (canViewVacationforUser != null)
+							{
+							<li><a asp-controller="Vacation" asp-action="MyVacations"><i class="la la-external-link-square"></i> <span>Vacation(User)</span></a></li>
+
+							}
+
 
 							
 						<li><a asp-controller="AppRole" asp-action="Index"><i class="la la-external-link-square"></i> <span>Roles</span></a></li>
@@ -214,7 +257,7 @@
 		<div class="page-wrapper">
 
 			<!-- Page Content -->
-			<div class="content container-fluid">
+			<div id="PrintLayout" class="content container-fluid">
 
 				<!-- Page Header -->
 
@@ -245,6 +288,8 @@
 	<!-- Custom JS -->
 	<script src="~/js/app.js" ></script>
 	@await RenderSectionAsync("Scripts", required: false)
+
+
 </body>
 </html>
 

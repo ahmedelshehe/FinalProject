@@ -1,0 +1,18 @@
+﻿@model Vacation
+<form  asp-action="RequestVacation" class="form-inline">
+    <input asp-for="EmployeeId" type="hidden" />
+    <input asp-for="Description" type="hidden" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <label asp-for="StartDate" class="control-label"></label>
+        <input asp-for="StartDate" class="form-control m-2" />
+        <span asp-validation-for="StartDate" class="text-danger"></span>
+        <label asp-for="EndDate" class="control-label"></label>
+        <input asp-for="EndDate" class="form-control m-2" />
+        <span asp-validation-for="EndDate" class="text-danger"></span>
+        <label asp-for="VacationType" class="control-label"></label>
+    <select asp-for="VacationType" asp-items="@Html.GetEnumSelectList<VacationTypes>()" class="custom-select m-2"></select>
+        <span asp-validation-for="VacationType" class="text-danger"></span>
+    <div class="form-group">
+        <input type="submit" value="Request" class="btn btn-primary" />
+    </div>
+</form>

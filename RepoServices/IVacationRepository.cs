@@ -9,6 +9,7 @@ namespace FinalProject.RepoServices
 		public void InsertVacation(Vacation vacation);
 		public void UpdateVacation(int id ,  Vacation vacation , DateTime date);
 		public void DeleteVacation(int id);
+		public bool IsVacation(int id,DateTime date);
 
 	}
 }

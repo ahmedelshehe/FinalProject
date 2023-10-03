@@ -2,6 +2,7 @@
 {
     public class GeneralSetting
     {
+
         public int Id { get; set; }
         public int ExtraHourPrice { get; set; }
         public int DiscountHourPrice { get; set; }

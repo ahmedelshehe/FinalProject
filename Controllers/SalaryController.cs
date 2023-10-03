@@ -15,8 +15,7 @@ namespace FinalProject.Controllers
             employeeRepository = _employeeRepository;
 
         }
-        //[AuthorizeByPermission("Salary", Operation.Show)]
-        //[AuthorizeByPermission("Salary", Operation.Update)]
+        [AuthorizeByPermission("Salary", Operation.Show)]
         public IActionResult Index(int? empId, int? year, int? month)
         {
 

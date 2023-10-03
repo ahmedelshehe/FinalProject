@@ -1,0 +1,90 @@
+﻿@using FinalProject.Middleware;
+
+@{
+	ViewData["Title"] = "Index";
+	var permissions = Context.Items["Permissions"] as List<Permission>;
+	var canViewEmployees = false;
+	var canViewDepartments = false;
+	var canViewPermissions = Context.Items["CanViewPermissions"] as bool?;
+
+	
+	bool havePermissions = permissions == null ? false : true;
+	if (havePermissions)
+	{
+		canViewEmployees =
+			permissions.Any(p => p.Name == "Employee");
+		canViewDepartments =
+			permissions.Any(p => p.Name == "Department");
+		
+	}
+	}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - HRMS</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/FinalProject.styles.css" asp-append-version="true" />
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+	<!-- Favicon -->
+	<link rel="shortcut icon" type="image/x-icon" href="~/img/favicon.png">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="~/css/bootstrap.min.css">
+
+	<!-- Fontawesome CSS -->
+	<link rel="stylesheet" href="~/css/font-awesome.min.css">
+
+	<!-- Lineawesome CSS -->
+	<link rel="stylesheet" href="~/css/line-awesome.min.css">
+
+	<!-- Chart CSS -->
+	<link rel="stylesheet" href="~/plugins/morris/morris.css">
+
+	<!-- Main CSS -->
+	<link rel="stylesheet" href="~/css/style.css">
+
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+		<script src="assets/js/html5shiv.min.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+	<![endif]-->
+	<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+
+
+</head>
+
+<body>
+	
+	@RenderBody()
+	<!-- /Main Wrapper -->
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+	<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	<script src="~/js/jquery-3.2.1.min.js"></script>
+
+	<!-- Bootstrap Core JS -->
+	<script src="~/js/popper.min.js"></script>
+	<script src="~/js/bootstrap.min.js"></script>
+
+	<!-- Slimscroll JS -->
+	<script src="~/js/jquery.slimscroll.min.js"></script>
+
+
+	<!-- Custom JS -->
+	<script src="~/js/app.js" ></script>
+	@await RenderSectionAsync("Scripts", required: false)
+
+
+
+
+</body>
+</html>
+

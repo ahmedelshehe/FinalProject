@@ -27,7 +27,7 @@ namespace FinalProject.Data
         public void SeedDatabase()
         {
             List<string> entityNames =
-                new List<string> { "Employee", "Attendance", "AppRole", "AppUser", "Permission", "Department", "OfficialVacation" };
+                new List<string> { "Employee", "Attendance", "AppRole", "AppUser", "Permission", "Department", "OfficialVacation","Vacation"  };
             List<Permission> permissions = new List<Permission>();
            
             int id = -1;
@@ -39,6 +39,9 @@ namespace FinalProject.Data
                 permissions.Add(new Permission { Id = id - 3, Name = entityName, Operation = Operation.Add });
                 id -= 4; // Decrease the id value by 4 for each iteration
             }
+            permissions.Add(new Permission { Id = id - 1, Name = "GeneralSetting", Operation = Operation.Show });
+            permissions.Add(new Permission { Id = id - 2, Name = "GeneralSetting", Operation = Operation.Update });
+            permissions.Add(new Permission { Id = id - 3, Name = "Salary", Operation = Operation.Show });
             var AdminPermissions = permissions.Select(permission => new { AppRolesId = "2c5e174e-3b0e-446f-86af-483d56fd7210", PermissionsId = permission.Id }).ToList();
             _builder.Entity<Permission>(entity =>
             {
@@ -46,15 +49,21 @@ namespace FinalProject.Data
             });
             Random rnd = new Random();
             var departments = new List<Department>() { 
-                new Department(){Id = -1 , Name = "Department 1"  },            
-                new Department(){Id = -2 , Name = "Department 2"  },            
-                new Department(){Id = -3 , Name = "Department 3"  },            
-                new Department(){Id = -4 , Name = "Department 4"  },            
+                new Department(){Id = -1 , Name = "HR"  },            
+                new Department(){Id = -2 , Name = "R & D"  },            
+                new Department(){Id = -3 , Name = "IT"  },            
+                new Department(){Id = -4 , Name = "Sales"  },            
             };
             _builder.Entity<Department>(entity =>
             {
                 entity.HasData(departments);
             });
+
+            var generalSetting = new GeneralSetting() { Id = 1 , DiscountHourPrice = 150 ,ExtraHourPrice = 75 ,numberofvacationInyear = 21 , PriceForDayOvernumberofvacationInyear = 300  };
+
+            _builder.Entity<GeneralSetting>(entity =>
+                entity.HasData(generalSetting)
+                );
             // Create 50 employees
             var employees = new List<Employee>();
             for (int i = -1; i > -50; i--)

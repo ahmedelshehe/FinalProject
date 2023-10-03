@@ -12,21 +12,32 @@ namespace FinalProject.Models
 
         [Key]
 		[Required(ErrorMessage ="You should choose startdate")]
+        [DataType(DataType.Date)]
         public DateTime? StartDate { get; set; }
 
         [Required(ErrorMessage = "You should choose enddate")]
-
-        public DateTime? EndDate { get; set; }
+		[DataType(DataType.Date)]
+		public DateTime? EndDate { get; set; }
 
         public VacationStatus Status { get; set; } = VacationStatus.Pending;
 
         TimeSpan _vacationDuration { get
             {
-                return EndDate.Value.Subtract(StartDate.Value);
+                return EndDate.Value.Date.Subtract(StartDate.Value.Date);
             } }
-        public int VacationDays { get {
-                return (int)_vacationDuration.TotalDays;
-            } }
+        public int VacationDays {
+			get
+			{
+				if (StartDate.Value.Date == EndDate.Value.Date)
+				{
+					return 1;
+				}
+				else
+				{
+					return (int)_vacationDuration.Days + 1;
+				}
+			}
+		}
 
         public VacationTypes VacationType { get; set; } 
 

@@ -49,7 +49,7 @@ private readonly HttpContext httpContext;
         public async Task<IActionResult> Index()
         {
             var attendances = attendanceRepository.GetAttendances().ToList();
-            return View(attendances);
+			return View(attendances);
 
         }
         public async Task<IActionResult> SearchIndex()

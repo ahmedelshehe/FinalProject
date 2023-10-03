@@ -16,9 +16,8 @@ namespace FinalProject.Controllers
         {
             this.generalSettingRepository = generalSettingRepository;
         }
-        //[AuthorizeByPermission("GeneralSetting", Operation.Show)]
-        //[AuthorizeByPermission("GeneralSetting", Operation.Update)]
-
+        [AuthorizeByPermission("GeneralSetting", Operation.Show)]
+        [AuthorizeByPermission("GeneralSetting", Operation.Update)]
         public IActionResult Index()
         {
             var generalVM = new SettingViewModel();
@@ -26,10 +25,8 @@ namespace FinalProject.Controllers
             generalVM.Discount = generalSettingRepository.DiscountTimePricePerHour();
             return View(generalVM);
         }
-        //[AuthorizeByPermission("GeneralSetting", Operation.Show)]
-
-        //[AuthorizeByPermission("GeneralSetting", Operation.Update)]
-
+        [AuthorizeByPermission("GeneralSetting", Operation.Show)]
+        [AuthorizeByPermission("GeneralSetting", Operation.Update)]
         public async Task<IActionResult> Save(SettingViewModel vm)
         {
 

@@ -38,7 +38,7 @@ namespace FinalProject.RepoServices
             var generalSettingDb =  context.GeneralSetting.FirstOrDefault(g => g.Id == 1);
             if (generalSettingDb == null)
             {
-                NewGeneralSetting.Id = 1;
+				NewGeneralSetting.Id = 1;
                 await context.GeneralSetting.AddAsync(NewGeneralSetting);
             }
             else
