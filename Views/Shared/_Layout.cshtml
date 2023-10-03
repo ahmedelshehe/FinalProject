@@ -6,6 +6,8 @@
 	var canViewEmployees = false;
 	var canViewDepartments = false;
 	var canViewPermissions = Context.Items["CanViewPermissions"] as bool?;
+	var canViewVacation = Context.Items["CanViewVacationForAdmin"] as bool?;
+	var canViewVacationforUser = Context.Items["CanViewVacationForUser"] as bool?;
 
 	
 	bool havePermissions = permissions == null ? false : true;
@@ -157,7 +159,7 @@
 				<div class="dropdown-menu dropdown-menu-right">
 					<a class="dropdown-item" asp-controller="Profile" asp-action="Index">My Profile</a>
 					<a class="dropdown-item" href="settings.html">Settings</a>
-					<a class="dropdown-item" href="login.html">Logout</a>
+					<a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a>
 				</div>
 			</div>
 			<!-- /Mobile Menu -->
@@ -212,6 +214,17 @@
 							{
 								<li><a asp-controller="Permission" asp-action="Index"><i class="la la-external-link-square"></i> <span>Permissions</span></a></li>
 							}
+							@if (canViewVacation != null)
+							{
+							<li><a asp-controller="Vacation" asp-action="Index"><i class="la la-external-link-square"></i> <span>Vacation(Admin)</span></a></li>
+
+							}
+							@if (canViewVacationforUser != null)
+							{
+							<li><a asp-controller="Vacation" asp-action="MyVacations"><i class="la la-external-link-square"></i> <span>Vacation(User)</span></a></li>
+
+							}
+
 
 							
 						<li><a asp-controller="AppRole" asp-action="Index"><i class="la la-external-link-square"></i> <span>Roles</span></a></li>

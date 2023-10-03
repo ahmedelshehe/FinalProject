@@ -1,5 +1,6 @@
 ﻿using FinalProject.Models;
 using FinalProject.RepoServices;
+using FinalProject.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -23,8 +24,12 @@ namespace FinalProject.Controllers
         }
 
         [HttpGet]
-        //This Action to get all Vacations of all users for admin
-        public  IActionResult Index()
+		//This Action to get all Vacations of all users for admin
+
+		[AuthorizeByPermission("Vacation", Operation.Add)]
+		[AuthorizeByPermission("Vacation", Operation.Update)]
+
+		public IActionResult Index()
         {
             return View(VacationRepository.GetVacations());
         }
@@ -42,16 +47,9 @@ namespace FinalProject.Controllers
         }
 
 
-
-
         [HttpGet]
-        public ActionResult Details(int id, DateTime date)
-        {
-            return View(VacationRepository.GetVacation(id, date));
-        }
-
-        [HttpGet]
-        public ActionResult Create()
+		[AuthorizeByPermission("Vacation", Operation.Add)]
+		public ActionResult Create()
         {
             return View();
         }
@@ -60,65 +58,50 @@ namespace FinalProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Vacation vacation)
         {
-            
-
             if (!ModelState.IsValid)
             {
                 return View(vacation);
             }
 
             var user = await userManager.GetUserAsync(User);
-
             var employee = EmployeeRepository.GetEmployee(user.EmpId);
+
             if (employee == null)
             {
                 return RedirectToAction("Login", "Account");
             }
 
-
             vacation.Employee = employee;
 
-            VacationRepository.InsertVacation(vacation);
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        [HttpGet]
-        public ActionResult Edit(int id, DateTime date)
-        {
-            return View(VacationRepository.GetVacation(id,date));
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Vacation vacation, DateTime date)
-        {
-            if (!ModelState.IsValid)
+            if (vacation.StartDate > vacation.EndDate)
             {
+                ModelState.AddModelError(nameof(vacation.StartDate), "Start date must be earlier than the end date.");
                 return View(vacation);
             }
 
-            VacationRepository.UpdateVacation(id, vacation ,date);
+            TimeSpan duration = (TimeSpan)(vacation.EndDate - vacation.StartDate);
+            int numberOfDays = (int)duration.TotalDays;
 
-            return RedirectToAction(nameof(Index));
+            if (numberOfDays <= 0)
+            {
+                ModelState.AddModelError(string.Empty, "The vacation duration must be at least 1 day.");
+                return View(vacation);
+            }
+
+            if (numberOfDays > employee.AvailableVacations)
+            {
+                ModelState.AddModelError(string.Empty, "You do not have enough available vacations for this request.");
+                return View(vacation);
+            }
+
+            VacationRepository.InsertVacation(vacation);
+
+            return RedirectToAction("MyVacations");
         }
 
-        [HttpGet]
-        public ActionResult Delete(int id, DateTime date)
-        {
-            return View(VacationRepository.GetVacation(id, date));
-        }
+        
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            VacationRepository.DeleteVacation(id);
-
-            return RedirectToAction(nameof(Index));
-        }
-
+        
         public async Task<IActionResult> Approve(int id, DateTime date)
         {
             var vacation = VacationRepository.GetVacation(id, date);
@@ -134,7 +117,10 @@ namespace FinalProject.Controllers
             vacation.Status = VacationStatus.Approved;
             VacationRepository.UpdateVacation(id, vacation, date);
 
-            employee.AvailableVacations  -= vacation.VacationDays;
+            TimeSpan duration = (TimeSpan)(vacation.EndDate - vacation.StartDate);
+            int numberOfDays = (int)duration.TotalDays;
+
+            employee.AvailableVacations -= numberOfDays;
             EmployeeRepository.UpdateEmployee(id, employee);
 
             return RedirectToAction(nameof(Index));
