@@ -111,9 +111,13 @@
 
 				</div>
 			</section>
-			<section class="dash-section">
+			<section class="dash-section" id="vacations-print">
                 <div class="card">
-                    <h4 class="card-header">Vacations</h4>
+					<div class="row align-items-center">
+                        <h4 class="card-header col-10">Vacations</h4>
+						<button class="btn col-2" type="submit" onclick="printContent('vacations-print')"><i class="fa fa-print"></i></button>
+
+					</div>
                     <h4 class="card-header " >Available Vacations Days @Model.Employee.AvailableVacations</h4>
 					<h4 class="text-center mt-3">
 						Your Vacations Requests
@@ -136,66 +140,71 @@
 
 
 		</div>
-
-		<div class="col-lg-4 col-md-4">
-			<div class="dash-sidebar">
+		<div  class="col-lg-4 col-md-4">
+			<div  class="dash-sidebar">
 				<section>
-					<h5 class="dash-title">Attendance Summanry</h5>
-					<div class="card">
-						<h5 class="card-header">This Month</h5>
-						<h5 class="card-header">@DateTime.Now.ToString("MMMM")</h5>
-						<div class="card-body">
-							<div class="time-list">
-								<div class="dash-stats-list">
-									<h4>@Model.ThisMonthWorkDays</h4>
-									<p>@DateTime.Now.ToString("MMM") Work Days</p>
-								</div>
-								<div class="dash-stats-list">
-									<h4>@Model.ThisMonthAttendanceCount / @Model.ThisMonthWorkDaysUntilToday</h4>
-									<p>@DateTime.Now.ToString("MMM") Attendance</p>
-								</div>
-							</div>
-							<hr />
-							<div class="time-list">
-								<div class="dash-stats-list">
-									<h4>@Model.ThisMonthExtraHours</h4>
-									<p>Extra Hours</p>
-								</div>
-								<div class="dash-stats-list">
-									<h4>@Model.ThisMonthDiscountHours</h4>
-									<p>Discount Hours</p>
-								</div>
-							</div>
+					<div id="attendance-print">
+						<div class="row align-items-center">
+                            <h5 class="dash-title col-10">Attendance Summary</h5>
+							<button class="btn col-2" type="submit" onclick="printContent('attendance-print')"><i class="fa fa-print"></i></button>
 						</div>
+                        <div class="card">
+                            <h5 class="card-header">This Month</h5>
+                            <h5 class="card-header">@DateTime.Now.ToString("MMMM")</h5>
+                            <div class="card-body">
+                                <div class="time-list">
+                                    <div class="dash-stats-list">
+                                        <h4>@Model.ThisMonthWorkDays</h4>
+                                        <p>@DateTime.Now.ToString("MMM") Work Days</p>
+                                    </div>
+                                    <div class="dash-stats-list">
+                                        <h4>@Model.ThisMonthAttendanceCount / @Model.ThisMonthWorkDaysUntilToday</h4>
+                                        <p>@DateTime.Now.ToString("MMM") Attendance</p>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="time-list">
+                                    <div class="dash-stats-list">
+                                        <h4>@Model.ThisMonthExtraHours</h4>
+                                        <p>Extra Hours</p>
+                                    </div>
+                                    <div class="dash-stats-list">
+                                        <h4>@Model.ThisMonthDiscountHours</h4>
+                                        <p>Discount Hours</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h5 class="card-header">Last Month </h5>
+                            <h5 class="card-header">@DateTime.Now.AddMonths(-1).ToString("MMMM")</h5>
+                            <div class="card-body">
+                                <div class="time-list">
+                                    <div class="dash-stats-list">
+                                        <h4>@Model.LastMonthWorkDays</h4>
+                                        <p> Work Days</p>
+                                    </div>
+                                    <div class="dash-stats-list">
+                                        <h4>@Model.LastMonthAttendanceCount / @Model.LastMonthWorkDays</h4>
+                                        <p>Attendance</p>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="time-list">
+                                    <div class="dash-stats-list">
+                                        <h4>@Model.LastMonthExtraHours</h4>
+                                        <p>Extra Hours</p>
+                                    </div>
+                                    <div class="dash-stats-list">
+                                        <h4>@Model.LastMonthDiscountHours</h4>
+                                        <p>Discount Hours</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 					</div>
 
-					<div class="card">
-						<h5 class="card-header">Last Month </h5>
-						<h5 class="card-header">@DateTime.Now.AddMonths(-1).ToString("MMMM")</h5>
-						<div class="card-body">
-							<div class="time-list">
-								<div class="dash-stats-list">
-									<h4>@Model.LastMonthWorkDays</h4>
-									<p> Work Days</p>
-								</div>
-								<div class="dash-stats-list">
-									<h4>@Model.LastMonthAttendanceCount / @Model.LastMonthWorkDays</h4>
-									<p>Attendance</p>
-								</div>
-							</div>
-							<hr />
-							<div class="time-list">
-								<div class="dash-stats-list">
-									<h4>@Model.LastMonthExtraHours</h4>
-									<p>Extra Hours</p>
-								</div>
-								<div class="dash-stats-list">
-									<h4>@Model.LastMonthDiscountHours</h4>
-									<p>Discount Hours</p>
-								</div>
-							</div>
-						</div>
-					</div>
 					@Html.Partial("_AttendanceChart",Model)
 				</section>
 			</div>

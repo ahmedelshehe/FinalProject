@@ -16,7 +16,6 @@ namespace FinalProject.Controllers
 
         }
         [AuthorizeByPermission("Salary", Operation.Show)]
-        [AuthorizeByPermission("Salary", Operation.Update)]
         public IActionResult Index(int? empId, int? year, int? month)
         {
 

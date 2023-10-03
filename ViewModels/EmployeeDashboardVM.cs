@@ -2,7 +2,6 @@
 using FinalProject.Helper;
 using FinalProject.RepoServices;
 using Newtonsoft.Json;
-
 namespace FinalProject.ViewModels
 {
 	public class EmployeeDashboardVM
@@ -41,7 +40,7 @@ namespace FinalProject.ViewModels
 		}
 
 		public List<Vacation> Vacations { get { 
-				return vacationRepository.GetVacations().Where(v=>v.EmployeeId == Employee.Id ).OrderBy(v => v.StartDate).ToList();
+				return vacationRepository.GetVacations().Where(v=>v.EmployeeId == Employee.Id ).Take(4).OrderBy(v => v.StartDate).ToList();
 			} }
 		public int ThisMonthAttendanceCount 
 		{ get {
