@@ -53,7 +53,6 @@ namespace FinalProject.RepoServices
                 context.AppUsers.Remove(deleteUser);
                 context.SaveChanges();
             }
-            throw new NotImplementedException();
         }
     }
 }

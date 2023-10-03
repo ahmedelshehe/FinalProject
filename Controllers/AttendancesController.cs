@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.StaticFiles;
 using FinalProject.Helper;
 using FinalProject.ViewModels;
 using FinalProject.Utilities;
+using Microsoft.AspNetCore.Identity;
 
 namespace FinalProject.Controllers
 {
@@ -25,11 +26,15 @@ namespace FinalProject.Controllers
     {
         private readonly IHostingEnvironment Environment;
         private IConfiguration Configuration;
-        public IEmployeeRepository employeeRepository { get; set; }
-        public IDepartmentRepository departmentRepository { get; set; }
+        private IEmployeeRepository employeeRepository { get; set; }
+        private IDepartmentRepository departmentRepository { get; set; }
+        private UserManager<AppUser> userManager { get; set; }
         private readonly IAttendanceRepositoryService attendanceRepository;
+        
 
-        public AttendancesController(IAttendanceRepositoryService _attendanceRepository, IEmployeeRepository _employeeRepository, IDepartmentRepository _departmentRepository, IHostingEnvironment _environment, IConfiguration _configuration)
+private readonly HttpContext httpContext;
+
+        public AttendancesController(IAttendanceRepositoryService _attendanceRepository, IEmployeeRepository _employeeRepository, IDepartmentRepository _departmentRepository, IHostingEnvironment _environment, IConfiguration _configuration, UserManager<AppUser> _userManager, IHttpContextAccessor httpContextAccessor)
         {
 
             attendanceRepository = _attendanceRepository;
@@ -37,6 +42,8 @@ namespace FinalProject.Controllers
             departmentRepository = _departmentRepository;
             Environment = _environment;
             Configuration = _configuration;
+            userManager = _userManager;
+            httpContext = httpContextAccessor.HttpContext;
         }
 
         public async Task<IActionResult> Index()
@@ -51,13 +58,14 @@ namespace FinalProject.Controllers
 
             return View(attendanceRepository.GetEmployeeAttendancesByName(""));
         }
-            [HttpPost]
+        [HttpPost]
         public  IActionResult SearchIndex(string searchName,DateTime to ,DateTime from)
         {
             var list = new List<EmployeeAttendanceVM>();
-
-           // if (searchName != null || searchName != "")
-           // {
+            ViewBag.EmployeeName=searchName;
+            ViewBag.DeptName=searchName;
+            ViewBag.to=to;
+            ViewBag.from=from;
 
                 if (attendanceRepository.GetAttendances() != null)
                 {
@@ -93,18 +101,29 @@ namespace FinalProject.Controllers
                 }
 
 
-                //  list =  attendanceRepository.GetEmployeeAttendancesByDeptName(searchName);
 
             }
-                    //return list;
-                
-           // }
-          
-
             return View(list) ;
 
         }
+     
+        [HttpGet]
+        public async Task<IActionResult> EmployeeReport()
+        {
+            // Retrieve the current user's username
+            string username = httpContext.User.Identity.Name;
 
+
+
+            var user =  await userManager.FindByNameAsync(username);
+
+            var attendacesEmployeeReport = attendanceRepository.GetEmployeeAttendancesByEmployeeID(user.EmpId);
+
+            //var user = await UserManager.GetAsync(User);
+
+            return View(attendacesEmployeeReport);
+
+        }
 
         [HttpPost]
         public async Task<IActionResult> Search(DateTime Date)
