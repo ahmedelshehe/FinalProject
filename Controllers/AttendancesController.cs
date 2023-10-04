@@ -11,6 +11,7 @@ using PagedList;
 using Microsoft.AspNetCore;
 using X.PagedList;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace FinalProject.Controllers
 {
@@ -46,15 +47,18 @@ namespace FinalProject.Controllers
 			return View(await attendances.ToPagedListAsync(pageNumber, pageSize));
 
         }
-        public async Task<IActionResult> SearchIndex()
+        public async Task<IActionResult> SearchIndex(int? page)
         {
-            
+            int pageSize = 25;
+            int pageNumber = (page ?? 1);
 
-            return View(attendanceRepository.GetEmployeeAttendancesByName(""));
+            return View(await attendanceRepository.GetEmployeeAttendancesByName("").ToPagedListAsync(pageNumber, pageSize));
         }
         [HttpPost]
-        public  IActionResult SearchIndex(string searchName,DateTime to ,DateTime from)
+        public async  Task<IActionResult> SearchIndex(string searchName,DateTime to ,DateTime from,int? page)
         {
+            int pageSize = 25;
+            int pageNumber = (page ?? 1);
             var list = new List<EmployeeAttendanceVM>();
             ViewBag.EmployeeName=searchName;
             ViewBag.DeptName=searchName;
@@ -97,7 +101,7 @@ namespace FinalProject.Controllers
 
 
             }
-            return View(list) ;
+            return View(await list.ToPagedListAsync(pageNumber, pageSize)) ;
 
         }
      
@@ -120,12 +124,13 @@ namespace FinalProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Search(DateTime Date)
+        public async Task<IActionResult> Search(DateTime Date,int? page)
         {
+            int pageSize = 25;
+            int pageNumber = (page ?? 1);
+            var attendances = attendanceRepository.GetAttendances().Where(a => a.Date.Date == Date.Date);
 
-            var attendaces = attendanceRepository.GetAttendances().Where(a => a.Date.Date == Date.Date);
-
-            return View("Index",attendaces);
+            return View("Index", await attendances.ToPagedListAsync(pageNumber, pageSize));
 
         }
         // GET: Attendances/Details/5
@@ -147,17 +152,7 @@ namespace FinalProject.Controllers
 
         public IActionResult Create()
         {
-            //if (employeeRepository.GetEmployees() != null)
-            //{
             ViewData["EmployeeId"] = new SelectList(employeeRepository.GetEmployees(), "Id", "FirstName");
-
-            //}
-            //else
-            //{
-            //    ViewData["EmployeeId"] = null;
-
-            //}
-
             return View();
         }
 
@@ -170,7 +165,7 @@ namespace FinalProject.Controllers
         [AuthorizeByPermission("Attendance", Operation.Add)]
 
 
-        public async Task<IActionResult> Create([Bind("ArrivalTime,DepartureTime,Date,EmployeeId")] Attendance attendance)
+        public IActionResult Create([Bind("ArrivalTime,DepartureTime,Date,EmployeeId")] Attendance attendance)
         {
             if (ModelState.IsValid)
             {
@@ -195,10 +190,10 @@ namespace FinalProject.Controllers
 
         [AuthorizeByPermission("Attendance", Operation.Update)]
 
-        public async Task<IActionResult> Edit(int id,DateTime date)
+        public IActionResult Edit(int id, DateTime date)
         {
-           
-            var editedAttendane = attendanceRepository.GetAttendance(id,date);
+
+            var editedAttendane = attendanceRepository.GetAttendance(id, date);
             if (editedAttendane == null)
             {
                 return NotFound();
@@ -215,18 +210,13 @@ namespace FinalProject.Controllers
 
         [AuthorizeByPermission("Attendance", Operation.Update)]
 
-        public async Task<IActionResult> Edit([Bind("ArrivalTime,DepartureTime,Date,EmployeeId")] Attendance attendance)
+        public IActionResult Edit([Bind("ArrivalTime,DepartureTime,Date,EmployeeId")] Attendance attendance)
         {
-           
-
             if (ModelState.IsValid)
             {
                 try
                 {
-
-
                     attendanceRepository.UpdateAttendance(attendance);
-
                 }
                 catch (Exception e)
                 {
@@ -239,16 +229,12 @@ namespace FinalProject.Controllers
         }
 
         // GET: Attendances/Delete/5
-        
+
         [AuthorizeByPermission("Attendance", Operation.Delete)]
 
         public async Task<IActionResult> Delete(int id,DateTime date)
         {
-           
-
-            var delAttendance = attendanceRepository.GetAttendance(id,date);
-           
-
+            var delAttendance = attendanceRepository.GetAttendance(id,date);        
             return View(delAttendance);
         }
 
@@ -260,15 +246,9 @@ namespace FinalProject.Controllers
 
         public async Task<IActionResult> DeleteConfirmed(int id, DateTime date)
         {
-            if (id == null || id <= 0 || date == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Attendances'  is null.");
-            }
             Attendance attendance = new Attendance();
             attendance.EmployeeId = id;
             attendance.Date = date;
-
-
             attendanceRepository.DeleteAttendance(attendance);
             return RedirectToAction(nameof(Index));
         }
@@ -288,7 +268,6 @@ namespace FinalProject.Controllers
         {
             if (postedFile != null)
             {
-                //var dt = attendanceRepository.ReadUploadedFile(postedFile);
                 var dt = attendanceRepository.ReadExcel(postedFile);
                 var attendanceList = attendanceRepository.convertDataTableToListAttendance(dt);
                 attendanceRepository.insertBulk(attendanceList);
@@ -307,14 +286,11 @@ namespace FinalProject.Controllers
                 var dt = attendanceRepository.ReadExcel(postedFile);
                 var attendanceList = attendanceRepository.convertDataTableToListAttendance(dt);
                 var statusList = attendanceRepository.InsertAttendanceList(attendanceList);
-                //  var statusList = attendanceRepository.InsertBulkAttendanceAndUpdateIFExist(attendanceList);
                 if (statusList != null)
                 {
                     var file = attendanceRepository.InsertDataInfileAndDownloadIt(statusList);
-                    //Determine the Content Type of the File.
                     string contentType = "";
                     new FileExtensionContentTypeProvider().TryGetContentType(file.Name, out contentType);
-                    //  return file;
                     return new FileStreamResult(file, contentType);
                 }
             }
@@ -328,14 +304,11 @@ namespace FinalProject.Controllers
             {
                 var dt = attendanceRepository.ReadExcel(postedFile);
                 var attendanceList = attendanceRepository.convertDataTableToListAttendance(dt);
-              //  var statusList = attendanceRepository.InsertAttendanceList(attendanceList);
                   var statusList = attendanceRepository.InsertBulkAttendanceAndUpdateIFExist(attendanceList);
                 if (statusList.Count != 0 )
                 {
                     var file = attendanceRepository.InsertDataInfileAndDownloadIt(statusList);
-                   // DownloadFile(file);
                     ViewBag.flagDownload = true;
-                    //   ViewBag.file = file.Name;
 
                     var fullPath = file.Name;
                     ViewBag.FullPath = fullPath;
@@ -358,14 +331,12 @@ namespace FinalProject.Controllers
             {
                 var dt = attendanceRepository.ReadExcel(postedFile);
                 var attendanceList = attendanceRepository.convertDataTableToListAttendance(dt);
-                  //var statusList = attendanceRepository.InsertAttendanceList(attendanceList);
                var statusList = attendanceRepository.InsertBulkAttendanceAndUpdateIFExist(attendanceList);
                 if (statusList.Count != 0)
                 {
                     var file = attendanceRepository.InsertDataInfileAndDownloadIt(statusList);
                     // DownloadFile(file);
                     ViewBag.flagDownload = true;
-                    //   ViewBag.file = file.Name;
 
                     var fullPath = file.Name;
                     ViewBag.FullPath = fullPath;

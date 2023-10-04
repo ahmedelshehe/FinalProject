@@ -40,7 +40,9 @@
 	<link rel="stylesheet" href="~/css/bootstrap.min.css">
 
 	<!-- Fontawesome CSS -->
-	<link rel="stylesheet" href="~/css/font-awesome.min.css">
+	<link rel="stylesheet" href="~/css/fontawesome.min.css" asp-append-version="true">
+	<link rel="stylesheet" href="~/css/font-awesome.min.css" asp-append-version="true">
+
 
 	<!-- Lineawesome CSS -->
 	<link rel="stylesheet" href="~/css/line-awesome.min.css">
@@ -49,7 +51,8 @@
 	<link rel="stylesheet" href="~/plugins/morris/morris.css">
 
 	<!-- Main CSS -->
-	<link rel="stylesheet" href="~/css/style.css">
+	<link rel="stylesheet" href="~/css/style.css" asp-append-version="true">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;700&family=Young+Serif&display=swap" rel="stylesheet">
@@ -59,35 +62,6 @@
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 	<![endif]-->
-	@await RenderSectionAsync("Head", required: false)
-	<script>
-		window.onload = function () {
-
-			var chart = new CanvasJS.Chart("chartContainer", {
-				animationEnabled: true,
-				title: {
-					text: "Ice Cream Sales Over a Month"
-				},
-				axisX: {
-					valueFormatString: "DD MMM"
-				},
-				axisY: {
-					title: "Sales (in USD)",
-					prefix: "$"
-				},
-				data: [{
-					type: "spline",
-					xValueType: "dateTime",
-					xValueFormatString: "DD MMM",
-					yValueFormatString: "$#,###",
-					dataPoints: @Html.Raw(Model)
-					}]
-			});
-			chart.render();
-
-		}
-	</script>
-	<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
 
 
 </head>
