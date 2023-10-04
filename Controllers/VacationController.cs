@@ -80,7 +80,7 @@ namespace FinalProject.Controllers
             }
 
             TimeSpan duration = (TimeSpan)(vacation.EndDate - vacation.StartDate);
-            int numberOfDays = (int)duration.TotalDays;
+            int numberOfDays = (int)duration.TotalDays +1;
 
             if (numberOfDays <= 0)
             {
@@ -116,11 +116,7 @@ namespace FinalProject.Controllers
 
             vacation.Status = VacationStatus.Approved;
             VacationRepository.UpdateVacation(id, vacation, date);
-
-            TimeSpan duration = (TimeSpan)(vacation.EndDate - vacation.StartDate);
-            int numberOfDays = (int)duration.TotalDays;
-
-            employee.AvailableVacations -= numberOfDays;
+            employee.AvailableVacations -= vacation.VacationDays;
             EmployeeRepository.UpdateEmployee(id, employee);
 
             return RedirectToAction(nameof(Index));

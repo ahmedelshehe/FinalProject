@@ -75,25 +75,7 @@ namespace FinalProject.RepoServices
                 context.SaveChanges();
             }
         }
-        //public List<EmployeeAttendanceVM> searchAttendance(string name)
-        //{
-        //    var students = context.Attendances.FromSqlRaw("GetStudents 'Bill'").ToList();
-
-
-
-        //    //var employeesList = context.Employees.Where(s => s.FirstName.Contains(name)).ToList();
-        //    //foreach (var employee in employeesList)
-        //    //{
-        //    //    context.Attendances.Where(e => e.EmployeeId == employee.Id);
-
-        //    //}
-
-        //    //var attendances = from m in context.Attendances
-        //    //             select m
-        //    //             ;
-
-        //}
-
+   
 
         public  List<EmployeeAttendanceVM> GetEmployeeAttendancesByDeptName(string Deptname)
         {
@@ -116,8 +98,7 @@ namespace FinalProject.RepoServices
         }
         public List<EmployeeAttendanceVM> GetEmployeeAttendancesByName(string name = "")
         {
-            //if (name != null)
-            //{
+           
             string fname = "";
             string lname = "";
 
@@ -145,16 +126,10 @@ namespace FinalProject.RepoServices
                         else if (words.Length == 2)
                         {
                             lname = words[1];
-                            //var start = name.IndexOf(" ");
-                            //lname = name.Substring(start+1, name.Length-1);
-
+                          
                         }
                     }
                 }
-
-
-
-
                 var parameter = new List<SqlParameter>();
                 parameter.Add(new SqlParameter("@FName", fname));
                 parameter.Add(new SqlParameter("@LName", lname));
@@ -163,31 +138,49 @@ namespace FinalProject.RepoServices
                 try
                 {
                     var list = context.EmployeeAttendanceReport.FromSqlRaw("EXECUTE SelectAllEmployeesByName @FName , @LName", parameter.ToArray()).ToList();
-                    // SqlParameter pContactName = new SqlParameter("@ContactName", contactName);
-                    // return this.Customers.FromSql("EXECUTE Customers_SearchCustomers @ContactName", pContactName);
                     return list;
 
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine(ex.Message);
+
                     return null;
 
-                    Console.WriteLine(ex.Message);
                 }
-                // var result = context.EmployeeAttendanceReport.ExecuteSqlRaw(@"exec SelectAllEmployeesByName @FName, @LName, @ProductPrice", parameter.ToArray()).ToList();
+            }
+            return null;
+        }
 
+        public List<EmployeeAttendanceVM> GetEmployeeAttendancesByEmployeeID(int empId )
+        {
+            if (GetAttendances() != null)
+            {
+                var parameter = new List<SqlParameter>();
+                parameter.Add(new SqlParameter("@EmpID", empId));
 
-                //  var result = context.Database.ExecuteSqlRaw(@"exec SelectAllEmployeesByName @FName, @LName, @ProductPrice", parameter.ToArray());
+                try
+                {
+                    var list = context.EmployeeAttendanceReport.FromSqlRaw("EXECUTE SelectAllEmployeesByEmployeeId  @EmpID", parameter.ToArray()).ToList();
+                   
+                    return list;
 
-                // }
+                }
+                catch (Exception ex)
+                {
+
+                    Console.WriteLine(ex.Message);
+                    return null;
+
+                }
+
             }
             return null;
         }
 
         public List<EmployeeAttendanceVM> GetEmployeeAttendancesByNameAndDate(DateTime startDate, DateTime endDate, string name = "")
         {
-            //if (name != null)
-            //{
+            
             string fname = "";
             string lname = "";
 
@@ -215,84 +208,59 @@ namespace FinalProject.RepoServices
                         else if (words.Length == 2)
                         {
                             lname = words[1];
-                            //var start = name.IndexOf(" ");
-                            //lname = name.Substring(start+1, name.Length-1);
-
+                         
                         }
                     }
                 }
-
-                
-                    
-
                     var parameter = new List<SqlParameter>();
                     parameter.Add(new SqlParameter("@FName", fname));
                     parameter.Add(new SqlParameter("@LName", lname));
                     parameter.Add(new SqlParameter("@startDate", startDate));
                     parameter.Add(new SqlParameter("@EndDate", endDate));
 
-                    try
-                    {
+                try
+                {
                     var list = context.EmployeeAttendanceReport.FromSqlRaw("EXECUTE SelectAllEmployeesByNameAndDate @FName , @LName ,@startDate,@EndDate", parameter.ToArray()).ToList();
-                    // SqlParameter pContactName = new SqlParameter("@ContactName", contactName);
-                    // return this.Customers.FromSql("EXECUTE Customers_SearchCustomers @ContactName", pContactName);
+
                     return list;
 
-                    }
-                    catch (Exception ex)
-                    {
-                        return null;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
 
-                        Console.WriteLine(ex.Message);
-                    }
-                    // var result = context.EmployeeAttendanceReport.ExecuteSqlRaw(@"exec SelectAllEmployeesByName @FName, @LName, @ProductPrice", parameter.ToArray()).ToList();
+                    return null;
 
-
-                    //  var result = context.Database.ExecuteSqlRaw(@"exec SelectAllEmployeesByName @FName, @LName, @ProductPrice", parameter.ToArray());
-
-               // }
+                }
+                   
             }
             return null;
         }
         public List<EmployeeAttendanceVM> GetEmployeeAttendancesByDeptNameAndDate(DateTime startDate, DateTime endDate, string name = "")
         {
-            //if (name != null)
-            //{
-            string fname = "";
-            string lname = "";
+           
 
             if (GetAttendances() != null)
                 {
-                
-
-                
-                    
-
                     var parameter = new List<SqlParameter>();
-                    parameter.Add(new SqlParameter("@DeptName", fname));
+                    parameter.Add(new SqlParameter("@DeptName", name));
                     parameter.Add(new SqlParameter("@startDate", startDate));
                     parameter.Add(new SqlParameter("@EndDate", endDate));
 
-                    try
-                    {
+                try
+                {
                     var list = context.EmployeeAttendanceReport.FromSqlRaw("EXECUTE SelectAllEmployeesByDeptNameAndDate @DeptName ,@startDate,@EndDate", parameter.ToArray()).ToList();
-                    // SqlParameter pContactName = new SqlParameter("@ContactName", contactName);
-                    // return this.Customers.FromSql("EXECUTE Customers_SearchCustomers @ContactName", pContactName);
+
                     return list;
 
-                    }
-                    catch (Exception ex)
-                    {
-                        return null;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
 
-                        Console.WriteLine(ex.Message);
-                    }
-                    // var result = context.EmployeeAttendanceReport.ExecuteSqlRaw(@"exec SelectAllEmployeesByName @FName, @LName, @ProductPrice", parameter.ToArray()).ToList();
+                    return null;
 
-
-                    //  var result = context.Database.ExecuteSqlRaw(@"exec SelectAllEmployeesByName @FName, @LName, @ProductPrice", parameter.ToArray());
-
-               // }
+                }            
             }
             return null;
         }
@@ -493,19 +461,7 @@ namespace FinalProject.RepoServices
                         EmployeeId = Convert.ToInt32(dt.Rows[i][3].ToString())
                     });
                 }
-                //foreach (DataRow objDataRow in dt.Rows)
-                //{
-                //    if (objDataRow.ItemArray.All(x => string.IsNullOrEmpty(x?.ToString()))) continue;
-                //    attendanceList.Add(new Attendance()
-                //    {
-                //        ArrivalTime = Convert.ToDateTime(objDataRow["ArrivalTime"].ToString()),
-                //        Date = Convert.ToDateTime(objDataRow["Date"].ToString()),
-                //        DepartureTime = Convert.ToDateTime(objDataRow["DepartureTime"].ToString()),
-                //        EmployeeId = Convert.ToInt32(objDataRow["EmployeeId"].ToString())
-                       
-                //    });
-                //}
-                // Add the record in Database
+               
             }
             return attendanceList;
 
@@ -524,7 +480,6 @@ namespace FinalProject.RepoServices
                 return ex.Message ;
             }
 
-           // TimeSpan = DateTime.Now - Start; // check total time taken
 
         }
         public List<AttendanceStatus> InsertAttendanceList(List<Attendance> attendancesList)
@@ -595,9 +550,7 @@ namespace FinalProject.RepoServices
 
                     }
 
-                }
-            
-               
+                }            
 
             }
 
@@ -625,83 +578,6 @@ namespace FinalProject.RepoServices
 
 
 
-        /*
-
-
-       [HttpPost]
-       public IActionResult Index(IFormFile postedFile)
-       {
-           if (postedFile != null)
-           {
-               //Create a Folder.
-               strin g path = Path.Combine(this.Environment.WebRootPath, "Uploadt");
-               if (!Directory.Exists(path))
-               {
-                   Directory.CreateDirectory(path);
-               }
-
-               //Save the uploaded Excel file.
-               string fileName = Path.GetFileName(postedFile.FileName);
-               string filePath = Path.Combine(path, fileName);
-               using (FileStream stream = new FileStream(filePath, FileMode.Create))
-               {
-                   postedFile.CopyTo(stream);
-               } 
-
-               //Read the connection string for the Excel file.
-               string conString = this.Configuration.GetConnectionString("ExcelConString");
-               DataTable dt = new DataTable();  
-               conString = string.Format(conString, filePath);
-
-               using (OleDbConnection connExcel = new OleDbConnection(conString))
-               {
-                   using (OleDbCommand cmdExcel = new OleDbCommand())
-                   {
-                       using (OleDbDataAdapter odaExcel = new OleDbDataAdapter())
-                       {
-                           cmdExcel.Connection = connExcel;
-
-                           //Get the name of First Sheet.
-                           connExcel.Open();
-                           DataTable dtExcelSchema;
-                           dtExcelSchema = connExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                           string sheetName = dtExcelSchema.Rows[0]["TABLE_NAME"].ToString();
-                           connExcel.Close();
-
-                           //Read Data from First Sheet.
-                           connExcel.Open();
-                           cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                           odaExcel.SelectCommand = cmdExcel;
-                           odaExcel.Fill(dt);
-                           connExcel.Close();
-                       }
-                   }
-               }
-
-               //Insert the Data read from the Excel file to Database Table.
-               conString = this.Configuration.GetConnectionString("constr");
-               using (SqlConnection con = new SqlConnection(conString))
-               {
-                   using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(con))
-                   {
-                       //Set the database table name.
-                       sqlBulkCopy.DestinationTableName = "dbo.Customers";
-
-                       //[OPTIONAL]: Map the Excel columns with that of the database table.
-                       sqlBulkCopy.ColumnMappings.Add("Id", "CustomerId");
-                       sqlBulkCopy.ColumnMappings.Add("Name", "Name");
-                       sqlBulkCopy.ColumnMappings.Add("Country", "Country");
-
-                       con.Open();
-                       sqlBulkCopy.WriteToServer(dt);
-                       con.Close();
-                   }
-               }
-           }
-
-           return View();
-       }
-   }*/
 
     }
 }

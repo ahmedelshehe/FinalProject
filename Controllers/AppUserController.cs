@@ -31,7 +31,7 @@ namespace FinalProject.Controllers
 
         public IActionResult Index()
         {
-            var users = userRepository.GetUsers();
+			var users = userRepository.GetUsers();
             return View(users);
         }
 
