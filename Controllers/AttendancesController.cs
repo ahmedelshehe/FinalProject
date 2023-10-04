@@ -10,6 +10,8 @@ using FinalProject.Utilities;
 using PagedList;
 using Microsoft.AspNetCore;
 using X.PagedList;
+using Microsoft.AspNetCore.Identity;
+
 namespace FinalProject.Controllers
 {
 
@@ -23,8 +25,7 @@ namespace FinalProject.Controllers
         private readonly IAttendanceRepositoryService attendanceRepository;
         
 
-private readonly HttpContext httpContext;
-
+        private readonly HttpContext httpContext;
         public AttendancesController(IAttendanceRepositoryService _attendanceRepository, IEmployeeRepository _employeeRepository, IDepartmentRepository _departmentRepository, IHostingEnvironment _environment, IConfiguration _configuration, UserManager<AppUser> _userManager, IHttpContextAccessor httpContextAccessor)
         {
 

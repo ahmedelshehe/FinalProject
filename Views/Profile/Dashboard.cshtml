@@ -28,23 +28,25 @@
 									<i class="fa fa-building-o"></i>
 								</div>
 								<div class="dash-card-content">
-									@if (!Model.IsTodayOfficialVacation)
-									{
-										@if (DateTime.Today.DayOfWeek == DayOfWeek.Friday || DateTime.Today.DayOfWeek == DayOfWeek.Saturday)
-									{
-										<p>Today is @DateTime.Today.DayOfWeek</p>
-									}
-									else if(!Model.IsTodayWork)
-									{
-										<p>Today is Your Vacation</p>
-									}
-									else
-									{
-										<p>Today is A Normal Work Day</p>
-										}
-									}else
+									@if (Model.IsTodayOfficialVacation)
 									{
 										<p>Today is A National Holiday</p>
+
+										
+									}else
+									{
+										@if (DateTime.Today.DayOfWeek == DayOfWeek.Friday || DateTime.Today.DayOfWeek == DayOfWeek.Saturday)
+										{
+											<p>Today is @DateTime.Today.DayOfWeek</p>
+										}
+										else if (!Model.IsTodayWork)
+										{
+											<p>Today is Your Vacation</p>
+										}
+										else
+										{
+											<p>Today is A Normal Work Day</p>
+										}
 									}
 
 									
@@ -66,10 +68,14 @@
 									<i class="fa fa-building-o"></i>
 								</div>
 								<div class="dash-card-content ">
-									@if (!Model.IsTodayOfficialVacation)
+									@if (Model.IsTommorowOfficialVacation)
+									{
+										<p>Tommorow is A National Holiday</p>
+									}
+									else
 									{
 										@if (DateTime.Today.AddDays(1).DayOfWeek == DayOfWeek.Friday ||
-																	DateTime.Today.AddDays(1).DayOfWeek == DayOfWeek.Saturday)
+																						DateTime.Today.AddDays(1).DayOfWeek == DayOfWeek.Saturday)
 										{
 											<p>Tommorow is @DateTime.Today.AddDays(1).DayOfWeek</p>
 										}
@@ -82,10 +88,7 @@
 											<p>Tommorow is A Normal Work Day</p>
 										}
 									}
-									else
-									{
-										<p>Tommorow is A National Holiday</p>
-									}
+
 								</div>
 							</div>
 						</a>
@@ -104,10 +107,15 @@
 									<i class="fa fa-building-o"></i>
 								</div>
 								<div class="dash-card-content">
-									@if (!Model.IsYesterdayOfficialVacation)
+									@if (Model.IsYesterdayOfficialVacation)
+									{
+										<p>Yesterday is A National Holiday</p>
+										
+									}
+									else
 									{
 										@if (DateTime.Today.AddDays(-1).DayOfWeek == DayOfWeek.Friday ||
-																	DateTime.Today.AddDays(-1).DayOfWeek == DayOfWeek.Saturday)
+												DateTime.Today.AddDays(-1).DayOfWeek == DayOfWeek.Saturday)
 										{
 											<p>Yesterday was @DateTime.Today.AddDays(-1).DayOfWeek</p>
 										}
@@ -119,10 +127,6 @@
 										{
 											<p>Yesterday was A Normal Work Day</p>
 										}
-									}
-									else
-									{
-										<p>Yesterday is A National Holiday</p>
 									}
 								</div>
 							</div>
