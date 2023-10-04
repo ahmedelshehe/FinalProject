@@ -80,7 +80,7 @@ namespace FinalProject.Controllers
             }
 
             TimeSpan duration = (TimeSpan)(vacation.EndDate - vacation.StartDate);
-            int numberOfDays = (int)duration.TotalDays;
+            int numberOfDays = (int)duration.TotalDays +1;
 
             if (numberOfDays <= 0)
             {

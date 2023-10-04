@@ -1,5 +1,13 @@
-﻿@model IEnumerable<FinalProject.Models.Attendance>
+﻿@model X.PagedList.StaticPagedList<Attendance>
 @using FinalProject.Utilities;
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc.Core.Fluent
+@using X.PagedList.Web.Common;
+﻿@{
+    var pagedList = (IPagedList)Model;
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewData["Title"] = "Attendance Dashboard";
@@ -42,16 +50,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ArrivalTime)
+                Arrival Time
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DepartureTime)
+                Departure Time
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employee)
+                Employee
             </th>
             <th>
                 Edit
@@ -94,3 +102,17 @@
 }
     </tbody>
 </table>
+<div id="container" style="margin-left: 20px">
+    <div class="pagination" style="margin-left: 400px">
+        @Html.PagedListPager(pagedList, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+               {                       
+                        DisplayLinkToIndividualPages = true,
+                        DisplayPageCountAndCurrentLocation = false,
+                        MaximumPageNumbersToDisplay = 10,
+                        UlElementClasses =new string[] {"pagination justify-content-end"},
+                        LiElementClasses = new string[] { "page-item" },
+                        PageClasses = new string[] { "page-link" },
+                   
+                    })
+    </div>
+</div>

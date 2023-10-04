@@ -1,24 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using FinalProject.Data;
 using FinalProject.Models;
 using FinalProject.RepoServices;
-using Microsoft.Extensions.Hosting;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
-using System.IO;
-using System.IO.Pipes;
-using System.Net.Mime;
 using Microsoft.AspNetCore.StaticFiles;
-using FinalProject.Helper;
 using FinalProject.ViewModels;
 using FinalProject.Utilities;
-using Microsoft.AspNetCore.Identity;
-
+using PagedList;
+using Microsoft.AspNetCore;
+using X.PagedList;
 namespace FinalProject.Controllers
 {
 
@@ -40,10 +31,12 @@ namespace FinalProject.Controllers
             Configuration = _configuration;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
-            var attendances = attendanceRepository.GetAttendances().ToList();
-			return View(attendances);
+			int pageSize = 25;
+			int pageNumber = (page ?? 1);
+			var attendances = attendanceRepository.GetAttendances().ToList();
+			return View(await attendances.ToPagedListAsync(pageNumber, pageSize));
 
         }
         public async Task<IActionResult> SearchIndex()

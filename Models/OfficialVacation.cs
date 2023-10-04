@@ -11,7 +11,7 @@ namespace FinalProject.Models
         public string Title { get; set; }
         [Required]
         [DataType(DataType.Date)]
-        public DateTime? Date { get; set; }
+        public DateTime Date { get; set; }
 
         [ForeignKey("User")]
         public string? UserId;
