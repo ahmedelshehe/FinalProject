@@ -75,15 +75,11 @@ Version      : 3.4
 ========================================*/
 
 @font-face {
-	font-family: 'Material Icons';
+	font-family: 'Rubik', sans-serif;
 	font-style: normal;
 	font-weight: 400;
 	src: url(../fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
-	src: local('Material Icons'),
-	local('MaterialIcons-Regular'),
-	url(../fonts/MaterialIcons-Regular.woff2) format('woff2'),
-	url(../fonts/MaterialIcons-Regular.woff) format('woff'),
-	url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
+	src: local('Material Icons'), local('MaterialIcons-Regular'), url(../fonts/MaterialIcons-Regular.woff2) format('woff2'), url(../fonts/MaterialIcons-Regular.woff) format('woff'), url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
 }
 @font-face {
 	font-family: 'CircularStd';
@@ -142,9 +138,9 @@ html {
 	height: 100%;
 }
 body {
-	font-family: 'CircularStd', sans-serif;
+	font-family: 'Rubik', sans-serif;
 	font-size: .9375rem;
-	color: #1f1f1f;
+	color: #2f1847;
 	background-color: #f7f7f7;
 	min-height: 100%;
 	overflow-x: hidden;
@@ -155,7 +151,7 @@ h3,
 h4,
 h5,
 h6 {
-	font-family: CircularStd;
+	font-family: 'Rubik', sans-serif;
 	margin-top: 0;
 	font-weight: 500;
 }
@@ -1121,11 +1117,7 @@ table.dataTable thead > tr > td.sorting {
 -----------------------*/
 
 .header {
-	background: #00c5fb;
-	background: -moz-linear-gradient(left, #00c5fb 0%, #0253cc 100%);
-	background: -webkit-linear-gradient(left, #00c5fb 0%, #0253cc 100%);
-	background: -ms-linear-gradient(left, #00c5fb 0%, #0253cc 100%);
-	background: linear-gradient(to right, #00c5fb 0%, #0253cc 100%);
+	background-color:black;
 	border-bottom: 1px solid transparent;
 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
 	height: 60px;
@@ -1291,16 +1283,18 @@ table.dataTable thead > tr > td.sorting {
 -----------------------*/
 
 .sidebar {
-    background-color: #34444c;
-    border-right: 1px solid transparent;
-    bottom: 0;
-    left: 0;
-    margin-top: 0;
-    position: fixed;
-    top: 60px;
-    transition: all 0.2s ease-in-out 0s;
-    width: 230px;
-    z-index: 1001;
+	background-color: whitesmoke;
+	box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+	color: #301E67;
+	border-right: 1px solid transparent;
+	bottom: 0;
+	left: 0;
+	margin-top: 0;
+	position: fixed;
+	top: 60px;
+	transition: all 0.2s ease-in-out 0s;
+	width: 230px;
+	z-index: 1001;
 }
 .sidebar.opened {
 	-webkit-transition: all 0.4s ease;
@@ -1313,6 +1307,7 @@ table.dataTable thead > tr > td.sorting {
 }
 .sidebar-menu {
 	padding: 10px 0;
+
 }
 .sidebar-menu ul {
 	font-size: 15px;
@@ -1321,37 +1316,43 @@ table.dataTable thead > tr > td.sorting {
 	padding: 0;
 	position: relative;
 }
-.sidebar-menu li a {
-	color: #b7c0cd;
-	display: block;
-	font-size: 15px;
-	height: auto;
-	padding: 0 20px;
-}
+	.sidebar-menu li a {
+		color: #301E67;
+		display: block;
+		font-size: 15px;
+		height: auto;
+		padding: 0 20px;
+	}
 .sidebar-menu li a:hover {
-	color: #fff;
+	color: black;
 }
 .sidebar-menu li.active a {
 	color: #fff;
-	background-color: rgba(0, 0, 0, 0.2);
+	background-color:mediumpurple;
 }
 .menu-title {
-    color: #ebecf1;
-    display: flex;
-    font-size: 14px;
-    opacity: 1;
-    padding: 5px 15px;
-    white-space: nowrap;
+	color: #301E67;
+	display: flex;
+	font-size: 14px;
+	opacity: 1;
+	padding: 5px 15px;
+	white-space: nowrap;
 }
 .menu-title > i {
 	float: right;
 	line-height: 40px;
 }
 .sidebar-menu li.menu-title a {
-    color: #00c5fb;
-    display: inline-block;
-    margin-left: auto;
-    padding: 0;
+	color: black;
+	display: inline-block;
+	margin-left: auto;
+	padding: 0;
+}
+.sidebar-menu li.menu-title a i{
+	color: black;
+	display: inline-block;
+	margin-left: auto;
+	padding: 0;
 }
 .sidebar-menu li.menu-title a.btn {
     color: #fff;
@@ -1362,7 +1363,7 @@ table.dataTable thead > tr > td.sorting {
     padding: 10px 15px;
 }
 .sidebar-menu ul ul a.active {
-	color: #00c5fb;
+	color: black;
 	text-decoration: underline;
 }
 .mobile-user-menu {
@@ -1519,6 +1520,7 @@ table.dataTable thead > tr > td.sorting {
 	transition: all 0.2s ease-in-out 0s;
 }
 .sidebar-menu ul li a i {
+	color: #03001C;
 	display: inline-block;
 	font-size: 24px;
 	line-height: 24px;
@@ -1577,7 +1579,10 @@ table.dataTable thead > tr > td.sorting {
     margin-bottom: 20px;
 }
 .card-header {
-    background-color: #fff;
+	font-size: 2em;
+	color: purple;
+	background: transparent;
+	border-bottom: none;
 }
 .card-footer {
     background-color: #fff;
@@ -1731,9 +1736,10 @@ table.dataTable thead > tr > td.sorting {
 -----------------------*/
 
 .card-table .card-header {
-	background-color: #fff;
-	border-bottom: 1px solid #ddd;
+	background-color: transparent;
 	padding: 15px;
+	background: transparent;
+	border-bottom: none;
 }
 .card-table .card-body {
 	padding: 0;
@@ -8154,4 +8160,8 @@ ul.comment-list li ul.children {
 		font-size: 14px;
 		min-width: inherit;
 	}
+}
+
+.custom-font-size {
+	font-size: 64px;
 }

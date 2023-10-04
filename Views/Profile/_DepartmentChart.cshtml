@@ -1,0 +1,24 @@
+﻿@model AdminDashboardVM
+<div style="height: 25vh; width: 25vh;">
+	<canvas id="DeptChart"></canvas>
+</div><script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+	const ctx = document.getElementById('DeptChart');
+
+	new Chart(ctx, {
+		type: 'pie',
+		data: {
+			labels: @Html.Raw(Model.DepartmentNames),
+			datasets: [{
+				label: 'Employee #',
+				data: @Html.Raw(Model.DepartmentEmployeesCount),
+				backgroundColor: @Html.Raw(Model.DeptChartColors),
+				hoverOffset: 4
+			}]
+		},
+		options: {
+
+		}
+	});
+</script>
