@@ -27,7 +27,7 @@ namespace FinalProject.Data
         public void SeedDatabase()
         {
             List<string> entityNames =
-                new List<string> { "Employee", "Attendance", "AppRole", "AppUser", "Permission", "Department", "OfficialVacation"  };
+                new List<string> { "Employee", "Attendance", "AppRole", "AppUser", "Permission", "Department", "OfficialVacation","Vacation"  };
             List<Permission> permissions = new List<Permission>();
            
             int id = -1;

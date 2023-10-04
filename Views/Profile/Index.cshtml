@@ -48,7 +48,11 @@
 											<a href="">@age</a>
 										</div> 
 									</li>
-													
+
+									<li>
+										<div class="title">Salary:</div>
+										<div class="text"><a href="">@Model.Salary</a></div>
+									</li>
 													<li>
 														<div class="title">Phone:</div>
 														<div class="text"><a href="">01096366618</a></div>
@@ -100,8 +104,11 @@
 											</div>
 										</div>
 									</div>
-									<div class="pro-edit"><a data-target="#profile_info" data-toggle="modal" class="edit-icon" href="#"><i class="fa fa-pencil"></i></a></div>
-								</div>
+					<div class="pro-edit">
+						<a href="@Url.Action("Edit", "Employee", new { id = Model.Id })" class="edit-icon"><i class="fa fa-pencil"></i>Edit</a>
+					</div>
+					```
+				</div>
 							</div>
 						</div>
 					</div>
@@ -116,3 +123,4 @@
 						</div>
 					</div>
 				</div>
+

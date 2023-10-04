@@ -26,9 +26,9 @@ namespace FinalProject.Controllers
         [HttpGet]
 		//This Action to get all Vacations of all users for admin
 
-		[AuthorizeByPermission("Vacation", Operation.Add)]
+		/*[AuthorizeByPermission("Vacation", Operation.Add)]
 		[AuthorizeByPermission("Vacation", Operation.Update)]
-
+        */
 		public IActionResult Index()
         {
             return View(VacationRepository.GetVacations());
@@ -36,6 +36,7 @@ namespace FinalProject.Controllers
         [HttpGet]
         //This Action to get all Vacations of login user for user
 
+        //[Authorize]
         public async Task<IActionResult> MyVacations()
         {
             
@@ -48,7 +49,7 @@ namespace FinalProject.Controllers
 
 
         [HttpGet]
-		[AuthorizeByPermission("Vacation", Operation.Add)]
+		//[AuthorizeByPermission("Vacation", Operation.Add)]
 		public ActionResult Create()
         {
             return View();
@@ -56,7 +57,8 @@ namespace FinalProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Vacation vacation)
+		//[AuthorizeByPermission("Vacation", Operation.Add)]
+		public async Task<IActionResult> Create(Vacation vacation)
         {
             if (!ModelState.IsValid)
             {
@@ -99,10 +101,10 @@ namespace FinalProject.Controllers
             return RedirectToAction("MyVacations");
         }
 
-        
 
-        
-        public async Task<IActionResult> Approve(int id, DateTime date)
+
+		//[AuthorizeByPermission("Vacation", Operation.Update)]
+		public async Task<IActionResult> Approve(int id, DateTime date)
         {
             var vacation = VacationRepository.GetVacation(id, date);
 
@@ -126,8 +128,8 @@ namespace FinalProject.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
-        public async Task<IActionResult> Reject(int id, DateTime date)
+		//[AuthorizeByPermission("Vacation", Operation.Update)]
+		public async Task<IActionResult> Reject(int id, DateTime date)
         {
             var vacation = VacationRepository.GetVacation(id, date);
 
