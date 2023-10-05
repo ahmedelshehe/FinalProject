@@ -6,17 +6,18 @@ namespace FinalProject.ViewModels
 {
     public class EmployeeAttendanceVM
     {
-        public EmployeeAttendanceVM() {
-    }
         [Required(ErrorMessage = "You should enter arrival time")]
         [Display(Name = "Arrival Time")]
+        [DataType(DataType.Time)]
         public DateTime ArrivalTime { get; set; }
         [Required(ErrorMessage = "You should enter departure time")]
         [Display(Name = "Departure Time")]
-        public DateTime DepartureTime { get; set; }
+		[DataType(DataType.Time)]
+		public DateTime DepartureTime { get; set; }
 
         [Required(ErrorMessage = "You should enter date ")]
-        public DateTime Date { get; set; }
+		[DataType(DataType.Date)]
+		public DateTime Date { get; set; }
         [Required(ErrorMessage = "You should enter the first name")]
         [MaxLength(10, ErrorMessage = "You should enter at most 10 Letters")]
         [Display(Name = "First Name")]
@@ -33,7 +34,6 @@ namespace FinalProject.ViewModels
         public int EmployeeId { get; set; }
 
 
-        //public string ? FulllName { get; set; }
 
     }
 }

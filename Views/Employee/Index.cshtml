@@ -38,22 +38,13 @@
                 <i class="fa fa-venus-mars"></i> Gender
             </th>
             <th>
-                <i class="fa fa-calendar"></i> Birth Date
-            </th>
-            <th>
-                <i class="fa fa-calendar"></i> Contract Date
+                <i class="fa fa-calendar"></i> Age
             </th>
             <th @(canAddUsers)>
                 <i class="fa fa-user-plus"></i> Add User
             </th>
-            <th @(canUpdateEmployees)>
-                <i class="fa fa-pencil"></i> Update
-            </th>
-            <th @(canShowEmployees)>
-                <i class="fa fa-eye"></i> Details
-            </th>
-            <th @(canDeleteEmployees)>
-                <i class="fa fa-trash"></i> Delete
+            <th @(canUpdateEmployees) colspan="3">
+                Actions
             </th>
           
         </tr>
@@ -80,30 +71,27 @@
                 @Html.DisplayFor(modelItem => item.employee.Gender)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.employee.BirthDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.employee.ContractDate)
+                @Html.DisplayFor(modelItem => item.employee.Age)
             </td>
             
                 <td>
                     @if (!item.isUserAdded)
                     {
-                        <a asp-route-id="@item.employee.Id" asp-action="AddUser" asp-controller="Account" class="btn btn-outline-primary">Add User</a>
+                        <a asp-route-id="@item.employee.Id" asp-action="AddUser" asp-controller="Account"><i class="fa fa-user-plus"></i></a>
                     }
                     else{
-                        <span>Already A User</span>
+                        <i class="fa fa-check"></i>
                         
                         }
                     </td>
                 <td @(canUpdateEmployees)>
-                    <a asp-action="Edit" asp-route-id="@item.employee.Id" class="btn btn-outline-secondary">Edit</a>
+                    <a asp-action="Edit" asp-route-id="@item.employee.Id"><i class="fa fa-pencil"></i></a>
                 </td>
                 <td @(canShowEmployees)>
-                    <a asp-action="Details" asp-route-id="@item.employee.Id" class="btn btn-outline-info">Details</a>
+                    <a asp-action="Details" asp-route-id="@item.employee.Id" ><i class="fa fa-eye"></i></a>
                 </td>
                 <td @(canDeleteEmployees)>
-                    <a asp-action="Delete" asp-route-id="@item.employee.Id" class="btn btn-outline-danger">Delete</a>
+                    <a asp-action="Delete" asp-route-id="@item.employee.Id"><i class="fa fa-trash"></i></a>
                 </td>
            
         </tr>

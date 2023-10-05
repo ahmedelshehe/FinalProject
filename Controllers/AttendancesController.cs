@@ -1,35 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using FinalProject.Data;
 using FinalProject.Models;
 using FinalProject.RepoServices;
-using Microsoft.Extensions.Hosting;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
-using System.IO;
-using System.IO.Pipes;
-using System.Net.Mime;
 using Microsoft.AspNetCore.StaticFiles;
-using FinalProject.Helper;
 using FinalProject.ViewModels;
 using FinalProject.Utilities;
+using PagedList;
+using Microsoft.AspNetCore;
+using X.PagedList;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FinalProject.Controllers
 {
-
+    [Authorize]
     public class AttendancesController : Controller
     {
         private readonly IHostingEnvironment Environment;
         private IConfiguration Configuration;
-        public IEmployeeRepository employeeRepository { get; set; }
-        public IDepartmentRepository departmentRepository { get; set; }
+        private IEmployeeRepository employeeRepository { get; set; }
+        private IDepartmentRepository departmentRepository { get; set; }
+        private UserManager<AppUser> userManager { get; set; }
         private readonly IAttendanceRepositoryService attendanceRepository;
-
-        public AttendancesController(IAttendanceRepositoryService _attendanceRepository, IEmployeeRepository _employeeRepository, IDepartmentRepository _departmentRepository, IHostingEnvironment _environment, IConfiguration _configuration)
+        public AttendancesController(IAttendanceRepositoryService _attendanceRepository, IEmployeeRepository _employeeRepository, IDepartmentRepository _departmentRepository, IHostingEnvironment _environment, IConfiguration _configuration, UserManager<AppUser> _userManager)
         {
 
             attendanceRepository = _attendanceRepository;
@@ -37,27 +33,29 @@ namespace FinalProject.Controllers
             departmentRepository = _departmentRepository;
             Environment = _environment;
             Configuration = _configuration;
+            userManager = _userManager;
         }
 
-        public async Task<IActionResult> Index()
+        [AuthorizeByEntity("Attendance")]
+        public async Task<IActionResult> Index(int? page)
         {
-            var attendances = attendanceRepository.GetAttendances().ToList();
-            return View(attendances);
+			int pageSize = 25;
+			int pageNumber = (page ?? 1);
+			var attendances = attendanceRepository.GetAttendances().ToList();
+			return View(await attendances.ToPagedListAsync(pageNumber, pageSize));
 
         }
-        public async Task<IActionResult> SearchIndex()
-        {
-            
 
-            return View(attendanceRepository.GetEmployeeAttendancesByName(""));
-        }
-            [HttpPost]
-        public  IActionResult SearchIndex(string searchName,DateTime to ,DateTime from)
+        [HttpPost][HttpGet]
+        public async  Task<IActionResult> SearchIndex(string searchName,DateTime to ,DateTime from,int? page)
         {
+            int pageSize = 25;
+            int pageNumber = (page ?? 1);
             var list = new List<EmployeeAttendanceVM>();
-
-           // if (searchName != null || searchName != "")
-           // {
+            ViewBag.EmployeeName=searchName;
+            ViewBag.DeptName=searchName;
+            ViewBag.to=to;
+            ViewBag.from=from;
 
                 if (attendanceRepository.GetAttendances() != null)
                 {
@@ -93,26 +91,34 @@ namespace FinalProject.Controllers
                 }
 
 
-                //  list =  attendanceRepository.GetEmployeeAttendancesByDeptName(searchName);
 
             }
-                    //return list;
-                
-           // }
-          
+            return View(await list.ToPagedListAsync(pageNumber, pageSize)) ;
 
-            return View(list) ;
+        }
+     
+
+        [HttpGet]
+        public async Task<IActionResult> EmployeeReport()
+        {
+            var userId = userManager.GetUserId(User);
+            var user = await userManager.FindByIdAsync(userId);
+
+            var attendacesEmployeeReport = attendanceRepository.GetEmployeeAttendancesByEmployeeID(user.EmpId);
+
+            return View(attendacesEmployeeReport);
 
         }
 
-
         [HttpPost]
-        public async Task<IActionResult> Search(DateTime Date)
+        [AuthorizeByPermission("Attendance",Operation.Show)]
+        public async Task<IActionResult> Search(DateTime Date,int? page)
         {
+            int pageSize = 25;
+            int pageNumber = (page ?? 1);
+            var attendances = attendanceRepository.GetAttendances().Where(a => a.Date.Date == Date.Date);
 
-            var attendaces = attendanceRepository.GetAttendances().Where(a => a.Date.Date == Date.Date);
-
-            return View("Index",attendaces);
+            return View("Index", await attendances.ToPagedListAsync(pageNumber, pageSize));
 
         }
         // GET: Attendances/Details/5
@@ -131,20 +137,9 @@ namespace FinalProject.Controllers
 
         // GET: Attendances/Create
         [AuthorizeByPermission("Attendance", Operation.Add)]
-
         public IActionResult Create()
         {
-            //if (employeeRepository.GetEmployees() != null)
-            //{
             ViewData["EmployeeId"] = new SelectList(employeeRepository.GetEmployees(), "Id", "FirstName");
-
-            //}
-            //else
-            //{
-            //    ViewData["EmployeeId"] = null;
-
-            //}
-
             return View();
         }
 
@@ -155,9 +150,7 @@ namespace FinalProject.Controllers
         [ValidateAntiForgeryToken]
 
         [AuthorizeByPermission("Attendance", Operation.Add)]
-
-
-        public async Task<IActionResult> Create([Bind("ArrivalTime,DepartureTime,Date,EmployeeId")] Attendance attendance)
+        public IActionResult Create([Bind("ArrivalTime,DepartureTime,Date,EmployeeId")] Attendance attendance)
         {
             if (ModelState.IsValid)
             {
@@ -181,11 +174,10 @@ namespace FinalProject.Controllers
 
 
         [AuthorizeByPermission("Attendance", Operation.Update)]
-
-        public async Task<IActionResult> Edit(int id,DateTime date)
+        public IActionResult Edit(int id, DateTime date)
         {
-           
-            var editedAttendane = attendanceRepository.GetAttendance(id,date);
+
+            var editedAttendane = attendanceRepository.GetAttendance(id, date);
             if (editedAttendane == null)
             {
                 return NotFound();
@@ -199,21 +191,14 @@ namespace FinalProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         [AuthorizeByPermission("Attendance", Operation.Update)]
-
-        public async Task<IActionResult> Edit([Bind("ArrivalTime,DepartureTime,Date,EmployeeId")] Attendance attendance)
+        public IActionResult Edit([Bind("ArrivalTime,DepartureTime,Date,EmployeeId")] Attendance attendance)
         {
-           
-
             if (ModelState.IsValid)
             {
                 try
                 {
-
-
                     attendanceRepository.UpdateAttendance(attendance);
-
                 }
                 catch (Exception e)
                 {
@@ -226,16 +211,11 @@ namespace FinalProject.Controllers
         }
 
         // GET: Attendances/Delete/5
-        
-        [AuthorizeByPermission("Attendance", Operation.Delete)]
 
+        [AuthorizeByPermission("Attendance", Operation.Delete)]
         public async Task<IActionResult> Delete(int id,DateTime date)
         {
-           
-
-            var delAttendance = attendanceRepository.GetAttendance(id,date);
-           
-
+            var delAttendance = attendanceRepository.GetAttendance(id,date);        
             return View(delAttendance);
         }
 
@@ -244,18 +224,11 @@ namespace FinalProject.Controllers
         [ValidateAntiForgeryToken]
 
         [AuthorizeByPermission("Attendance", Operation.Delete)]
-
         public async Task<IActionResult> DeleteConfirmed(int id, DateTime date)
         {
-            if (id == null || id <= 0 || date == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Attendances'  is null.");
-            }
             Attendance attendance = new Attendance();
             attendance.EmployeeId = id;
             attendance.Date = date;
-
-
             attendanceRepository.DeleteAttendance(attendance);
             return RedirectToAction(nameof(Index));
         }
@@ -265,17 +238,18 @@ namespace FinalProject.Controllers
             return attendanceRepository.AttendanceExists(id, date);
         }
 
-        public  IActionResult UploadFile()
+		[AuthorizeByPermission("Attendance", Operation.Add)]
+		public IActionResult UploadFile()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult UploadFile(IFormFile postedFile)
+		[AuthorizeByPermission("Attendance", Operation.Add)]
+		public IActionResult UploadFile(IFormFile postedFile)
         {
             if (postedFile != null)
             {
-                //var dt = attendanceRepository.ReadUploadedFile(postedFile);
                 var dt = attendanceRepository.ReadExcel(postedFile);
                 var attendanceList = attendanceRepository.convertDataTableToListAttendance(dt);
                 attendanceRepository.insertBulk(attendanceList);
@@ -287,21 +261,19 @@ namespace FinalProject.Controllers
         }
 
         [HttpPost]
-        public FileStreamResult UploadFileWithSaveFileStatus(IFormFile postedFile)
+		[AuthorizeByPermission("Attendance", Operation.Add)]
+		public FileStreamResult UploadFileWithSaveFileStatus(IFormFile postedFile)
         {
             if (postedFile != null)
             {
                 var dt = attendanceRepository.ReadExcel(postedFile);
                 var attendanceList = attendanceRepository.convertDataTableToListAttendance(dt);
                 var statusList = attendanceRepository.InsertAttendanceList(attendanceList);
-                //  var statusList = attendanceRepository.InsertBulkAttendanceAndUpdateIFExist(attendanceList);
                 if (statusList != null)
                 {
                     var file = attendanceRepository.InsertDataInfileAndDownloadIt(statusList);
-                    //Determine the Content Type of the File.
                     string contentType = "";
                     new FileExtensionContentTypeProvider().TryGetContentType(file.Name, out contentType);
-                    //  return file;
                     return new FileStreamResult(file, contentType);
                 }
             }
@@ -309,20 +281,18 @@ namespace FinalProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult UploadFileWithSaveFileStatusUpdateWithDownloadButton(IFormFile postedFile)
+		[AuthorizeByPermission("Attendance", Operation.Add)]
+		public ActionResult UploadFileWithSaveFileStatusUpdateWithDownloadButton(IFormFile postedFile)
         {
             if (postedFile != null)
             {
                 var dt = attendanceRepository.ReadExcel(postedFile);
                 var attendanceList = attendanceRepository.convertDataTableToListAttendance(dt);
-              //  var statusList = attendanceRepository.InsertAttendanceList(attendanceList);
                   var statusList = attendanceRepository.InsertBulkAttendanceAndUpdateIFExist(attendanceList);
                 if (statusList.Count != 0 )
                 {
                     var file = attendanceRepository.InsertDataInfileAndDownloadIt(statusList);
-                   // DownloadFile(file);
                     ViewBag.flagDownload = true;
-                    //   ViewBag.file = file.Name;
 
                     var fullPath = file.Name;
                     ViewBag.FullPath = fullPath;
@@ -339,20 +309,19 @@ namespace FinalProject.Controllers
             }
         }
         [HttpPost]
-        public ActionResult UploadFileWithSaveFileStatusWithDownloadButton(IFormFile postedFile)
+		[AuthorizeByPermission("Attendance", Operation.Add)]
+		public ActionResult UploadFileWithSaveFileStatusWithDownloadButton(IFormFile postedFile)
         {
             if (postedFile != null)
             {
                 var dt = attendanceRepository.ReadExcel(postedFile);
                 var attendanceList = attendanceRepository.convertDataTableToListAttendance(dt);
-                  //var statusList = attendanceRepository.InsertAttendanceList(attendanceList);
                var statusList = attendanceRepository.InsertBulkAttendanceAndUpdateIFExist(attendanceList);
                 if (statusList.Count != 0)
                 {
                     var file = attendanceRepository.InsertDataInfileAndDownloadIt(statusList);
                     // DownloadFile(file);
                     ViewBag.flagDownload = true;
-                    //   ViewBag.file = file.Name;
 
                     var fullPath = file.Name;
                     ViewBag.FullPath = fullPath;
@@ -369,7 +338,8 @@ namespace FinalProject.Controllers
             }
         }
 
-        public FileStreamResult DownloadFile(string fullPath)
+		[AuthorizeByPermission("Attendance", Operation.Add)]
+		public FileStreamResult DownloadFile(string fullPath)
         {
             //Determine the Content Type of the File.
             string contentType = "";

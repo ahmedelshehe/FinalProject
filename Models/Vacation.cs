@@ -23,7 +23,7 @@ namespace FinalProject.Models
 
         TimeSpan _vacationDuration { get
             {
-                return EndDate.Value.Subtract(StartDate.Value);
+                return EndDate.Value.Date.Subtract(StartDate.Value.Date);
             } }
         public int VacationDays {
 			get
@@ -34,7 +34,7 @@ namespace FinalProject.Models
 				}
 				else
 				{
-					return (int)_vacationDuration.TotalDays;
+					return (int)_vacationDuration.Days + 1;
 				}
 			}
 		}

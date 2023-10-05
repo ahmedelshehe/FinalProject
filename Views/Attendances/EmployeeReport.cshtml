@@ -1,0 +1,125 @@
+﻿@model IEnumerable<FinalProject.ViewModels.EmployeeAttendanceVM>
+@{
+    ViewData["Title"] = "Index";
+    var permissions = Context.Items["Permissions"] as List<Permission>;
+    var canShowAttendance = false;
+    var canAddAttendance = false;
+    var canUpdateAttendance = false;
+    var canDeleteAttendance = false;
+    bool havePermissions = permissions == null ? false : true;
+    if (havePermissions)
+    {
+        canShowAttendance = permissions.Any(p => p.Name == "Attendances" && p.Operation == Operation.Show);
+        canAddAttendance = permissions.Any(p => p.Name == "Attendances" && p.Operation == Operation.Add);
+        canUpdateAttendance = permissions.Any(p => p.Name == "Attendances" && p.Operation == Operation.Update);
+        canDeleteAttendance = permissions.Any(p => p.Name == "Attendances" && p.Operation == Operation.Delete);
+    }
+}
+<center>
+
+<h1>
+    Attendance Report For <bold>
+        @Html.DisplayFor(modelItem => Model.FirstOrDefault().FirstName)  @Html.DisplayFor(modelItem => Model.FirstOrDefault().LastName)
+    </bold>
+</h1>
+</center>
+<br />
+<br />
+
+<br />
+
+<table class="table">
+    <thead>
+        <tr>
+
+
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.DeptName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.ArrivalTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepartureTime)
+            </th>
+
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+
+
+
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DeptName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ArrivalTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DepartureTime)
+                    </td>
+
+                    <td @(
+                        canUpdateAttendance ? "" : "hidden"
+                        )>
+                        @Html.ActionLink("Edit", "Edit", new { id=item.EmployeeId , date=item.Date  }) |
+                    </td>
+                    <td @(
+                        canShowAttendance ? "" : "hidden"
+                        )>
+                        @Html.ActionLink("Details", "Details", new { id=item.EmployeeId , date=item.Date }) |
+                    </td>
+
+                    <td @(
+                        canDeleteAttendance ? "" : "hidden"
+                        )>
+                        @Html.ActionLink("Delete", "Delete", new {  id=item.EmployeeId , date=item.Date })
+                    </td>
+
+                </tr>
+            }
+
+        }
+        else
+        {
+            <tr colspan="8">NO DATA</tr>
+        }
+
+
+    </tbody>
+</table>

@@ -1,6 +1,8 @@
 ﻿using FinalProject.Models;
 using FinalProject.RepoServices;
+using FinalProject.Utilities;
 using FinalProject.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +28,8 @@ namespace FinalProject.Controllers
 
 
 
-
+        [Authorize]
+        [AuthorizeByPermission("AppUser",Operation.Add)]
         public async Task<IActionResult> AddUser(int id)
         {
             var emp_user = EmployeeRepository.GetEmployee(id);
@@ -60,9 +63,9 @@ namespace FinalProject.Controllers
         {
             await signInManager.SignOutAsync();
 			return RedirectToAction("Login", "Account");
-		}
+        }
 
-		[HttpGet]
+        [HttpGet]
         public IActionResult Login()
         {
             return View();

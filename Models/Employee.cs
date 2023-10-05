@@ -48,6 +48,20 @@ namespace FinalProject.Models
 /*		[AgeRange(ErrorMessage = "Age should be between 20 and 60 years.")]
 */		public DateTime BirthDate { get; set; }
 
+        public int Age
+        {
+            get
+            {
+                DateTime now = DateTime.Today;
+                int age = now.Year - BirthDate.Year;
+                if (BirthDate > now.AddYears(-age))
+                {
+                    age--;
+                }
+                return age;
+            }
+        }
+
         [Required(ErrorMessage = "You should enter a contract date")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]

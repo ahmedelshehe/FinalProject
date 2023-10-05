@@ -1,4 +1,6 @@
-﻿using FinalProject.Models;
+﻿
+
+using FinalProject.Models;
 using FinalProject.ViewModels;
 using FinalProject.ViewModels.FinalProject.Models;
 using System.Data;
@@ -17,6 +19,7 @@ namespace FinalProject.RepoServices
         public bool AttendanceExists(int id, DateTime date);
         public string insertBulk(List<Attendance> attendancesList);
         public  List<EmployeeAttendanceVM> GetEmployeeAttendancesByName(string name);
+        public  List<EmployeeAttendanceVM> GetEmployeeAttendancesByEmployeeID(int empId);
 
         public List<EmployeeAttendanceVM> GetEmployeeAttendancesByDeptName(string Deptname);
         public List<EmployeeAttendanceVM> GetEmployeeAttendancesByNameAndDate(DateTime startDate, DateTime endDate, string name = "");
