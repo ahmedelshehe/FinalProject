@@ -23,6 +23,7 @@ namespace FinalProject.Controllers
         }
 
         [HttpGet]
+
         [AuthorizeByEntity("Vacation")]
 		public IActionResult Index()
         {
@@ -47,6 +48,7 @@ namespace FinalProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+
 		[AuthorizeByPermission("Vacation", Operation.Add)]
 		public async Task<IActionResult> Create(Vacation vacation)
         {
@@ -90,6 +92,7 @@ namespace FinalProject.Controllers
 
             return RedirectToAction("MyVacations");
         }
+
 
 
 

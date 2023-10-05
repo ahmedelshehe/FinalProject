@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using FinalProject.Helper;
 using FinalProject.ViewModels;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 
 namespace FinalProject.Controllers
@@ -40,6 +41,41 @@ namespace FinalProject.Controllers
 
 			return View(employee);
 		}
+		public async Task<IActionResult> Edit()
+		{
+			var user = await userManager.GetUserAsync(User);
+			var employee = employeeRepository.GetEmployee(user.EmpId);
+
+			return View(employee);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Edit(int id, Employee employee)
+		{
+			if (ModelState.IsValid)
+			{
+				var validationResults = new List<ValidationResult>();
+				var isValid = Validator.TryValidateObject(employee, new ValidationContext(employee), validationResults, true);
+				if (isValid)
+				{
+					employeeRepository.UpdateEmployee(id, employee);
+					return RedirectToAction(nameof(Index));
+				}
+				else
+				{
+					foreach (var validationResult in validationResults)
+					{
+						foreach (var memberName in validationResult.MemberNames)
+						{
+							ModelState.AddModelError(memberName, validationResult.ErrorMessage);
+						}
+					}
+				}
+			}
+
+			return View(employee);
+		}
+
 
         [Authorize]
         public async Task<IActionResult> Dashboard()
