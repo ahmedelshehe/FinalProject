@@ -1,5 +1,14 @@
 ﻿@model IEnumerable<FinalProject.ViewModels.EmployeeViewModel>
 @using FinalProject.Utilities
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc.Core.Fluent
+@using X.PagedList.Web.Common;
+﻿@{
+    var pagedList = (IPagedList)Model;
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
 @{
     ViewData["Title"] = "Index";
     var permissions = Context.Items["Permissions"] as List<Permission>;
@@ -98,3 +107,17 @@
 }
     </tbody>
 </table>
+
+<div id="container" style="margin-left: 20px">
+    <div class="pagination" style="margin-left: 400px">
+        @Html.PagedListPager(pagedList, page => Url.Action("Index", new { page = page }), new PagedListRenderOptions
+        {
+        DisplayLinkToIndividualPages = true,
+        DisplayPageCountAndCurrentLocation = false,
+        MaximumPageNumbersToDisplay = 10,
+        UlElementClasses = new string[] { "pagination justify-content-end" },
+        LiElementClasses = new string[] { "page-item" },
+        PageClasses = new string[] { "page-link" },
+        })
+    </div>
+</div>
