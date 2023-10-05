@@ -5,8 +5,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using FinalProject.Helper;
 using FinalProject.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+
 namespace FinalProject.Controllers
 {
+	[Authorize]
 	public class ProfileController : Controller
 	{
 		private readonly UserManager<AppUser> userManager;
@@ -28,8 +31,8 @@ namespace FinalProject.Controllers
 			this.vacationRepository = vacationRepository;
 			this.officialVacationRepository = officialVacationRepository;
 		}
-
-		public async Task<IActionResult> Index()
+        [Authorize]
+        public async Task<IActionResult> Index()
 		{
 			ViewBag.allDepts = DepartmentRepository.GetDepartments();
 			var user = await userManager.GetUserAsync(User);
@@ -38,7 +41,8 @@ namespace FinalProject.Controllers
 			return View(employee);
 		}
 
-		public async Task<IActionResult> Dashboard()
+        [Authorize]
+        public async Task<IActionResult> Dashboard()
 		{
 			var user = await userManager.GetUserAsync(User);
 			var employee = employeeRepository.GetEmployee(user.EmpId);
@@ -47,7 +51,9 @@ namespace FinalProject.Controllers
 			EmployeeDashboardVM vM = new EmployeeDashboardVM(EmployeeAttendances, employee, vacationRepository,officialVacationRepository.GetOfficialVacations());
 			return View(vM);
 		}
-		[HttpPost]
+
+        [Authorize]
+        [HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> RequestVacation(Vacation vacation)
 		{
@@ -83,18 +89,28 @@ namespace FinalProject.Controllers
 
 		}
 
+        [Authorize]
         public async Task<IActionResult> AdminDashboard()
 		{
-            var user = await userManager.GetUserAsync(User);
-            var employee = employeeRepository.GetEmployee(user.EmpId);
-			var employees = employeeRepository.GetEmployees();
-			var departments = DepartmentRepository.GetDepartments();
-			var vacations = vacationRepository.GetVacations();
-			var thisMonthAttendance = attendanceRepository.GetAttendances().Where(a => a.Date.Month == DateTime.Today.Month).ToList();
-			var lastMonthAttendance = attendanceRepository.GetAttendances().Where(a => a.Date.Month == DateTime.Today.AddMonths(-1).Month).ToList();
-			var officialVacations = officialVacationRepository.GetOfficialVacations();
-            AdminDashboardVM vM = new AdminDashboardVM(employee,employees, departments,vacations,thisMonthAttendance,lastMonthAttendance,officialVacations);
-			return View(vM);
+			if (HttpContext.Items["Permissions"] != null)
+			{
+				var user = await userManager.GetUserAsync(User);
+				var employee = employeeRepository.GetEmployee(user.EmpId);
+				var employees = employeeRepository.GetEmployees();
+				var departments = DepartmentRepository.GetDepartments();
+				var vacations = vacationRepository.GetVacations();
+				var thisMonthAttendance = attendanceRepository.GetAttendances().Where(a => a.Date.Month == DateTime.Today.Month).ToList();
+				var lastMonthAttendance = attendanceRepository.GetAttendances().Where(a => a.Date.Month == DateTime.Today.AddMonths(-1).Month).ToList();
+				var officialVacations = officialVacationRepository.GetOfficialVacations();
+				AdminDashboardVM vM = new AdminDashboardVM(employee,employees, departments,vacations,thisMonthAttendance,lastMonthAttendance,officialVacations);
+				return View(vM);
+			}
+			else
+			{
+				return Unauthorized();
+
+			}
+
 		}
     }
 }

@@ -26,7 +26,11 @@ namespace FinalProject.Utilities
         {
             return permissions != null ? permissions.Any(p => p.Name == entityName && p.Operation == operation) ? "" : "hidden" : "hidden";
         }
-    }
+		public static string HasAnyPermission(this List<Permission> permissions, string entityName)
+		{
+			return permissions != null ? permissions.Any(p => p.Name == entityName) ? "" : "hidden" : "hidden";
+		}
+	}
 
 
 

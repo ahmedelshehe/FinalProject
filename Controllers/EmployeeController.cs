@@ -3,6 +3,7 @@ using FinalProject.Models;
 using FinalProject.RepoServices;
 using FinalProject.Utilities;
 using FinalProject.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FinalProject.Controllers
 {
+    [Authorize]
 	public class EmployeeController : Controller
     {
         private readonly UserManager<AppUser> userManager;
@@ -26,6 +28,7 @@ namespace FinalProject.Controllers
             userRepository = UserRepository;
         }
         // GET: EmployeeController
+        [AuthorizeByEntity("Employee")]
         public async Task<ActionResult> Index()
         {
             var employees = EmployeeRepository.GetEmployees();
@@ -59,9 +62,9 @@ namespace FinalProject.Controllers
             return View(EmployeeRepository.GetEmployee(id));
         }
 
-		// GET: EmployeeController/Create
-/*		[AuthorizeByPermission("Employee", Operation.Add)]
-*/		public ActionResult Create()
+        // GET: EmployeeController/Create
+        [AuthorizeByPermission("Employee", Operation.Add)]
+        public ActionResult Create()
         {
             ViewBag.allDepts = DepartmentRepository.GetDepartments();
             return View();
@@ -70,8 +73,8 @@ namespace FinalProject.Controllers
         // POST: EmployeeController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-/*		[AuthorizeByPermission("Employee", Operation.Add)]
-*/		public ActionResult Create(Employee employee)
+        [AuthorizeByPermission("Employee", Operation.Add)]
+        public ActionResult Create(Employee employee)
         {
             ViewBag.allDepts = DepartmentRepository.GetDepartments();
             if (ModelState.IsValid)

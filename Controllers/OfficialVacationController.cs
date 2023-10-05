@@ -3,10 +3,11 @@ using FinalProject.RepoServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using FinalProject.Utilities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FinalProject.Controllers
 {
-
+    [Authorize]
     public class OfficialVacationController : Controller
     {
         private readonly IOfficialVacationRepository officialVacationRepository;
@@ -23,7 +24,6 @@ namespace FinalProject.Controllers
 
         // GET: OfficialVacationController/Details/5
         [AuthorizeByPermission("OfficialVacation", Operation.Show)]
-
         public ActionResult Details(int id)
         {
             return View(officialVacationRepository.GetOfficialVacation(id));
@@ -31,7 +31,6 @@ namespace FinalProject.Controllers
 
         // GET: OfficialVacationController/Create
         [AuthorizeByPermission("OfficialVacation", Operation.Add)]
-
         public ActionResult Create()
         {
             return View();
@@ -41,7 +40,6 @@ namespace FinalProject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthorizeByPermission("OfficialVacation", Operation.Add)]
-
         public ActionResult Create(OfficialVacation officalVacation)
         {
             try
@@ -60,7 +58,6 @@ namespace FinalProject.Controllers
 
         // GET: OfficialVacationController/Edit/5
         [AuthorizeByPermission("OfficialVacation", Operation.Update)]
-
         public ActionResult Edit(int id)
         {
 
@@ -71,7 +68,6 @@ namespace FinalProject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthorizeByPermission("OfficialVacation", Operation.Update)]
-
         public ActionResult Edit(int id, OfficialVacation officalVacation)
         {
             try
@@ -90,8 +86,7 @@ namespace FinalProject.Controllers
 
         // GET: OfficialVacationController/Delete/5
         [AuthorizeByPermission("OfficialVacation", Operation.Delete)]
-
-        public ActionResult Delete(int id)
+       public ActionResult Delete(int id)
 
         {
             return View(officialVacationRepository.GetOfficialVacation(id));
@@ -101,7 +96,6 @@ namespace FinalProject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthorizeByPermission("OfficialVacation", Operation.Delete)]
-
         public ActionResult Delete(int id, IFormCollection collection)
         {
             try

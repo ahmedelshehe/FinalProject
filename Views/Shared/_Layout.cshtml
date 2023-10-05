@@ -1,25 +1,19 @@
 ﻿@using FinalProject.Middleware;
-
+@using FinalProject.Utilities;
 @{
 	ViewData["Title"] = "Index";
 	var permissions = Context.Items["Permissions"] as List<Permission>;
-	var canViewEmployees = false;
-	var canViewDepartments = false;
 	var canViewPermissions = Context.Items["CanViewPermissions"] as bool?;
-	var canViewVacation = Context.Items["CanViewVacationForAdmin"] as bool?;
-	var canViewVacationforUser = Context.Items["CanViewVacationForUser"] as bool?;
-
-	
+	var haveAnyVacation = permissions.HasAnyPermission("Vacation");
+	var IsAuthenticated = User.Identity.IsAuthenticated;
 	bool havePermissions = permissions == null ? false : true;
-	if (havePermissions)
-	{
-		canViewEmployees =
-			permissions.Any(p => p.Name == "Employee");
-		canViewDepartments =
-			permissions.Any(p => p.Name == "Department");
-		
-	}
-	}
+	var haveAnyEmployee = permissions.HasAnyPermission("Employee");
+	var haveAnyDepartment = permissions.HasAnyPermission("Department");
+	var haveAnyAttendance = permissions.HasAnyPermission("Attendance");
+	var haveAnySalary = permissions.HasAnyPermission("Salary");
+	var haveAnyAppRole = permissions.HasAnyPermission("AppRole");
+	var haveAnyAppUser = permissions.HasAnyPermission("AppUser");
+}
 
 
 <!DOCTYPE html>
@@ -80,14 +74,17 @@
 				</a>
 			</div>
 			<!-- /Logo -->
-
-			<a id="toggle_btn" href="javascript:void(0);">
-				<span class="bar-icon">
-					<span></span>
-					<span></span>
-					<span></span>
-				</span>
-			</a>
+			@if (IsAuthenticated)
+			{
+            <a id="toggle_btn" href="javascript:void(0);">
+                <span class="bar-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </a>
+			}
+			
 
 			<!-- Header Title -->
 			<div class="page-title-box">
@@ -103,10 +100,6 @@
 				{
 					<li class="nav-item dropdown has-arrow main-drop">
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-							<span class="user-img">
-								<img src="assets\img\profiles\avatar-21.jpg" alt="">
-								<span class="status online"></span>
-							</span>
 							@{
 								var loggedInUser = Context.Request.Cookies["LoggedInUser"];
 							}
@@ -116,7 +109,6 @@
 						</a>
 						<div class="dropdown-menu">
 							<a class="dropdown-item" asp-controller="Profile" asp-action="Index">My Profile</a>
-							<a class="dropdown-item" href="settings.html">Settings</a>
 							<a class="dropdown-item"  asp-controller="Account" asp-action="Logout">Logout</a>
 						</div>
 					</li>
@@ -124,7 +116,7 @@
 				else
 				{
 					<li>
-						<a href="/Account/Login" class="btn btn-primary">Login</a>
+						<a href="/Account/Login" class="btn btn-outline-light">Login</a>
 					</li>
 				}
 				
@@ -143,8 +135,9 @@
 
 		</div>
 		<!-- /Header -->
-		<!-- Sidebar -->
-		<div class="sidebar" id="sidebar" @(havePermissions ? "" :"hidden")>
+		@if (IsAuthenticated)
+		{
+		<div class="sidebar" id="sidebar">
 			<div class="sidebar-inner slimscroll">
 				<div id="sidebar-menu" class="sidebar-menu">
 					<ul>
@@ -154,7 +147,7 @@
 						<li class="submenu">
 							<a href="#"><i class="la la-dashboard"></i> <span> Dashboard</span> <span class="menu-arrow"></span></a>
 							<ul style="display: none;">
-								<li><a class="active" asp-controller="Profile" asp-action="AdminDashboard">Admin Dashboard</a></li>
+									<li @(havePermissions ? "" : "hidden")><a class="active" asp-controller="Profile" asp-action="AdminDashboard">Admin Dashboard</a></li>
 								<li><a asp-controller="Profile" asp-action="Dashboard">Employee Dashboard</a></li>
 							</ul>
 						</li>
@@ -164,12 +157,10 @@
 						<li class="submenu">
 							<a href="#" class="noti-dot"><i class="la la-user"></i> <span> Employees</span> <span class="menu-arrow"></span></a>
 							<ul style="display: none;">
-								<li><a href="employees.html">All Employees</a></li>
-								<li><a href="holidays.html">Holidays</a></li>
-								<li><a asp-controller="Attendances" asp-action="Index">Attendance (Admin)</a></li>
-								<li><a href="attendance-employee.html">Attendance (Employee)</a></li>
-								<li><a asp-controller="Department" asp-action="Index">Departments</a></li>
-								<li><a href="overtime.html">Overtime</a></li>
+								<li @(haveAnyEmployee)><a asp-action="Index" asp-controller="Employee">All Employees</a></li>
+								<li @(haveAnyAttendance)><a asp-controller="Attendances" asp-action="Index">Attendance (Admin)</a></li>
+								<li><a href="#">Attendance (Employee)</a></li>
+								<li @(haveAnyDepartment)><a asp-controller="Department" asp-action="Index">Departments</a></li>
 							</ul>
 						</li>
 						<li class="menu-title">
@@ -178,63 +169,42 @@
 						<li class="submenu">
 							<a href="#"><i class="la la-money"></i> <span> Payroll </span> <span class="menu-arrow"></span></a>
 							<ul style="display: none;">
-								<li><a href="salary.html"> Employee Salary </a></li>
+									<li><a asp-action="Index" asp-controller="Salary"> Employee Salary </a></li>
 								<li><a href="salary-view.html"> Payslip </a></li>
 								<li><a href="payroll-items.html"> Payroll Items </a></li>
 							</ul>
 						</li>
 						<li>
-						<li @(canViewEmployees ? "" : "hidden")><a asp-controller="Employee" asp-action="Index"><i class="la la-external-link-square"></i> <span>Employees</span></a></li>
-						<li @(canViewDepartments ? "" : "hidden")><a asp-controller="Department" asp-action="Index"><i class="la la-external-link-square"></i> <span>Departments</span></a></li>
+							<li @(haveAnyEmployee)><a asp-controller="Employee" asp-action="Index"><i class="la la-external-link-square"></i> <span>Employees</span></a></li>
+							<li @(haveAnyDepartment)><a asp-controller="Department" asp-action="Index"><i class="la la-external-link-square"></i> <span>Departments</span></a></li>
 
 							@if (canViewPermissions != null)
 							{
 								<li><a asp-controller="Permission" asp-action="Index"><i class="la la-external-link-square"></i> <span>Permissions</span></a></li>
 							}
-							@if (canViewVacation != null)
-							{
-							<li><a asp-controller="Vacation" asp-action="Index"><i class="la la-external-link-square"></i> <span>Vacation(Admin)</span></a></li>
+							<li @(haveAnyVacation)><a asp-controller="Vacation" asp-action="Index"><i class="la la-external-link-square"></i> <span>Vacation(Admin)</span></a></li>
 
-							}
-							@if (canViewVacationforUser != null)
-							{
 							<li><a asp-controller="Vacation" asp-action="MyVacations"><i class="la la-external-link-square"></i> <span>Vacation(User)</span></a></li>
 
-							}
 
 
 							
-						<li><a asp-controller="AppRole" asp-action="Index"><i class="la la-external-link-square"></i> <span>Roles</span></a></li>
-						<li><a asp-controller="OfficialVacation" asp-action="Index"><i class="la la-external-link-square"></i> <span>Official Vacations</span></a></li>
-						<li class="menu-title">
-							<span>Pages</span>
-						</li>
-						<li class="submenu">
-							<a href="#"><i class="la la-user"></i> <span> Profile </span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a href="profile.html"> Employee Profile </a></li>
-								<li><a href="client-profile.html"> Client Profile </a></li>
-							</ul>
-						</li>
-						<li class="submenu">
-							<a href="#"><i class="la la-key"></i> <span> Authentication </span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a href="login.html"> Login </a></li>
-								<li><a href="register.html"> Register </a></li>
-								<li><a href="forgot-password.html"> Forgot Password </a></li>
-								<li><a href="otp.html"> OTP </a></li>
-								<li><a href="lock-screen.html"> Lock Screen </a></li>
-							</ul>
+						<li @(haveAnyAppUser)><a asp-controller="AppUser" asp-action="Index"><i class="la la-external-link-square"></i> <span>Users</span></a></li>
+						<li @(haveAnyAppRole)><a asp-controller="AppRole" asp-action="Index"><i class="la la-external-link-square"></i> <span>Roles</span></a></li>
+						<li ><a asp-controller="OfficialVacation" asp-action="Index"><i class="la la-external-link-square"></i> <span>Official Vacations</span></a></li>
 					</ul>
 				</div>
 			</div>
 		</div>
+
+		}
+		<!-- Sidebar -->
 		<!-- /Sidebar -->
 		<!-- Page Wrapper -->
 		<div class="page-wrapper">
 
 			<!-- Page Content -->
-			<div id="PrintLayout" class="content container-fluid">
+			<div class="content container-fluid" id="print-layout">
 
 				<!-- Page Header -->
 

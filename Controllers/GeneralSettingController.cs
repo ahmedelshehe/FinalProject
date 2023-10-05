@@ -2,12 +2,14 @@
 using FinalProject.RepoServices;
 using FinalProject.Utilities;
 using FinalProject.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Core.Types;
 
 namespace FinalProject.Controllers
 {
+    [Authorize]
     public class GeneralSettingController : Controller
     {
         private readonly IGeneralSettingRepository generalSettingRepository;
