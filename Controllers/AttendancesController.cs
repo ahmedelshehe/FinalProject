@@ -12,10 +12,11 @@ using Microsoft.AspNetCore;
 using X.PagedList;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FinalProject.Controllers
 {
-
+    [Authorize]
     public class AttendancesController : Controller
     {
         private readonly IHostingEnvironment Environment;
@@ -24,10 +25,7 @@ namespace FinalProject.Controllers
         private IDepartmentRepository departmentRepository { get; set; }
         private UserManager<AppUser> userManager { get; set; }
         private readonly IAttendanceRepositoryService attendanceRepository;
-        
-
-        private readonly HttpContext httpContext;
-        public AttendancesController(IAttendanceRepositoryService _attendanceRepository, IEmployeeRepository _employeeRepository, IDepartmentRepository _departmentRepository, IHostingEnvironment _environment, IConfiguration _configuration, UserManager<AppUser> _userManager, IHttpContextAccessor httpContextAccessor)
+        public AttendancesController(IAttendanceRepositoryService _attendanceRepository, IEmployeeRepository _employeeRepository, IDepartmentRepository _departmentRepository, IHostingEnvironment _environment, IConfiguration _configuration, UserManager<AppUser> _userManager)
         {
 
             attendanceRepository = _attendanceRepository;
@@ -36,9 +34,9 @@ namespace FinalProject.Controllers
             Environment = _environment;
             Configuration = _configuration;
             userManager = _userManager;
-            httpContext = httpContextAccessor.HttpContext;
         }
 
+        [AuthorizeByEntity("Attendance")]
         public async Task<IActionResult> Index(int? page)
         {
 			int pageSize = 25;
@@ -47,14 +45,8 @@ namespace FinalProject.Controllers
 			return View(await attendances.ToPagedListAsync(pageNumber, pageSize));
 
         }
-        public async Task<IActionResult> SearchIndex(int? page)
-        {
-            int pageSize = 25;
-            int pageNumber = (page ?? 1);
 
-            return View(await attendanceRepository.GetEmployeeAttendancesByName("").ToPagedListAsync(pageNumber, pageSize));
-        }
-        [HttpPost]
+        [HttpPost][HttpGet]
         public async  Task<IActionResult> SearchIndex(string searchName,DateTime to ,DateTime from,int? page)
         {
             int pageSize = 25;
@@ -105,25 +97,21 @@ namespace FinalProject.Controllers
 
         }
      
+
         [HttpGet]
         public async Task<IActionResult> EmployeeReport()
         {
-            // Retrieve the current user's username
-            string username = httpContext.User.Identity.Name;
-
-
-
-            var user =  await userManager.FindByNameAsync(username);
+            var userId = userManager.GetUserId(User);
+            var user = await userManager.FindByIdAsync(userId);
 
             var attendacesEmployeeReport = attendanceRepository.GetEmployeeAttendancesByEmployeeID(user.EmpId);
-
-            //var user = await UserManager.GetAsync(User);
 
             return View(attendacesEmployeeReport);
 
         }
 
         [HttpPost]
+        [AuthorizeByPermission("Attendance",Operation.Show)]
         public async Task<IActionResult> Search(DateTime Date,int? page)
         {
             int pageSize = 25;
@@ -149,7 +137,6 @@ namespace FinalProject.Controllers
 
         // GET: Attendances/Create
         [AuthorizeByPermission("Attendance", Operation.Add)]
-
         public IActionResult Create()
         {
             ViewData["EmployeeId"] = new SelectList(employeeRepository.GetEmployees(), "Id", "FirstName");
@@ -163,8 +150,6 @@ namespace FinalProject.Controllers
         [ValidateAntiForgeryToken]
 
         [AuthorizeByPermission("Attendance", Operation.Add)]
-
-
         public IActionResult Create([Bind("ArrivalTime,DepartureTime,Date,EmployeeId")] Attendance attendance)
         {
             if (ModelState.IsValid)
@@ -189,7 +174,6 @@ namespace FinalProject.Controllers
 
 
         [AuthorizeByPermission("Attendance", Operation.Update)]
-
         public IActionResult Edit(int id, DateTime date)
         {
 
@@ -207,9 +191,7 @@ namespace FinalProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         [AuthorizeByPermission("Attendance", Operation.Update)]
-
         public IActionResult Edit([Bind("ArrivalTime,DepartureTime,Date,EmployeeId")] Attendance attendance)
         {
             if (ModelState.IsValid)
@@ -231,7 +213,6 @@ namespace FinalProject.Controllers
         // GET: Attendances/Delete/5
 
         [AuthorizeByPermission("Attendance", Operation.Delete)]
-
         public async Task<IActionResult> Delete(int id,DateTime date)
         {
             var delAttendance = attendanceRepository.GetAttendance(id,date);        
@@ -243,7 +224,6 @@ namespace FinalProject.Controllers
         [ValidateAntiForgeryToken]
 
         [AuthorizeByPermission("Attendance", Operation.Delete)]
-
         public async Task<IActionResult> DeleteConfirmed(int id, DateTime date)
         {
             Attendance attendance = new Attendance();
@@ -258,13 +238,15 @@ namespace FinalProject.Controllers
             return attendanceRepository.AttendanceExists(id, date);
         }
 
-        public  IActionResult UploadFile()
+		[AuthorizeByPermission("Attendance", Operation.Add)]
+		public IActionResult UploadFile()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult UploadFile(IFormFile postedFile)
+		[AuthorizeByPermission("Attendance", Operation.Add)]
+		public IActionResult UploadFile(IFormFile postedFile)
         {
             if (postedFile != null)
             {
@@ -279,7 +261,8 @@ namespace FinalProject.Controllers
         }
 
         [HttpPost]
-        public FileStreamResult UploadFileWithSaveFileStatus(IFormFile postedFile)
+		[AuthorizeByPermission("Attendance", Operation.Add)]
+		public FileStreamResult UploadFileWithSaveFileStatus(IFormFile postedFile)
         {
             if (postedFile != null)
             {
@@ -298,7 +281,8 @@ namespace FinalProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult UploadFileWithSaveFileStatusUpdateWithDownloadButton(IFormFile postedFile)
+		[AuthorizeByPermission("Attendance", Operation.Add)]
+		public ActionResult UploadFileWithSaveFileStatusUpdateWithDownloadButton(IFormFile postedFile)
         {
             if (postedFile != null)
             {
@@ -325,7 +309,8 @@ namespace FinalProject.Controllers
             }
         }
         [HttpPost]
-        public ActionResult UploadFileWithSaveFileStatusWithDownloadButton(IFormFile postedFile)
+		[AuthorizeByPermission("Attendance", Operation.Add)]
+		public ActionResult UploadFileWithSaveFileStatusWithDownloadButton(IFormFile postedFile)
         {
             if (postedFile != null)
             {
@@ -353,7 +338,8 @@ namespace FinalProject.Controllers
             }
         }
 
-        public FileStreamResult DownloadFile(string fullPath)
+		[AuthorizeByPermission("Attendance", Operation.Add)]
+		public FileStreamResult DownloadFile(string fullPath)
         {
             //Determine the Content Type of the File.
             string contentType = "";

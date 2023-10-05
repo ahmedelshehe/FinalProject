@@ -1,44 +1,50 @@
 ﻿@model FinalProject.Models.Department
 @using FinalProject.Utilities;
+
 @{
     ViewData["Title"] = "Details";
-}
-@{
     var permissions = Context.Items["Permissions"] as List<Permission>;
   
     var canUpdateDepartments = permissions.HasPermission("Department", Operation.Update); 
- 
+    var canAddDepartments = permissions.HasPermission("Department", Operation.Add);
+    var canDeleteDepartments = permissions.HasPermission("Department", Operation.Delete);
+
 }
 
-<h1>Details</h1>
+@Html.Partial("_TopBar",Model)
 
-<div>
-    <h3>@Model.Name</h3>
-    <hr />
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Employee Name</th>
-                <th>Employee Email</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var employee in Model.Employees)
-            {
+<div class="row align-items-start align-content-between m-5">
+    <div class="card p-3 shadow col-10 ml-5">
+        <div class="card-header">
+            Employees
+        </div>
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    <td>@employee.FirstName @employee.LastName</td>
-                    <td>@employee.Email</td>
+                    <th>Employee Name</th>
+                    <th>Employee Email</th>
                 </tr>
-            }
-        
-        
+            </thead>
+            <tbody>
+                @foreach (var employee in Model.Employees)
+                {
+                    <tr>
+                        <td>@employee.FirstName @employee.LastName</td>
+                        <td>@employee.Email</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">
+                        Employees Count : @Model.Employees.Count()
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+     </div>
+    <div class="col print-off">
+        <a onclick="printContent('print-layout')" style="cursor:pointer;"><i class="fa-solid fa-print fa-2xl" style="color: #00276b;"></i></a>
+    </div>
+</div>
 
-        </tbody>
-        
-    </table>
-    <h5>Employees Count : @Model.Employees.Count()</h5>
-</div>
-<div>
-  <p @(canUpdateDepartments )>  <a  asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |<p>
-    <a asp-action="Index">Back to List</a>
-</div>

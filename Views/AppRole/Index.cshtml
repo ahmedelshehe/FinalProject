@@ -22,9 +22,9 @@
     <thead>
         <tr>
             <th>Name</th>
-            <th>Edit</th>
-            <th>View Permissions</th>
-            <th>Delete</th>
+            <th @(canUpdateRole)>Edit</th>
+            <th @(canShowRole)>View Permissions</th>
+            <th @(canDeleteRole)>Delete</th>
         </tr>
     </thead>
     <tbody>

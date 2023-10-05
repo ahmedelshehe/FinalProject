@@ -27,27 +27,23 @@ namespace FinalProject.Middleware
                     if (appRole != null)
                     {
                         context.Items.Add("Role", appRole.Name);
-						if (appRole.Name == "Adminstrator")
-						{
-							context.Items.Add("CanViewPermissions", true);
-                            context.Items.Add("CheckUncheckAllForAdmin",true);
-							context.Items.Add("CanViewVacationForAdmin", true);
-
-						}
-                        else
+                        if (appRole.Name == "Adminstrator")
                         {
-							context.Items.Add("CanViewVacationForUser", true);
+                            context.Items.Add("CanViewPermissions", true);
+                            context.Items.Add("CheckUncheckAllForAdmin", true);
+                        }
 
-						}
-
-						var permissions = appRole.Permissions;
-
-                        context.Items.Add("Permissions", permissions.ToList());
+                        if (!context.Items.ContainsKey("Permissions"))
+                        {
+                            var permissions = appRole.Permissions;
+                            context.Items.Add("Permissions", permissions.ToList());
+                        }
                     }
                 }
             }
 
             await _next(context);
         }
+
     }
 }

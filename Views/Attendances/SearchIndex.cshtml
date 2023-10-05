@@ -109,7 +109,7 @@
 </div>
 <div id="container" style="margin-left: 20px">
     <div class="pagination" style="margin-left: 400px">
-        @Html.PagedListPager(pagedList, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+        @Html.PagedListPager(pagedList, page => Url.Action("SearchIndex", new {searchName = ViewBag.EmployeeName,to =ViewBag.to ,from=ViewBag.from, page }), new PagedListRenderOptions
         {
         DisplayLinkToIndividualPages = true,
         DisplayPageCountAndCurrentLocation = false,

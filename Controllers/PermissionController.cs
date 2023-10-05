@@ -9,9 +9,11 @@ using FinalProject.Data;
 using FinalProject.Models;
 using FinalProject.RepoServices;
 using FinalProject.Utilities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FinalProject.Controllers
 {
+    [Authorize]
     public class PermissionController : Controller
     {
         private readonly IPermissionRepository permissionRepository;
@@ -22,6 +24,7 @@ namespace FinalProject.Controllers
         }
 
         // GET: Permissions
+        [AuthorizeByEntity("Permission")]
         public async Task<IActionResult> Index()
         {
             return View(permissionRepository.GetPermissions().ToList());

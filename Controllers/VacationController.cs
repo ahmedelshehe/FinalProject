@@ -8,9 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProject.Controllers
 {
-    //[Authorize]
-    //[Route("vacation")]
-    public class VacationController : Controller
+	[Authorize]
+	public class VacationController : Controller
     {
         public IEmployeeRepository EmployeeRepository { get; set; }
         private readonly UserManager<AppUser> userManager;
@@ -24,29 +23,21 @@ namespace FinalProject.Controllers
         }
 
         [HttpGet]
-		//This Action to get all Vacations of all users for admin
-
-		[AuthorizeByPermission("Vacation", Operation.Add)]
-		[AuthorizeByPermission("Vacation", Operation.Update)]
-
+        [AuthorizeByEntity("Vacation")]
 		public IActionResult Index()
         {
             return View(VacationRepository.GetVacations());
         }
         [HttpGet]
-        //This Action to get all Vacations of login user for user
-
         public async Task<IActionResult> MyVacations()
         {
             
             var user = await userManager.GetUserAsync(User);
-
+            var emp = EmployeeRepository.GetEmployee(user.EmpId);
             var vacations = VacationRepository.GetVacations().Where(v => v.EmployeeId == user.EmpId).ToList();
-            ViewBag.AvailableVacations = user.Employee.AvailableVacations;
+            ViewBag.AvailableVacations = emp.AvailableVacations;
             return View(vacations);
         }
-
-
         [HttpGet]
 		[AuthorizeByPermission("Vacation", Operation.Add)]
 		public ActionResult Create()
@@ -56,7 +47,8 @@ namespace FinalProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Vacation vacation)
+		[AuthorizeByPermission("Vacation", Operation.Add)]
+		public async Task<IActionResult> Create(Vacation vacation)
         {
             if (!ModelState.IsValid)
             {
@@ -99,10 +91,10 @@ namespace FinalProject.Controllers
             return RedirectToAction("MyVacations");
         }
 
-        
 
-        
-        public async Task<IActionResult> Approve(int id, DateTime date)
+
+		[AuthorizeByPermission("Vacation", Operation.Update)]
+		public async Task<IActionResult> Approve(int id, DateTime date)
         {
             var vacation = VacationRepository.GetVacation(id, date);
 
@@ -122,8 +114,8 @@ namespace FinalProject.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
-        public async Task<IActionResult> Reject(int id, DateTime date)
+		[AuthorizeByPermission("Vacation", Operation.Update)]
+		public async Task<IActionResult> Reject(int id, DateTime date)
         {
             var vacation = VacationRepository.GetVacation(id, date);
 
