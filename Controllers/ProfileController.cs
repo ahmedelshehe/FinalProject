@@ -7,6 +7,8 @@ using FinalProject.Helper;
 using FinalProject.ViewModels;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication;
 
 namespace FinalProject.Controllers
 {
@@ -41,41 +43,78 @@ namespace FinalProject.Controllers
 
 			return View(employee);
 		}
-		public async Task<IActionResult> Edit()
-		{
-			var user = await userManager.GetUserAsync(User);
-			var employee = employeeRepository.GetEmployee(user.EmpId);
 
-			return View(employee);
-		}
+        public async Task<IActionResult> Edit()
+        {
+            var user = await userManager.Users
+                .Include(u => u.Employee)
+                .FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
 
-		[HttpPost]
-		public async Task<IActionResult> Edit(int id, Employee employee)
-		{
-			if (ModelState.IsValid)
-			{
-				var validationResults = new List<ValidationResult>();
-				var isValid = Validator.TryValidateObject(employee, new ValidationContext(employee), validationResults, true);
-				if (isValid)
-				{
-					employeeRepository.UpdateEmployee(id, employee);
-					return RedirectToAction(nameof(Index));
-				}
-				else
-				{
-					foreach (var validationResult in validationResults)
-					{
-						foreach (var memberName in validationResult.MemberNames)
-						{
-							ModelState.AddModelError(memberName, validationResult.ErrorMessage);
-						}
-					}
-				}
-			}
+            if (user == null)
+            {
+                return NotFound();
+            }
 
-			return View(employee);
-		}
+            var employee = new EmployeeEditProfile
+            {
+                FirstName = user.Employee.FirstName,
+                LastName = user.Employee.LastName,
+                Password = user.Employee.Password,
+                Street = user.Employee.Street,
+                City = user.Employee.City,
+                Country = user.Employee.Country,
+                BirthDate = user.Employee.BirthDate
+            };
 
+            return View(employee);
+        }
+
+        [HttpPost]
+        [HttpPost]
+        public async Task<IActionResult> Edit(EmployeeEditProfile model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.Users
+                    .Include(u => u.Employee)
+                    .FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                var passwordCheckResult = await userManager.CheckPasswordAsync(user, model.Password);
+                if (!passwordCheckResult)
+                {
+                    ModelState.AddModelError(string.Empty, "Incorrect old password");
+                    return View(model);
+                }
+
+                if (model.NewPassword == "12345678")
+                {
+                    ModelState.AddModelError(string.Empty, "Please change your password from the default password.");
+                    return View(model);
+                }
+
+                user.Employee.FirstName = model.FirstName;
+                user.Employee.LastName = model.LastName;
+                user.Employee.Password = model.NewPassword;
+                user.Employee.Street = model.Street;
+                user.Employee.City = model.City;
+                user.Employee.Country = model.Country;
+                user.Employee.BirthDate = model.BirthDate;
+
+                await userManager.UpdateAsync(user);
+
+                // Log the user out
+                await HttpContext.SignOutAsync();
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(model);
+        }
 
         [Authorize]
         public async Task<IActionResult> Dashboard()
