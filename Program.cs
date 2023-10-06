@@ -34,6 +34,8 @@ namespace FinalProject
             builder.Services.AddScoped<IUserRepository, AppUserRepository>();
             builder.Services.AddScoped<ISalaryService, SalaryService>();
             builder.Services.AddScoped<IGeneralSettingRepository, GeneralSetiingRepository>();
+            builder.Services.AddScoped<IWeeklyHolidayRepository, WeeklyHolidayRepository>();
+
 
 
 

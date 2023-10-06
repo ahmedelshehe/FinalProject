@@ -16,7 +16,16 @@
 }
 
 
+@if (!string.IsNullOrEmpty(ViewBag.AlertMessage))
+{
+    <div class="alert alert-warning">
+        @ViewBag.AlertMessage
+    </div>
+}
 
+
+
+<!-- Rest of your HTML and table display code -->
 
  <form action="/Salary/Index" method="get">
      <select name="empId" class="form-control" @(canShowSalary)>

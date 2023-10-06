@@ -1,5 +1,6 @@
-﻿@model FinalProject.Models.OfficialVacation
-
+﻿@* @model FinalProject.ViewModels.OfficialVacation
+ *@
+ @model FinalProject.ViewModels.OfficialVacationViewModel
 <h1>Add New Official Vacation</h1>
 
 
@@ -11,8 +12,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-group">
-            @Html.LabelFor(m => m.Title)
-            @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+            @Html.LabelFor(m => m.Name)
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
         </div>
 
         <div class="form-group">

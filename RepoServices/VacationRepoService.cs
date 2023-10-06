@@ -19,6 +19,10 @@ namespace FinalProject.RepoServices
             return context.Vacations.Include(v => v.Employee).FirstOrDefault(v => v.EmployeeId == id && v.StartDate == startDate);
         }
 
+        public List<Vacation> GetVacationByEmployee(int id)
+        {
+            return context.Vacations.Include(v => v.Employee).Where(v => v.EmployeeId == id ).ToList();
+        }
 
         void IVacationRepository.InsertVacation(Vacation vacation)
 		{

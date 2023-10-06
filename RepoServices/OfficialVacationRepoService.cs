@@ -1,5 +1,6 @@
 ﻿using FinalProject.Data;
 using FinalProject.Models;
+using FinalProject.ViewModels;
 
 namespace FinalProject.RepoServices
 {
@@ -18,22 +19,35 @@ namespace FinalProject.RepoServices
         {
             return _context.OfficalVacations.ToList();
         }
+
         public OfficialVacation GetOfficialVacation(int id)
         {
             return _context.OfficalVacations.FirstOrDefault( o => o.Id == id);
         }
-        public void InsertOfficialVacation(OfficialVacation Vacation)
+
+
+        public void InsertOfficialVacation(OfficialVacationViewModel Vacation)
         {
-            _context.OfficalVacations.Add(Vacation);
+            var VacationDb = new OfficialVacation()
+            {
+                Title = Vacation.Name,
+                Date = Vacation.Date
+            };
+            _context.OfficalVacations.Add(VacationDb);
             _context.SaveChanges();
         }
 
-        public void UpdateOfficialVacation(int Id, OfficialVacation Vacation)
+        public void UpdateOfficialVacation(int Id, OfficialVacationViewModel Vacation)
         {
-            _context.OfficalVacations.Update(Vacation);
+            OfficialVacation updatevacations = GetOfficialVacation(Id);
+            updatevacations.Title = Vacation.Name;
+            updatevacations.Date = Vacation.Date;
             _context.SaveChanges();
 
         }
+
+
+       
 
         public void DeleteOfficialVacation(int Id)
         {
@@ -46,5 +60,6 @@ namespace FinalProject.RepoServices
 
         }
 
+      
     }
 }
