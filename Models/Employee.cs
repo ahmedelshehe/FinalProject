@@ -11,13 +11,11 @@ namespace FinalProject.Models
     {
         [Key]
         public int Id { get; set; }
-		[RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "The {0} field can only contain letters.")]
 		[Required(ErrorMessage = "You should enter the first name")]
         [MaxLength(10,ErrorMessage = "You should enter at most 10 Letters")]
         [Display(Name ="First Name")]
         public string FirstName { get; set; }
 
-        [Required(ErrorMessage = "You should enter the last name")]
         [MaxLength(10, ErrorMessage = "You should enter at most 10 Letters")]
         [Display(Name = "Last Name")]
 		[RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "The {0} field can only contain letters.")]
@@ -27,15 +25,12 @@ namespace FinalProject.Models
         public string Password { get; set; } = "12345678";
 
         public int AvailableVacations { get; set; } = 21;
-		[RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "The {0} field can only contain letters.")]
 		public string Street { get; set; }
 
         [Required(ErrorMessage = "You should enter a city")]
-		[RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "The {0} field can only contain letters.")]
 		public string City { get; set; }
 
         [Required(ErrorMessage = "You should enter a country")]
-		[RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "The {0} field can only contain letters.")]
 		public string Country { get; set; }
 
         [Required(ErrorMessage = "You should choose a gender")]
