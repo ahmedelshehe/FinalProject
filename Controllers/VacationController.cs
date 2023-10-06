@@ -48,7 +48,6 @@ namespace FinalProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-
 		[AuthorizeByPermission("Vacation", Operation.Add)]
 		public async Task<IActionResult> Create(Vacation vacation)
         {
@@ -101,8 +100,7 @@ namespace FinalProject.Controllers
         {
             var vacation = VacationRepository.GetVacation(id, date);
 
-            var user = await userManager.GetUserAsync(User);
-            var employee = EmployeeRepository.GetEmployee(user.EmpId);
+            var employee = EmployeeRepository.GetEmployee(id);
 
             if (employee.AvailableVacations == 0)
             {
@@ -110,10 +108,9 @@ namespace FinalProject.Controllers
             }
 
             vacation.Status = VacationStatus.Approved;
-            VacationRepository.UpdateVacation(id, vacation, date);
+            VacationRepository.UpdateVacation(id, date, vacation);
             employee.AvailableVacations -= vacation.VacationDays;
             EmployeeRepository.UpdateEmployee(id, employee);
-
             return RedirectToAction(nameof(Index));
         }
 
@@ -122,10 +119,10 @@ namespace FinalProject.Controllers
         {
             var vacation = VacationRepository.GetVacation(id, date);
 
-            var employee = EmployeeRepository.GetEmployee(vacation.EmployeeId);
+            var employee = EmployeeRepository.GetEmployee(id);
 
             vacation.Status = VacationStatus.Rejected;
-            VacationRepository.UpdateVacation(id, vacation, date);
+            VacationRepository.UpdateVacation(id, date, vacation);
 
             return RedirectToAction(nameof(Index));
         }

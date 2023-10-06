@@ -15,9 +15,9 @@
 
 
     var canShowAttendance = permissions.HasPermission("Attendance",Operation.Show);
-    var canAddAttendance = permissions.HasPermission("Attendance", Operation.Show);
-    var canUpdateAttendance = permissions.HasPermission("Attendance", Operation.Show);
-    var canDeleteAttendance = permissions.HasPermission("Attendance", Operation.Show);
+    var canAddAttendance = permissions.HasPermission("Attendance", Operation.Add);
+    var canUpdateAttendance = permissions.HasPermission("Attendance", Operation.Update);
+    var canDeleteAttendance = permissions.HasPermission("Attendance", Operation.Delete);
 }
 
 <div class="row m-5 align-content-between align-items-center welcome-box">

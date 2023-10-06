@@ -15,14 +15,17 @@ namespace FinalProject.Controllers
     {
         private readonly UserManager<AppUser> userManager;
         private readonly SignInManager<AppUser> signInManager;
+        private readonly IEmailService emailService;
 
         public IEmployeeRepository EmployeeRepository { get; }
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager , IEmployeeRepository employeeRepository, IUserRepository userRepository)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager , IEmployeeRepository employeeRepository, IUserRepository userRepository, IEmailService emailService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             EmployeeRepository = employeeRepository;
+            this.emailService = emailService;
+            this.emailService = emailService;  
         }
 
 
@@ -35,7 +38,7 @@ namespace FinalProject.Controllers
             var emp_user = EmployeeRepository.GetEmployee(id);
             AppUser userDbModel = new AppUser();
             var hasher = new PasswordHasher<AppUser>();
-            userDbModel.Email =emp_user.Email;
+            userDbModel.Email = emp_user.Email;
             userDbModel.PasswordHash = hasher.HashPassword(null, emp_user.Password);
             userDbModel.EmpId = id;
             userDbModel.UserName = emp_user.FirstName + emp_user.Id;
@@ -44,8 +47,24 @@ namespace FinalProject.Controllers
             if (createUser.Succeeded)
             {
                 emp_user.UserId = userManager.Users.FirstOrDefault(e => e.EmpId == id).Id;
-               EmployeeRepository.UpdateEmployee(id,emp_user);
-                return RedirectToAction( "Index", "Employee");
+                EmployeeRepository.UpdateEmployee(id, emp_user);
+                EmailDto newMail = new EmailDto()
+                {
+                    Subject = "Account Created",
+                    To = emp_user.Email,
+                    Body = $@"
+            <h1>Account Created</h1>
+            <p>Dear {emp_user.FirstName},</p>
+            <p>Your account has been created successfully. Please use the following credentials to log in:</p>
+            <ul>
+                <li>Email: {emp_user.Email}</li>
+                <li>Password: {emp_user.Password}</li>
+            </ul>
+            <p>Thank you for using our system.</p>
+            "
+                };
+                emailService.SendEmail(newMail);
+                return RedirectToAction("Index", "Employee");
             }
             else
             {
@@ -55,7 +74,7 @@ namespace FinalProject.Controllers
 
         }
 
-        
+
 
 
         [HttpGet]

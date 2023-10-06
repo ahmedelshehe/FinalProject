@@ -10,7 +10,7 @@ namespace FinalProject.RepoServices
 		public VacationRepoService(ApplicationDbContext _context) {
 		context = _context;
 		}
-		List<Vacation> IVacationRepository.GetVacations()
+		public List<Vacation> GetVacations()
 		{
 			return context.Vacations.Include(v => v.Employee).ToList();
 		}
@@ -20,7 +20,7 @@ namespace FinalProject.RepoServices
         }
 
 
-        void IVacationRepository.InsertVacation(Vacation vacation)
+        public void InsertVacation(Vacation vacation)
 		{
 			if (vacation != null)
 			{
@@ -29,22 +29,19 @@ namespace FinalProject.RepoServices
 			}
 		}
 
-		void IVacationRepository.UpdateVacation(int id, Vacation vacation , DateTime startDate)
+        public void  UpdateVacation(int id, DateTime startDate,Vacation vacation )
 		{
-			Vacation editVacation = context.Vacations.Include(v => v.Employee).FirstOrDefault(v => v.EmployeeId == id && vacation.StartDate == startDate);
+			Vacation editVacation = context.Vacations.Include(v => v.Employee).FirstOrDefault(v => v.EmployeeId == vacation.EmployeeId && vacation.StartDate == startDate);
 			if (editVacation != null)
 			{
-				editVacation.EndDate = vacation.EndDate;
-				editVacation.VacationType = vacation.VacationType;
-				editVacation.Description = vacation.Description;
 				editVacation.Status = vacation.Status;
 
-                context.SaveChanges();
+                context.Update(editVacation);
 			}
 		}
-		void IVacationRepository.DeleteVacation(int id)
+        public void  DeleteVacation(int id, DateTime startDate)
 		{
-			Vacation deleteVacation = context.Vacations.Include(v => v.Employee).FirstOrDefault(v => v.EmployeeId == id);
+			Vacation deleteVacation = context.Vacations.Include(v => v.Employee).FirstOrDefault(v => v.EmployeeId == id && v.StartDate ==startDate);
 			if (deleteVacation != null)
 			{
 				context.Vacations.Remove(deleteVacation);
@@ -58,5 +55,5 @@ namespace FinalProject.RepoServices
 			return !vacations.Any(v => v.StartDate?.Date <= date.Date && date.Date <= v.EndDate?.Date);
 		}
 
-	}
+    }
 }
