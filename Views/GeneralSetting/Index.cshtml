@@ -5,7 +5,7 @@
     ViewData["Title"] = "Index";
 }
 @* @{
-   
+
     var permissions = Context.Items["Permissions"] as List<Permission>;
     var canShowGeneralSetting = permissions.HasPermission("GeneralSetting", Operation.Show);
     var canUpdateGeneralSetting = permissions.HasPermission("GeneralSetting", Operation.Update);
@@ -15,7 +15,7 @@
 <h1>Index</h1>
 
 
-<form method="post" asp-action="Save" >
+<form method="post" asp-action="Save">
     <table class="table">
         <thead>
             <tr>
@@ -25,6 +25,7 @@
                 <th>
                     Discount
                 </th>
+
                 <th></th>
             </tr>
         </thead>
@@ -40,16 +41,25 @@
             </tr>
         </tbody>
     </table>
- @*    <p @(canUpdateGeneralSetting)>
-        <button type="submit" class="btn btn-primary">Save</button>
-    </p> *@
+    <p>
+        Week Holiday
+    </p>
+    @for (int i = 0; i < Model.DayChecked.Count(); i++)
+    {
+        <label class="list-group-item text-black">
+            <input class="form-check-input me-1" type="hidden" asp-for="@Model.DayChecked[i].Day" />
+            <input class="form-check-input me-1" asp-for="@Model.DayChecked[i].Checked" />
+            @Model.DayChecked[i].Day
+        </label>
+    }
+
 
     <button type="submit" class="btn btn-primary">Save</button>
 
-   
-        <a class="btn btn-outline-danger" asp-action="Index"> <i class="bi bi-x-circle"></i> Cancel</a>
 
-    
+    <a class="btn btn-outline-danger" asp-action="Index"> <i class="bi bi-x-circle"></i> Cancel</a>
+
+
 
 </form>
 

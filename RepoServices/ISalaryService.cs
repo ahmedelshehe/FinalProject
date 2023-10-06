@@ -4,6 +4,6 @@ namespace FinalProject.RepoServices
 {
     public interface ISalaryService
     {
-        public List<SalaryViewModel> GetData(int? Year, int? Month);
+        public (List<SalaryViewModel> result, string alertMessage) GetData(int? Year, int? Month);
     }
 }

@@ -8,6 +8,8 @@
         public int DiscountHourPrice { get; set; }
         public int numberofvacationInyear { get; set; }
         public int PriceForDayOvernumberofvacationInyear { get; set; }
+        public virtual List<WeeklyHoliday>? DayOffPerWeek { get; set; } = new List<WeeklyHoliday>();
+
 
     }
 }

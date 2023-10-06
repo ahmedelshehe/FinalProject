@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProject.Controllers
 {
-	[Authorize]
-	public class VacationController : Controller
+    [Authorize]
+    public class VacationController : Controller
     {
         public IEmployeeRepository EmployeeRepository { get; set; }
         private readonly UserManager<AppUser> userManager;
@@ -25,14 +25,14 @@ namespace FinalProject.Controllers
         [HttpGet]
 
         [AuthorizeByEntity("Vacation")]
-		public IActionResult Index()
+        public IActionResult Index()
         {
             return View(VacationRepository.GetVacations());
         }
         [HttpGet]
         public async Task<IActionResult> MyVacations()
         {
-            
+
             var user = await userManager.GetUserAsync(User);
             var emp = EmployeeRepository.GetEmployee(user.EmpId);
             var vacations = VacationRepository.GetVacations().Where(v => v.EmployeeId == user.EmpId).ToList();
@@ -40,16 +40,17 @@ namespace FinalProject.Controllers
             return View(vacations);
         }
         [HttpGet]
-		[AuthorizeByPermission("Vacation", Operation.Add)]
-		public ActionResult Create()
+        [AuthorizeByPermission("Vacation", Operation.Add)]
+        public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-		[AuthorizeByPermission("Vacation", Operation.Add)]
-		public async Task<IActionResult> Create(Vacation vacation)
+
+        [AuthorizeByPermission("Vacation", Operation.Add)]
+        public async Task<IActionResult> Create(Vacation vacation)
         {
             if (!ModelState.IsValid)
             {
@@ -73,7 +74,7 @@ namespace FinalProject.Controllers
             }
 
             TimeSpan duration = (TimeSpan)(vacation.EndDate - vacation.StartDate);
-            int numberOfDays = (int)duration.TotalDays +1;
+            int numberOfDays = (int)duration.TotalDays + 1;
 
             if (numberOfDays <= 0)
             {
@@ -95,12 +96,13 @@ namespace FinalProject.Controllers
 
 
 
-		[AuthorizeByPermission("Vacation", Operation.Update)]
-		public async Task<IActionResult> Approve(int id, DateTime date)
+        [AuthorizeByPermission("Vacation", Operation.Update)]
+        public async Task<IActionResult> Approve(int id, DateTime date)
         {
             var vacation = VacationRepository.GetVacation(id, date);
 
-            var employee = EmployeeRepository.GetEmployee(id);
+            var user = await userManager.GetUserAsync(User);
+            var employee = EmployeeRepository.GetEmployee(user.EmpId);
 
             if (employee.AvailableVacations == 0)
             {
@@ -108,21 +110,22 @@ namespace FinalProject.Controllers
             }
 
             vacation.Status = VacationStatus.Approved;
-            VacationRepository.UpdateVacation(id, date, vacation);
+            VacationRepository.UpdateVacation(id, vacation, date);
             employee.AvailableVacations -= vacation.VacationDays;
             EmployeeRepository.UpdateEmployee(id, employee);
+
             return RedirectToAction(nameof(Index));
         }
 
-		[AuthorizeByPermission("Vacation", Operation.Update)]
-		public async Task<IActionResult> Reject(int id, DateTime date)
+        [AuthorizeByPermission("Vacation", Operation.Update)]
+        public async Task<IActionResult> Reject(int id, DateTime date)
         {
             var vacation = VacationRepository.GetVacation(id, date);
 
-            var employee = EmployeeRepository.GetEmployee(id);
+            var employee = EmployeeRepository.GetEmployee(vacation.EmployeeId);
 
             vacation.Status = VacationStatus.Rejected;
-            VacationRepository.UpdateVacation(id, date, vacation);
+            VacationRepository.UpdateVacation(id, vacation, date);
 
             return RedirectToAction(nameof(Index));
         }

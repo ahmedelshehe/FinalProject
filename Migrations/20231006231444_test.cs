@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FinalProject.Migrations
 {
-    public partial class @new : Migration
+    public partial class test : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -106,6 +106,26 @@ namespace FinalProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "WeeklyHolidays",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Holiday = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Genral_Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WeeklyHolidays", x => new { x.Holiday, x.Genral_Id });
+                    table.ForeignKey(
+                        name: "FK_WeeklyHolidays_GeneralSetting_Genral_Id",
+                        column: x => x.Genral_Id,
+                        principalSchema: "dbo",
+                        principalTable: "GeneralSetting",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AppRolePermission",
                 schema: "dbo",
                 columns: table => new
@@ -153,6 +173,28 @@ namespace FinalProject.Migrations
                         principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WeekDaysViewModel",
+                schema: "dbo",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Day = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Checked = table.Column<bool>(type: "bit", nullable: false),
+                    SettingViewModelid = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WeekDaysViewModel", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_WeekDaysViewModel_SettingViewModel_SettingViewModelid",
+                        column: x => x.SettingViewModelid,
+                        principalSchema: "dbo",
+                        principalTable: "SettingViewModel",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
@@ -474,7 +516,7 @@ namespace FinalProject.Migrations
                 schema: "dbo",
                 table: "Role",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "2c5e174e-3b0e-446f-86af-483d56fd7210", "5389ae66-d87c-4562-b2bf-961bf414bd31", "Adminstrator", null });
+                values: new object[] { "2c5e174e-3b0e-446f-86af-483d56fd7210", "670e5662-131f-435c-aee6-1b42b9d84a76", "Adminstrator", null });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
@@ -525,13 +567,13 @@ namespace FinalProject.Migrations
                 columns: new[] { "Id", "AvailableVacations", "BirthDate", "City", "ContractDate", "Country", "DeptID", "Email", "FirstName", "Gender", "LastName", "NationalId", "Password", "Salary", "Street", "UserId" },
                 values: new object[,]
                 {
-                    { -49, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Guiseppeside", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Poland", -1, "employee-49@example.com", "Jenifer", 0, "Naomi", "12345678901234", "12345678", 242887.0, "Hobart Plaza", null },
-                    { -48, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "East Maximoshire", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Netherlands Antilles", -4, "employee-48@example.com", "Ollie", 1, "Gayle", "12345678901234", "12345678", 289855.0, "Carlos Corner", null },
-                    { -47, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Amarimouth", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Vanuatu", -1, "employee-47@example.com", "Nichole", 0, "Libbie", "12345678901234", "12345678", 302689.0, "Luis Summit", null },
-                    { -46, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Jermainefurt", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Saint Helena", -3, "employee-46@example.com", "Eliezer", 1, "Henriette", "12345678901234", "12345678", 304397.0, "Reichert Path", null },
-                    { -45, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Howeside", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Macao", -2, "employee-45@example.com", "Forrest", 1, "Cierra", "12345678901234", "12345678", 413730.0, "Broderick Lodge", null },
-                    { -44, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lake Uriahland", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Albania", -2, "employee-44@example.com", "Frieda", 0, "Etha", "12345678901234", "12345678", 154971.0, "Brekke Keys", null },
-                    { -43, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sandrinetown", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Tunisia", -3, "employee-43@example.com", "Leif", 1, "Guadalupe", "12345678901234", "12345678", 170887.0, "Kianna Freeway", null }
+                    { -49, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "South Aimee", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "United States Virgin Islands", -4, "employee-49@example.com", "Arlene", 0, "Westley", "12345678901234", "12345678", 328113.0, "Neil Union", null },
+                    { -48, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Seanland", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Belarus", -4, "employee-48@example.com", "Kattie", 1, "Reta", "12345678901234", "12345678", 183361.0, "Jaskolski Flat", null },
+                    { -47, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Waltonbury", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Falkland Islands (Malvinas)", -1, "employee-47@example.com", "River", 0, "Jaquan", "12345678901234", "12345678", 17037.0, "Tillman Streets", null },
+                    { -46, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Port Jackelineport", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Turkmenistan", -1, "employee-46@example.com", "Ethyl", 0, "Karolann", "12345678901234", "12345678", 201536.0, "Keon Court", null },
+                    { -45, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "South Einar", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Cape Verde", -3, "employee-45@example.com", "Gunner", 0, "Durward", "12345678901234", "12345678", 17413.0, "Kendra Valley", null },
+                    { -44, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "North Rubie", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lao People's Democratic Republic", -1, "employee-44@example.com", "Vilma", 1, "Lavinia", "12345678901234", "12345678", 391497.0, "Lukas Loaf", null },
+                    { -43, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "New Davinton", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Croatia", -1, "employee-43@example.com", "Cortez", 0, "Deron", "12345678901234", "12345678", 161718.0, "Goldner Keys", null }
                 });
 
             migrationBuilder.InsertData(
@@ -540,48 +582,48 @@ namespace FinalProject.Migrations
                 columns: new[] { "Id", "AvailableVacations", "BirthDate", "City", "ContractDate", "Country", "DeptID", "Email", "FirstName", "Gender", "LastName", "NationalId", "Password", "Salary", "Street", "UserId" },
                 values: new object[,]
                 {
-                    { -42, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lake Shanny", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Nepal", -1, "employee-42@example.com", "Elwin", 0, "Lew", "12345678901234", "12345678", 483171.0, "Marjory Pines", null },
-                    { -41, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "West Janniefurt", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Morocco", -4, "employee-41@example.com", "Meda", 1, "Marquis", "12345678901234", "12345678", 483450.0, "Osinski Crossing", null },
-                    { -40, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Robbiebury", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Tuvalu", -2, "employee-40@example.com", "Eleanore", 1, "Elliot", "12345678901234", "12345678", 176095.0, "Nitzsche Overpass", null },
-                    { -39, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ritchieburgh", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Burkina Faso", -1, "employee-39@example.com", "Tyreek", 1, "Lucile", "12345678901234", "12345678", 474414.0, "Bartell Manors", null },
-                    { -38, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "East Melyssamouth", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Micronesia", -3, "employee-38@example.com", "Philip", 0, "Jazmyn", "12345678901234", "12345678", 166339.0, "Alessandro Tunnel", null },
-                    { -37, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lake Arjunstad", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Grenada", -2, "employee-37@example.com", "Jammie", 1, "Eloise", "12345678901234", "12345678", 316239.0, "Kieran Well", null },
-                    { -36, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Zechariahmouth", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Iran", -2, "employee-36@example.com", "Darron", 0, "Germaine", "12345678901234", "12345678", 66852.0, "Tianna Junctions", null },
-                    { -35, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Port Rudy", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Macedonia", -1, "employee-35@example.com", "Alvena", 1, "Alanis", "12345678901234", "12345678", 219189.0, "Lubowitz Junction", null },
-                    { -34, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Bergnaumhaven", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Colombia", -3, "employee-34@example.com", "Nelle", 0, "Ethel", "12345678901234", "12345678", 400725.0, "Melody Island", null },
-                    { -33, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lake Kaciemouth", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Cameroon", -3, "employee-33@example.com", "Garett", 1, "Vincent", "12345678901234", "12345678", 481746.0, "Konopelski Mount", null },
-                    { -32, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "East Obie", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Botswana", -3, "employee-32@example.com", "Bo", 1, "Noemi", "12345678901234", "12345678", 267947.0, "Trantow Hollow", null },
-                    { -31, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Hodkiewicztown", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Tokelau", -2, "employee-31@example.com", "Catalina", 1, "Zetta", "12345678901234", "12345678", 87725.0, "Asa Roads", null },
-                    { -30, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Dominicstad", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Philippines", -1, "employee-30@example.com", "Skyla", 1, "Gianni", "12345678901234", "12345678", 307577.0, "Ledner Springs", null },
-                    { -29, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lake Concepcion", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Chile", -4, "employee-29@example.com", "Daisha", 1, "Ilene", "12345678901234", "12345678", 405085.0, "Kiarra Islands", null },
-                    { -28, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "West Fiona", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Netherlands Antilles", -2, "employee-28@example.com", "Ryann", 0, "Terrence", "12345678901234", "12345678", 244659.0, "Hammes Forest", null },
-                    { -27, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Schimmelfort", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "United States of America", -1, "employee-27@example.com", "Dannie", 0, "Kailey", "12345678901234", "12345678", 52274.0, "McKenzie Lodge", null },
-                    { -26, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Kennaview", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Macedonia", -3, "employee-26@example.com", "Amir", 0, "Anabelle", "12345678901234", "12345678", 57992.0, "Loyal Park", null },
-                    { -25, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lake Annieton", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Saint Martin", -1, "employee-25@example.com", "Lawrence", 1, "Pearl", "12345678901234", "12345678", 318032.0, "Camille Grove", null },
-                    { -24, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sawaynchester", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Samoa", -4, "employee-24@example.com", "Marlen", 1, "Rosalee", "12345678901234", "12345678", 44747.0, "Kris Corners", null },
-                    { -23, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "North Brielleborough", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Germany", -1, "employee-23@example.com", "Bradly", 1, "Ardith", "12345678901234", "12345678", 449361.0, "Rutherford Village", null },
-                    { -22, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Schaefermouth", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Azerbaijan", -1, "employee-22@example.com", "Maria", 1, "Soledad", "12345678901234", "12345678", 286961.0, "Wava Meadow", null },
-                    { -21, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Mrazhaven", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Korea", -3, "employee-21@example.com", "Kallie", 1, "Clarabelle", "12345678901234", "12345678", 267303.0, "Kieran Villages", null },
-                    { -20, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Pacochafurt", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Honduras", -1, "employee-20@example.com", "Dion", 1, "Durward", "12345678901234", "12345678", 184347.0, "Alberta Estate", null },
-                    { -19, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "North Darleneport", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Comoros", -3, "employee-19@example.com", "Dayana", 1, "Ila", "12345678901234", "12345678", 74341.0, "Stephany Junctions", null },
-                    { -18, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lake Aricville", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Canada", -2, "employee-18@example.com", "Nick", 0, "Hulda", "12345678901234", "12345678", 429605.0, "Citlalli Mission", null },
-                    { -17, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Schneiderhaven", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Puerto Rico", -4, "employee-17@example.com", "Yessenia", 0, "Eldridge", "12345678901234", "12345678", 203315.0, "Omari Harbors", null },
-                    { -16, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Windlermouth", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Falkland Islands (Malvinas)", -3, "employee-16@example.com", "Diamond", 1, "Zola", "12345678901234", "12345678", 414839.0, "Janae Crest", null },
-                    { -15, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "New Vito", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Holy See (Vatican City State)", -2, "employee-15@example.com", "May", 0, "Geovanni", "12345678901234", "12345678", 338394.0, "Priscilla Brooks", null },
-                    { -14, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "North Roscoefort", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Gambia", -2, "employee-14@example.com", "Carmelo", 1, "Dusty", "12345678901234", "12345678", 117576.0, "Jettie Summit", null },
-                    { -13, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Arielmouth", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Malaysia", -3, "employee-13@example.com", "Jamaal", 0, "Rogers", "12345678901234", "12345678", 477964.0, "Margaretta Ridge", null },
-                    { -12, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Port Ivamouth", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Chile", -4, "employee-12@example.com", "Leila", 0, "Felipa", "12345678901234", "12345678", 170827.0, "Smitham Path", null },
-                    { -11, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "North Jace", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Malaysia", -1, "employee-11@example.com", "Korbin", 0, "Lucas", "12345678901234", "12345678", 365493.0, "Dereck Keys", null },
-                    { -10, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "East Davontemouth", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Tuvalu", -4, "employee-10@example.com", "Timmothy", 1, "Waylon", "12345678901234", "12345678", 49226.0, "Schamberger Bypass", null },
-                    { -9, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Stanshire", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Swaziland", -3, "employee-9@example.com", "Wilson", 1, "Evelyn", "12345678901234", "12345678", 249994.0, "Felix Unions", null },
-                    { -8, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "North Dalton", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Bangladesh", -4, "employee-8@example.com", "Edwardo", 0, "Herbert", "12345678901234", "12345678", 21671.0, "Constantin Spring", null },
-                    { -7, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Mervinmouth", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Uganda", -4, "employee-7@example.com", "Lafayette", 0, "Rahul", "12345678901234", "12345678", 291288.0, "Felipe Throughway", null },
-                    { -6, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Bechtelarview", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Vanuatu", -2, "employee-6@example.com", "Zachary", 0, "Cierra", "12345678901234", "12345678", 186301.0, "Damien Motorway", null },
-                    { -5, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Schummbury", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Congo", -1, "employee-5@example.com", "Anthony", 1, "Carlos", "12345678901234", "12345678", 215588.0, "Lamont Island", null },
-                    { -4, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "North Gillian", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "United Kingdom", -2, "employee-4@example.com", "Reynold", 1, "Cassie", "12345678901234", "12345678", 113655.0, "Malvina Ridge", null },
-                    { -3, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "West Dudley", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Chad", -4, "employee-3@example.com", "Mya", 0, "Carlie", "12345678901234", "12345678", 7911.0, "Parisian Circle", null },
-                    { -2, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Walkermouth", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Korea", -3, "employee-2@example.com", "Marcella", 0, "Tristian", "12345678901234", "12345678", 96155.0, "Labadie Ridge", null },
-                    { -1, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "East Richardborough", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Kuwait", -1, "employee-1@example.com", "Raquel", 1, "Chanel", "12345678901234", "12345678", 65218.0, "Taya Lake", null }
+                    { -42, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Reichelmouth", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Serbia", -1, "employee-42@example.com", "Bertrand", 0, "Garry", "12345678901234", "12345678", 80213.0, "Rosina Islands", null },
+                    { -41, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "East Forestbury", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Solomon Islands", -3, "employee-41@example.com", "Celestine", 1, "Osborne", "12345678901234", "12345678", 301499.0, "Donnelly Junction", null },
+                    { -40, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Baumbachfurt", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Spain", -4, "employee-40@example.com", "Louvenia", 1, "Jeffery", "12345678901234", "12345678", 418305.0, "Ernesto Squares", null },
+                    { -39, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lake Taryn", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Montenegro", -3, "employee-39@example.com", "Johnson", 1, "Mateo", "12345678901234", "12345678", 16323.0, "Dooley Circles", null },
+                    { -38, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Port Chadport", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Qatar", -3, "employee-38@example.com", "Estevan", 1, "Bill", "12345678901234", "12345678", 461081.0, "Celestino Meadow", null },
+                    { -37, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Mertiemouth", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Saint Vincent and the Grenadines", -3, "employee-37@example.com", "Ali", 1, "Brooke", "12345678901234", "12345678", 143143.0, "Franecki Ferry", null },
+                    { -36, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Weberland", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Italy", -3, "employee-36@example.com", "Andrew", 1, "Salvador", "12345678901234", "12345678", 273556.0, "Rohan Road", null },
+                    { -35, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Pearlinefort", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Dominican Republic", -1, "employee-35@example.com", "Eliseo", 0, "Earnestine", "12345678901234", "12345678", 272071.0, "Lind Viaduct", null },
+                    { -34, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Reicheltown", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lithuania", -3, "employee-34@example.com", "Ellis", 0, "Kelli", "12345678901234", "12345678", 311981.0, "Myron Spring", null },
+                    { -33, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "New Emile", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Brunei Darussalam", -1, "employee-33@example.com", "Jeremie", 1, "Kim", "12345678901234", "12345678", 310243.0, "Balistreri Manor", null },
+                    { -32, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Jacobston", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Western Sahara", -3, "employee-32@example.com", "Keven", 0, "Ciara", "12345678901234", "12345678", 341754.0, "Oleta Glen", null },
+                    { -31, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Mozellburgh", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Togo", -1, "employee-31@example.com", "Belle", 0, "Marilou", "12345678901234", "12345678", 370097.0, "Nona Hill", null },
+                    { -30, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Jakubowskiview", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Georgia", -1, "employee-30@example.com", "Marcelino", 1, "Kris", "12345678901234", "12345678", 73222.0, "Precious Mountains", null },
+                    { -29, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "East Kasey", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Bermuda", -3, "employee-29@example.com", "Bartholome", 0, "Glennie", "12345678901234", "12345678", 136489.0, "Beth River", null },
+                    { -28, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Port Vicente", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Rwanda", -1, "employee-28@example.com", "Kyra", 0, "Selina", "12345678901234", "12345678", 489514.0, "McGlynn Junction", null },
+                    { -27, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lake Winfield", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Qatar", -2, "employee-27@example.com", "Makayla", 0, "Zelma", "12345678901234", "12345678", 216603.0, "Sherman Fall", null },
+                    { -26, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sandyview", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Madagascar", -2, "employee-26@example.com", "Damian", 0, "Oscar", "12345678901234", "12345678", 373950.0, "Amos Loaf", null },
+                    { -25, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Jaskolskistad", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Vietnam", -3, "employee-25@example.com", "Cecelia", 0, "Newell", "12345678901234", "12345678", 213058.0, "Ressie Courts", null },
+                    { -24, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "New Robert", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Samoa", -4, "employee-24@example.com", "Rodger", 1, "Shane", "12345678901234", "12345678", 393289.0, "Pat Bypass", null },
+                    { -23, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Madisenburgh", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "United Arab Emirates", -3, "employee-23@example.com", "Declan", 0, "Leonard", "12345678901234", "12345678", 211081.0, "Greenholt Fall", null },
+                    { -22, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lake Westonmouth", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Cambodia", -3, "employee-22@example.com", "Manuel", 0, "Bryce", "12345678901234", "12345678", 116418.0, "Jensen Circles", null },
+                    { -21, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Quitzonfort", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Haiti", -4, "employee-21@example.com", "Ramona", 0, "Skyla", "12345678901234", "12345678", 168607.0, "Emmerich Flats", null },
+                    { -20, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "New Elinorside", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "France", -4, "employee-20@example.com", "Kyle", 0, "Delilah", "12345678901234", "12345678", 46393.0, "Opal Inlet", null },
+                    { -19, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "North Omaville", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Philippines", -1, "employee-19@example.com", "Lelah", 1, "Natalie", "12345678901234", "12345678", 85531.0, "Caesar Mount", null },
+                    { -18, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Pattieville", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "United States of America", -3, "employee-18@example.com", "Ramiro", 0, "Rowland", "12345678901234", "12345678", 321106.0, "Judah Road", null },
+                    { -17, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Langhaven", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Kazakhstan", -4, "employee-17@example.com", "Jayme", 0, "Stanford", "12345678901234", "12345678", 98922.0, "Cruickshank Viaduct", null },
+                    { -16, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Rogahnton", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Uruguay", -3, "employee-16@example.com", "Sandy", 0, "Nels", "12345678901234", "12345678", 25846.0, "Sanford Glens", null },
+                    { -15, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "New Fridatown", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Libyan Arab Jamahiriya", -2, "employee-15@example.com", "Audie", 1, "David", "12345678901234", "12345678", 466754.0, "Liliane Path", null },
+                    { -14, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Stehrton", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Maldives", -1, "employee-14@example.com", "Jeramie", 1, "Amaya", "12345678901234", "12345678", 281191.0, "Champlin Underpass", null },
+                    { -13, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "East Elda", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Niger", -1, "employee-13@example.com", "Alexander", 1, "Aileen", "12345678901234", "12345678", 363241.0, "Garnet Rapids", null },
+                    { -12, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lake Merlefurt", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Niger", -1, "employee-12@example.com", "Gardner", 0, "Melisa", "12345678901234", "12345678", 244340.0, "Lyric Mountain", null },
+                    { -11, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Dickiberg", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "American Samoa", -4, "employee-11@example.com", "Vida", 1, "Salvatore", "12345678901234", "12345678", 21454.0, "Kameron Underpass", null },
+                    { -10, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "North Astrid", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Gambia", -1, "employee-10@example.com", "Guillermo", 0, "Julius", "12345678901234", "12345678", 361958.0, "Stanley Harbor", null },
+                    { -9, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "South Berta", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Switzerland", -3, "employee-9@example.com", "Leatha", 0, "Wilhelm", "12345678901234", "12345678", 476053.0, "Sister Heights", null },
+                    { -8, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "South Omaside", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Monaco", -1, "employee-8@example.com", "Lucious", 0, "Carli", "12345678901234", "12345678", 396318.0, "Candida Stream", null },
+                    { -7, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Amiyaberg", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Bangladesh", -4, "employee-7@example.com", "Riley", 1, "Alia", "12345678901234", "12345678", 488451.0, "Gutmann Pass", null },
+                    { -6, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "North Gertrudeburgh", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Malawi", -1, "employee-6@example.com", "Mervin", 1, "Nikki", "12345678901234", "12345678", 448118.0, "Ondricka Estate", null },
+                    { -5, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Tremblayfurt", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Jamaica", -1, "employee-5@example.com", "Zaria", 1, "Maryse", "12345678901234", "12345678", 495827.0, "Ryan Stream", null },
+                    { -4, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Yostport", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Netherlands", -2, "employee-4@example.com", "Richie", 1, "Jaime", "12345678901234", "12345678", 125277.0, "Cummerata Landing", null },
+                    { -3, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Baumbachmouth", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Yemen", -2, "employee-3@example.com", "Johnpaul", 0, "Myrna", "12345678901234", "12345678", 311452.0, "Conner Keys", null },
+                    { -2, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Janisland", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Reunion", -4, "employee-2@example.com", "Valentine", 1, "Stephany", "12345678901234", "12345678", 475351.0, "Rosie Hollow", null },
+                    { -1, 21, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Stehrborough", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "United States of America", -1, "employee-1@example.com", "Caleb", 1, "Marisa", "12345678901234", "12345678", 224069.0, "Bogisich Forks", null }
                 });
 
             migrationBuilder.CreateIndex(
@@ -684,6 +726,18 @@ namespace FinalProject.Migrations
                 table: "Vacations",
                 column: "EmployeeId");
 
+            migrationBuilder.CreateIndex(
+                name: "IX_WeekDaysViewModel_SettingViewModelid",
+                schema: "dbo",
+                table: "WeekDaysViewModel",
+                column: "SettingViewModelid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WeeklyHolidays_Genral_Id",
+                schema: "dbo",
+                table: "WeeklyHolidays",
+                column: "Genral_Id");
+
             migrationBuilder.AddForeignKey(
                 name: "FK_Attendances_Employees_EmployeeId",
                 schema: "dbo",
@@ -729,10 +783,6 @@ namespace FinalProject.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "GeneralSetting",
-                schema: "dbo");
-
-            migrationBuilder.DropTable(
                 name: "OfficalVacations",
                 schema: "dbo");
 
@@ -742,10 +792,6 @@ namespace FinalProject.Migrations
 
             migrationBuilder.DropTable(
                 name: "RoleClaims",
-                schema: "dbo");
-
-            migrationBuilder.DropTable(
-                name: "SettingViewModel",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
@@ -769,7 +815,23 @@ namespace FinalProject.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
+                name: "WeekDaysViewModel",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "WeeklyHolidays",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
                 name: "Permissions",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "SettingViewModel",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "GeneralSetting",
                 schema: "dbo");
 
             migrationBuilder.DropTable(

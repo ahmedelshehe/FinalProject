@@ -10,5 +10,7 @@ namespace FinalProject.ViewModels
 
         public int Discount { get; set; }
 
+        public List<WeekDaysViewModel> DayChecked { get; set; }
+
     }
 }

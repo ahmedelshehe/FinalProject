@@ -10,22 +10,31 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
-     var permissions = Context.Items["Permissions"] as List<Permission>;
-    var canShowSalary = permissions.HasPermission("Salary",Operation.Show);
+    var permissions = Context.Items["Permissions"] as List<Permission>;
+    var canShowSalary = permissions.HasPermission("Salary", Operation.Show);
     SelectList empList = new SelectList(ViewBag.Employees, "Id", "FirstName");
 }
 
 
+@if (!string.IsNullOrEmpty(ViewBag.AlertMessage))
+{
+    <div class="alert alert-warning">
+        @ViewBag.AlertMessage
+    </div>
+}
 
 
- <form action="/Salary/Index" method="get">
-     <select name="empId" class="form-control" @(canShowSalary)>
+
+<!-- Rest of your HTML and table display code -->
+
+<form action="/Salary/Index" method="get">
+    <select name="empId" class="form-control" @(canShowSalary)>
         <option value="" selected disabled hidden>Choose an Employee</option>
         @foreach (var item in ViewBag.Employees)
         {
             <option value="@item.Id">@item.Name</option>
         }
-    </select> 
+    </select>
     <br />
     <select name="year" id="year" class="form-control" required>
         <option value="" selected disabled hidden>Choose an Year</option>
@@ -44,7 +53,7 @@
     </select>
     <br />
     <button type="submit">Search</button>
-</form> 
+</form>
 
 <br />
 <table class="table table-striped table-hover">

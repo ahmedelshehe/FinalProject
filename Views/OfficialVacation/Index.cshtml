@@ -10,13 +10,13 @@
     var canAddOfficialVacation = permissions.HasPermission("OfficialVacation", Operation.Add); ; ;
     var canUpdateOfficialVacation = permissions.HasPermission("OfficialVacation", Operation.Update); ; ;
     var canDeleteOfficialVacation = permissions.HasPermission("OfficialVacation", Operation.Delete); ; ;
- 
+
 }
 
 
 <h1>Official Vacations </h1>
 
-<p @(canAddOfficialVacation )>
+<p @(canAddOfficialVacation)>
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
@@ -43,11 +43,12 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Date)
                 </td>
-                <td @(canUpdateOfficialVacation )>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |</td>
+                <td @(canUpdateOfficialVacation)>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                </td>
                 <td @(canShowOfficialVacation)> <a asp-action="Details" asp-route-id="@item.Id">Details</a> </td>
-                <td  @(canDeleteOfficialVacation )>  <a asp-action="Delete" asp-route-id="@item.Id">Delete</a></td>
-               
+                <td @(canDeleteOfficialVacation)>  <a asp-action="Delete" asp-route-id="@item.Id">Delete</a></td>
+
             </tr>
         }
     </tbody>

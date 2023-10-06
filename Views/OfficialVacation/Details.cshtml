@@ -16,20 +16,22 @@
             <tr>
                 <th>Title</th>
                 <th>Date</th>
-@*                 <th>User</th>
- *@            </tr>
+                @*                 <th>User</th>
+                *@
+            </tr>
         </thead>
         <tbody>
             <tr>
                 <td>@Model.Title</td>
                 <td>@Model.Date</td>
-@*                 <td>@Model.User.UserName</td>
- *@            </tr>
+                @*                 <td>@Model.User.UserName</td>
+                *@
+            </tr>
         </tbody>
     </table>
 
-   <p @(canUpdateOfficialVacation ? "" : "hidden")> <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-primary">Edit</a> </p>
-@*    <a href="@Url.Action("Delete", new { id = Model.Id })" class="btn btn-danger">Delete</a>
-*@    <a asp-action="Index" class="btn btn-info">Back to List</a>
+    <p @(canUpdateOfficialVacation ? "" : "hidden")> <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-primary">Edit</a> </p>
+    @*    <a href="@Url.Action("Delete", new { id = Model.Id })" class="btn btn-danger">Delete</a>
+    *@    <a asp-action="Index" class="btn btn-info">Back to List</a>
 </div>
 

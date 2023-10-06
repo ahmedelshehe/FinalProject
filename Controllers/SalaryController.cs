@@ -60,12 +60,17 @@ namespace FinalProject.Controllers
 
                     if (empId == null)
                     {
-                        var list = salaryService.GetData(year, month);
+                        var (list, alertMessage) = salaryService.GetData(year, month);
+                        ViewBag.AlertMessage = alertMessage;
                         return View(await list.ToPagedListAsync(pageNumber, pageSize));
+
+                        //var list = salaryService.GetData(year, month);
+                        //return View(await list.result.ToPagedListAsync(pageNumber, pageSize));
                     }
                     else
                     {
-                        var list = salaryService.GetData(year, month).Where(w => w.empId == empId).ToList();
+
+                        var list = salaryService.GetData(year, month).result.Where(w => w.empId == empId).ToList();
                         return View(await list.ToPagedListAsync(pageNumber, pageSize));
                     }
                 }
@@ -91,14 +96,35 @@ namespace FinalProject.Controllers
 
             if (empId == null)
             {
-                var list = salaryService.GetData(year, month);
+                var (list, alertMessage) = salaryService.GetData(year, month);
+                ViewBag.AlertMessage = alertMessage;
                 return View(await list.ToPagedListAsync(pageNumber, pageSize));
+
+                //var list = salaryService.GetData(year, month);
+                //return View(await list.result.ToPagedListAsync(pageNumber, pageSize));
             }
             else
             {
-                var list = salaryService.GetData(year, month).Where(w => w.empId == empId).ToList();
+                var list = salaryService.GetData(year, month).result.Where(w => w.empId == empId).ToList();
                 return View(await list.ToPagedListAsync(pageNumber, pageSize));
             }
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
