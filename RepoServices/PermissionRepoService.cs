@@ -20,7 +20,7 @@ namespace FinalProject.RepoServices
 
         public Permission GetPermission(int id)
         {
-            return context.Permissions.FirstOrDefault(p => p.Id == id );
+            return context.Permissions.FirstOrDefault(p => p.Id == id);
         }
 
         public void InsertPermission(Permission permission)

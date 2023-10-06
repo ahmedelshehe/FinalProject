@@ -55,7 +55,9 @@ namespace FinalProject.Data
             builder.Entity<Vacation>(
                 entity => entity.HasKey("StartDate", "EmployeeId")
                 );
-            
+            builder.Entity<WeeklyHoliday>(
+               entity => entity.HasKey("Holiday", "Genral_Id")
+               );
             builder.Entity<Attendance>()
                 .Property(a => a.ExtraHours)
                 .HasComputedColumnSql("CASE WHEN DATEDIFF(HOUR, ArrivalTime, DepartureTime) > 8  THEN DATEDIFF(HOUR, ArrivalTime, DepartureTime) - 8 ELSE 0 END");
@@ -107,6 +109,7 @@ namespace FinalProject.Data
 
         public virtual DbSet<Vacation> Vacations { get; set; }
         public DbSet<FinalProject.ViewModels.SettingViewModel>? SettingViewModel { get; set; }
+        public virtual DbSet<WeeklyHoliday> WeeklyHolidays { get; set; }
 
         public virtual DbSet<EmployeeAttendanceVM> EmployeeAttendanceReport { get; set; }
 

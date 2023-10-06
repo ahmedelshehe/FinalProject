@@ -17,6 +17,7 @@ namespace FinalProject.RepoServices
             return context.GeneralSetting.Select(g => g.DiscountHourPrice).FirstOrDefault();
         }
 
+
         public int OverTimePricePerHour()
         {
             return context.GeneralSetting.Select(g => g.ExtraHourPrice).FirstOrDefault();
@@ -33,12 +34,13 @@ namespace FinalProject.RepoServices
         }
 
 
+
         public async Task AddAsync(GeneralSetting NewGeneralSetting)
         {
-            var generalSettingDb =  context.GeneralSetting.FirstOrDefault(g => g.Id == 1);
+            var generalSettingDb = context.GeneralSetting.FirstOrDefault(g => g.Id == 1);
             if (generalSettingDb == null)
             {
-				NewGeneralSetting.Id = 1;
+                NewGeneralSetting.Id = 1;
                 await context.GeneralSetting.AddAsync(NewGeneralSetting);
             }
             else
