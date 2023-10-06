@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
+using PagedList;
+using System.Collections.Generic;
+using X.PagedList;
 namespace FinalProject.Controllers
 {
     [Authorize]
@@ -29,8 +31,10 @@ namespace FinalProject.Controllers
         }
         // GET: EmployeeController
         [AuthorizeByEntity("Employee")]
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? page)
         {
+            int pageSize = 10;
+            int pageNumber = page ?? 1;
             var employees = EmployeeRepository.GetEmployees();
 
             List<EmployeeViewModel> employeeViews = new List<EmployeeViewModel>();
@@ -51,12 +55,15 @@ namespace FinalProject.Controllers
 
                 }
             }
-            return View(employeeViews);
+           
+            var list = employeeViews;
+            return View(await list.ToPagedListAsync(pageNumber, pageSize));
+
 
         }
 
-		// GET: EmployeeController/Details/5
-		[AuthorizeByPermission("Employee", Operation.Show)]
+        // GET: EmployeeController/Details/5
+        [AuthorizeByPermission("Employee", Operation.Show)]
 		public ActionResult Details(int id)
         {
             return View(EmployeeRepository.GetEmployee(id));
