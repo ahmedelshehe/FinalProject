@@ -34,16 +34,16 @@ namespace FinalProject.Controllers
 			this.vacationRepository = vacationRepository;
 			this.officialVacationRepository = officialVacationRepository;
 		}
-        [Authorize]
-        public async Task<IActionResult> Index()
-		{
-			ViewBag.allDepts = DepartmentRepository.GetDepartments();
-			var user = await userManager.GetUserAsync(User);
-			var employee = employeeRepository.GetEmployee(user.EmpId);
+        /* [Authorize]
+         public async Task<IActionResult> Index()
+         {
+             ViewBag.allDepts = DepartmentRepository.GetDepartments();
+             var user = await userManager.GetUserAsync(User);
+             var employee = employeeRepository.GetEmployee(user.EmpId);
 
-			return View(employee);
-		}
-
+             return View(employee);
+         }
+        */
         public async Task<IActionResult> Edit()
         {
             var user = await userManager.Users
@@ -69,7 +69,6 @@ namespace FinalProject.Controllers
             return View(employee);
         }
 
-        [HttpPost]
         [HttpPost]
         public async Task<IActionResult> Edit(EmployeeEditProfile model)
         {
