@@ -6,11 +6,9 @@ namespace FinalProject.RepoServices
     {
         public List<Vacation> GetVacations();
         public Vacation GetVacation(int id, DateTime date);
-        public List<Vacation> GetVacationByEmployee(int id);
-
         public void InsertVacation(Vacation vacation);
-        public void UpdateVacation(int id, Vacation vacation, DateTime date);
-        public void DeleteVacation(int id);
+        public void UpdateVacation(int id, DateTime startDate, Vacation vacation);
+        public void DeleteVacation(int id, DateTime startDate);
         public bool IsVacation(int id, DateTime date);
 
     }

@@ -108,7 +108,7 @@ namespace FinalProject.Data
         public virtual DbSet<GeneralSetting> GeneralSetting { get; set; }
 
         public virtual DbSet<Vacation> Vacations { get; set; }
-        public DbSet<FinalProject.ViewModels.SettingViewModel>? SettingViewModel { get; set; }
+        public DbSet<SettingViewModel> SettingViewModel { get; set; }
         public virtual DbSet<WeeklyHoliday> WeeklyHolidays { get; set; }
 
         public virtual DbSet<EmployeeAttendanceVM> EmployeeAttendanceReport { get; set; }

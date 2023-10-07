@@ -110,7 +110,7 @@ namespace FinalProject.Controllers
             }
 
             vacation.Status = VacationStatus.Approved;
-            VacationRepository.UpdateVacation(id, vacation, date);
+            VacationRepository.UpdateVacation(id, date, vacation);
             employee.AvailableVacations -= vacation.VacationDays;
             EmployeeRepository.UpdateEmployee(id, employee);
 
@@ -125,7 +125,7 @@ namespace FinalProject.Controllers
             var employee = EmployeeRepository.GetEmployee(vacation.EmployeeId);
 
             vacation.Status = VacationStatus.Rejected;
-            VacationRepository.UpdateVacation(id, vacation, date);
+            VacationRepository.UpdateVacation(id, date, vacation);
 
             return RedirectToAction(nameof(Index));
         }
