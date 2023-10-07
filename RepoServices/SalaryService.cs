@@ -46,7 +46,8 @@ namespace FinalProject.RepoServices
                 }
                 else
                 {
-                    if (currentmonth == Convert.ToDateTime(item.Date).Month)
+                    if (currentmonth == Convert.ToDateTime(item.Date).Month &&
+                        currentyear == Convert.ToDateTime(item.Date).Year)
                         officialVacation++;
                 }
 

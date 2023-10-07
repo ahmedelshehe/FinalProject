@@ -96,15 +96,16 @@ namespace FinalProject.Controllers
                     ModelState.AddModelError(string.Empty, "Please change your password from the default password.");
                     return View(model);
                 }
-
+                var hasher = new PasswordHasher<AppUser>();
+				var hashedPassword = hasher.HashPassword(null, model.NewPassword);
                 user.Employee.FirstName = model.FirstName;
                 user.Employee.LastName = model.LastName;
-                user.Employee.Password = model.NewPassword;
+                user.Employee.Password = hashedPassword;
                 user.Employee.Street = model.Street;
                 user.Employee.City = model.City;
                 user.Employee.Country = model.Country;
                 user.Employee.BirthDate = model.BirthDate;
-
+				user.PasswordHash = hashedPassword;
                 await userManager.UpdateAsync(user);
 
                 // Log the user out

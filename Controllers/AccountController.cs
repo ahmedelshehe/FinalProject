@@ -25,7 +25,6 @@ namespace FinalProject.Controllers
             this.signInManager = signInManager;
             EmployeeRepository = employeeRepository;
             this.emailService = emailService;
-            this.emailService = emailService;  
         }
 
 
