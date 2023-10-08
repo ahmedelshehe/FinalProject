@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FinalProject.ViewModels.EmployeeViewModel>
+﻿@model IPagedList<FinalProject.ViewModels.EmployeeViewModel>
 @using FinalProject.Utilities
 @using X.PagedList;
 @using X.PagedList.Mvc.Core;
@@ -19,105 +19,151 @@
     var canAddUsers = permissions.HasPermission("AppUser", Operation.Add);
 }
 
-<h1>Index</h1>
-
-<p @(canAddEmployees )>
-    <a asp-action="Create">Create New</a>
-</p>
-
-<table class="table table-striped table-hover">
-    <thead>
-        <tr>
-            <th>
-                <i class="fa fa-user"></i> Full Name
-            </th>     
-            <th>
-                <i class="fa fa-envelope"></i> Email
-            </th>
-            <th>
-                <i class="fa fa-money"></i> Salary
-            </th>
-            <th>
-                <i class="fa fa-briefcase"></i> Department
-            </th>
-            <th>
-                <i class="fa fa-flag"></i> Country
-            </th>
-            <th>
-                <i class="fa fa-venus-mars"></i> Gender
-            </th>
-            <th>
-                <i class="fa fa-calendar"></i> Age
-            </th>
-            <th @(canAddUsers)>
-                <i class="fa fa-user-plus"></i> Add User
-            </th>
-            <th @(canUpdateEmployees) colspan="3">
-                Actions
-            </th>
-          
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.employee.FirstName) @Html.DisplayFor(modelItem => item.employee.LastName)
-            </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.employee.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.employee.Salary)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.employee.Department.Name)
-                </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.employee.Country)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.employee.Gender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.employee.Age)
-            </td>
-            
-                <td>
-                    @if (!item.isUserAdded)
-                    {
-                        <a asp-route-id="@item.employee.Id" asp-action="AddUser" asp-controller="Account"><i class="fa fa-user-plus"></i></a>
-                    }
-                    else{
-                        <i class="fa fa-check"></i>
-                        
-                        }
-                    </td>
-                <td @(canUpdateEmployees)>
-                    <a asp-action="Edit" asp-route-id="@item.employee.Id"><i class="fa fa-pencil"></i></a>
-                </td>
-                <td @(canShowEmployees)>
-                    <a asp-action="Details" asp-route-id="@item.employee.Id" ><i class="fa fa-eye"></i></a>
-                </td>
-                <td @(canDeleteEmployees)>
-                    <a asp-action="Delete" asp-route-id="@item.employee.Id"><i class="fa fa-trash"></i></a>
-                </td>
-           
-        </tr>
-}
-    </tbody>
-</table>
-
-<div id="container" style="margin-left: 20px">
-    <div class="pagination" style="margin-left: 400px">
-        @Html.PagedListPager(pagedList, page => Url.Action("Index", new { page = page }), new PagedListRenderOptions
-        {
-        DisplayLinkToIndividualPages = true,
-        DisplayPageCountAndCurrentLocation = false,
-        MaximumPageNumbersToDisplay = 10,
-        UlElementClasses = new string[] { "pagination justify-content-end" },
-        LiElementClasses = new string[] { "page-item" },
-        PageClasses = new string[] { "page-link" },
-        })
+<div class="content">
+    <div class="page-header">
+        <div class="page-title">
+            <h4>Employee List</h4>
+        </div>
+        <div class="page-btn print-off" @(canAddEmployees)>
+            <a asp-action="Create" class="btn btn-added"><img src="assets/img/icons/plus.svg" alt="img" class="me-1">Create</a>
+        </div>
     </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-top">
+                <div class="search-set">
+                    <div class="search-input print-off">
+                        <a class="btn btn-searchset"><img src="assets/img/icons/search-white.svg" alt="img"></a>
+                        <div id="DataTables_Table_0_filter" class="dataTables_filter"><label> <input type="search" class="form-control form-control-sm" placeholder="Search..." aria-controls="DataTables_Table_0"></label></div>
+                    </div>
+                </div>
+                <div class="wordset print-off">
+                    <ul>
+                       
+                        <li>
+                            <a onclick="printContent('DataTables_Table_0_wrapper')" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="print" aria-label="print"><img src="assets/img/icons/printer.svg" alt="img"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="table-responsive ">
+                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                    <table class="table datanew dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                        <thead>
+                            <tr role="row">
+                            
+                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Full Name: activate to sort column ascending" style="width: 176.469px;">Full Name</th>
+                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="SKU: activate to sort column ascending" style="width: 53.0312px;">Email</th>
+                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Category : activate to sort column ascending" style="width: 94.6719px;">Salary </th>
+                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Brand: activate to sort column ascending" style="width: 67.6094px;">Department</th>
+                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="price: activate to sort column ascending" style="width: 58.2656px;">Country</th>
+                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Unit: activate to sort column ascending" style="width: 49.9062px;">Gender</th>
+                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Qty: activate to sort column ascending" style="width: 44.7188px;">Age</th>
+                                <th class="sorting print-off" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Created By: activate to sort column ascending" style="width: 112.375px;">Add User</th>
+                                <th class="sorting print-off" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending" style="width: 125.641px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                            @foreach (var item in Model)
+                            {
+
+
+
+                                <tr class="odd">
+                                  
+                                    <td class="productimgname">
+                                        @Html.DisplayFor(modelItem => item.employee.FirstName) @Html.DisplayFor(modelItem => item.employee.LastName)
+
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.employee.Email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.employee.Salary)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.employee.Department.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.employee.Country)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.employee.Gender)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.employee.Age)
+                                    </td>
+
+                                    <td class="print-off">
+                                        @if (!item.isUserAdded)
+                                        {
+                                            <a asp-route-id="@item.employee.Id" asp-action="AddUser" asp-controller="Account"><i class="fa fa-user-plus"></i></a>
+                                        }
+                                        else
+                                        {
+                                            <i class="fa fa-check"></i>
+
+                                        }
+                                    </td>
+
+                                    <td @(canUpdateEmployees) class="print-off">
+                                        <div class="action-links">
+                                            <a asp-action="Edit" class="me-3" asp-route-id="@item.employee.Id">
+                                                <img src="assets/img/icons/edit.svg" alt="Edit">
+                                            </a>
+                                            <a asp-action="Details" class="me-3" asp-route-id="@item.employee.Id">
+                                                <img src="assets/img/icons/eye.svg" alt="Details">
+                                            </a>
+                                            <a asp-action="Delete" class="me-3" asp-route-id="@item.employee.Id" class="confirm-text">
+                                                <img src="assets/img/icons/delete.svg" alt="Delete">
+                                            </a>
+                                        </div>
+                                    </td>
+
+
+
+                                </tr>
+
+                            }
+                        </tbody>
+                 </table>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div style="text-align:center" class="print-off">
+
+<div class="dataTables_paginate " style="margin-left:17px" id="DataTables_Table_0_paginate">
+    <ul class="pagination">
+        @if (Model.PageCount > 1)
+        {
+            <li class="paginate_button page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+                    <a  href="@(Model.PageNumber == 1 ? "#" : Url.Action("Index", new { page = Model.PageNumber - 1 }))" aria-controls="DataTables_Table_0" tabindex="0" class="page-link">Previous</a>
+            </li>
+
+            @for (int i = 1; i <= Model.PageCount; i++)
+            {
+                <li class="paginate_button page-item @(Model.PageNumber == i ? "active" : "")">
+                        <a  href="@(Model.PageNumber == i ? "#" : Url.Action("Index", new { page = i }))" aria-controls="DataTables_Table_0" tabindex="0" class="page-link">@i</a>
+                </li>
+            }
+
+            <li class="paginate_button page-item @(Model.PageNumber == Model.PageCount ? "disabled" : "")">
+                    <a href="@(Model.PageNumber == Model.PageCount ? "#" : Url.Action("Index", new { page = Model.PageNumber + 1 }))" aria-controls="DataTables_Table_0" tabindex="0" class="page-link">Next</a>
+            </li>
+        }
+    </ul>
+</div>
 </div>
