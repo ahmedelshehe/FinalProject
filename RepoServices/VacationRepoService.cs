@@ -62,7 +62,7 @@ namespace FinalProject.RepoServices
 
 		public int GetVacationDays(int id, DateTime startDate)
 		{
-			var vacation = context.Vacations.FirstOrDefault(v => v.EmployeeId == id && v.StartDate == startDate && v.Status ==VacationStatus.Approved);
+			var vacation = context.Vacations.FirstOrDefault(v => v.EmployeeId == id && v.StartDate == startDate);
             var officialHolidays = context.OfficalVacations.Where(o => o.Date.Year == startDate.Year || o.Date.Year == startDate.AddYears(1).Year).Select(o => o.Date).ToList();
             var weeklyHoildays = context.WeeklyHolidays.Select(w => w.Holiday).ToList();
             return HelperShared.GetWorkDays(vacation.StartDate, vacation.EndDate, weeklyHoildays, officialHolidays);
