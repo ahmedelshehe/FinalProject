@@ -1,0 +1,148 @@
+﻿@model FinalProject.ViewModels.EmployeeEditProfile
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+  
+    <div class="content">
+        <div class="page-header">
+            <div class="page-title">
+                <h4>Profile</h4>
+                <h6>User Profile</h6>
+            </div>
+        </div>
+        <form asp-action="Edit">
+           <div class="card">
+
+            <div class="card-body">
+                <div class="profile-set">
+                    <div class="profile-head">
+                    </div>
+                    <div class="profile-top">
+                        <div class="profile-content">
+                            <div class="profile-contentimg">
+                                <img src="~/img/customer/customer5.jpg" alt="img" id="blah">
+                                <div class="profileupload">
+                                    <input type="file" id="imgInp">
+                                        <a href="javascript:void(0);"><img src="~/img/icons/edit-set.svg" alt="img"></a>
+                                </div>
+                            </div>
+                            <div class="profile-contentname">
+                                <h2>@User.Identity.Name</h2>
+                                <h4>Updates Your Photo and Personal Details.</h4>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                                <label asp-for="FirstName" class="control-label"></label>
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                                <label asp-for="LastName" class="control-label"></label>
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+            
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                                <label asp-for="BirthDate" class="control-label"></label>
+                                <input asp-for="BirthDate" class="form-control" />
+                                <span asp-validation-for="BirthDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                                <label asp-for="Street" class="control-label"></label>
+                                <input asp-for="Street" class="form-control" />
+                                <span asp-validation-for="Street" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                                <label asp-for="City" class="control-label"></label>
+                                <input asp-for="City" class="form-control" />
+                                <span asp-validation-for="City" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                                <label asp-for="Country" class="control-label"></label>
+                                <input asp-for="Country" class="form-control" />
+                                <span asp-validation-for="Country" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                            <label asp-for="Password"></label>
+                            <div class="pass-group">
+                                <input asp-for="Password" type="password" class=" pass-input">
+                                <span class="fas toggle-password fa-eye-slash"></span>
+                            </div>
+                                <span asp-validation-for="Password" class="text-danger"></span>
+
+                        </div>
+                    </div>
+
+                        <div class="col-lg-6 col-sm-12">
+                            <div class="form-group">
+                                <label asp-for="NewPassword"></label>
+                                <div class="pass-group">
+                                    <input asp-for="NewPassword" type="password" class=" pass-input">
+                                    <span class="fas toggle-password fa-eye-slash"></span>
+                                </div>
+                                <span asp-validation-for="NewPassword" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                    
+                    <div class="col-12">
+                            
+                            <input type="submit" href="javascript:void(0);" value="Save" class="btn btn-submit me-2" />
+                            <a asp-controller="Home" asp-action="Index" class="btn btn-cancel">Cancel</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        </form>
+
+    </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        const togglePasswordButton = document.querySelector('.toggle-password');
+        const passwordInput = document.querySelector('input[type="password"]');
+
+        togglePasswordButton.addEventListener('click', function () {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                togglePasswordButton.classList.remove('fa-eye-slash');
+                togglePasswordButton.classList.add('fa-eye');
+            } else {
+                passwordInput.type = 'password';
+                togglePasswordButton.classList.remove('fa-eye');
+                togglePasswordButton.classList.add('fa-eye-slash');
+            }
+        });
+
+    </script>
+    
+
+}
+
+

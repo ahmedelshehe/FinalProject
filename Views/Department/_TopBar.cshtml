@@ -1,0 +1,58 @@
+﻿@model FinalProject.Models.Department
+@using FinalProject.Utilities;
+
+@{
+    var permissions = Context.Items["Permissions"] as List<Permission>;
+
+    var canUpdateDepartments = permissions.HasPermission("Department", Operation.Update);
+    var canAddDepartments = permissions.HasPermission("Department", Operation.Add);
+    var canDeleteDepartments = permissions.HasPermission("Department", Operation.Delete);
+    var canShowDepartments = permissions.HasPermission("Department", Operation.Show);
+    string Title = "";
+    if (ViewData["Title"] != null)
+    {
+       Title = ViewData["Title"] as string;
+    }
+}
+
+<div class="row align-items-center align-content-between welcome-box m-5">
+    <div class="col print-off">
+        <a asp-action="Index"><i class="fa-solid fa-arrow-left fa-2xl" style="color: #5500bd;"></i></a>
+    </div>
+    <div class="col-9">
+        <h1>@if (Title != "Details")
+            {
+                <span>@Title</span>
+            } @Model.Name Department</h1>
+    </div>
+    <div class="col-2 row ">
+            <div class="col print-off" @(canAddDepartments)>
+                <a asp-action="Create"><i class="fa-sharp fa-solid fa-plus fa-2xl" style="color: #5500bd;"></i></a>
+            </div>  
+        
+        @if (Title != "Edit")
+        {
+            <div class="col print-off" @(canUpdateDepartments)>
+
+                <a asp-action="Edit" asp-route-id="Model.Id">
+                    <i class="fa-solid fa-pen-to-square fa-2xl" style="color: #5500bd;"></i>
+                </a>
+            </div>    
+        }
+        
+        @if (Title != "Details")
+        {
+            <div class="col print-off" @(canShowDepartments)>
+                <a asp-action="Details" asp-route-id="@Model.Id">
+                    <i class="fa-solid fa-circle-info fa-2xl" style="color: #5500bd;"></i>
+                </a>
+            </div>
+        }
+        @if (Title != "Delete")
+        {
+            <div class="col print-off" @(canDeleteDepartments)>
+                <a asp-action="Delete" asp-route-id="@Model.Id"><i class="fa-solid fa-trash fa-2xl" style="color: #5500bd;"></i></a>
+        </div>
+        }
+    </div>
+</div>

@@ -34,6 +34,8 @@ namespace FinalProject
             builder.Services.AddScoped<IUserRepository, AppUserRepository>();
             builder.Services.AddScoped<ISalaryService, SalaryService>();
             builder.Services.AddScoped<IGeneralSettingRepository, GeneralSetiingRepository>();
+            builder.Services.AddScoped<IWeeklyHolidayRepository, WeeklyHolidayRepository>();
+            builder.Services.AddScoped<IEmailService, EmailService>();
 
 
 
@@ -50,12 +52,12 @@ namespace FinalProject
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            using (var scope = app.Services.CreateScope())
+            /*using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<ApplicationDbContext>();
                 await AdminSeeder.InitializeAdminUser(context);
-            }
+            }*/
 
 
 

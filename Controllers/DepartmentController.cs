@@ -1,11 +1,13 @@
 ﻿using FinalProject.Models;
 using FinalProject.RepoServices;
 using FinalProject.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProject.Controllers
 {
+    [Authorize]
     public class DepartmentController : Controller
     {
         public DepartmentController(IDepartmentRepository departmentRepository)
@@ -15,6 +17,7 @@ namespace FinalProject.Controllers
 
         public IDepartmentRepository DepartmentRepository { get; set; }
 
+        [AuthorizeByEntity("Department")]
         public ActionResult Index()
         {
             return View(DepartmentRepository.GetDepartments());

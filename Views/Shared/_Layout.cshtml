@@ -1,25 +1,19 @@
 ﻿@using FinalProject.Middleware;
-
+@using FinalProject.Utilities;
 @{
 	ViewData["Title"] = "Index";
 	var permissions = Context.Items["Permissions"] as List<Permission>;
-	var canViewEmployees = false;
-	var canViewDepartments = false;
 	var canViewPermissions = Context.Items["CanViewPermissions"] as bool?;
-	var canViewVacation = Context.Items["CanViewVacationForAdmin"] as bool?;
-	var canViewVacationforUser = Context.Items["CanViewVacationForUser"] as bool?;
-
-	
+	var haveAnyVacation = permissions.HasAnyPermission("Vacation");
+	var IsAuthenticated = User.Identity.IsAuthenticated;
 	bool havePermissions = permissions == null ? false : true;
-	if (havePermissions)
-	{
-		canViewEmployees =
-			permissions.Any(p => p.Name == "Employee");
-		canViewDepartments =
-			permissions.Any(p => p.Name == "Department");
-		
-	}
-	}
+	var haveAnyEmployee = permissions.HasAnyPermission("Employee");
+	var haveAnyDepartment = permissions.HasAnyPermission("Department");
+	var haveAnyAttendance = permissions.HasAnyPermission("Attendance");
+	var haveAnySalary = permissions.HasAnyPermission("Salary");
+	var haveAnyAppRole = permissions.HasAnyPermission("AppRole");
+	var haveAnyAppUser = permissions.HasAnyPermission("AppUser");
+}
 
 
 <!DOCTYPE html>
@@ -40,7 +34,9 @@
 	<link rel="stylesheet" href="~/css/bootstrap.min.css">
 
 	<!-- Fontawesome CSS -->
-	<link rel="stylesheet" href="~/css/font-awesome.min.css">
+	<link rel="stylesheet" href="~/css/fontawesome.min.css" asp-append-version="true">
+	<link rel="stylesheet" href="~/css/font-awesome.min.css" asp-append-version="true">
+
 
 	<!-- Lineawesome CSS -->
 	<link rel="stylesheet" href="~/css/line-awesome.min.css">
@@ -49,62 +45,47 @@
 	<link rel="stylesheet" href="~/plugins/morris/morris.css">
 
 	<!-- Main CSS -->
+	<link rel="stylesheet" href="~/css/style.css" asp-append-version="true">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;700&family=Young+Serif&display=swap" rel="stylesheet">
+	<link rel="shortcut icon" type="image/x-icon" href="~/img/favicon.png">
+
+	<link rel="stylesheet" href="~/css/bootstrap.min.css" asp-append-version="true">
+
+	<link rel="stylesheet" href="~/css/animate.css" asp-append-version="true">
+
+	<link rel="stylesheet" href="~/css/dataTables.bootstrap4.min.css" asp-append-version="true">
+
+	<link rel="stylesheet" href="~/css/dataTables.bootstrap4.min.css" asp-append-version="true">
+	<link rel="stylesheet" href="~/plugins/fontawesome/css/fontawesome.min.css" asp-append-version="true">
+	<link rel="stylesheet" href="~/plugins/fontawesome/css/all.min.css" asp-append-version="true">
+
 	<link rel="stylesheet" href="~/css/style.css">
+	@RenderSection("Scripts", required: false)
 
-	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!--[if lt IE 9]>
-		<script src="assets/js/html5shiv.min.js"></script>
-		<script src="assets/js/respond.min.js"></script>
-	<![endif]-->
-	@await RenderSectionAsync("Head", required: false)
-	<script>
-		window.onload = function () {
-
-			var chart = new CanvasJS.Chart("chartContainer", {
-				animationEnabled: true,
-				title: {
-					text: "Ice Cream Sales Over a Month"
-				},
-				axisX: {
-					valueFormatString: "DD MMM"
-				},
-				axisY: {
-					title: "Sales (in USD)",
-					prefix: "$"
-				},
-				data: [{
-					type: "spline",
-					xValueType: "dateTime",
-					xValueFormatString: "DD MMM",
-					yValueFormatString: "$#,###",
-					dataPoints: @Html.Raw(Model)
-					}]
-			});
-			chart.render();
-
-		}
-	</script>
-	<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
 
 
 </head>
 
 <body>
-	<!-- Main Wrapper -->
-	<div class="main-wrapper">
 
-		<!-- Header -->
+
 		<div class="header">
 
-			<!-- Logo -->
-			<div class="header-left">
-				<a asp-action="Index" asp-controller="Home" class="logo">
-					<img src="~/img/logo.png" width="40" height="40" alt="">
+			<div class="header-left active">
+				<a href="index.html" class="logo">
+					<img src="~/img/logo.png" alt="">
+				</a>
+				<a href="index.html" class="logo-small">
+					<img src="~/img/logo-small.png" alt="">
+				</a>
+				<a id="toggle_btn" href="javascript:void(0);">
 				</a>
 			</div>
-			<!-- /Logo -->
 
-			<a id="toggle_btn" href="javascript:void(0);">
+			<a id="mobile_btn" class="mobile_btn" href="#sidebar">
 				<span class="bar-icon">
 					<span></span>
 					<span></span>
@@ -112,183 +93,147 @@
 				</span>
 			</a>
 
-			<!-- Header Title -->
-			<div class="page-title-box">
-				<h3>HR System</h3>
-			</div>
-			<!-- /Header Title -->
-
-			<a id="mobile_btn" class="mobile_btn" href="#sidebar"><i class="fa fa-bars"></i></a>
-
-			<!-- Header Menu -->
 			<ul class="nav user-menu">
-				@if (User.Identity.IsAuthenticated)
-				{
-					<li class="nav-item dropdown has-arrow main-drop">
-						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-							<span class="user-img">
-								<img src="assets\img\profiles\avatar-21.jpg" alt="">
-								<span class="status online"></span>
-							</span>
-							@{
-								var loggedInUser = Context.Request.Cookies["LoggedInUser"];
-							}
-							<span>Welcome, @loggedInUser</span>
-
-
-						</a>
-						<div class="dropdown-menu">
-							<a class="dropdown-item" asp-controller="Profile" asp-action="Index">My Profile</a>
-							<a class="dropdown-item" href="settings.html">Settings</a>
-							<a class="dropdown-item"  asp-controller="Account" asp-action="Logout">Logout</a>
+				@if (User.Identity.IsAuthenticated){
+				<li class="nav-item dropdown has-arrow main-drop">
+					<a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
+						<span class="user-img">
+							<img src="~/img/profiles/avator1.jpg" alt="">
+							<span class="status online"></span>
+						</span>
+					</a>
+						<div class="dropdown-menu menu-drop-user" >
+						<div class="profilename" >
+							<div class="profileset" >
+								<span class="user-img" >
+									<img src="~/img/profiles/avator1.jpg" alt="">
+									<span class="status online"></span>
+								</span>
+								<div class="profilesets">
+									<h6>@User.Identity.Name</h6>
+									<h5>Admin</h5>
+								</div>
+							</div>
+							<hr class="m-0">
+							<a class="dropdown-item" asp-controller="Profile" asp-action="Edit"> <i class="me-2" data-feather="user"></i> My Profile</a>
+							<hr class="m-0">
+							<a class="dropdown-item logout pb-0" asp-controller="Account" asp-action="Logout"><img src="~/img/icons/log-out.svg" class="me-2" alt="img">Logout</a>
 						</div>
-					</li>
+					</div>
+				</li>
+
 				}
-				else
-				{
-					<li>
-						<a href="/Account/Login" class="btn btn-primary">Login</a>
-					</li>
+				else {
+				<a class="btn btn-primary" asp-controller="Account" asp-action="Login" style="height:60px;width:120px;display:flex;align-items:center;justify-content:center;margin-right:-15px;">Login</a>
+
 				}
-				
+
 			</ul>
-			<!-- /Header Menu -->
-			<!-- Mobile Menu -->
+
+
 			<div class="dropdown mobile-user-menu">
-				<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+				<a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
 				<div class="dropdown-menu dropdown-menu-right">
-					<a class="dropdown-item" asp-controller="Profile" asp-action="Index">My Profile</a>
-					<a class="dropdown-item" href="settings.html">Settings</a>
-					<a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a>
+					<a class="dropdown-item" asp-controller="Profile" asp-action="Edit" >My Profile</a>
+					<a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a>
+					<a class="dropdown-item" asp-controller="Account" asp-action="Logout" >Logout</a>
 				</div>
 			</div>
-			<!-- /Mobile Menu -->
 
 		</div>
-		<!-- /Header -->
-		<!-- Sidebar -->
-		<div class="sidebar" id="sidebar" @(havePermissions ? "" :"hidden")>
+
+
+		<div class="sidebar" id="sidebar">
 			<div class="sidebar-inner slimscroll">
 				<div id="sidebar-menu" class="sidebar-menu">
 					<ul>
-						<li class="menu-title" >
-							<span>Main</span>
+						<li class="active">
+							<a href="index.html"><img src="~/img/icons/dashboard.svg" alt="img"><span> Dashboard</span> </a>
 						</li>
 						<li class="submenu">
-							<a href="#"><i class="la la-dashboard"></i> <span> Dashboard</span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a class="active" href="index.html">Admin Dashboard</a></li>
-								<li><a asp-controller="Profile" asp-action="Dashboard">Employee Dashboard</a></li>
+							<a href="javascript:void(0);"><img src="~/img/icons/product.svg" alt="img"><span> Employee</span> <span class="menu-arrow"></span></a>
+                            <ul>
+                                
+								<li><a  asp-controller="Employee" asp-action="Index">Employee List</a></li>
+								<li><a asp-controller="Employee" asp-action="Create">Add Employee</a></li>
 							</ul>
-						</li>
-						<li class="menu-title" >
-							<span>Employees</span>
-						</li>
+                        </li>
 						<li class="submenu">
-							<a href="#" class="noti-dot"><i class="la la-user"></i> <span> Employees</span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a href="employees.html">All Employees</a></li>
-								<li><a href="holidays.html">Holidays</a></li>
-								<li><a asp-controller="Attendances" asp-action="Index">Attendance (Admin)</a></li>
-								<li><a href="attendance-employee.html">Attendance (Employee)</a></li>
-								<li><a asp-controller="Department" asp-action="Index">Departments</a></li>
-								<li><a href="overtime.html">Overtime</a></li>
-							</ul>
-						</li>
-						<li class="menu-title">
-							<span>HR</span>
-						</li>
-						<li class="submenu">
-							<a href="#"><i class="la la-money"></i> <span> Payroll </span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a href="salary.html"> Employee Salary </a></li>
-								<li><a href="salary-view.html"> Payslip </a></li>
-								<li><a href="payroll-items.html"> Payroll Items </a></li>
+							<a href="javascript:void(0);"><img src="~/img/icons/product.svg" alt="img"><span> Role</span> <span class="menu-arrow"></span></a>
+							<ul>
+
+								<li><a asp-controller="AppRole" asp-action="Index">Role List</a></li>
+								<li><a asp-controller="AppRole" asp-action="Create">Add Role</a></li>
 							</ul>
 						</li>
 						<li>
-						<li @(canViewEmployees ? "" : "hidden")><a asp-controller="Employee" asp-action="Index"><i class="la la-external-link-square"></i> <span>Employees</span></a></li>
-						<li @(canViewDepartments ? "" : "hidden")><a asp-controller="Department" asp-action="Index"><i class="la la-external-link-square"></i> <span>Departments</span></a></li>
-
-							@if (canViewPermissions != null)
-							{
-								<li><a asp-controller="Permission" asp-action="Index"><i class="la la-external-link-square"></i> <span>Permissions</span></a></li>
-							}
-							@if (canViewVacation != null)
-							{
-							<li><a asp-controller="Vacation" asp-action="Index"><i class="la la-external-link-square"></i> <span>Vacation(Admin)</span></a></li>
-
-							}
-							@if (canViewVacationforUser != null)
-							{
-							<li><a asp-controller="Vacation" asp-action="MyVacations"><i class="la la-external-link-square"></i> <span>Vacation(User)</span></a></li>
-
-							}
-
-
-							
-						<li><a asp-controller="AppRole" asp-action="Index"><i class="la la-external-link-square"></i> <span>Roles</span></a></li>
-						<li><a asp-controller="OfficialVacation" asp-action="Index"><i class="la la-external-link-square"></i> <span>Official Vacations</span></a></li>
-						<li class="menu-title">
-							<span>Pages</span>
+                            <a asp-controller="OfficialVacation" asp-action="Index">
+                                <img src="~/assets/img/icons/sun-umbrella_891911.png" />
+								 <span>
+									Official Vacation
+								</span>
+							</a>
+						</li>
+						<li>
+							<a asp-controller="GeneralSetting" asp-action="Index">
+								<img src="~/assets/img/icons/settings.svg" /> <span>
+									Setting
+								</span>
+							</a>
 						</li>
 						<li class="submenu">
-							<a href="#"><i class="la la-user"></i> <span> Profile </span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a href="profile.html"> Employee Profile </a></li>
-								<li><a href="client-profile.html"> Client Profile </a></li>
+							<a href="javascript:void(0);"><img src="~/img/icons/sales1.svg" alt="img"><span> Sales</span> <span class="menu-arrow"></span></a>
+							<ul>
+								<li><a href="saleslist.html">Sales List</a></li>
+								<li><a href="pos.html">POS</a></li>
+								<li><a href="pos.html">New Sales</a></li>
+								<li><a href="salesreturnlists.html">Sales Return List</a></li>
+								<li><a href="createsalesreturns.html">New Sales Return</a></li>
 							</ul>
 						</li>
-						<li class="submenu">
-							<a href="#"><i class="la la-key"></i> <span> Authentication </span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a href="login.html"> Login </a></li>
-								<li><a href="register.html"> Register </a></li>
-								<li><a href="forgot-password.html"> Forgot Password </a></li>
-								<li><a href="otp.html"> OTP </a></li>
-								<li><a href="lock-screen.html"> Lock Screen </a></li>
-							</ul>
+						<li>
+							<a href="components.html"><i data-feather="layers"></i><span> Components</span> </a>
+						</li>
+
+						
+						
+						
 					</ul>
 				</div>
 			</div>
 		</div>
-		<!-- /Sidebar -->
-		<!-- Page Wrapper -->
+
 		<div class="page-wrapper">
+			<div class="content">
+                @RenderBody()
 
-			<!-- Page Content -->
-			<div id="PrintLayout" class="content container-fluid">
-
-				<!-- Page Header -->
-
-				@RenderBody()
 			</div>
-			<!-- /Page Content -->
 
-		</div>
-		<!-- /Page Wrapper -->
+			</div>
 
-	</div>
-	<!-- /Main Wrapper -->
-	<script src="~/lib/jquery/dist/jquery.min.js"></script>
-	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-	<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-	<script src="~/js/site.js" asp-append-version="true"></script>
-	<script src="~/js/jquery-3.2.1.min.js"></script>
+	<script src="~/js/jquery-3.6.0.min.js"></script>
 
-	<!-- Bootstrap Core JS -->
-	<script src="~/js/popper.min.js"></script>
-	<script src="~/js/bootstrap.min.js"></script>
+	<script src="~/js/feather.min.js"></script>
 
-	<!-- Slimscroll JS -->
 	<script src="~/js/jquery.slimscroll.min.js"></script>
 
+	<script src="~/js/jquery.dataTables.min.js"></script>
+	<script src="~/js/dataTables.bootstrap4.min.js"></script>
 
-	<!-- Custom JS -->
-	<script src="~/js/app.js" ></script>
-	@await RenderSectionAsync("Scripts", required: false)
+	<script src="~/js/bootstrap.bundle.min.js"></script>
 
+	<script src="~/plugins/apexchart/apexcharts.min.js"></script>
+	<script src="~/plugins/apexchart/chart-data.js"></script>
+
+	<script src="~/js/script.js"></script>
+	<script src="~/js/site.js"></script>
+	<!-- DataTables Buttons JavaScript -->
+	<script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script>
+	<!-- pdfmake library -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/pdfmake.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/vfs_fonts.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,122 @@
+﻿@model AdminDashboardVM
+@{
+}
+<div class="admin-dashboard content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="welcome-box">
+                <div class="welcome-img">
+                    <img alt="" src="assets\img\profiles\avatar-02.jpg">
+                </div>
+                <div class="welcome-det">
+                    <h3>Welcome, @Model.adminEmployee.FirstName @Model.adminEmployee.LastName</h3>
+                    <p>@DateTime.Now.ToString("dd MMMM yyyy")</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="welcome-box">
+                <div class="welcome-img">
+                    <img alt="" src="assets\img\profiles\avatar-02.jpg">
+                </div>
+                <div class="welcome-det">
+                    <h3>Employees Summary</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row gap-3">
+        <div class="col card shadow m-2 flex-column align-items-center justify-content-evenly">
+            <h4 class="card-header">Employee Count</h4>
+            <p class="font-weight-bold custom-font-size">@Model.EmployeesCount</p>
+            <p class="font-weight-bold">Employee </p>
+
+        </div>
+        <div class="col card shadow m-2 flex-column align-items-center">
+            <h5 class="card-header">Employee / Department</h5>
+            @Html.Partial("_DepartmentChart",Model)
+        </div>
+        <div class="col card shadow m-2 flex-column align-items-center justify-content-evenly">
+            <h4 class="card-header">Average Employee Age</h4>
+            <p class="font-weight-bold custom-font-size">@Model.EmployeesAgeAverage </p>
+            <p class="font-weight-bold">Years </p>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="welcome-box">
+                <div class="welcome-img">
+                    <img alt="" src="assets\img\profiles\avatar-02.jpg">
+                </div>
+                <div class="welcome-det">
+                    <h3>Attendance Summary</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col card shadow m-2 flex-column align-items-center justify-content-evenly">
+            <h4 class="card-header text-center">@DateTime.Now.ToString("MMMM")<br /> Extra Hours</h4>
+            <p class="font-weight-bold custom-font-size">@Model.ThisMonthExtraHours </p>
+            <p class="font-weight-bold">Hours </p>
+        </div>
+        <div class="col card shadow m-2 flex-column align-items-center justify-content-evenly">
+            <h4 class="card-header text-center">@DateTime.Now.ToString("MMMM")<br /> Discount Hours</h4>
+            <p class="font-weight-bold custom-font-size">@Model.ThisMonthDiscountHours </p>
+            <p class="font-weight-bold">Hours </p>
+        </div>
+        <div class="col card shadow m-2 flex-column align-items-center justify-content-evenly">
+            <h4 class="card-header text-center">@DateTime.Now.ToString("MMMM")<br /> Average Work Hours</h4>
+            <p class="font-weight-bold custom-font-size">@Model.ThisMonthAverageHours </p>
+            <p class="font-weight-bold">Hours </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col card shadow m-2 flex-column align-items-center justify-content-evenly">
+            <h4 class="card-header text-center">@DateTime.Now.AddMonths(-1).ToString("MMMM")<br /> Extra Hours</h4>
+            <p class="font-weight-bold custom-font-size">@Model.LastMonthExtraHours </p>
+            <p class="font-weight-bold">Hours </p>
+        </div>
+        <div class="col card shadow m-2 flex-column align-items-center justify-content-evenly">
+            <h4 class="card-header text-center">@DateTime.Now.AddMonths(-1).ToString("MMMM")<br /> Discount Hours</h4>
+            <p class="font-weight-bold custom-font-size">@Model.LastMonthDiscountHours </p>
+            <p class="font-weight-bold">Hours </p>
+        </div>
+        <div class="col card shadow m-2 flex-column align-items-center justify-content-evenly">
+            <h4 class="card-header text-center">@DateTime.Now.AddMonths(-1).ToString("MMMM")<br /> Average Work Hours</h4>
+            <p class="font-weight-bold custom-font-size">@Model.LastMonthAverageHours </p>
+            <p class="font-weight-bold">Hours </p>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="welcome-box">
+                <div class="welcome-img">
+                    <img alt="" src="assets\img\profiles\avatar-02.jpg">
+                </div>
+                <div class="welcome-det">
+                    <h3>Vacations Summary</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col card shadow m-2 flex-column align-items-center justify-content-evenly">
+            <h4 class="card-header text-center">@DateTime.Now.ToString("MMMM")<br /> Pending Vacations</h4>
+            <p class="font-weight-bold custom-font-size">@Model.PendingVacations </p>
+            <p class="font-weight-bold">Vacations </p>
+        </div>
+        <div class="col card shadow m-2 flex-column align-items-center justify-content-evenly">
+            <h4 class="card-header text-center">@DateTime.Now.ToString("MMMM")<br />  Approved Vacations</h4>
+            <p class="font-weight-bold custom-font-size">@Model.AcceptedVacations </p>
+            <p class="font-weight-bold">Vacations </p>
+        </div>
+        <div class="col card shadow m-2 flex-column align-items-center justify-content-evenly">
+            <h4 class="card-header text-center">@DateTime.Now.ToString("MMMM")<br /> Official Vacations</h4>
+            <p class="font-weight-bold custom-font-size">@Model.OfficialVactionsCount </p>
+            <p class="font-weight-bold">Vacations </p>
+        </div>
+    </div>
+</div>

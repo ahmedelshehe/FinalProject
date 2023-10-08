@@ -3,10 +3,12 @@ using FinalProject.RepoServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using FinalProject.Utilities;
+using Microsoft.AspNetCore.Authorization;
+using FinalProject.ViewModels;
 
 namespace FinalProject.Controllers
 {
-
+    [Authorize]
     public class OfficialVacationController : Controller
     {
         private readonly IOfficialVacationRepository officialVacationRepository;
@@ -23,7 +25,6 @@ namespace FinalProject.Controllers
 
         // GET: OfficialVacationController/Details/5
         [AuthorizeByPermission("OfficialVacation", Operation.Show)]
-
         public ActionResult Details(int id)
         {
             return View(officialVacationRepository.GetOfficialVacation(id));
@@ -31,56 +32,51 @@ namespace FinalProject.Controllers
 
         // GET: OfficialVacationController/Create
         [AuthorizeByPermission("OfficialVacation", Operation.Add)]
-
         public ActionResult Create()
         {
-            return View();
+            var model = new OfficialVacationViewModel
+            {
+                offvac = officialVacationRepository.GetOfficialVacations()
+
+            };
+            return View(model);
         }
+
 
         // POST: OfficialVacationController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthorizeByPermission("OfficialVacation", Operation.Add)]
-
-        public ActionResult Create(OfficialVacation officalVacation)
-        {
-            try
-            {
-                if(ModelState.IsValid)
-                {
-                    officialVacationRepository.InsertOfficialVacation(officalVacation);
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: OfficialVacationController/Edit/5
-        [AuthorizeByPermission("OfficialVacation", Operation.Update)]
-
-        public ActionResult Edit(int id)
-        {
-
-            return View(officialVacationRepository.GetOfficialVacation(id));
-        }
-
-        // POST: OfficialVacationController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [AuthorizeByPermission("OfficialVacation", Operation.Update)]
-
-        public ActionResult Edit(int id, OfficialVacation officalVacation)
+        public ActionResult Create(OfficialVacationViewModel officalVacation)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    officialVacationRepository.UpdateOfficialVacation(id,officalVacation);
+
+                    var existingVacation = officialVacationRepository.GetOfficialVacations().FirstOrDefault(v => v.Date == officalVacation.Date);
+
+                    if (existingVacation != null)
+                    {
+
+                        ModelState.AddModelError("Date", "this date already exists ");
+                    }
+
+                    else
+                    {
+                        // Create a new vacation
+                        var newVacation = new OfficialVacationViewModel
+                        {
+                            Name = officalVacation.Name,
+                            Date = officalVacation.Date
+                        };
+                        officialVacationRepository.InsertOfficialVacation(newVacation);
+
+                    }
+
                 }
-                return RedirectToAction(nameof(Index));
+                officalVacation.offvac = officialVacationRepository.GetOfficialVacations();
+                return RedirectToAction(nameof(Index), officalVacation);
             }
             catch
             {
@@ -88,9 +84,67 @@ namespace FinalProject.Controllers
             }
         }
 
+
+        // GET: OfficialVacationController/Edit/5
+        [AuthorizeByPermission("OfficialVacation", Operation.Update)]
+        public ActionResult Edit(int id)
+        {
+            OfficialVacation editvac = officialVacationRepository.GetOfficialVacation(id);
+
+            var Vacationvm = new OfficialVacationViewModel()
+            {
+                Date = editvac.Date,
+                Name = editvac.Title
+
+            };
+            return View(Vacationvm);
+
+        }
+
+
+
+
+        // POST: OfficialVacationController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AuthorizeByPermission("OfficialVacation", Operation.Update)]
+        public ActionResult Edit(int id, OfficialVacationViewModel evac)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+
+                    var existingVacation = officialVacationRepository.GetOfficialVacations().FirstOrDefault(v => v.Date == evac.Date);
+
+                    officialVacationRepository.UpdateOfficialVacation(id, evac);
+                    return RedirectToAction(nameof(Index));
+
+
+                    //if (existingVacation != null)
+                    //{
+                    //    // Vacation with the same date already exists, return an error message
+                    //    ModelState.AddModelError("Date", "date already exists");
+                    //}
+                    //else
+                    //{
+                    //    officialVacationRepository.UpdateOfficialVacation(id, evac);
+                    //    return RedirectToAction(nameof(Index));
+
+                    //}
+                }
+                return View(evac);
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+
+
         // GET: OfficialVacationController/Delete/5
         [AuthorizeByPermission("OfficialVacation", Operation.Delete)]
-
         public ActionResult Delete(int id)
 
         {
@@ -101,7 +155,6 @@ namespace FinalProject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthorizeByPermission("OfficialVacation", Operation.Delete)]
-
         public ActionResult Delete(int id, IFormCollection collection)
         {
             try

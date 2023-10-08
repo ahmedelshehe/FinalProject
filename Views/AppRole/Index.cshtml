@@ -10,7 +10,9 @@
     var canDeleteRole = permissions.HasPermission("AppRole", Operation.Delete); ;
     
 }
-<div class="d-flex justify-content-between">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
+
+@*<div class="d-flex justify-content-between">
     <h1>Roles</h1>
     <p @(canAddRole)>
         <a asp-action="Create" class="btn btn-outline-success">Create New</a>
@@ -22,9 +24,9 @@
     <thead>
         <tr>
             <th>Name</th>
-            <th>Edit</th>
-            <th>View Permissions</th>
-            <th>Delete</th>
+            <th @(canUpdateRole)>Edit</th>
+            <th @(canShowRole)>View Permissions</th>
+            <th @(canDeleteRole)>Delete</th>
         </tr>
     </thead>
     <tbody>
@@ -45,4 +47,100 @@
 
         }
     </tbody>
-</table>
+</table>*@
+<div class="content">
+    <div class="page-header">
+        <div class="page-title">
+            <h4>Roles List</h4>
+        </div>
+        <div class="page-btn" @(canAddRole)>
+            <a asp-action="Create" class="btn btn-added"><img src="~/assets/img/icons/plus.svg" alt="img" class="me-1">Add New Role</a>
+        </div>
+    </div>
+
+
+    <div class="card">
+        <div class="card-body">
+
+            <div id="my-table-div">
+                <table id="mytable" class=" table hover row-border compact stripe order-column" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+
+                                </td>
+                                
+
+                                <td class="print-off">
+                                    <div class="action-links">
+                                        <span @(canUpdateRole)>
+                                            <a asp-action="Edit" class="me-3" asp-route-id="@item.Id">
+                                                <img src="~/assets/img/icons/edit.svg" alt="Edit">
+                                            </a>
+                                        </span>
+                                        <span @(canShowRole)>
+                                            <a asp-action="Details" class="me-3" asp-route-id="@item.Id">
+                                                <img src="~/assets/img/icons/eye.svg" />
+                                            </a>
+                                        </span>
+                                        <span @(canDeleteRole)>
+                                            <a asp-action="Delete" class="me-3" asp-route-id="@item.Id" class="confirm-text">
+                                                <img src="~/assets/img/icons/delete.svg" alt="Delete">
+                                            </a>
+                                        </span>
+                                    </div>
+                                </td>
+
+
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+@*<!-- DataTables Buttons JavaScript -->
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script>
+<!-- pdfmake library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/vfs_fonts.js"></script>
+*@
+<script>
+    $(document).ready(function () {
+        $('#mytable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                {
+                    extend: 'pdfHtml5',
+                    text: 'PDF',
+
+                    customize: function (doc) {
+
+                    }
+                }
+            ]
+        });
+    });
+
+</script>

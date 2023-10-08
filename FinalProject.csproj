@@ -8,16 +8,76 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\assets\**" />
-    <Content Remove="wwwroot\assets\**" />
-    <EmbeddedResource Remove="wwwroot\assets\**" />
-    <None Remove="wwwroot\assets\**" />
+    <Content Remove="wwwroot\assets\img\icons\calendars.svg" />
+    <Content Remove="wwwroot\assets\img\icons\cash.svg" />
+    <Content Remove="wwwroot\assets\img\icons\close-circle.svg" />
+    <Content Remove="wwwroot\assets\img\icons\close-circle1.svg" />
+    <Content Remove="wwwroot\assets\img\icons\closes.svg" />
+    <Content Remove="wwwroot\assets\img\icons\dash1.svg" />
+    <Content Remove="wwwroot\assets\img\icons\dash2.svg" />
+    <Content Remove="wwwroot\assets\img\icons\dash3.svg" />
+    <Content Remove="wwwroot\assets\img\icons\dash4.svg" />
+    <Content Remove="wwwroot\assets\img\icons\dashboard.svg" />
+    <Content Remove="wwwroot\assets\img\icons\datepicker.svg" />
+    <Content Remove="wwwroot\assets\img\icons\debitcard.svg" />
+    <Content Remove="wwwroot\assets\img\icons\delete-2.svg" />
+    <Content Remove="wwwroot\assets\img\icons\delete.svg" />
+    <Content Remove="wwwroot\assets\img\icons\delete1.svg" />
+    <Content Remove="wwwroot\assets\img\icons\dollar-square.svg" />
+    <Content Remove="wwwroot\assets\img\icons\dollar.svg" />
+    <Content Remove="wwwroot\assets\img\icons\download.svg" />
+    <Content Remove="wwwroot\assets\img\icons\dropdown.svg" />
+    <Content Remove="wwwroot\assets\img\icons\edit-5.svg" />
+    <Content Remove="wwwroot\assets\img\icons\edit-6.svg" />
+    <Content Remove="wwwroot\assets\img\icons\edit-set.svg" />
+    <Content Remove="wwwroot\assets\img\icons\edit.svg" />
+    <Content Remove="wwwroot\assets\img\icons\ellipise1.svg" />
+    <Content Remove="wwwroot\assets\img\icons\excel.svg" />
+    <Content Remove="wwwroot\assets\img\icons\expense1.svg" />
+    <Content Remove="wwwroot\assets\img\icons\eye.svg" />
+    <Content Remove="wwwroot\assets\img\icons\eye1.svg" />
+    <Content Remove="wwwroot\assets\img\icons\filter.svg" />
+    <Content Remove="wwwroot\assets\img\icons\log-out.svg" />
+    <Content Remove="wwwroot\assets\img\icons\macbook.svg" />
+    <Content Remove="wwwroot\assets\img\icons\mail.svg" />
+    <Content Remove="wwwroot\assets\img\icons\minus.svg" />
+    <Content Remove="wwwroot\assets\img\icons\notification-bing.svg" />
+    <Content Remove="wwwroot\assets\img\icons\pause1.svg" />
+    <Content Remove="wwwroot\assets\img\icons\pdf.svg" />
+    <Content Remove="wwwroot\assets\img\icons\places.svg" />
+    <Content Remove="wwwroot\assets\img\icons\plus-circle.svg" />
+    <Content Remove="wwwroot\assets\img\icons\plus.svg" />
+    <Content Remove="wwwroot\assets\img\icons\plus1.svg" />
+    <Content Remove="wwwroot\assets\img\icons\printer.svg" />
+    <Content Remove="wwwroot\assets\img\icons\product.svg" />
+    <Content Remove="wwwroot\assets\img\icons\purchase1.svg" />
+    <Content Remove="wwwroot\assets\img\icons\quotation1.svg" />
+    <Content Remove="wwwroot\assets\img\icons\return1.svg" />
+    <Content Remove="wwwroot\assets\img\icons\reverse.svg" />
+    <Content Remove="wwwroot\assets\img\icons\sales1.svg" />
+    <Content Remove="wwwroot\assets\img\icons\scan.svg" />
+    <Content Remove="wwwroot\assets\img\icons\scanner.svg" />
+    <Content Remove="wwwroot\assets\img\icons\scanner1.svg" />
+    <Content Remove="wwwroot\assets\img\icons\scanners.svg" />
+    <Content Remove="wwwroot\assets\img\icons\search-white.svg" />
+    <Content Remove="wwwroot\assets\img\icons\search-whites.svg" />
+    <Content Remove="wwwroot\assets\img\icons\search.svg" />
+    <Content Remove="wwwroot\assets\img\icons\settings.svg" />
+    <Content Remove="wwwroot\assets\img\icons\time.svg" />
+    <Content Remove="wwwroot\assets\img\icons\transcation.svg" />
+    <Content Remove="wwwroot\assets\img\icons\transfer1.svg" />
+    <Content Remove="wwwroot\assets\img\icons\trash12.svg" />
+    <Content Remove="wwwroot\assets\img\icons\upload.svg" />
+    <Content Remove="wwwroot\assets\img\icons\users1.svg" />
+    <Content Remove="wwwroot\assets\img\icons\wallet1.svg" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="EFCore.BulkExtensions" Version="6.7.16" />
     <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
     <PackageReference Include="Faker.Net" Version="2.0.154" />
+    <PackageReference Include="MailKit" Version="4.2.0" />
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.9" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.20" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.21" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.21" />
@@ -28,10 +88,227 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
+    <PackageReference Include="PagedList" Version="1.17.0" />
+    <PackageReference Include="PagedList.Mvc" Version="4.5.0" />
     <PackageReference Include="System.Data.OleDb" Version="7.0.0" />
+    <PackageReference Include="X.PagedList" Version="8.4.7" />
+    <PackageReference Include="X.PagedList.Mvc.Core" Version="8.4.7" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\assetss\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\assetss\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\assetss\fonts\line-awesome.svg" />
+    <None Include="wwwroot\assetss\fonts\line-awesome.woff2" />
+    <None Include="wwwroot\assetss\fonts\MaterialIcons-Regular.woff2" />
+    <None Include="wwwroot\assetss\img\icons\calendars.svg" />
+    <None Include="wwwroot\assetss\img\icons\cash.svg" />
+    <None Include="wwwroot\assetss\img\icons\close-circle.svg" />
+    <None Include="wwwroot\assetss\img\icons\close-circle1.svg" />
+    <None Include="wwwroot\assetss\img\icons\closes.svg" />
+    <None Include="wwwroot\assetss\img\icons\dash1.svg" />
+    <None Include="wwwroot\assetss\img\icons\dash2.svg" />
+    <None Include="wwwroot\assetss\img\icons\dash3.svg" />
+    <None Include="wwwroot\assetss\img\icons\dash4.svg" />
+    <None Include="wwwroot\assetss\img\icons\dashboard.svg" />
+    <None Include="wwwroot\assetss\img\icons\datepicker.svg" />
+    <None Include="wwwroot\assetss\img\icons\debitcard.svg" />
+    <None Include="wwwroot\assetss\img\icons\delete-2.svg" />
+    <None Include="wwwroot\assetss\img\icons\delete.svg" />
+    <None Include="wwwroot\assetss\img\icons\delete1.svg" />
+    <None Include="wwwroot\assetss\img\icons\dollar-square.svg" />
+    <None Include="wwwroot\assetss\img\icons\dollar.svg" />
+    <None Include="wwwroot\assetss\img\icons\download.svg" />
+    <None Include="wwwroot\assetss\img\icons\dropdown.svg" />
+    <None Include="wwwroot\assetss\img\icons\edit-5.svg" />
+    <None Include="wwwroot\assetss\img\icons\edit-6.svg" />
+    <None Include="wwwroot\assetss\img\icons\edit-set.svg" />
+    <None Include="wwwroot\assetss\img\icons\edit.svg" />
+    <None Include="wwwroot\assetss\img\icons\ellipise1.svg" />
+    <None Include="wwwroot\assetss\img\icons\excel.svg" />
+    <None Include="wwwroot\assetss\img\icons\expense1.svg" />
+    <None Include="wwwroot\assetss\img\icons\eye.svg" />
+    <None Include="wwwroot\assetss\img\icons\eye1.svg" />
+    <None Include="wwwroot\assetss\img\icons\filter.svg" />
+    <None Include="wwwroot\assetss\img\icons\log-out.svg" />
+    <None Include="wwwroot\assetss\img\icons\macbook.svg" />
+    <None Include="wwwroot\assetss\img\icons\mail.svg" />
+    <None Include="wwwroot\assetss\img\icons\minus.svg" />
+    <None Include="wwwroot\assetss\img\icons\notification-bing.svg" />
+    <None Include="wwwroot\assetss\img\icons\pause1.svg" />
+    <None Include="wwwroot\assetss\img\icons\pdf.svg" />
+    <None Include="wwwroot\assetss\img\icons\places.svg" />
+    <None Include="wwwroot\assetss\img\icons\plus-circle.svg" />
+    <None Include="wwwroot\assetss\img\icons\plus.svg" />
+    <None Include="wwwroot\assetss\img\icons\plus1.svg" />
+    <None Include="wwwroot\assetss\img\icons\printer.svg" />
+    <None Include="wwwroot\assetss\img\icons\product.svg" />
+    <None Include="wwwroot\assetss\img\icons\purchase1.svg" />
+    <None Include="wwwroot\assetss\img\icons\quotation1.svg" />
+    <None Include="wwwroot\assetss\img\icons\return1.svg" />
+    <None Include="wwwroot\assetss\img\icons\reverse.svg" />
+    <None Include="wwwroot\assetss\img\icons\sales1.svg" />
+    <None Include="wwwroot\assetss\img\icons\scan.svg" />
+    <None Include="wwwroot\assetss\img\icons\scanner.svg" />
+    <None Include="wwwroot\assetss\img\icons\scanner1.svg" />
+    <None Include="wwwroot\assetss\img\icons\scanners.svg" />
+    <None Include="wwwroot\assetss\img\icons\search-white.svg" />
+    <None Include="wwwroot\assetss\img\icons\search-whites.svg" />
+    <None Include="wwwroot\assetss\img\icons\search.svg" />
+    <None Include="wwwroot\assetss\img\icons\settings.svg" />
+    <None Include="wwwroot\assetss\img\icons\time.svg" />
+    <None Include="wwwroot\assetss\img\icons\transcation.svg" />
+    <None Include="wwwroot\assetss\img\icons\transfer1.svg" />
+    <None Include="wwwroot\assetss\img\icons\trash12.svg" />
+    <None Include="wwwroot\assetss\img\icons\upload.svg" />
+    <None Include="wwwroot\assetss\img\icons\users1.svg" />
+    <None Include="wwwroot\assetss\img\icons\wallet1.svg" />
+    <None Include="wwwroot\assetss\js\app.js" />
+    <None Include="wwwroot\assetss\js\bootstrap-datetimepicker.min.js" />
+    <None Include="wwwroot\assetss\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\assetss\js\bootstrap.min.js" />
+    <None Include="wwwroot\assetss\js\chart.js" />
+    <None Include="wwwroot\assetss\js\dropfiles.js" />
+    <None Include="wwwroot\assetss\js\feather.min.js" />
+    <None Include="wwwroot\assetss\js\form-validation.js" />
+    <None Include="wwwroot\assetss\js\fullcalendar.min.js" />
+    <None Include="wwwroot\assetss\js\jquery-3.2.1.min.js" />
+    <None Include="wwwroot\assetss\js\jquery-3.6.0.min.js" />
+    <None Include="wwwroot\assetss\js\jquery-ui.min.js" />
+    <None Include="wwwroot\assetss\js\jquery.dataTables.min.js" />
+    <None Include="wwwroot\assetss\js\jquery.fullcalendar.js" />
+    <None Include="wwwroot\assetss\js\jquery.maskedinput.min.js" />
+    <None Include="wwwroot\assetss\js\jquery.slimscroll.min.js" />
+    <None Include="wwwroot\assetss\js\jquery.ui.touch-punch.min.js" />
+    <None Include="wwwroot\assetss\js\mask.js" />
+    <None Include="wwwroot\assetss\js\moment.min.js" />
+    <None Include="wwwroot\assetss\js\multiselect.min.js" />
+    <None Include="wwwroot\assetss\js\popper.min.js" />
+    <None Include="wwwroot\assetss\js\script.js" />
+    <None Include="wwwroot\assetss\js\select2.min.js" />
+    <None Include="wwwroot\assetss\js\task.js" />
+    <None Include="wwwroot\assetss\plugins\alertify\alertify.min.js" />
+    <None Include="wwwroot\assetss\plugins\alertify\custom-alertify.min.js" />
+    <None Include="wwwroot\assetss\plugins\apexchart\apexcharts.min.js" />
+    <None Include="wwwroot\assetss\plugins\apexchart\chart-data.js" />
+    <None Include="wwwroot\assetss\plugins\bootstrap-tagsinput\bootstrap-tagsinput.min.js" />
+    <None Include="wwwroot\assetss\plugins\chartjs\chart-data.js" />
+    <None Include="wwwroot\assetss\plugins\chartjs\chart.min.js" />
+    <None Include="wwwroot\assetss\plugins\clipboard\clipboard.min.js" />
+    <None Include="wwwroot\assetss\plugins\countup\jquery.counterup.min.js" />
+    <None Include="wwwroot\assetss\plugins\countup\jquery.missofis-countdown.js" />
+    <None Include="wwwroot\assetss\plugins\countup\jquery.waypoints.min.js" />
+    <None Include="wwwroot\assetss\plugins\dragula\js\drag-drop.min.js" />
+    <None Include="wwwroot\assetss\plugins\dragula\js\dragula.min.js" />
+    <None Include="wwwroot\assetss\plugins\fileupload\fileupload.min.js" />
+    <None Include="wwwroot\assetss\plugins\flot\chart-data.js" />
+    <None Include="wwwroot\assetss\plugins\flot\jquery.flot.fillbetween.js" />
+    <None Include="wwwroot\assetss\plugins\flot\jquery.flot.js" />
+    <None Include="wwwroot\assetss\plugins\flot\jquery.flot.pie.js" />
+    <None Include="wwwroot\assetss\plugins\fontawesome\webfonts\fa-brands-400.svg" />
+    <None Include="wwwroot\assetss\plugins\fontawesome\webfonts\fa-brands-400.woff2" />
+    <None Include="wwwroot\assetss\plugins\fontawesome\webfonts\fa-regular-400.svg" />
+    <None Include="wwwroot\assetss\plugins\fontawesome\webfonts\fa-regular-400.woff2" />
+    <None Include="wwwroot\assetss\plugins\fontawesome\webfonts\fa-solid-900.svg" />
+    <None Include="wwwroot\assetss\plugins\fontawesome\webfonts\fa-solid-900.woff2" />
+    <None Include="wwwroot\assetss\plugins\fullcalendar\fullcalendar.min.js" />
+    <None Include="wwwroot\assetss\plugins\fullcalendar\jquery.fullcalendar.js" />
+    <None Include="wwwroot\assetss\plugins\icons\weather\fonts\weathericons-regular-webfont.woff2" />
+    <None Include="wwwroot\assetss\plugins\ion-rangeslider\js\custom-rangeslider.js" />
+    <None Include="wwwroot\assetss\plugins\ion-rangeslider\js\ion.rangeSlider.min.js" />
+    <None Include="wwwroot\assetss\plugins\lightbox\glightbox.min.js" />
+    <None Include="wwwroot\assetss\plugins\lightbox\lightbox.js" />
+    <None Include="wwwroot\assetss\plugins\material\fonts\Material-Design-Iconic-Font.woff2" />
+    <None Include="wwwroot\assetss\plugins\material\fonts\materialdesignicons-webfont.woff2" />
+    <None Include="wwwroot\assetss\plugins\moment\moment.min.js" />
+    <None Include="wwwroot\assetss\plugins\morris\chart-data.js" />
+    <None Include="wwwroot\assetss\plugins\morris\morris.min.js" />
+    <None Include="wwwroot\assetss\plugins\morris\raphael-min.js" />
+    <None Include="wwwroot\assetss\plugins\owlcarousel\owl.carousel.min.js" />
+    <None Include="wwwroot\assetss\plugins\peity\chart-data.js" />
+    <None Include="wwwroot\assetss\plugins\peity\jquery.peity.min.js" />
+    <None Include="wwwroot\assetss\plugins\raphael\raphael.min.js" />
+    <None Include="wwwroot\assetss\plugins\raty\custom.raty.js" />
+    <None Include="wwwroot\assetss\plugins\raty\jquery.raty.js" />
+    <None Include="wwwroot\assetss\plugins\scrollbar\custom-scroll.js" />
+    <None Include="wwwroot\assetss\plugins\scrollbar\scrollbar.min.js" />
+    <None Include="wwwroot\assetss\plugins\select2\js\custom-select.js" />
+    <None Include="wwwroot\assetss\plugins\select2\js\select2.min.js" />
+    <None Include="wwwroot\assetss\plugins\simpleline\fonts\Simple-Line-Icons.woff2" />
+    <None Include="wwwroot\assetss\plugins\sticky-kit-master\dist\sticky-kit.min.js" />
+    <None Include="wwwroot\assetss\plugins\stickynote\sticky.js" />
+    <None Include="wwwroot\assetss\plugins\summernote\dist\summernote-bs4.min.js" />
+    <None Include="wwwroot\assetss\plugins\summernote\font\summernote.woff2" />
+    <None Include="wwwroot\assetss\plugins\summernote\summernote-bs4.min.js" />
+    <None Include="wwwroot\assetss\plugins\sweetalert\sweetalert2.all.min.js" />
+    <None Include="wwwroot\assetss\plugins\sweetalert\sweetalerts.min.js" />
+    <None Include="wwwroot\assetss\plugins\toastr\toastr.js" />
+    <None Include="wwwroot\assetss\plugins\toastr\toastr.min.js" />
+    <None Include="wwwroot\assetss\plugins\twitter-bootstrap-wizard\form-wizard.js" />
+    <None Include="wwwroot\assetss\plugins\twitter-bootstrap-wizard\jquery.bootstrap.wizard.min.js" />
+    <None Include="wwwroot\assetss\plugins\twitter-bootstrap-wizard\prettify.js" />
+    <None Include="wwwroot\assets\img\icons\calendars.svg" />
+    <None Include="wwwroot\assets\img\icons\cash.svg" />
+    <None Include="wwwroot\assets\img\icons\close-circle.svg" />
+    <None Include="wwwroot\assets\img\icons\close-circle1.svg" />
+    <None Include="wwwroot\assets\img\icons\closes.svg" />
+    <None Include="wwwroot\assets\img\icons\dash1.svg" />
+    <None Include="wwwroot\assets\img\icons\dash2.svg" />
+    <None Include="wwwroot\assets\img\icons\dash3.svg" />
+    <None Include="wwwroot\assets\img\icons\dash4.svg" />
+    <None Include="wwwroot\assets\img\icons\dashboard.svg" />
+    <None Include="wwwroot\assets\img\icons\datepicker.svg" />
+    <None Include="wwwroot\assets\img\icons\debitcard.svg" />
+    <None Include="wwwroot\assets\img\icons\delete-2.svg" />
+    <None Include="wwwroot\assets\img\icons\delete.svg" />
+    <None Include="wwwroot\assets\img\icons\delete1.svg" />
+    <None Include="wwwroot\assets\img\icons\dollar-square.svg" />
+    <None Include="wwwroot\assets\img\icons\dollar.svg" />
+    <None Include="wwwroot\assets\img\icons\download.svg" />
+    <None Include="wwwroot\assets\img\icons\dropdown.svg" />
+    <None Include="wwwroot\assets\img\icons\edit-5.svg" />
+    <None Include="wwwroot\assets\img\icons\edit-6.svg" />
+    <None Include="wwwroot\assets\img\icons\edit-set.svg" />
+    <None Include="wwwroot\assets\img\icons\edit.svg" />
+    <None Include="wwwroot\assets\img\icons\ellipise1.svg" />
+    <None Include="wwwroot\assets\img\icons\excel.svg" />
+    <None Include="wwwroot\assets\img\icons\expense1.svg" />
+    <None Include="wwwroot\assets\img\icons\eye.svg" />
+    <None Include="wwwroot\assets\img\icons\eye1.svg" />
+    <None Include="wwwroot\assets\img\icons\filter.svg" />
+    <None Include="wwwroot\assets\img\icons\log-out.svg" />
+    <None Include="wwwroot\assets\img\icons\macbook.svg" />
+    <None Include="wwwroot\assets\img\icons\mail.svg" />
+    <None Include="wwwroot\assets\img\icons\minus.svg" />
+    <None Include="wwwroot\assets\img\icons\notification-bing.svg" />
+    <None Include="wwwroot\assets\img\icons\pause1.svg" />
+    <None Include="wwwroot\assets\img\icons\pdf.svg" />
+    <None Include="wwwroot\assets\img\icons\places.svg" />
+    <None Include="wwwroot\assets\img\icons\plus-circle.svg" />
+    <None Include="wwwroot\assets\img\icons\plus.svg" />
+    <None Include="wwwroot\assets\img\icons\plus1.svg" />
+    <None Include="wwwroot\assets\img\icons\printer.svg" />
+    <None Include="wwwroot\assets\img\icons\product.svg" />
+    <None Include="wwwroot\assets\img\icons\purchase1.svg" />
+    <None Include="wwwroot\assets\img\icons\quotation1.svg" />
+    <None Include="wwwroot\assets\img\icons\return1.svg" />
+    <None Include="wwwroot\assets\img\icons\reverse.svg" />
+    <None Include="wwwroot\assets\img\icons\sales1.svg" />
+    <None Include="wwwroot\assets\img\icons\scan.svg" />
+    <None Include="wwwroot\assets\img\icons\scanner.svg" />
+    <None Include="wwwroot\assets\img\icons\scanner1.svg" />
+    <None Include="wwwroot\assets\img\icons\scanners.svg" />
+    <None Include="wwwroot\assets\img\icons\search-white.svg" />
+    <None Include="wwwroot\assets\img\icons\search-whites.svg" />
+    <None Include="wwwroot\assets\img\icons\search.svg" />
+    <None Include="wwwroot\assets\img\icons\settings.svg" />
+    <None Include="wwwroot\assets\img\icons\time.svg" />
+    <None Include="wwwroot\assets\img\icons\transcation.svg" />
+    <None Include="wwwroot\assets\img\icons\transfer1.svg" />
+    <None Include="wwwroot\assets\img\icons\trash12.svg" />
+    <None Include="wwwroot\assets\img\icons\upload.svg" />
+    <None Include="wwwroot\assets\img\icons\users1.svg" />
+    <None Include="wwwroot\assets\img\icons\wallet1.svg" />
     <None Include="wwwroot\fonts\fontawesome-webfont.svg" />
     <None Include="wwwroot\fonts\fontawesome-webfont.woff2" />
     <None Include="wwwroot\fonts\line-awesome.svg" />
@@ -40,6 +317,7 @@
     <None Include="wwwroot\js\app.js" />
     <None Include="wwwroot\js\bootstrap-datetimepicker.min.js" />
     <None Include="wwwroot\js\bootstrap.min.js" />
+    <None Include="wwwroot\js\CalculateNumOfDayOfVacations.js" />
     <None Include="wwwroot\js\chart.js" />
     <None Include="wwwroot\js\dataTables.bootstrap4.min.js" />
     <None Include="wwwroot\js\dropfiles.js" />
@@ -52,17 +330,27 @@
     <None Include="wwwroot\js\jquery.maskedinput.min.js" />
     <None Include="wwwroot\js\jquery.slimscroll.min.js" />
     <None Include="wwwroot\js\jquery.ui.touch-punch.min.js" />
+    <None Include="wwwroot\js\main.js" />
     <None Include="wwwroot\js\mask.js" />
     <None Include="wwwroot\js\moment.min.js" />
     <None Include="wwwroot\js\multiselect.min.js" />
     <None Include="wwwroot\js\popper.min.js" />
     <None Include="wwwroot\js\select2.min.js" />
+    <None Include="wwwroot\js\selectRow.js" />
+    <None Include="wwwroot\js\site.js" />
     <None Include="wwwroot\js\task.js" />
     <None Include="wwwroot\plugins\bootstrap-tagsinput\bootstrap-tagsinput.min.js" />
     <None Include="wwwroot\plugins\morris\morris.min.js" />
     <None Include="wwwroot\plugins\raphael\raphael.min.js" />
     <None Include="wwwroot\plugins\sticky-kit-master\dist\sticky-kit.min.js" />
     <None Include="wwwroot\plugins\summernote\dist\summernote-bs4.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

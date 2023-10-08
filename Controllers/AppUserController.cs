@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProject.Controllers
 {
+    [Authorize]
     public class AppUserController : Controller
     {
         private readonly UserManager<AppUser> userManager;
@@ -28,7 +29,7 @@ namespace FinalProject.Controllers
         }
 
         // GET: AppUserController
-
+        [AuthorizeByEntity("AppUser")]
         public IActionResult Index()
         {
 			var users = userRepository.GetUsers();
@@ -37,7 +38,6 @@ namespace FinalProject.Controllers
 
         // GET: AppUserController/Details/5
         [AuthorizeByPermission("AppUser", Operation.Show)]
-
         public IActionResult Details(string id)
         {
             var user =  userRepository.GetUser(id);
@@ -57,7 +57,6 @@ namespace FinalProject.Controllers
 
 
         [AuthorizeByPermission("AppUser", Operation.Add)]
-
         public IActionResult Create()
         {
             var allEmps = employeeRepository.GetEmployees().Where(e => e.UserId == null).ToList();
@@ -69,8 +68,7 @@ namespace FinalProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-      [AuthorizeByPermission("AppUser", Operation.Add)]
-
+        [AuthorizeByPermission("AppUser", Operation.Add)]
         public async Task<IActionResult> Create([Bind("UserName,Email,EmpId,RoleAppId")] AppUser user,string NewPassword)
         {
             if (ModelState.IsValid)
@@ -103,7 +101,6 @@ namespace FinalProject.Controllers
             return View(user);
         }
         [AuthorizeByPermission("AppUser", Operation.Update)]
-
         public async Task<IActionResult> Edit(string id)
 
         {
@@ -124,7 +121,6 @@ namespace FinalProject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthorizeByPermission("AppUser", Operation.Update)]
-
         public async Task<IActionResult> Edit(string id, [Bind("AppId,UserName,Email","RoleAppId")] AppUser user)
         {
 
@@ -139,7 +135,6 @@ namespace FinalProject.Controllers
             return View(user);
         }
         [AuthorizeByPermission("AppUser", Operation.Delete)]
-
         // GET: AppUserController/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
@@ -156,7 +151,6 @@ namespace FinalProject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthorizeByPermission("AppUser", Operation.Delete)]
-
         public async  Task<IActionResult> Delete(string Id, IFormCollection collection)
         {
             var user = userRepository.GetUser(Id);
