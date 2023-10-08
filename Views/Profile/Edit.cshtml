@@ -26,18 +26,15 @@
                                 <img src="~/img/customer/customer5.jpg" alt="img" id="blah">
                                 <div class="profileupload">
                                     <input type="file" id="imgInp">
-                                        <a href="javascript:void(0);"><img src="~/assets/img/icons/edit-set.svg" alt="img"></a>
+                                        <a href="javascript:void(0);"><img src="~/img/icons/edit-set.svg" alt="img"></a>
                                 </div>
                             </div>
                             <div class="profile-contentname">
-                                <h2>William Castillo</h2>
+                                <h2>@User.Identity.Name</h2>
                                 <h4>Updates Your Photo and Personal Details.</h4>
                             </div>
                         </div>
-                        <div class="ms-auto">
-                            <a href="javascript:void(0);" class="btn btn-submit me-2">Save</a>
-                            <a href="javascript:void(0);" class="btn btn-cancel">Cancel</a>
-                        </div>
+                        
                     </div>
                 </div>
                 <div class="row">
@@ -112,7 +109,7 @@
                     <div class="col-12">
                             
                             <input type="submit" href="javascript:void(0);" value="Save" class="btn btn-submit me-2" />
-                            <a href="javascript:void(0);" class="btn btn-cancel">Cancel</a>
+                            <a asp-controller="Home" asp-action="Index" class="btn btn-cancel">Cancel</a>
 
                     </div>
                 </div>
@@ -133,6 +130,23 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+        const togglePasswordButton = document.querySelector('.toggle-password');
+        const passwordInput = document.querySelector('input[type="password"]');
+
+        togglePasswordButton.addEventListener('click', function () {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                togglePasswordButton.classList.remove('fa-eye-slash');
+                togglePasswordButton.classList.add('fa-eye');
+            } else {
+                passwordInput.type = 'password';
+                togglePasswordButton.classList.remove('fa-eye');
+                togglePasswordButton.classList.add('fa-eye-slash');
+            }
+        });
+
+    </script>
     
 
 }
