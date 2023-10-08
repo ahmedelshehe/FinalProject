@@ -1,69 +1,89 @@
 ﻿@model IEnumerable<Vacation>
 
+@using FinalProject.RepoServices
+@inject IVacationRepository VacationRepo
+@using FinalProject.Utilities
 @{
-    ViewData["Title"] = "Index";
-}
-<h1>My Vacations Requests</h1>
+        ViewData["Title"] = "My Vacations";
 
-<h4>Available Vacations: @ViewBag.AvailableVacations</h4>
-
-@if (ViewBag.AvailableVacations > 0)
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Employee</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Status</th>
-                <th>Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var vacation in Model)
-            {
-                <tr>
-                    <td>@vacation.Employee.FirstName</td>
-                    <td>@vacation.StartDate</td>
-                    <td>@vacation.EndDate</td>
-                    <td>@vacation.Status</td>
-                    <td>@vacation.Description</td>
-                  
-                    
-                </tr>
-            }
-        </tbody>
-    </table>
 }
-else
-{
-    <div class="alert alert-warning" role="alert">
-        <p>No vacations are available for you.</p>
+<div class="page-header">
+    <div class="page-title">
+        <h4>My Vacation Requests</h4>
+        @if (ViewBag.AvailableVacations > 0)
+        {
+            <h6><strong>Available Vacations</strong> @ViewBag.AvailableVacations Days</h6>
+        }
+        else
+        {
+            <h6>You have no available vacations</h6>
+        }
     </div>
+    <div class="page-btn">
+        <a asp-action="Create" class="btn btn-added">
+            <img src="~/img/icons/plus.svg" alt="img">Request vacation
+        </a>
+    </div>
+</div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Employee</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Status</th>
-                <th>Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var vacation in Model)
-            {
-                <tr>
-                    <td>@vacation.Employee.FirstName</td>
-                    <td>@vacation.StartDate</td>
-                    <td>@vacation.EndDate</td>
-                    <td>@vacation.Status</td>
-                    <td>@vacation.Description</td>
-                    
-                    
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+
+<div class="card" id="vacations_print">
+    <h1 class="print-on">My Vacation Requests <br /> @DateTime.Today.Date.ToString("dd MMM yyyy")</h1>
+    <div class="card-body">
+        <div class="table-top print-off">
+            <div class="search-set print-off">
+                <div class="search-input">
+                    <a class="btn btn-searchset"><img src="~/img/icons/search-white.svg" alt="img"></a>
+                </div>
+            </div>
+            <div class="wordset print-off">
+                <ul>
+                    <li>
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="~/img/icons/excel.svg" alt="img"></a>
+                    </li>
+                    <li>
+                        <a data-bs-toggle="tooltip" onclick="printContent('vacations_print')" data-bs-placement="top" title="print"><img src="~/img/icons/printer.svg" alt="img"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="table-responsive">
+            <table class="table  datanew">
+                <thead>
+                    <tr>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Status</th>
+                        <th>Days</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var vacation in Model)
+                    {
+                        <tr>
+                            <td>@vacation.StartDate.ToString("dd MMM yyyy")</td>
+                            <td>@vacation.EndDate.ToString("dd MMM yyyy") </td>
+                            @if(vacation.Status == VacationStatus.Approved)
+                            {
+                                <td><span class="badges bg-lightgreen">@vacation.Status</span></td>
+                            }else if(vacation.Status == VacationStatus.Rejected)
+                            {
+                                <td><span class="badges bg-lightred">@vacation.Status</span></td>
+                            }
+                            else
+                            {
+                                <td><span class="badges bg-lightyellow">@vacation.Status</span></td>
+                            }
+                            <td>@VacationRepo.GetVacationDays(vacation.EmployeeId,vacation.StartDate)</td>
+                            <td>@vacation.Description</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

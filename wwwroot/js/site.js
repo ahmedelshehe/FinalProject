@@ -11,4 +11,6 @@ function printContent(el)
     document.body.innerHTML = printcontent;
     window.print();
     document.body.innerHTML = restorepage;
+    location.reload();
+
 }
