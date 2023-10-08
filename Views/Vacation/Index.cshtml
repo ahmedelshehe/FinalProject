@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<Vacation>
-
+@using FinalProject.RepoServices
+@inject IVacationRepository VacationRepo
 @{
     ViewData["Title"] = "Index";
 }
@@ -13,8 +14,10 @@
             <th>Start Date</th>
             <th>End Date</th>
             <th>Status</th>
+            <th>Days</th>
             <th>Description</th>
             <th>Actions</th>
+
         </tr>
     </thead>
     <tbody>
@@ -25,6 +28,8 @@
                 <td>@vacation.StartDate</td>
                 <td>@vacation.EndDate</td>
                 <td>@vacation.Status</td>
+                <td>@VacationRepo.GetVacationDays(vacation.EmployeeId,vacation.StartDate)</td>
+
                 <td>@vacation.Description</td>
                 <td>
                     @if (vacation.Status == VacationStatus.Pending)
