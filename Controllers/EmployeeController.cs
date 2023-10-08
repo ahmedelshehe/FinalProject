@@ -31,10 +31,9 @@ namespace FinalProject.Controllers
         }
         // GET: EmployeeController
         [AuthorizeByEntity("Employee")]
-        public async Task<ActionResult> Index(int? page)
+        public async Task<ActionResult> Index()
         {
-            int pageSize = 10;
-            int pageNumber = page ?? 1;
+           
             var employees = EmployeeRepository.GetEmployees();
 
             List<EmployeeViewModel> employeeViews = new List<EmployeeViewModel>();
@@ -55,9 +54,7 @@ namespace FinalProject.Controllers
 
                 }
             }
-           
-            var list = employeeViews;
-            return View(await list.ToPagedListAsync(pageNumber, pageSize));
+            return View(employeeViews);
 
 
         }

@@ -14,7 +14,7 @@ namespace FinalProject.RepoServices
 
         public List<Department> GetDepartments()
         {
-            return context.Departments.Include(d =>d.Employees).ToList();
+            return context.Departments.Include(d => d.Employees).ToList();
         }
 
         public Department GetDepartment(int id)

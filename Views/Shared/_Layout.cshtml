@@ -72,7 +72,6 @@
 
 <body>
 
-	<div class="main-wrapper">
 
 		<div class="header">
 
@@ -152,10 +151,34 @@
 
 						<li class="submenu">
 							<a href="javascript:void(0);"><img src="~/img/icons/product.svg" alt="img"><span> Employee</span> <span class="menu-arrow"></span></a>
-							<ul>
+                            <ul>
+                                
 								<li><a  asp-controller="Employee" asp-action="Index">Employee List</a></li>
-								<li><a href="addproduct.html">Add Employee</a></li>
+								<li><a asp-controller="Employee" asp-action="Create">Add Employee</a></li>
 							</ul>
+                        </li>
+						<li class="submenu">
+							<a href="javascript:void(0);"><img src="~/img/icons/product.svg" alt="img"><span> Role</span> <span class="menu-arrow"></span></a>
+							<ul>
+
+								<li><a asp-controller="AppRole" asp-action="Index">Role List</a></li>
+								<li><a asp-controller="AppRole" asp-action="Create">Add Role</a></li>
+							</ul>
+						</li>
+						<li>
+                            <a asp-controller="OfficialVacation" asp-action="Index">
+                                <img src="~/assets/img/icons/sun-umbrella_891911.png" />
+								 <span>
+									Official Vacation
+								</span>
+							</a>
+						</li>
+						<li>
+							<a asp-controller="GeneralSetting" asp-action="Index">
+								<img src="~/assets/img/icons/settings.svg" /> <span>
+									Setting
+								</span>
+							</a>
 						</li>
 						<li class="submenu">
 							<a href="javascript:void(0);"><img src="~/img/icons/sales1.svg" alt="img"><span> Sales</span> <span class="menu-arrow"></span></a>
@@ -194,7 +217,6 @@
 			</div>
 
 			</div>
-		</div>
 
 	<script src="~/js/jquery-3.6.0.min.js"></script>
 
@@ -212,6 +234,13 @@
 
 	<script src="~/js/script.js"></script>
 	<script src="~/js/site.js"></script>
+	<!-- DataTables Buttons JavaScript -->
+	<script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script>
+	<!-- pdfmake library -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/pdfmake.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/vfs_fonts.js"></script>
 	<script src="~/js/task.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
