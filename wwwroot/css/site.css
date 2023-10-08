@@ -16,17 +16,20 @@ html {
 body {
   margin-bottom: 60px;
 }
-.print-on{
-    display : none;
+.print-on {
+    display: none;
+    visibility: hidden;
 }
 @media print {
     .print-off {
         display: none;
+        visibility:hidden;
     }
 }
 @media print {
     .print-on {
         display: block;
+        visibility:initial;
     }
 }
 

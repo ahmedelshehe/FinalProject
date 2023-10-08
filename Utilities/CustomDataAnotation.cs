@@ -75,7 +75,59 @@ namespace FinalProject.Utilities
             return ValidationResult.Success;
         }
     }
-	public class AgeRangeAttribute : ValidationAttribute
+    public class EndDateAfterStartDateAttribute : ValidationAttribute
+    {
+        public EndDateAfterStartDateAttribute(string errorMessage)
+        {
+            ErrorMessage = errorMessage;
+        }
+
+        public string ErrorMessage { get; set; }
+
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            if (value == null || !(value is DateTime))
+            {
+                return new ValidationResult(ErrorMessage);
+            }
+
+            DateTime endDate = (DateTime)value;
+
+            // Get the StartDate property value.
+            DateTime startDate = (DateTime)validationContext.ObjectInstance.GetType().GetProperty("StartDate").GetValue(validationContext.ObjectInstance);
+
+            if (endDate < startDate)
+            {
+                return new ValidationResult(ErrorMessage);
+            }
+
+            return ValidationResult.Success;
+        }
+    }
+
+    public class YesterdayOrToday : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object value,ValidationContext validationContext)
+        {
+            if (value == null || !(value is DateTime))
+            {
+                return new ValidationResult("Start Date can be atmost yesterday .");
+                
+            }
+
+            DateTime date = (DateTime)value;
+
+            if(date >= DateTime.Today.AddDays(-1))
+            {
+                return ValidationResult.Success;
+            }
+            else
+            {
+                return new ValidationResult("Start Date can be atmost yesterday .");
+            }
+        }
+    }
+    public class AgeRangeAttribute : ValidationAttribute
 	{
 		protected override ValidationResult IsValid(object value, ValidationContext validationContext)
 		{

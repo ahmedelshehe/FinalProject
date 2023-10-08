@@ -115,7 +115,7 @@ namespace FinalProject.Controllers
                         // Add user information to cookies
                         HttpContext.Response.Cookies.Append("LoggedInUser", user.Email);
 
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Dashboard", "Profile");
                     }
                     else
                     {

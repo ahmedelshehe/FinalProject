@@ -1,51 +1,59 @@
 ﻿@model FinalProject.Models.Vacation
+@using FinalProject.Models
+@using FinalProject.RepoServices
+@inject IVacationRepository VacationRepo
 
 @{
     ViewData["Title"] = "Create";
 }
-
-<h1>Create</h1>
-
-<h4>Vacation</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" />
-                <span asp-validation-for="EndDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label>Number of Days</label>
-                <input type="text" class="form-control" disabled id="number-of-days" />
-            </div>  
-            <div class="form-group">
-                <label asp-for="VacationType" class="control-label"></label>
-                <select asp-for="VacationType" asp-items="@Html.GetEnumSelectList<VacationTypes>()" class="form-control"></select>
-                <span asp-validation-for="VacationType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Request" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="page-header">
+    <div class="page-title">
+        <h4>Request A Vacation</h4>
     </div>
 </div>
+<form asp-action="Create">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
 
-<div>
-    <a asp-action="MyVacations">Back to List</a>
-</div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input asp-for="StartDate" class="form-control" />
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label>End Date</label>
+                        <input asp-for="EndDate" class="form-control" />
+                        <span asp-validation-for="EndDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select asp-for="VacationType" asp-items="@Html.GetEnumSelectList<VacationTypes>()" class="form-control">
+                            <option selected disabled value="">Choose A Type</option>
+                        </select>
+                        <span asp-validation-for="VacationType" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea asp-for="Description" class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Request" class="btn btn-primary" />
+                    <a asp-action="MyVacations" type="submit" class="btn btn-dark">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
 @section Scripts {
 
@@ -53,28 +61,5 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 
-    <script>
-        $(document).ready(function () {
-            $("#StartDate").change(function () {
-                var startDate = new Date($("#StartDate").val());
-                var endDate = new Date($("#EndDate").val());
-
-                var numberOfDays = endDate.getTime() - startDate.getTime();
-                numberOfDays = numberOfDays / (1000 * 60 * 60 * 24);
-
-                $("#number-of-days").val(numberOfDays);
-            });
-
-            $("#EndDate").change(function () {
-                var startDate = new Date($("#StartDate").val());
-                var endDate = new Date($("#EndDate").val());
-
-                var numberOfDays = endDate.getTime() - startDate.getTime();
-                numberOfDays = numberOfDays / (1000 * 60 * 60 * 24);
-
-                $("#number-of-days").val(numberOfDays);
-            });
-        });
-    </script>
 }
 
