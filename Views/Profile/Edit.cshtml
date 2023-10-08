@@ -1,102 +1,140 @@
 ﻿@model FinalProject.ViewModels.EmployeeEditProfile
 
 @{
-    ViewData["Title"] = "Edit1";
+    ViewData["Title"] = "Edit";
 }
 
-<h1>Edit1</h1>
 
-<h4>Employee</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="page-wrapper">
+    <div class="content">
+        <div class="page-header">
+            <div class="page-title">
+                <h4>Profile</h4>
+                <h6>User Profile</h6>
+            </div>
+        </div>
         <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>        
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
+           <div class="card">
 
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" type="password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NewPassword" class="control-label"></label>
-                <input asp-for="NewPassword" type="password" class="form-control" />
-                <span asp-validation-for="NewPassword" class="text-danger"></span>
-            </div>
+            <div class="card-body">
+                <div class="profile-set">
+                    <div class="profile-head">
+                    </div>
+                    <div class="profile-top">
+                        <div class="profile-content">
+                            <div class="profile-contentimg">
+                                <img src="~/img/customer/customer5.jpg" alt="img" id="blah">
+                                <div class="profileupload">
+                                    <input type="file" id="imgInp">
+                                        <a href="javascript:void(0);"><img src="~/assets/img/icons/edit-set.svg" alt="img"></a>
+                                </div>
+                            </div>
+                            <div class="profile-contentname">
+                                <h2>William Castillo</h2>
+                                <h4>Updates Your Photo and Personal Details.</h4>
+                            </div>
+                        </div>
+                        <div class="ms-auto">
+                            <a href="javascript:void(0);" class="btn btn-submit me-2">Save</a>
+                            <a href="javascript:void(0);" class="btn btn-cancel">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                                <label asp-for="FirstName" class="control-label"></label>
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                                <label asp-for="LastName" class="control-label"></label>
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                    </div>
             
-            <div class="form-group">
-                <label asp-for="Street" class="control-label"></label>
-                <input asp-for="Street" class="form-control" />
-                <span asp-validation-for="Street" class="text-danger"></span>
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                                <label asp-for="BirthDate" class="control-label"></label>
+                                <input asp-for="BirthDate" class="form-control" />
+                                <span asp-validation-for="BirthDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                                <label asp-for="Street" class="control-label"></label>
+                                <input asp-for="Street" class="form-control" />
+                                <span asp-validation-for="Street" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                                <label asp-for="City" class="control-label"></label>
+                                <input asp-for="City" class="form-control" />
+                                <span asp-validation-for="City" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                                <label asp-for="Country" class="control-label"></label>
+                                <input asp-for="Country" class="form-control" />
+                                <span asp-validation-for="Country" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                            <label asp-for="Password"></label>
+                            <div class="pass-group">
+                                <input asp-for="Password" type="password" class=" pass-input">
+                                <span class="fas toggle-password fa-eye-slash"></span>
+                            </div>
+                                <span asp-validation-for="Password" class="text-danger"></span>
+
+                        </div>
+                    </div>
+
+                        <div class="col-lg-6 col-sm-12">
+                            <div class="form-group">
+                                <label asp-for="NewPassword"></label>
+                                <div class="pass-group">
+                                    <input asp-for="NewPassword" type="password" class=" pass-input">
+                                    <span class="fas toggle-password fa-eye-slash"></span>
+                                </div>
+                                <span asp-validation-for="NewPassword" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                    
+                    <div class="col-12">
+                            
+                            <input type="submit" href="javascript:void(0);" value="Save" class="btn btn-submit me-2" />
+                            <a href="javascript:void(0);" class="btn btn-cancel">Cancel</a>
+
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
-                <span asp-validation-for="City" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Country" class="control-label"></label>
-                <input asp-for="Country" class="form-control" />
-                <span asp-validation-for="Country" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group">
-                <label asp-for="BirthDate" class="control-label"></label>
-                <input asp-for="BirthDate" class="form-control" />
-                <span asp-validation-for="BirthDate" class="text-danger"></span>
-            </div>
-            
- 
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
+        </div>
+        
         </form>
+
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
+
+
+
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var oldPasswordInput = document.getElementById("Password");
-            var allInputFields = document.querySelectorAll("input, textarea");
-
-            // Disable all the input fields initially
-            for (var i = 0; i < allInputFields.length; i++) {
-                allInputFields[i].disabled = true;
-            }
-
-            // Enable the password input field
-            oldPasswordInput.disabled = false;
-
-            // Enable all the input fields if the old password is correct
-            oldPasswordInput.addEventListener("change", function () {
-                var passwordCheckResult = await userManager.CheckPasswordAsync(user, oldPasswordInput.value);
-                if (passwordCheckResult) {
-                    for (var i = 0; i < allInputFields.length; i++) {
-                        allInputFields[i].disabled = false;
-                    }
-                }
-            });
-        });
-    </script>
 }
 
 
