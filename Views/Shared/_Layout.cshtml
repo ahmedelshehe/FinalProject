@@ -16,6 +16,7 @@
 }
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -157,14 +158,12 @@
 								<li><a asp-controller="Employee" asp-action="Create">Add Employee</a></li>
 							</ul>
 						</li>
-						<li class="submenu">
-							<a href="javascript:void(0);"><img src="~/img/icons/sales1.svg" alt="img"><span> Sales</span> <span class="menu-arrow"></span></a>
+					<li class="submenu">
+							<a href="javascript:void(0);"><img src="~/img/icons/department.png" alt="Department"><span> Departments</span> <span class="menu-arrow"></span></a>
 							<ul>
-								<li><a href="saleslist.html">Sales List</a></li>
-								<li><a href="pos.html">POS</a></li>
-								<li><a href="pos.html">New Sales</a></li>
-								<li><a href="salesreturnlists.html">Sales Return List</a></li>
-								<li><a href="createsalesreturns.html">New Sales Return</a></li>
+							<li><a asp-controller="Department" asp-action="Index">Department List</a></li>
+							<li><a asp-controller="Department" asp-action="Create">Add Department</a></li>
+								
 							</ul>
 						</li>
 						<li>
@@ -203,6 +202,7 @@
 
 	<script src="~/js/script.js"></script>
 	<script src="~/js/site.js"></script>
+	<script src="~/lib/sweetalert2/dist/sweetalert2.all.min.js"></script>
 
 </body>
 </html>
