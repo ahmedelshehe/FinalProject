@@ -152,10 +152,19 @@
 						</li>
 						<li class="submenu">
 							<a href="javascript:void(0);"><img src="~/img/icons/product.svg" alt="img"><span> Employee</span> <span class="menu-arrow"></span></a>
-							<ul>
+                            <ul>
+                                
 								<li><a  asp-controller="Employee" asp-action="Index">Employee List</a></li>
 								<li><a asp-controller="Employee" asp-action="Create">Add Employee</a></li>
 							</ul>
+                        </li>
+                        
+						<li>
+							<a asp-controller="GeneralSetting" asp-action="Index">
+								<img src="~/assets/img/icons/settings.svg" /> <span>
+									Setting
+								</span>
+							</a>
 						</li>
 						<li class="submenu">
 							<a href="javascript:void(0);"><img src="~/img/icons/sales1.svg" alt="img"><span> Sales</span> <span class="menu-arrow"></span></a>
