@@ -1,7 +1,7 @@
 ﻿@* @model FinalProject.ViewModels.OfficialVacation
  *@
 @model FinalProject.ViewModels.OfficialVacationViewModel
-<h1>Add New Official Vacation</h1>
+@*<h1>Add New Official Vacation</h1>
 
 
 
@@ -28,4 +28,58 @@
 </div>
 <div>
     <a asp-action="Index" class="btn btn-info">Back to List</a>
+</div>*@
+
+<div class="content">
+    <div class="page-header">
+        <div class="page-title">
+            <h4> Add Offical Vacation</h4>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <form asp-action="Create">
+                <div class="row">
+
+                    <div class="col-lg-4 col-sm-6 col-12">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-6 col-12">
+                        <div class="form-group">
+                            <label asp-for="Date" class="control-label"></label>
+                            <input asp-for="Date" class="form-control" />
+                            <span asp-validation-for="Date" class="text-danger"></span>
+                        </div>
+                    </div>
+                    
+                   
+                    
+                    </div>
+                   
+
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                            <a asp-action="Index" class="btn " style="color: #fff;
+    background-color: #637381;
+    border-color: #637381">Cancel</a>
+
+
+                        </div>
+
+                    </div>
+                
+
+            </form>
+
+        </div>
+
+    </div>
 </div>
