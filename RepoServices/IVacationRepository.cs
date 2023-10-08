@@ -11,5 +11,7 @@ namespace FinalProject.RepoServices
         public void DeleteVacation(int id, DateTime startDate);
         public bool IsVacation(int id, DateTime date);
 
+        public int GetVacationDays(int id, DateTime date);
+
     }
 }

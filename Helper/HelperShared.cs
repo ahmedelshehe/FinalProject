@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using FinalProject.Models;
+using System.ComponentModel;
 
 namespace FinalProject.Helper
 {
@@ -70,6 +71,21 @@ namespace FinalProject.Helper
 				if (day.DayOfWeek != DayOfWeek.Friday && day.DayOfWeek != DayOfWeek.Saturday)
 				{
 					workDays++;
+				}
+			}
+			return workDays;
+		}
+		public static int GetWorkDays(DateTime startDate, DateTime endDate,
+			List<string> weeklyHolidays,List<DateTime> OfficialVacations )
+		{
+			int days = (int)(endDate - startDate).TotalDays + 1;
+			int workDays = 0;
+			for (int i = 0; i < days; i++)
+			{
+				DateTime day = startDate.AddDays(i);
+				if (!(weeklyHolidays.Contains(day.DayOfWeek.ToString()) || OfficialVacations.Any(o => o.Date == day.Date)))
+				{
+					workDays += 1;
 				}
 			}
 			return workDays;

@@ -1,24 +1,34 @@
-﻿using FinalProject.Models;
+﻿using FinalProject.Helper;
+using FinalProject.Models;
 using FinalProject.RepoServices;
 using FinalProject.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Web.WebPages;
 
 namespace FinalProject.Controllers
 {
     [Authorize]
     public class VacationController : Controller
     {
-        public IEmployeeRepository EmployeeRepository { get; set; }
+        private readonly IEmployeeRepository EmployeeRepository;
         private readonly UserManager<AppUser> userManager;
-        public IVacationRepository VacationRepository { get; set; }
-        public VacationController(UserManager<AppUser> userManager, IVacationRepository vacationRepository, IEmployeeRepository employeeRepository)
+        private readonly IVacationRepository VacationRepository;
+        private readonly IOfficialVacationRepository officialVacationRepository;
+        private readonly IWeeklyHolidayRepository weeklyHolidayRepository;
+
+
+        public VacationController(UserManager<AppUser> userManager, IVacationRepository vacationRepository, IEmployeeRepository employeeRepository,
+            IOfficialVacationRepository officialVacationRepository,IWeeklyHolidayRepository weeklyHolidayRepository
+            )
         {
             EmployeeRepository = employeeRepository;
             VacationRepository = vacationRepository;
             this.userManager = userManager;
+            this.officialVacationRepository = officialVacationRepository;
+            this.weeklyHolidayRepository = weeklyHolidayRepository;
 
         }
 
@@ -81,15 +91,18 @@ namespace FinalProject.Controllers
                 ModelState.AddModelError(string.Empty, "The vacation duration must be at least 1 day.");
                 return View(vacation);
             }
-
-            if (numberOfDays > employee.AvailableVacations)
+            var officialHolidays = officialVacationRepository
+                .GetOfficialVacations()
+                .Where(o => o.Date.Year == vacation.StartDate.Year 
+                || o.Date.Year == vacation.StartDate.AddYears(1).Year).Select(o => o.Date).ToList();
+            var weeklyHoildays = weeklyHolidayRepository.GetAllHolidays().Select(w => w.Holiday).ToList();
+            if (HelperShared.GetWorkDays(vacation.StartDate,vacation.EndDate,weeklyHoildays,officialHolidays) > employee.AvailableVacations)
             {
                 ModelState.AddModelError(string.Empty, "You do not have enough available vacations for this request.");
                 return View(vacation);
             }
 
             VacationRepository.InsertVacation(vacation);
-
             return RedirectToAction("MyVacations");
         }
 
