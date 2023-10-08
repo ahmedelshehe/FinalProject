@@ -99,6 +99,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Department\Create.cshtml" />
+    <None Include="Views\Department\Delete.cshtml" />
+    <None Include="Views\Department\Details.cshtml" />
+    <None Include="Views\Department\Edit.cshtml" />
+    <None Include="Views\Department\Index.cshtml" />
+    <None Include="Views\Department\_TopBar.cshtml" />
     <None Include="wwwroot\assetss\fonts\fontawesome-webfont.svg" />
     <None Include="wwwroot\assetss\fonts\fontawesome-webfont.woff2" />
     <None Include="wwwroot\assetss\fonts\line-awesome.svg" />

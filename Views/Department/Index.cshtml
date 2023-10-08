@@ -14,97 +14,114 @@
 
 
 
-    <div class="content">
-        <div class="page-header">
-            <div class="page-title">
-                <h4>Department list</h4>
-            </div>
-            <div class="page-btn" @(canAddDepartments)>
-                <a asp-action="Create" class="btn btn-added">
-                    <img src="~/img/icons/plus.svg" class="me-1" alt="img">Add Department
-                </a>
-            </div>
+<div class="content">
+    <div class="page-header">
+        <div class="page-title">
+            <h4>Department list</h4>
         </div>
+        <div class="page-btn" @(canAddDepartments)>
+            <a asp-action="Create" class="btn btn-added">
+                <img src="~/img/icons/plus.svg" class="me-1" alt="img">Add Department
+            </a>
+        </div>
+    </div>
 
-        <div class="card">
-            <div class="card-body">
-                <div class="table-top">
-                    <div class="search-set">
-                        <div class="search-path">
-                            <a class="btn btn-filter" id="filter_search">
-                                <img src="~/img/icons/filter.svg" alt="img">
-                                <span><img src="~/img/icons/closes.svg" alt="img"></span>
-                            </a>
-                        </div>
-                        <div class="search-input">
-                            <a class="btn btn-searchset"><img src="~/img/icons/search-white.svg" alt="img"></a>
-                        </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="table-top">
+                <div class="search-set">
+                    <div class="search-path">
+                        <a class="btn btn-filter" id="filter_search">
+                            <img src="~/img/icons/filter.svg" alt="img">
+                            <span><img src="~/img/icons/closes.svg" alt="img"></span>
+                        </a>
                     </div>
-                    <div class="wordset">
-                        <ul>
-                            <li>
-                                <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="~/img/icons/pdf.svg" alt="img"></a>
-                            </li>
-                            <li>
-                                <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="~/img/icons/excel.svg" alt="img"></a>
-                            </li>
-                            <li>
-                                <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="~/img/icons/printer.svg" alt="img"></a>
-                            </li>
-                        </ul>
+                    <div class="search-input">
+                        <a class="btn btn-searchset"><img src="~/img/icons/search-white.svg" alt="img"></a>
                     </div>
                 </div>
+                <div class="wordset ">
+                    <ul>
+                        <li>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="~/img/icons/pdf.svg" alt="img"></a>
+                        </li>
+                        <li>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="~/img/icons/excel.svg" alt="img"></a>
+                        </li>
+                        <li>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="~/img/icons/printer.svg" alt="img"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-        
 
-                <div class="table-responsive">
-                    <table class="table  datanew">
-                        <thead>
-                            <tr>
-                              
-                                <th>ID</th>
-                                <th>Name</th>
-                                <td>Num Of Employees</td>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+
+                            <th>ID</th>
+                            <th>Name</th>
+                            <td>Num Of Employees</td>
                             <th></th>
-                                <th>Action</th>
-                                <th></th>
+                            <th>Action</th>
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+
+                                <td>@item.Id</td>
+                                <td>@item.Name</td>
+                                <td>@item.Employees.Count()</td>
+                                <td @(canShowDepartments)>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="me-3">
+                                        <img src="~/img/icons/file.png" width="30px" alt="img">
+                                    </a>
+                                </td>
+                                <td @(canUpdateDepartments)>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="me-3">
+                                        <img src="~/img/icons/pencil.png" width="30px" alt="img">
+                                    </a>
+                                </td>
+                                <td @(canDeleteDepartments)>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="me-3 confirm-text">
+                                        <img src="~/img/icons/delete.png" width="30px" alt="img">
+                                    </a>
+                                </td>
+
 
                             </tr>
-                        </thead>
-                        <tbody>
 
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    
+                        }
+                    </tbody>
+                    <tfoot>
+                        @if (@Model.Count() >= 0)
+                        {
+                            <div class="col-lg-3 col-sm-6 col-12 d-flex" style="margin:0 auto">
+                                <div class="dash-count das2">
+                                    <div class="dash-counts">
+                                        <h4>@Model.Count()</h4>
+                                        <h5>Department</h5>
+                                    </div>
+                                    <div class="dash-imgs">
+                                        <i data-feather="users"></i>
+                                    </div>
+                                </div>
+                            </div>
 
-                                    <td>@item.Id</td>
-                                    <td>@item.Name</td>
-                                    <td>@item.Employees.Count()</td>
-                                    <td @(canShowDepartments)>
-                                        <a asp-action="Details" asp-route-id="@item.Id" class="me-3">
-                                            <img src="~/img/icons/file.png" width="30px" alt="img">
-                                        </a>
-                                    </td>
-                                    <td @(canUpdateDepartments)>
-                                        <a asp-action="Edit" asp-route-id="@item.Id" class="me-3">
-                                            <img src="~/img/icons/pencil.png" width="30px" alt="img">
-                                        </a>
-                                    </td>
-                                    <td @(canDeleteDepartments)>
-                                        <a asp-action="Delete" asp-route-id="@item.Id" class="me-3 confirm-text">
-                                            <img src="~/img/icons/delete.png" width="30px" alt="img">
-                                        </a>
-                                    </td>
-                                        
-                                    
-                                </tr>
-
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                        }
+                    </tfoot>
+                </table>
             </div>
         </div>
-
     </div>
+
+</div>
