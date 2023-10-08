@@ -56,6 +56,9 @@ namespace FinalProject.ViewModels
                 var departmentsNames = departments.OrderBy(d => d.Id).Select(e => e.Name).ToList();
                 return JsonConvert.SerializeObject(departmentsNames);
             } }
+        public List<Employee> LatestContractedEmployees { 
+            get { return employees.OrderByDescending(o=>o.ContractDate.Date).Take(4).ToList(); }
+        }
         public string DepartmentEmployeesCount
         {
             get
@@ -68,7 +71,15 @@ namespace FinalProject.ViewModels
             return JsonConvert.SerializeObject(result);
             }
         }
-
+        public int DepartmentsCount
+        { get {
+                return departments.Count();
+            }
+        }
+        public string BiggestDepartment { get
+            {
+                return departments.OrderByDescending(d => d.Employees.Count()).Take(1).Select(d => d.Name).First();
+            } }
         public string DeptChartColors { get
             {
                 var count = departments.Count;

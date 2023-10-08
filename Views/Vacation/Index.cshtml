@@ -1,9 +1,18 @@
 ﻿@model IEnumerable<Vacation>
 @using FinalProject.RepoServices
 @inject IVacationRepository VacationRepo
+@using FinalProject.Utilities
 @{
     ViewData["Title"] = "Vacations (Admin)";
 }
+@{
+    var permissions = Context.Items["Permissions"] as List<Permission>;
+    var canShowVacations = permissions.HasPermission("Vacation", Operation.Show);
+    var canAddVacations = permissions.HasPermission("Vacation", Operation.Add);
+    var canUpdateVacations = permissions.HasPermission("Vacation", Operation.Update);
+    var canDeleteVacations = permissions.HasPermission("Vacation", Operation.Delete);
+}
+
 
 <div class="page-header">
     <div class="page-title">
@@ -13,21 +22,16 @@
 </div>
 
 
-<div class="card">
+<div class="card" id="vacations_print">
+    <h1 class="print-on">Vacation Requests <br /> @DateTime.Today.Date.ToString("dd MMM yyyy")</h1>
     <div class="card-body">
-        <div class="table-top">
-            <div class="search-set">
-                <div class="search-path">
-                    <a class="btn btn-filter" id="filter_search">
-                        <img src="~/img/icons/filter.svg" alt="img">
-                        <span><img src="~/img/icons/closes.svg" alt="img"></span>
-                    </a>
-                </div>
+        <div class="table-top print-off">
+            <div class="search-set print-off">
                 <div class="search-input">
                     <a class="btn btn-searchset"><img src="~/img/icons/search-white.svg" alt="img"></a>
                 </div>
             </div>
-            <div class="wordset">
+            <div class="wordset print-off">
                 <ul>
                     <li>
                         <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="~/img/icons/pdf.svg" alt="img"></a>
@@ -36,43 +40,12 @@
                         <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="~/img/icons/excel.svg" alt="img"></a>
                     </li>
                     <li>
-                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="~/img/icons/printer.svg" alt="img"></a>
+                        <a data-bs-toggle="tooltip" onclick="printContent('vacations_print')" data-bs-placement="top" title="print"><img src="~/img/icons/printer.svg" alt="img"></a>
                     </li>
                 </ul>
             </div>
         </div>
 
-        <div class="card" id="filter_inputs">
-            <div class="card-body pb-0">
-                <div class="row">
-                    <div class="col-lg-2 col-sm-6 col-12">
-                        <div class="form-group">
-                            <input type="text" placeholder="Enter Customer Code">
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-6 col-12">
-                        <div class="form-group">
-                            <input type="text" placeholder="Enter Customer Name">
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-6 col-12">
-                        <div class="form-group">
-                            <input type="text" placeholder="Enter Phone Number">
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-6 col-12">
-                        <div class="form-group">
-                            <input type="text" placeholder="Enter Email">
-                        </div>
-                    </div>
-                    <div class="col-lg-1 col-sm-6 col-12  ms-auto">
-                        <div class="form-group">
-                            <a class="btn btn-filters ms-auto"><img src="~/img/icons/search-whites.svg" alt="img"></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="table-responsive">
             <table class="table  datanew">
@@ -84,7 +57,8 @@
                         <th>Status</th>
                         <th>Days</th>
                         <th>Description</th>
-                        <th>Actions</th>
+                        
+                        <th class="print-off" @(canUpdateVacations)>Actions</th>
 
                     </tr>
                 </thead>
@@ -94,16 +68,27 @@
                         <tr>
                             <td>@vacation.Employee.FirstName  @vacation.Employee.LastName</td>
                             <td>@vacation.StartDate.ToString("dd MMM yyyy")</td>
-                            <td>@vacation.EndDate.ToString("dd MMM yyyy")</td>
-                            <td>@vacation.Status</td>
+                            <td>@vacation.EndDate.ToString("dd MMM yyyy") </td>
+                            @if (vacation.Status == VacationStatus.Approved)
+                            {
+                                <td><span class="badges bg-lightgreen">@vacation.Status</span></td>
+                            }
+                            else if (vacation.Status == VacationStatus.Rejected)
+                            {
+                                <td><span class="badges bg-lightred">@vacation.Status</span></td>
+                            }
+                            else
+                            {
+                                <td><span class="badges bg-lightyellow">@vacation.Status</span></td>
+                            }
                             <td>@VacationRepo.GetVacationDays(vacation.EmployeeId,vacation.StartDate)</td>
 
                             <td>@vacation.Description</td>
-                            <td>
+                            <td class="print-off" @(canUpdateVacations)>
                                 @if (vacation.Status == VacationStatus.Pending)
                                 {
-                                    <a href="@Url.Action("", "Vacation", new { id = vacation.EmployeeId , date = vacation.StartDate })" class="m-1"><i class="fa-solid fa-check fa-2xl"></i></a>
-                                    
+                                    <a href="@Url.Action("Approve", "Vacation", new { id = vacation.EmployeeId , date = vacation.StartDate })" class="m-1"><i class="fa-solid fa-check fa-2xl"></i></a>
+
                                     <a href="@Url.Action("Reject", "Vacation", new { id = vacation.EmployeeId , date = vacation.StartDate})"><i class="fa-solid fa-x fa-2xl"></i></a>
                                 }
                             </td>

@@ -1,4 +1,4 @@
-﻿@using FinalProject.Middleware;
+@using FinalProject.Middleware;
 @using FinalProject.Utilities;
 @{
 	ViewData["Title"] = "Index";
@@ -14,6 +14,7 @@
 	var haveAnyAppRole = permissions.HasAnyPermission("AppRole");
 	var haveAnyAppUser = permissions.HasAnyPermission("AppUser");
 }
+
 
 
 <!DOCTYPE html>
@@ -62,16 +63,17 @@
 	<link rel="stylesheet" href="~/plugins/fontawesome/css/fontawesome.min.css" asp-append-version="true">
 	<link rel="stylesheet" href="~/plugins/fontawesome/css/all.min.css" asp-append-version="true">
 
+	
 	<link rel="stylesheet" href="~/css/style.css">
 	@RenderSection("Scripts", required: false)
 
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
 </head>
 
 <body>
 
-	<div class="main-wrapper">
 
 		<div class="header">
 
@@ -148,24 +150,58 @@
 			<div class="sidebar-inner slimscroll">
 				<div id="sidebar-menu" class="sidebar-menu">
 					<ul>
-						<li class="active">
-							<a href="index.html"><img src="~/img/icons/dashboard.svg" alt="img"><span> Dashboard</span> </a>
-						</li>
 						<li class="submenu">
-							<a href="javascript:void(0);"><img src="~/img/icons/product.svg" alt="img"><span> Employee</span> <span class="menu-arrow"></span></a>
+							<a href="javascript:void(0);"><img src="~/img/icons/dashboard.svg" alt="img"><span> Dashboard</span> <span class="menu-arrow"></span></a>
 							<ul>
-								<li><a  asp-controller="Employee" asp-action="Index">Employee List</a></li>
-								<li><a asp-controller="Employee" asp-action="Create">Add Employee</a></li>
+								<li @(havePermissions ? "" : "hidden")><a asp-controller="Profile" asp-action="AdminDashboard">Admin Dashboard</a></li>
+								<li><a asp-controller="Profile" asp-action="Dashboard">Employee Dashboard</a></li>
 							</ul>
 						</li>
 						<li class="submenu">
-							<a href="javascript:void(0);"><img src="~/img/icons/" alt="img"><span> Sales</span> <span class="menu-arrow"></span></a>
+							<a href="javascript:void(0);"><img src="~/img/icons/product.svg" alt="img"><span> Employee</span> <span class="menu-arrow"></span></a>
+                            <ul>
+                                
+								<li><a  asp-controller="Employee" asp-action="Index">Employee List</a></li>
+								<li><a asp-controller="Employee" asp-action="Create">Add Employee</a></li>
+							</ul>
+                        </li>
+						<li class="submenu">
+							<a href="javascript:void(0);"><img src="~/img/icons/product.svg" alt="img"><span> Role</span> <span class="menu-arrow"></span></a>
 							<ul>
-								<li><a href="saleslist.html">Sales List</a></li>
-								<li><a href="pos.html">POS</a></li>
-								<li><a href="pos.html">New Sales</a></li>
-								<li><a href="salesreturnlists.html">Sales Return List</a></li>
-								<li><a href="createsalesreturns.html">New Sales Return</a></li>
+
+								<li><a asp-controller="AppRole" asp-action="Index">Role List</a></li>
+								<li><a asp-controller="AppRole" asp-action="Create">Add Role</a></li>
+							</ul>
+						</li>
+						<li>
+                            <a asp-controller="OfficialVacation" asp-action="Index">
+                                <img src="~/assets/img/icons/sun-umbrella_891911.png" />
+								 <span>
+									Official Vacation
+								</span>
+							</a>
+						</li>
+						<li>
+							<a asp-controller="GeneralSetting" asp-action="Index">
+								<img src="~/assets/img/icons/settings.svg" /> <span>
+									Setting
+								</span>
+							</a>
+						</li>
+					<li class="submenu">
+							<a href="javascript:void(0);"><img src="~/img/icons/department.png" alt="Department"><span> Departments</span> <span class="menu-arrow"></span></a>
+							<ul>
+							<li><a asp-controller="Department" asp-action="Index">Department List</a></li>
+							<li><a asp-controller="Department" asp-action="Create">Add Department</a></li>
+								
+							</ul>
+						</li>
+						<li class="submenu">
+							<a href="javascript:void(0);"><i class="fa-solid fa-umbrella-beach fa-l"></i><span> Vacations</span> <span class="menu-arrow"></span></a>
+							<ul>
+								<li @(haveAnyVacation)><a asp-controller="Vacation" asp-action="Index">Vacations List</a></li>
+								<li><a asp-controller="Vacation" asp-action="MyVacations">My Vacations</a></li>
+								<li><a asp-controller="Vacation" asp-action="Create">Request Vacation</a></li>
 							</ul>
 						</li>
 						<li>
@@ -187,7 +223,6 @@
 			</div>
 
 			</div>
-		</div>
 
 	<script src="~/js/jquery-3.6.0.min.js"></script>
 
@@ -202,9 +237,21 @@
 
 	<script src="~/plugins/apexchart/apexcharts.min.js"></script>
 	<script src="~/plugins/apexchart/chart-data.js"></script>
-
+	<script src="~/plugins/sweetalert/sweetalert2.all.min.js"></script>
+	<script src="~/plugins/sweetalert/sweetalerts.min.js"></script>
 	<script src="~/js/script.js"></script>
 	<script src="~/js/site.js"></script>
+	<script src="~/lib/sweetalert2/dist/sweetalert2.all.min.js"></script>
+
+	<!-- DataTables Buttons JavaScript -->
+	<script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script>
+	<!-- pdfmake library -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/pdfmake.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/vfs_fonts.js"></script>
+	<script src="~/js/task.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </body>
 </html>

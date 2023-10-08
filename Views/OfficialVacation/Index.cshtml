@@ -13,8 +13,9 @@
 
 }
 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
 
-<h1>Official Vacations </h1>
+@*<h1>Official Vacations </h1>
 
 <p @(canAddOfficialVacation)>
     <a asp-action="Create">Create New</a>
@@ -52,6 +53,105 @@
             </tr>
         }
     </tbody>
-</table>
+</table>*@
 
 
+<div class="content">
+    <div class="page-header">
+        <div class="page-title">
+            <h4>Official Vaction List</h4>
+        </div>
+        <div class="page-btn" @(canAddOfficialVacation)>
+            <a asp-action="Create" class="btn btn-added"><img src="~/assets/img/icons/plus.svg" alt="img" class="me-1">Add New Official Vacation</a>
+        </div>
+    </div>
+
+
+    <div class="card">
+        <div class="card-body">
+
+            <div id="my-table-div">
+                <table id="mytable" class=" table hover row-border compact stripe order-column" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td >
+                                    @Html.DisplayFor(modelItem => item.Title)
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Date)
+                                </td>
+
+                                <td class="print-off">
+                                    <div class="action-links">
+                                        <span @(canUpdateOfficialVacation)>
+                                            <a asp-action="Edit" class="me-3" asp-route-id="@item.Id">
+                                                <img src="~/assets/img/icons/edit.svg" alt="Edit">
+                                            </a>
+                                        </span>
+                                        <span @(canShowOfficialVacation)>
+                                            <a asp-action="Details" class="me-3" asp-route-id="@item.Id">
+                                                <img src="~/assets/img/icons/eye.svg" /> 
+                                            </a>
+                                        </span>
+                                        <span @(canDeleteOfficialVacation)>
+                                            <a asp-action="Delete" class="me-3" asp-route-id="@item.Id" class="confirm-text">
+                                                <img src="~/assets/img/icons/delete.svg" alt="Delete">
+                                            </a>
+                                        </span>
+                                    </div>
+                                </td>
+
+
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+@*<!-- DataTables Buttons JavaScript -->
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script>
+<!-- pdfmake library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/vfs_fonts.js"></script>
+*@
+<script>
+    $(document).ready(function () {
+        $('#mytable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                {
+                    extend: 'pdfHtml5',
+                    text: 'PDF',
+
+                    customize: function (doc) {
+
+                    }
+                }
+            ]
+        });
+    });
+
+</script>
