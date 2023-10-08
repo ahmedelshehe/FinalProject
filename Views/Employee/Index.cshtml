@@ -19,28 +19,18 @@
 }
 
 <div class="content">
-    @*<div class="page-header">
+    <div class="page-header">
         <div class="page-title">
             <h4>Employee List</h4>
         </div>
-        <div class="page-btn print-off" @(canAddEmployees)>
-            <a asp-action="Create" class="btn btn-added"><img src="assets/img/icons/plus.svg" alt="img" class="me-1">Create</a>
+        <div class="page-btn">
+            <a asp-action="Create" class="btn btn-added"><img src="assets/img/icons/plus.svg" alt="img" class="me-1">Add New Employee</a>
         </div>
-    </div>*@
+    </div>
 
     <div class="card">
         <div class="card-body">
-           @* <div class="table-top">
-             
-                <div class="wordset print-off">
-                    <ul>
-
-                        <li>
-                            <a onclick="printContent('my-table-div')" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="print" aria-label="print"><img src="assets/img/icons/printer.svg" alt="img"></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>*@
+       
             <div id="my-table-div">
                 <table  id="mytable" class=" table hover row-border compact stripe order-column" style="width:100%">
                 <thead>
@@ -130,31 +120,7 @@
 
 
 
-@*<div style="text-align:center" class="print-off">
 
-<div class="dataTables_paginate " style="margin-left:17px" id="DataTables_Table_0_paginate">
-    <ul class="pagination">
-        @if (Model.PageCount > 1)
-        {
-            <li class="paginate_button page-item @(Model.PageNumber == 1 ? "disabled" : "")">
-                    <a  href="@(Model.PageNumber == 1 ? "#" : Url.Action("Index", new { page = Model.PageNumber - 1 }))" aria-controls="DataTables_Table_0" tabindex="0" class="page-link">Previous</a>
-            </li>
-
-            @for (int i = 1; i <= Model.PageCount; i++)
-            {
-                <li class="paginate_button page-item @(Model.PageNumber == i ? "active" : "")">
-                        <a  href="@(Model.PageNumber == i ? "#" : Url.Action("Index", new { page = i }))" aria-controls="DataTables_Table_0" tabindex="0" class="page-link">@i</a>
-                </li>
-            }
-
-            <li class="paginate_button page-item @(Model.PageNumber == Model.PageCount ? "disabled" : "")">
-                    <a href="@(Model.PageNumber == Model.PageCount ? "#" : Url.Action("Index", new { page = Model.PageNumber + 1 }))" aria-controls="DataTables_Table_0" tabindex="0" class="page-link">Next</a>
-            </li>
-        }
-    </ul>
-</div>
-</div>
-*@
 
 <!-- DataTables JavaScript -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
