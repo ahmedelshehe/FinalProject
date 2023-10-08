@@ -26,7 +26,7 @@
                             <label style="font-size: 20px;">Employee</label>
 
                             <div class="select-wrapper">
-                                <select asp-for="EmpId" class="form-control select2-hidden-accessible" tabindex="-1" aria-hidden="true" asp-items="AllRoles">
+                                <select asp-for="EmpId" class="form-control select2-hidden-accessible" tabindex="-1" aria-hidden="true" asp-items="AllEmps">
                                     <option value="" selected disabled hidden>Choose a Employee</option>
 
                                 </select>
@@ -45,7 +45,7 @@
 
                     <div class="col-lg-4 col-sm-6 col-12">
                         <div class="form-group">
-                            <label style="font-size: 20px;" asp-for="Role" class="control-label"></label>
+                            <label style="font-size: 20px;">Role</label>
 
                             <div class="select-wrapper">
                                 <select asp-for="RoleAppId" class="form-control select2-hidden-accessible" tabindex="-1" aria-hidden="true" asp-items="AllRoles">
