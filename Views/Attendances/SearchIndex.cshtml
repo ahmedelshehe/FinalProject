@@ -9,7 +9,28 @@
     var canAddAttendance = permissions.HasPermission("Attendance", Operation.Add);
     var canUpdateAttendance = permissions.HasPermission("Attendance", Operation.Update);
     var canDeleteAttendance = permissions.HasPermission("Attendance", Operation.Delete);
+    string searchName ="";
+    string deptName="";
+    DateTime toDate = default;
+    DateTime fromDate = default;
+    if(ViewBag.EmployeeName != null)
+    {
+        searchName = (string)ViewBag.EmployeeName;
+    }
+    if (ViewBag.DeptName != null)
+    {
+        deptName = (string)ViewBag.DeptName;
+    }
+    if (ViewBag.to != null)
+    {
+        toDate = (DateTime)ViewBag.to;
+    }
+    if (ViewBag.from != null)
+    {
+        fromDate = (DateTime)ViewBag.from;
+    }
 }
+    
 <div class="page-header">
     <div class="page-title">
         <h4>Search Attendance</h4>
@@ -27,14 +48,29 @@
                 <div class="col-lg-4 col-sm-6 col-12">
                     <div class="form-group">
                         <label class="control-label">Employee Name</label>
-                        <input type="text" class="form-control m-2" value="" name="searchName" placeholder="Search By Employee Name " />
+                        @if (searchName != "")
+                        {
+                        <input type="text" class="form-control m-2" asp-for="@searchName" name="searchName" placeholder="Search By Employee Name " />
+
+                        }
+                        else
+                        {
+                            <input type="text" class="form-control m-2" value="" name="searchName" placeholder="Search By Employee Name " />
+
+                        }
                     </div>
                 </div>
 
                 <div class="col-lg-4 col-sm-6 col-12">
                     <div class="form-group">
                         <label class="control-label">Department Name</label>
-                        <input type="text" value="" class="form-control m-2" name="deptName" placeholder="Search By Department Name" />
+                        @if(deptName != "")
+                        {
+                            <input type="text" asp-for="@deptName" class="form-control m-2" name="deptName" placeholder="Search By Department Name" />
+
+                        }else{
+                            <input type="text" value="" class="form-control m-2" name="deptName" placeholder="Search By Department Name" />
+                        }
                     </div>
                 </div>
 
@@ -43,13 +79,25 @@
                 <div class="col-lg-2 col-sm-6 col-12">
                     <div class="form-group">
                         <label class="control-label">From</label>
-                        <input type="date"  name="to" class="form-control m-2" />
+                        @if(fromDate != default)
+                        {
+                            <input type="date" asp-for="@fromDate"  name="from" class="form-control m-2" />
+                        }else{
+                            <input type="date"  name="from" class="form-control m-2" />
+                        }
                     </div>
                 </div>
                 <div class="col-lg-2 col-sm-6 col-12">
                     <div class="form-group">
                         <label class="control-label">To</label>
-                        <input type="date" name="from" class="form-control m-2" />
+                    @if (toDate != default)
+                    {
+                        <input type="date" asp-for="@toDate" name="to" class="form-control m-2" />
+                    }
+                    else
+                    {
+                        <input type="date" name="to" class="form-control m-2" />
+                    }
                     </div>
                 </div>
                     </div>
@@ -150,3 +198,15 @@
 
     </div>
 </div>
+<style>
+    [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+        background: #ff9f43; /* Change to the desired background color */
+        color: #fff;
+        border: 1px solid #ff9f43;
+    }
+
+    button.dt-button:hover:not(.disabled), div.dt-button:hover:not(.disabled), a.dt-button:hover:not(.disabled), input.dt-button:hover:not(.disabled) {
+        background: #1B2850
+    }
+
+</style>

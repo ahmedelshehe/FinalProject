@@ -211,57 +211,7 @@ namespace FinalProject.Controllers
             return View("CreateAttendanceOnlineWorkFromHome");
         }
 
-        //    [HttpPost]
-        //public async Task<IActionResult>  CreateAttendanceOnlineWorkFromHome()
-        //{
-
-
-        //    var userId = userManager.GetUserId(User);
-        //    var user = await userManager.FindByIdAsync(userId);
-        //    var userName = user.UserName;
-        //    string msg = "";
-        //    //var showCheckIn = true;
-        //    //var showCheckout = false;
-        //    var btnText = "CheckIn";
-        //    var enable = true;
-        //    //Attendance attendance = new Attendance { ArrivalTime = TimeOnly.FromDateTime(DateTime.Now), Date = DateOnly.FromDateTime(DateTime.Now), EmployeeId = user.EmpId };
-        //   // DateTime.Today
-        //    Attendance attendance = new Attendance { ArrivalTime = DateTime.Now, Date = DateTime.Today, EmployeeId = user.EmpId };
-
-        //    var attendanceStored = attendanceRepository.GetAttendance(attendance.EmployeeId, attendance.Date);
-
-        //    if (attendanceStored == null)
-        //    {
-        //        msg = attendanceRepository.checkIn(attendance, userName);
-        //        //showCheckIn = false;
-        //        //showCheckout = true;
-        //        btnText = "CheckOut";
-        //    }
-        //    else if (attendanceStored.DepartureTime == new DateTime())
-        //    {
-        //        btnText = "CheckOut";
-        //        attendance.DepartureTime = DateTime.Now;
-        //        msg = attendanceRepository.checkOut(attendance, userName);
-        //        // showCheckout = false;
-        //        enable = false;
-
-        //    }
-        //    else if (attendanceStored.ArrivalTime != new DateTime() && attendanceStored.DepartureTime != new DateTime())
-        //    {
-
-        //        enable = false;
-
-        //    }
-        //    // ViewBag.showCheckIn = showCheckIn;
-        //    // ViewBag.showCheckout = showCheckout;
-        //    ViewBag.msg =msg;
-        //    ViewBag.enable = enable;
-        //    ViewBag.btnText = btnText;
-
-
-        //    return View();
-        //}
-            [HttpGet]
+        [HttpGet]
         public async Task<IActionResult> EmployeeReport()
         {
             var userId = userManager.GetUserId(User);
@@ -277,6 +227,7 @@ namespace FinalProject.Controllers
         public async Task<IActionResult> Search(DateTime Date)
         {
             var attendances = attendanceRepository.GetAttendances().Where(a => a.Date.Date == Date.Date);
+            ViewBag.SearchDate = Date;
 
             return View("Index", attendances);
 

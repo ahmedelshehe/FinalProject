@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FinalProject.Utilities;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinalProject.Models
@@ -10,19 +11,19 @@ namespace FinalProject.Models
         [Required(ErrorMessage = "You should enter arrival time")]
         [Display(Name = "Arrival Time")]
         [DataType(DataType.Time)]
-        //public TimeOnly ArrivalTime { get; set; }
         public DateTime ArrivalTime { get; set; }
 
 
         [Required(ErrorMessage = "You should enter departure time")]
         [Display(Name = "Departure Time")]
         [DataType(DataType.Time)]
-       // public TimeOnly DepartureTime { get; set; }
+        [EndDateAfterStartDateAttribute("Departure Time Cannot be before Arrival Time", "ArrivalTime")]
         public DateTime DepartureTime { get; set; }
 
         [Required(ErrorMessage = "You should enter date ")]
         [DataType(DataType.Date)]
 		[Column(TypeName = "Date")]
+        [NoFutureAttribute]
 		public DateTime Date { get; set; }
 
         // When The Difference Between ArrivalTime And Departure Time is More Than 8 Hours => ExtraHours

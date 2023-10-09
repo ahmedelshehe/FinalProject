@@ -8,6 +8,7 @@ namespace FinalProject.Models
         [Key]
         public int Id { get; set; }
         [Required(ErrorMessage ="You should enter title of vacation")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "You should enter letters only")]
         public string Title { get; set; }
         [Required]
         [DataType(DataType.Date)]

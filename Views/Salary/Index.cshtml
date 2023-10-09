@@ -13,6 +13,24 @@
     var permissions = Context.Items["Permissions"] as List<Permission>;
     var canShowSalary = permissions.HasPermission("Salary", Operation.Show);
     SelectList empList = new SelectList(ViewBag.Employees, "Id", "FirstName");
+    int? Years = default;
+    int? Months = default;
+    int? EmpId = default;
+    if (ViewBag.SearchedYear != null)
+    {
+        Years = (int?)ViewBag.SearchedYear;
+    }
+    if (ViewBag.SearchedMonth != null)
+    {
+        Months = (int?)ViewBag.SearchedMonth;
+    }
+    if (ViewBag.EmpId != null)
+    {
+        EmpId = (int?)ViewBag.EmpId;
+    }
+
+
+
 }
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
@@ -26,126 +44,7 @@
 
 
 
-<!-- Rest of your HTML and table display code -->
-
-@*<form action="/Salary/Index" method="get">
-    <select name="empId" class="form-control" @(canShowSalary)>
-        <option value="" selected disabled hidden>Choose an Employee</option>
-        @foreach (var item in ViewBag.Employees)
-        {
-            <option value="@item.Id">@item.Name</option>
-        }
-    </select>
-    <br />
-    <select name="year" id="year" class="form-control" required>
-        <option value="" selected disabled hidden>Choose an Year</option>
-        @foreach (var item in ViewBag.Year)
-        {
-            <option value="@item">@item</option>
-        }
-    </select>
-    <br />
-  
-    <select name="month" id="month" class="form-control">
-        <option value="" selected disabled hidden>Choose an Month</option>
-        @foreach (var item in ViewBag.months)
-        {
-            <option value="@item">@item</option>
-        }
-    </select>
-    <br />
-    <button type="submit">Search</button>
-</form>
-
-<br />*@
-@*<table class="table table-striped table-hover">
-    <thead>
-        <tr>
-            <th>
-                <i class="fa fa-briefcase"></i> Department
-            </th>
-            <th>
-                <i class="fa fa-user"></i> Full Name
-            </th>
-            <th>
-                <i class="fa fa-money"></i> Salary
-            </th>
-            <th>
-                <i class="fa fa-money"></i> Total Salary
-            </th>
-            <th>
-                <i class="fa fa-venus-mars"></i> Discount Hour
-            </th>
-            <th>
-                <i class="fa fa-calendar"></i> Discount Hour Price
-            </th>
-            <th>
-                <i class="fa fa-calendar"></i> Extra Time
-            </th>
-            <th>
-                <i class="fa fa-calendar"></i> Extra Time Price
-            </th>
-            <th>
-                <i class="fa fa-calendar"></i> Attandance Day
-            </th>
-            <th>
-                <i class="fa fa-calendar"></i> Absance Day
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DepartmentName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmployeeName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Salary)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TotalSalary)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DiscountHours)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DisccountHoursPrice)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ExtraHours)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ExtraHoursPrice)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NumberOfAttandanceDays)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NumberOfAbsanceDays)
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-*@
-@*<div id="container" style="margin-left: 20px">
-    <div class="pagination" style="margin-left: 400px">
-        @Html.PagedListPager(pagedList, page => Url.Action("Index", new { page = page }), new PagedListRenderOptions
-        {
-        DisplayLinkToIndividualPages = true,
-        DisplayPageCountAndCurrentLocation = false,
-        MaximumPageNumbersToDisplay = 10,
-        UlElementClasses = new string[] { "pagination justify-content-end" },
-        LiElementClasses = new string[] { "page-item" },
-        PageClasses = new string[] { "page-link" },
-        })
-    </div>
-</div>
-*@<div class="content">
+<div class="content">
     
     <div class="page-header" style="margin-bottom:0px">
         <div class="page-title">
@@ -155,35 +54,70 @@
                     <div class="row">
                         <div class="col-md-5" @(canShowSalary)>
                             <div class="form-group">
-                    <select name="empId" class="form-control" >
-                        <option value="" selected disabled hidden>Choose Employee</option>
-                        @foreach (var item in ViewBag.Employees)
-                        {
-                            <option value="@item.Id">@item.Name</option>
-                        }
-                    </select>
+                                @if(EmpId != null)
+                                {
+                                    <select name="empId" asp-for="@EmpId" class="form-control">
+                                        <option value="" selected disabled hidden>Choose Employee</option>
+                                        @foreach (var item in ViewBag.Employees)
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+                                    </select>
+                                }else{
+                                    <select name="empId" class="form-control">
+                                        <option value="" selected disabled hidden>Choose Employee</option>
+                                        @foreach (var item in ViewBag.Employees)
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+                                    </select>
+                                }
+                                
                    </div>
                        </div>
                         <div class="col-md-5">
                             <div class="form-group">
-                    <select name="year" id="year" class="form-control" required>
-                        <option value="" selected disabled hidden>Choose Year</option>
-                        @foreach (var item in ViewBag.Year)
-                        {
-                            <option value="@item">@item</option>
-                        }
-                    </select>
+                            @if(Years != null)
+                            {
+                                <select name="year" asp-for="@Years" id="year" class="form-control" required>
+                                    <option value="" selected disabled hidden>Choose Year</option>
+                                    @foreach (var item in ViewBag.Year)
+                                    {
+                                        <option value="@item">@item</option>
+                                    }
+                                </select>
+                            }else{
+                                    <select name="year" id="year" class="form-control" required>
+                                        <option value="" selected disabled hidden>Choose Year</option>
+                                        @foreach (var item in ViewBag.Year)
+                                        {
+                                            <option value="@item">@item</option>
+                                        }
+                                    </select>
+                            }
                             </div>
                         </div>
                         <div class="col-md-5">
                             <div class="form-group">
-                    <select name="month" id="month" class="form-control" required>
-                        <option value="" selected disabled hidden>Choose Month</option>
-                        @foreach (var item in ViewBag.months)
-                        {
-                            <option value="@item">@item</option>
-                        }
-                    </select>
+                                @if(Months != null)
+                                {
+                                    <select name="month" asp-for="@Months" id="month" class="form-control" required>
+                                        <option value="" selected disabled hidden>Choose Month</option>
+                                        @foreach (var item in ViewBag.months)
+                                        {
+                                            <option value="@item">@item</option>
+                                        }
+                                    </select>
+                                }else{
+                                    <select name="month" id="month" class="form-control" required>
+                                        <option value="" selected disabled hidden>Choose Month</option>
+                                        @foreach (var item in ViewBag.months)
+                                        {
+                                            <option value="@item">@item</option>
+                                        }
+                                    </select>
+                                }
+                                
                             </div>
                         </div>
                         <div class="col-md-5">
@@ -197,7 +131,6 @@
                   
                 </form>
             </div>
-
         </div>
       
     </div>
@@ -267,6 +200,18 @@
     </div>
 
 </div>
+<style>
+    [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+        background: #ff9f43; /* Change to the desired background color */
+        color: #fff;
+        border: 1px solid #ff9f43;
+    }
+
+    button.dt-button:hover:not(.disabled), div.dt-button:hover:not(.disabled), a.dt-button:hover:not(.disabled), input.dt-button:hover:not(.disabled) {
+        background: #1B2850
+    }
+
+</style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 

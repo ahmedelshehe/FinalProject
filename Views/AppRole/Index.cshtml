@@ -10,44 +10,20 @@
     var canDeleteRole = permissions.HasPermission("AppRole", Operation.Delete); ;
     
 }
+
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
+<style>
+    [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+        background: #ff9f43; /* Change to the desired background color */
+        color: #fff;
+        border: 1px solid #ff9f43;
+    }
 
-@*<div class="d-flex justify-content-between">
-    <h1>Roles</h1>
-    <p @(canAddRole)>
-        <a asp-action="Create" class="btn btn-outline-success">Create New</a>
-    </p>
-</div>
+    button.dt-button:hover:not(.disabled), div.dt-button:hover:not(.disabled), a.dt-button:hover:not(.disabled), input.dt-button:hover:not(.disabled) {
+        background: #1B2850
+    }
 
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th @(canUpdateRole)>Edit</th>
-            <th @(canShowRole)>View Permissions</th>
-            <th @(canDeleteRole)>Delete</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var role in Model)
-        {
-            <tr>
-                <td>@role.Name</td>
-                <td @(canUpdateRole)>
-                    <a asp-action="Edit" asp-route-id="@role.Id" class="btn btn-outline-info">Edit</a>
-                </td>
-                <td @(canShowRole)>
-                    <a asp-action="Details" asp-route-id="@role.Id" class="btn btn-outline-dark">View Permissions</a>
-                </td>
-                <td @(canDeleteRole)>
-                    <a asp-action="Delete" asp-route-id="@role.Id" class="btn btn-outline-danger">Delete</a>
-                </td>
-            </tr>
-
-        }
-    </tbody>
-</table>*@
+</style>
 <div class="content">
     <div class="page-header">
         <div class="page-title">

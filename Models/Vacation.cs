@@ -15,12 +15,12 @@ namespace FinalProject.Models
         [Key]
 		[Required(ErrorMessage ="You should choose startdate")]
         [DataType(DataType.Date)]
-/*        [YesterdayOrToday]
-*/        public DateTime StartDate { get; set; }
+        [YesterdayOrToday]
+        public DateTime StartDate { get; set; }
 
         [Required(ErrorMessage = "You should choose enddate")]
 		[DataType(DataType.Date)]
-        [EndDateAfterStartDateAttribute(errorMessage:  "End Date can not be before start date")]
+        [EndDateAfterStartDateAttribute("End Date can not be before start date","StartDate")]
 		public DateTime EndDate { get; set; }
 
         public VacationStatus Status { get; set; } = VacationStatus.Pending;

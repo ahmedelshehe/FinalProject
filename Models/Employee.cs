@@ -14,12 +14,13 @@ namespace FinalProject.Models
 		[Required(ErrorMessage = "You should enter the first name")]
         [MaxLength(10,ErrorMessage = "You should enter at most 10 Letters")]
         [Display(Name ="First Name")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "You should enter letters only")]
         public string FirstName { get; set; }
 
         [MaxLength(10, ErrorMessage = "You should enter at most 10 Letters")]
         [Display(Name = "Last Name")]
 		[RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "The {0} field can only contain letters.")]
-		public string LastName { get; set; }
+        public string LastName { get; set; }
 
         [DataType(DataType.Password)]
         public string Password { get; set; } = "12345678";

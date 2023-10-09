@@ -77,12 +77,14 @@ namespace FinalProject.Utilities
     }
     public class EndDateAfterStartDateAttribute : ValidationAttribute
     {
-        public EndDateAfterStartDateAttribute(string errorMessage)
+        public EndDateAfterStartDateAttribute(string errorMessage,string property)
         {
             ErrorMessage = errorMessage;
+            Prop = property;
         }
 
         public string ErrorMessage { get; set; }
+        public string Prop { get; set; }
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
@@ -94,7 +96,7 @@ namespace FinalProject.Utilities
             DateTime endDate = (DateTime)value;
 
             // Get the StartDate property value.
-            DateTime startDate = (DateTime)validationContext.ObjectInstance.GetType().GetProperty("StartDate").GetValue(validationContext.ObjectInstance);
+            DateTime startDate = (DateTime)validationContext.ObjectInstance.GetType().GetProperty(Prop).GetValue(validationContext.ObjectInstance);
 
             if (endDate < startDate)
             {
@@ -127,6 +129,29 @@ namespace FinalProject.Utilities
             }
         }
     }
+    public class NoFutureAttribute : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            if (value == null || !(value is DateTime))
+            {
+                return new ValidationResult("Start Date can not be future date ");
+
+            }
+
+            DateTime date = (DateTime)value;
+
+            if (date <= DateTime.Today)
+            {
+                return ValidationResult.Success;
+            }
+            else
+            {
+                return new ValidationResult("Start Date can not be future date ");
+            }
+        }
+    }
+
     public class AgeRangeAttribute : ValidationAttribute
 	{
 		protected override ValidationResult IsValid(object value, ValidationContext validationContext)

@@ -10,7 +10,18 @@
     var canDeleteUser = permissions.HasPermission("AppUser", Operation.Delete);
     string actionsFlag = new List<string>(){canUpdateUser,canDeleteUser,canShowUser}.Any(e=> e == "") ? "" : "hidden";
 }
+<style>
+    [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+        background: #ff9f43; /* Change to the desired background color */
+        color: #fff;
+        border: 1px solid #ff9f43;
+    }
 
+    button.dt-button:hover:not(.disabled), div.dt-button:hover:not(.disabled), a.dt-button:hover:not(.disabled), input.dt-button:hover:not(.disabled) {
+        background: #1B2850
+    }
+
+</style>
 <div class="content">
     <div class="page-header">
         <div class="page-title">
@@ -37,25 +48,10 @@
                         <a class="btn btn-searchset"><img src="~/img/icons/search-white.svg" alt="img"></a>
                     </div>
                 </div>
-                <div class="wordset">
-                    <ul>
-                        <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="~/img/icons/pdf.svg" alt="img"></a>
-                        </li>
-                        <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="~/img/icons/excel.svg" alt="img"></a>
-                        </li>
-                        <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="~/img/icons/printer.svg" alt="img"></a>
-                        </li>
-                    </ul>
-                </div>
+
             </div>
-
-
-
             <div class="table-responsive">
-                <table class="table">
+                <table id="mytable" class=" table datanew  hover row-border compact stripe order-column">
                     <thead>
                         <tr>
 

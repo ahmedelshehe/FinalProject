@@ -72,7 +72,8 @@ namespace FinalProject.Controllers
             var empList = new List<Employee>();
             List<int> years = new List<int>();
             List<int> months = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-
+            ViewBag.SearchedYear = year;
+            ViewBag.EmpId = empId;
             var startYear = 2015;
             while (DateTime.Now.Year >= startYear)
             {
@@ -171,7 +172,9 @@ namespace FinalProject.Controllers
 
             ViewBag.Year = years;
             ViewBag.Months = months;
-
+            ViewBag.SearchedYear = year;
+            ViewBag.SearchedMonth = month;
+            ViewBag.EmpId = empId;
           
 
             if (userAppRole != null)
