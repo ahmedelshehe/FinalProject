@@ -11,40 +11,89 @@
 
 }
 
-@Html.Partial("_TopBar",Model)
 
-<div class="row align-items-start align-content-between m-5">
-    <div class="card p-3 shadow col-10 ml-5">
-        <div class="card-header">
-            Employees
+<div class="content">
+    <div class="page-header">
+        <div class="page-title">
+            <h4>Employees List</h4>
+            <h6>Department @Model.Name</h6>
         </div>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Employee Name</th>
-                    <th>Employee Email</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var employee in Model.Employees)
-                {
-                    <tr>
-                        <td>@employee.FirstName @employee.LastName</td>
-                        <td>@employee.Email</td>
-                    </tr>
-                }
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="2">
-                        Employees Count : @Model.Employees.Count()
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-     </div>
-    <div class="col print-off">
-        <a onclick="printContent('print-layout')" style="cursor:pointer;"><i class="fa-solid fa-print fa-2xl" style="color: #00276b;"></i></a>
     </div>
-</div>
 
+    <div class="card">
+        <div class="card-body">
+            <div class="table-top">
+                <div class="search-set">
+                    <div class="search-path">
+                        <a class="btn btn-filter" id="filter_search">
+                            <img src="~/img/icons/filter.svg" alt="img">
+                            <span><img src="~/img/icons/closes.svg" alt="img"></span>
+                        </a>
+                    </div>
+                    <div class="search-input">
+                        <a class="btn btn-searchset"><img src="~/img/icons/search-white.svg" alt="img"></a>
+                    </div>
+                </div>
+                <div class="wordset">
+                    <ul>
+                        <li>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="~/img/icons/pdf.svg" alt="img"></a>
+                        </li>
+                        <li>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="~/img/icons/excel.svg" alt="img"></a>
+                        </li>
+                        <li>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="~/img/icons/printer.svg" alt="img"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="table-responsive">
+                <table class="table ">
+                    <thead>
+                        <tr>
+                            
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Contract Date</th>
+                            <th>Salary</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var employee in Model.Employees)
+                        {
+                            <tr>
+                               
+                                <td>@employee.FirstName @employee.LastName</td>
+                                <td>@employee.Email</td>
+                                <td>@employee.ContractDate.Date.ToString("yyyy-MM-dd")</td>
+                                <td>@employee.Salary</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        @if(Model.Employees.Count() >= 0)
+                        {
+                            <div class="col-lg-3 col-sm-6 col-12 d-flex" style="margin:0 auto">
+                                <div class="dash-count das2">
+                                    <div class="dash-counts">
+                                        <h4>@Model.Employees.Count()</h4>
+                                        <h5>Employee</h5>
+                                    </div>
+                                    <div class="dash-imgs">
+                                        <i data-feather="user-check"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                        
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -27,7 +27,7 @@
 
 <!-- Rest of your HTML and table display code -->
 
-<form action="/Salary/Index" method="get">
+<form action="/Salary/YearlyReportSalary" method="post">
     <select name="empId" class="form-control" @(canShowSalary)>
         <option value="" selected disabled hidden>Choose an Employee</option>
         @foreach (var item in ViewBag.Employees)
@@ -44,14 +44,7 @@
         }
     </select>
     <br />
-  
-    <select name="month" id="month" class="form-control">
-        <option value="" selected disabled hidden>Choose an Month</option>
-        @foreach (var item in ViewBag.months)
-        {
-            <option value="@item">@item</option>
-        }
-    </select>
+
     <br />
     <button type="submit">Search</button>
 </form>

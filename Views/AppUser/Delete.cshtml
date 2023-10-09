@@ -3,40 +3,70 @@
 @{
     ViewData["Title"] = "User Delete";
 }
+<style>
+    .table-responsive {
+        margin-top: 20px;
+    }
+
+    table.table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+        table.table th,
+        table.table td {
+            border: 1px solid #f8f8f8;
+            padding: 8px;
+            color: #000
+        }
+
+        table.table th {
+            background-color: #1b2850;
+            color: #fff
+        }
+
+        table.table tr:nth-child(even) {
+            background-color: #f8f8f8;
+        }
+
+        table.table tr:hover {
+            background-color: #ececec;
+        }
+
+</style>
 
 
-<h1>Delete User</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.UserName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                Password
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                @Html.DisplayFor(model => model.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.Employee.Password)
-            </td>
-        </tr>
-    </tbody>
-</table>
-<form asp-action="Delete">
-    <input type="hidden" asp-for="@Model.Id" />
-    <input type="submit" value="Delete" class="btn btn-danger" /> |
-    <a asp-action="Index">Back to List</a>
-</form>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.UserName</td>
+                <td>@Model.Email</td>
+                <td>@Model.Employee.Password</td>
+                <td>@Model.Role.Name</td>
+            </tr>
+        </tbody>
+
+    </table>
+</div>
+
+
+<div class="container-fluid card shadow w-50 p-5" style="margin:30px auto">
+    <h3>Are you sure you want to delete user @Model.UserName?</h3>
+    <br />
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-submit me-2" />
+        <a asp-controller="AppUser" asp-action="Index" class="btn btn-cancel">Cancel</a>
+
+    </form>
+</div>

@@ -50,7 +50,7 @@ namespace FinalProject.Controllers
                 if (ModelState.IsValid)
                 {
                     DepartmentRepository.InsertDepartment(department);
-                    return RedirectToAction(nameof(Index));
+					return RedirectToAction(nameof(Index));
                 }
                 else
                 {

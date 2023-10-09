@@ -37,26 +37,22 @@ namespace FinalProject.Controllers
         }
 
         [AuthorizeByEntity("Attendance")]
-        public async Task<IActionResult> Index(int? page)
+        public async Task<IActionResult> Index()
         {
-			int pageSize = 25;
-			int pageNumber = (page ?? 1);
 			var attendances = attendanceRepository.GetAttendances().ToList();
-			return View(await attendances.ToPagedListAsync(pageNumber, pageSize));
+			return View(attendances);
 
         }
 
-        [HttpPost][HttpGet]
-        public async  Task<IActionResult> SearchIndex(string searchName,DateTime to ,DateTime from,int? page)
+        [HttpPost]
+        [HttpGet]
+        public async  Task<IActionResult> SearchIndex(string searchName,DateTime to ,DateTime from)
         {
-            int pageSize = 25;
-            int pageNumber = (page ?? 1);
             var list = new List<EmployeeAttendanceVM>();
             ViewBag.EmployeeName=searchName;
             ViewBag.DeptName=searchName;
             ViewBag.to=to;
             ViewBag.from=from;
-
                 if (attendanceRepository.GetAttendances() != null)
                 {
                 if( to == new DateTime() || from == new DateTime())
@@ -93,7 +89,7 @@ namespace FinalProject.Controllers
 
 
             }
-            return View(await list.ToPagedListAsync(pageNumber, pageSize)) ;
+            return View(list) ;
 
         }
      
@@ -112,13 +108,11 @@ namespace FinalProject.Controllers
 
         [HttpPost]
         [AuthorizeByPermission("Attendance",Operation.Show)]
-        public async Task<IActionResult> Search(DateTime Date,int? page)
+        public async Task<IActionResult> Search(DateTime Date)
         {
-            int pageSize = 25;
-            int pageNumber = (page ?? 1);
             var attendances = attendanceRepository.GetAttendances().Where(a => a.Date.Date == Date.Date);
 
-            return View("Index", await attendances.ToPagedListAsync(pageNumber, pageSize));
+            return View("Index", attendances);
 
         }
         // GET: Attendances/Details/5

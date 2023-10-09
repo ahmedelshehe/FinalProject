@@ -64,7 +64,14 @@
                                 @Html.DisplayFor(modelItem => item.employee.Department.Name)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.employee.Country)
+                                    @{
+                                        string country = item.employee.Country;
+                                        if (country.Length > 15)
+                                        {
+                                            country = country.Substring(0, 15) + "...";
+                                        }
+                                    }
+                                @Html.DisplayFor(modelItem => country)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.employee.Gender)

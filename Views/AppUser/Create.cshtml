@@ -7,32 +7,74 @@
 
 }
 
-<h1>Create User</h1>
 
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label for="UserName">Username</label>
-        <input asp-for="UserName" class="form-control" />
+<div class="content">
+    <div class="page-header">
+        <div class="page-title">
+            <h4>Add User</h4>
+        </div>
+
     </div>
-    <div class="form-group">
-        <label for="Email">Email</label>
-        <input asp-for="Email" class="form-control" />
+
+    <div class="card">
+        <div class="card-body">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="col-lg-4 col-sm-6 col-12">
+                        <div class="form-group">
+                            <label style="font-size: 20px;">Employee</label>
+
+                            <div class="select-wrapper">
+                                <select asp-for="EmpId" class="form-control select2-hidden-accessible" tabindex="-1" aria-hidden="true" asp-items="AllEmps">
+                                    <option value="" selected disabled hidden>Choose a Employee</option>
+
+                                </select>
+                                <div class="arrow"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-12">
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label" style="font-size: 20px;"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-sm-6 col-12">
+                        <div class="form-group">
+                            <label style="font-size: 20px;">Role</label>
+
+                            <div class="select-wrapper">
+                                <select asp-for="RoleAppId" class="form-control select2-hidden-accessible" tabindex="-1" aria-hidden="true" asp-items="AllRoles">
+                                    <option value="" selected disabled hidden>Choose a Role</option>
+
+                                </select>
+                                <div class="arrow"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-12">
+                        <div class="form-group">
+                            <label style="font-size: 20px;" for="NewPassword">Password</label>
+                            <input id="NewPassword" name="NewPassword" type="password" class="form-control" />
+                        </div>
+                    </div>
+                   
+
+
+
+
+                    <div class="col-lg-12">
+                        <input type="submit" value="Add" class="btn btn-submit me-2" />
+                        <a asp-controller="AppUser" asp-action="Index" class="btn btn-cancel">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="NewPassword">Password</label>
-        <input id="NewPassword" name="NewPassword" type="password" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="UserName" class="control-label"></label>
-        <select asp-for="EmpId" class="form-control" asp-items="AllEmps">
-            <option value="" selected disabled hidden>Choose a Employee</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label asp-for="Role.Name" class="control-label"></label>
-        <select asp-for="RoleAppId" class="form-control" asp-items="AllRoles">
-            <option value="" selected disabled hidden>Choose a Role</option>
-        </select>
-    </div>
-    <input type="submit" value="Create" class="btn btn-primary" />
-</form>
+
+</div>

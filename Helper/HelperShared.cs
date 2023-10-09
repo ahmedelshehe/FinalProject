@@ -1,5 +1,8 @@
 ﻿using FinalProject.Models;
+using FinalProject.RepoServices;
 using System.ComponentModel;
+using System.Globalization;
+using System.Web.Mvc;
 
 namespace FinalProject.Helper
 {
@@ -119,5 +122,90 @@ namespace FinalProject.Helper
 			}
 			return workDays;
 		}
-	}
+
+
+       
+        public static int Get_Count_Month_Days(int month, int year, DayOfWeek dayName)
+        {
+            int numOfDays = 0;
+            int daysOfMonth = DateTime.DaysInMonth(year, month); // 30 /28 /31
+
+            for (int i = 1; i <= daysOfMonth; i++)
+            {
+                if (new DateTime(year, month, i).DayOfWeek == dayName)
+                {
+                    numOfDays++;
+                }
+            }
+            return numOfDays;
+        }
+        public static int Get_Count_Year_Days(int year, DayOfWeek dayName)
+        {
+            int numOfDays = 0;
+            for (int i = 1; i <= 12; i++)
+            {
+                numOfDays += Get_Count_Month_Days(i, year, dayName);
+            }
+            return numOfDays;
+        }
+        public static DayOfWeek convertStringToDayOfWeek(string Day)
+        {
+            DayOfWeek dayName = DayOfWeek.Saturday;
+            switch (Day)
+            {
+                case "Saturday":
+                    dayName = DayOfWeek.Saturday;
+                    break;
+                case "Sunday":
+                    dayName = DayOfWeek.Sunday;
+                    break;
+                case "Monday":
+                    dayName = DayOfWeek.Monday;
+                    break;
+                case "Tuesday":
+                    dayName = DayOfWeek.Tuesday;
+                    break;
+                case "Wednesday":
+                    dayName = DayOfWeek.Wednesday;
+                    break;
+                case "Thursday":
+                    dayName = DayOfWeek.Thursday;
+                    break;
+                case "Friday":
+                    dayName = DayOfWeek.Friday;
+                    break;
+            }
+            return dayName;
+        }
+
+
+        public static int GetDaysInYear(DateTime date)
+        {
+            if (date.Equals(DateTime.MinValue))
+            {
+                return -1;
+            }
+
+            DateTime thisYear = new DateTime(date.Year, 1, 1);
+            DateTime nextYear = new DateTime(date.Year + 1, 1, 1);
+
+            return (nextYear - thisYear).Days;
+        }
+     
+            public static IEnumerable<SelectListItem> Months
+            {
+                get
+                {
+                    return DateTimeFormatInfo
+                           .InvariantInfo
+                           .MonthNames
+                           .Select((monthName, index) => new SelectListItem
+                           {
+                               Value = (index + 1).ToString(),
+                               Text = monthName
+                           });
+                }
+            }
+        
+    }
 }

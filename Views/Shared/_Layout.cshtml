@@ -1,4 +1,4 @@
-﻿@using FinalProject.Middleware;
+@using FinalProject.Middleware;
 @using FinalProject.Utilities;
 @{
 	ViewData["Title"] = "Index";
@@ -14,6 +14,7 @@
 	var haveAnyAppRole = permissions.HasAnyPermission("AppRole");
 	var haveAnyAppUser = permissions.HasAnyPermission("AppUser");
 }
+
 
 
 <!DOCTYPE html>
@@ -62,6 +63,7 @@
 	<link rel="stylesheet" href="~/plugins/fontawesome/css/fontawesome.min.css" asp-append-version="true">
 	<link rel="stylesheet" href="~/plugins/fontawesome/css/all.min.css" asp-append-version="true">
 
+	
 	<link rel="stylesheet" href="~/css/style.css">
 	@RenderSection("Scripts", required: false)
 
@@ -163,6 +165,18 @@
 								<li><a asp-controller="Employee" asp-action="Create">Add Employee</a></li>
 							</ul>
                         </li>
+					<li class="submenu">
+						<a href="javascript:void(0);">
+							<img src="~/assets/img/icons/attendance.png" />
+							<span> Attendance</span> <span class="menu-arrow"></span>
+						</a>
+						<ul>
+                            
+							<li><a asp-controller="Attendances" asp-action="Index">Attendance List</a></li>
+							<li><a asp-controller="Attendances" asp-action="Create">Add Attendance</a></li>
+							<li><a asp-controller="Attendances" asp-action="UploadFile">Uploa File</a></li>
+						</ul>
+					</li>
 						<li class="submenu">
 							<a href="javascript:void(0);"><img src="~/img/icons/product.svg" alt="img"><span> Role</span> <span class="menu-arrow"></span></a>
 							<ul>
@@ -186,16 +200,22 @@
 								</span>
 							</a>
 						</li>
-						<li class="submenu">
-							<a href="javascript:void(0);"><img src="~/img/icons/sales1.svg" alt="img"><span> Sales</span> <span class="menu-arrow"></span></a>
+					<li class="submenu">
+							<a href="javascript:void(0);"><img src="~/img/icons/department.png" alt="Department"><span> Departments</span> <span class="menu-arrow"></span></a>
 							<ul>
-								<li><a href="saleslist.html">Sales List</a></li>
-								<li><a href="pos.html">POS</a></li>
-								<li><a href="pos.html">New Sales</a></li>
-								<li><a href="salesreturnlists.html">Sales Return List</a></li>
-								<li><a href="createsalesreturns.html">New Sales Return</a></li>
+							<li><a asp-controller="Department" asp-action="Index">Department List</a></li>
+							<li><a asp-controller="Department" asp-action="Create">Add Department</a></li>
+								
 							</ul>
 						</li>
+					<li class="submenu">
+						<a href="javascript:void(0);"><img src="~/img/group.png" alt="Users"><span> Users</span> <span class="menu-arrow"></span></a>
+						<ul>
+							<li><a asp-controller="AppUser" asp-action="Index">Users List</a></li>
+							<li><a asp-controller="AppUser" asp-action="Create">Add User</a></li>
+
+						</ul>
+					</li>
 						<li class="submenu">
 							<a href="javascript:void(0);"><i class="fa-solid fa-umbrella-beach fa-l"></i><span> Vacations</span> <span class="menu-arrow"></span></a>
 							<ul>
@@ -237,9 +257,12 @@
 
 	<script src="~/plugins/apexchart/apexcharts.min.js"></script>
 	<script src="~/plugins/apexchart/chart-data.js"></script>
-
+	<script src="~/plugins/sweetalert/sweetalert2.all.min.js"></script>
+	<script src="~/plugins/sweetalert/sweetalerts.min.js"></script>
 	<script src="~/js/script.js"></script>
 	<script src="~/js/site.js"></script>
+	<script src="~/lib/sweetalert2/dist/sweetalert2.all.min.js"></script>
+
 	<!-- DataTables Buttons JavaScript -->
 	<script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
 	<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>

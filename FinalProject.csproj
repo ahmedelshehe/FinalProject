@@ -90,12 +90,21 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
     <PackageReference Include="PagedList" Version="1.17.0" />
     <PackageReference Include="PagedList.Mvc" Version="4.5.0" />
+    <PackageReference Include="SweetAlert" Version="1.0.0" />
     <PackageReference Include="System.Data.OleDb" Version="7.0.0" />
+    <PackageReference Include="Wahid-SweetAlert2" Version="1.0.0" />
+    <PackageReference Include="Wahid_SweetAlert2" Version="1.0.0" />
     <PackageReference Include="X.PagedList" Version="8.4.7" />
     <PackageReference Include="X.PagedList.Mvc.Core" Version="8.4.7" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Department\Create.cshtml" />
+    <None Include="Views\Department\Delete.cshtml" />
+    <None Include="Views\Department\Details.cshtml" />
+    <None Include="Views\Department\Edit.cshtml" />
+    <None Include="Views\Department\Index.cshtml" />
+    <None Include="Views\Department\_TopBar.cshtml" />
     <None Include="wwwroot\assetss\fonts\fontawesome-webfont.svg" />
     <None Include="wwwroot\assetss\fonts\fontawesome-webfont.woff2" />
     <None Include="wwwroot\assetss\fonts\line-awesome.svg" />
