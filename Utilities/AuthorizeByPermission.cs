@@ -30,8 +30,8 @@ namespace FinalProject.Utilities
 
 			if (!hasPermission)
 			{
-				context.Result = new ForbidResult();
-				return;
+				context.Result = new RedirectToActionResult("Error", "Home", 403);
+                return;
 			}
 		}
 	} 
