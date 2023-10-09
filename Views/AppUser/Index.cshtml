@@ -62,9 +62,7 @@
                             <th>Username</th>
                             <th>Email</th>
                             <td>Role</td>
-                            <th></th>
                             <th>Action</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -85,20 +83,25 @@
                                     <td>@item.Role.Name</td>
 
                                 }
-                                <td @(canShowUser)>
-                                    <a asp-action="Details" asp-route-id="@item.Id" class="me-3">
-                                        <img src="~/img/icons/file.png" width="30px" alt="img">
-                                    </a>
-                                </td>
-                                <td @(canUpdateUser)>
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="me-3">
-                                        <img src="~/img/icons/pencil.png" width="30px" alt="img">
-                                    </a>
-                                </td>
-                                <td @(canDeleteUser)>
-                                    <a asp-action="Delete" asp-route-id="@item.Id" class="me-3 confirm-text">
-                                        <img src="~/img/icons/delete.png" width="30px" alt="img">
-                                    </a>
+                              
+                                <td class="print-off">
+                                    <div class="action-links">
+                                        <span @(canUpdateUser)>
+                                            <a asp-action="Edit" class="me-3" asp-route-id="@item.Id">
+                                                <img src="~/assets/img/icons/edit.svg" alt="Edit">
+                                            </a>
+                                        </span>
+                                        <span @(canShowUser)>
+                                            <a asp-action="Details" class="me-3" asp-route-id="@item.Id">
+                                                <img src="~/assets/img/icons/eye.svg" alt="Details">
+                                            </a>
+                                        </span>
+                                        <span @(canDeleteUser)>
+                                            <a asp-action="Delete" class="me-3" asp-route-id="@item.Id" class="confirm-text">
+                                                <img src="~/assets/img/icons/delete.svg" alt="Delete">
+                                            </a>
+                                        </span>
+                                    </div>
                                 </td>
 
 
