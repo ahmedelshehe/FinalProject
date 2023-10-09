@@ -10,7 +10,7 @@ namespace FinalProject.RepoServices
         public void UpdateVacation(int id, DateTime startDate, Vacation vacation);
         public void DeleteVacation(int id, DateTime startDate);
         public bool IsVacation(int id, DateTime date);
-
+        public List<Vacation> GetVacationById(int id);
         public int GetVacationDays(int id, DateTime date);
 
     }
