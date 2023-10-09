@@ -12,6 +12,8 @@
     var canUpdateAttendance = permissions.HasPermission("Attendance", Operation.Update);
     var canDeleteAttendance = permissions.HasPermission("Attendance", Operation.Delete);
 }
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
+
 <div class="page-header">
     <div class="page-title">
         <h4>Attendance Dashboard</h4>
@@ -22,6 +24,19 @@
         <a asp-action="Create" class="btn btn-added mb-2"><img src="~/img/icons/plus.svg" alt="img" class="me-1">Add New</a>
         <a asp-action="UploadFile" class="btn btn-added"><img src="~/img/icons/excel.svg" alt="img" class="me-1">Import Sheet</a>
     </div>
+   @* <div class="row" @(canAddAttendance)>
+        <div class="col-md-6">
+            <a class="btn btn-added mb-2" asp-action="Create">
+                <img src="/img/icons/plus.svg" alt="img" class="me-1"> Add New
+            </a>
+        </div>
+        <div class="col-md-6">
+            <a class="btn btn-added mb-2" asp-action="UploadFile">
+                <img src="/img/icons/excel.svg" alt="img" class="me-1"> Import Sheet
+            </a>
+        </div>
+    </div>*@
+
 </div>
 @* <div class="row m-5 align-content-between align-items-center welcome-box">
     <div class="col-2 ">
@@ -42,7 +57,7 @@
         <div class="card-body">
         <div class="table-top print-off">
             <form asp-action="Search" class="form-inline">
-                    <label>Choose Date</label>
+                    <label style ="margin-bottom:10px">Choose Date</label>
                 <a asp-action="Index"><i class="fa-solid fa-arrows-rotate fa-l"></i></a>
                     <input type="date" id="date-picker" name="Date" placeholder="Choose Date" class="form-control" />
             </form>
@@ -127,7 +142,7 @@
                             @item.Date.ToString("dd MMM yyy")
                         </td>
 
-                        <td class ="print-off">
+                      @*  <td class ="print-off">
                                 <span @(canUpdateAttendance)>
                                     <a asp-action="Edit" asp-route-id="@item.EmployeeId" asp-route-date="@item.Date">
                                         <i class="fa-solid fa-pen-to-square fa-xl" style="color: #000000;"></i>
@@ -138,7 +153,26 @@
 
                                 </span>
 
-                        </td>
+                        </td>*@
+                            <td class="print-off">
+                                <div class="action-links">
+                                    <span @(canUpdateAttendance)>
+                                        <a asp-action="Edit" class="me-3" asp-route-id="@item.EmployeeId" asp-route-date="@item.Date">
+                                            <img src="~/assets/img/icons/edit.svg" alt="Edit">
+                                        </a>
+                                    </span>
+                                    <span @(canShowAttendance)>
+                                        <a asp-action="Details" class="me-3" asp-route-id="@item.EmployeeId" asp-route-date="@item.Date">
+                                            <img src="~/assets/img/icons/eye.svg" alt="Details">
+                                        </a>
+                                    </span>
+                                    <span @(canDeleteAttendance)>
+                                        <a asp-action="Delete" class="me-3" asp-route-id="@item.EmployeeId" asp-route-date="@item.Date" class="confirm-text">
+                                            <img src="~/assets/img/icons/delete.svg" alt="Delete">
+                                        </a>
+                                    </span>
+                                </div>
+                            </td>
 
                     </tr>
                 }
