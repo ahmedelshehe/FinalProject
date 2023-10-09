@@ -17,6 +17,8 @@ namespace FinalProject.RepoServices
         public void UpdateAttendance( Attendance attendance);
         public void DeleteAttendance(Attendance attendance);
         public bool AttendanceExists(int id, DateTime date);
+        public string checkIn(Attendance attendance, string userName);
+        public string checkOut(Attendance attendance, string userName);
         public string insertBulk(List<Attendance> attendancesList);
         public  List<EmployeeAttendanceVM> GetEmployeeAttendancesByName(string name);
         public  List<EmployeeAttendanceVM> GetEmployeeAttendancesByEmployeeID(int empId);
@@ -24,6 +26,8 @@ namespace FinalProject.RepoServices
         public List<EmployeeAttendanceVM> GetEmployeeAttendancesByDeptName(string Deptname);
         public List<EmployeeAttendanceVM> GetEmployeeAttendancesByNameAndDate(DateTime startDate, DateTime endDate, string name = "");
         public List<EmployeeAttendanceVM> GetEmployeeAttendancesByDeptNameAndDate(DateTime startDate, DateTime endDate, string name = "");
+        public List<EmployeeAttendanceVM> GetEmployeeAttendancesByDeptNameAndEmployeeName(string depName = "", string empName = "");
+        public List<EmployeeAttendanceVM> GetEmployeeAttendancesByDeptNameAndEmployeeNameAndDate(DateTime startDate, DateTime endDate, string depName = "", string empName = "");
         public DataTable ReadUploadedFile(IFormFile postedFile);
         public DataTable ReadExcel(IFormFile file);
         public List<Attendance> convertDataTableToListAttendance(DataTable dt);
