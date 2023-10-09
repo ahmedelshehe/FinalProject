@@ -4,40 +4,6 @@
     ViewData["Title"] = "Delete";
 }
 
-@*<h1>Delete</h1>
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Attendance</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ArrivalTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ArrivalTime)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DepartureTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DepartureTime)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Employee.FirstName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Employee.FirstName)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Date" />
-        <input type="hidden" asp-for="EmployeeId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
-</div>*@
 
 <div class="content">
     <div class="page-header">
@@ -55,6 +21,19 @@
                     <div class="productdetails">
                         <ul class="product-bar">
                             <li>
+                                <h4>Full Name</h4>
+                                <h6>
+                                    @Html.DisplayFor(model => model.Employee.FirstName)
+                                    @Html.DisplayFor(model => model.Employee.LastName)
+                                </h6>
+                            </li>
+                            <li>
+                                <h4>
+                                    Date
+                                </h4>
+                                <h6>@Model.Date.ToString("dd MMM yyy")</h6>
+                            </li>
+                            <li>
                                 <h4>@Html.DisplayNameFor(model => model.ArrivalTime)</h4>
                                 <h6>@Html.DisplayFor(model => model.ArrivalTime)	</h6>
                             </li>
@@ -65,14 +44,19 @@
                                 </h4>
                                 <h6>@Html.DisplayFor(model => model.DepartureTime)</h6>
                             </li>
+
                             <li>
                                 <h4>
-                                    @Html.DisplayNameFor(model => model.Employee.FirstName)
-
+                                    Extra Hours
                                 </h4>
-                                <h6>@Html.DisplayFor(model => model.Employee.FirstName)</h6>
+                                <h6>@Html.DisplayFor(model => model.ExtraHours)</h6>
                             </li>
-
+                            <li>
+                                <h4>
+                                    Discount Hours
+                                </h4>
+                                <h6>@Html.DisplayFor(model => model.DiscountHours)</h6>
+                            </li>
                         </ul>
                     </div>
                 </div>

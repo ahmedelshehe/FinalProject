@@ -44,14 +44,16 @@ namespace FinalProject
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.UseMigrationsEndPoint();
+                app.UseMigrationsEndPoint();      
+                app.UseExceptionHandler("/Home/Error");
+
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
@@ -59,7 +61,7 @@ namespace FinalProject
                 await AdminSeeder.InitializeAdminUser(context);
             }
 
-
+            app.UseStatusCodePagesWithRedirects("/Home/Error?code={0}");
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -69,9 +71,10 @@ namespace FinalProject
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseMiddleware<PermissionsMiddleware>();
+
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Account}/{action=Login}/{id?}");
 			var env = app.Environment;
 			app.Run();
         }

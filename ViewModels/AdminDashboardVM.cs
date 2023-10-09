@@ -48,7 +48,7 @@ namespace FinalProject.ViewModels
         {
             get
             {
-                return employees.Average(e=>e.Age);
+                return employees != null ? employees.Average(e=>e.Age) : 0;
             }
         }
         public string DepartmentNames { get
@@ -88,12 +88,12 @@ namespace FinalProject.ViewModels
             }
         }
 
-        public int ThisMonthExtraHours => thisMonthAttendances.Sum(e=>e.ExtraHours);
-        public int LastMonthExtraHours => lastMonthAttendances.Sum(e=>e.ExtraHours);
-        public int ThisMonthDiscountHours => thisMonthAttendances.Sum(e => e.DiscountHours);
-        public int LastMonthDiscountHours => lastMonthAttendances.Sum(e => e.DiscountHours);
-        public double ThisMonthAverageHours => Math.Round(thisMonthAttendances.Average(e => (e.DepartureTime - e.ArrivalTime).TotalHours), 2);
-        public double LastMonthAverageHours => Math.Round(lastMonthAttendances.Average(e => (e.DepartureTime - e.ArrivalTime).TotalHours), 2);
+        public int ThisMonthExtraHours => thisMonthAttendances.Count != 0  ? thisMonthAttendances.Sum(e => e.ExtraHours) : 0;
+        public int LastMonthExtraHours =>  lastMonthAttendances.Count != 0 ? lastMonthAttendances.Sum(e => e.ExtraHours) : 0;
+        public int ThisMonthDiscountHours =>thisMonthAttendances.Count != 0 ? thisMonthAttendances.Sum(e => e.DiscountHours) : 0;
+        public int LastMonthDiscountHours => lastMonthAttendances.Count != 0 ? lastMonthAttendances.Sum(e => e.DiscountHours) : 0;
+        public double ThisMonthAverageHours => thisMonthAttendances.Count != 0  ? Math.Round(thisMonthAttendances.Average(e => (e.DepartureTime - e.ArrivalTime).TotalHours), 2) : 0;
+        public double LastMonthAverageHours => lastMonthAttendances.Count != 0 ? Math.Round(lastMonthAttendances.Average(e => (e.DepartureTime - e.ArrivalTime).TotalHours), 2) : 0;
         public int AcceptedVacations => vacations.Where(v =>v.Status == VacationStatus.Approved).Count();
         public int PendingVacations => vacations.Where(v =>v.Status == VacationStatus.Pending).Count();
 
