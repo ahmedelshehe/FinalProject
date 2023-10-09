@@ -113,6 +113,7 @@ namespace FinalProject.Controllers
         public async Task<IActionResult> Approve(int id, DateTime date)
         {
             var vacation = VacationRepository.GetVacation(id, date);
+
             var employee = EmployeeRepository.GetEmployee(id);
 
             if (employee.AvailableVacations == 0)

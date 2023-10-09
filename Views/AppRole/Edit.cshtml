@@ -12,7 +12,7 @@
     var hiddenToggle = UserPermissions == null ? "hidden" :
     UserPermissions.HasPermission("AppRole", Operation.Update);
 }
-<h1>Edit Role</h1>
+@*<h1>Edit Role</h1>
 
 <form asp-action="Edit" method="post">
     <div class="form-group">
@@ -147,6 +147,171 @@
             <a asp-action="Index" class="btn btn-outline-dark">Back to List</a>
         </div>
     </div>
-</div>
-<script src="~/js/main.js"></script>
+</div>*@
 
+    <div class="content">
+    <div class="page-header">
+        <div class="page-title">
+            <h4> Edit Role</h4>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <form asp-action="Edit">
+                <div class="row">
+
+                    <div class="col-lg-4 col-sm-6 col-12">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Update Role</button>
+
+
+
+                    </div>
+
+                </div>
+
+
+            </form>
+
+            @if (checkUncheckAllForAdmin != null)
+            {
+                
+                    <button type="button" class="btn btn-outline-primary" onclick="checkAllCheckboxes()" @(hiddenToggle)>Check All</button>
+                
+                
+                    <button type="button" class="btn btn-outline-primary" onclick="uncheckAllCheckboxes()" @(hiddenToggle)>Uncheck All</button>
+               
+            }
+            <form asp-action="AddPermissions" method="post" style="margin-top:20px">
+                @Html.AntiForgeryToken()
+                <input asp-for="Id" type="hidden" name="Id" />
+                <table class="table table-hover" style="margin-bottom:20px">
+                    <thead>
+                        <tr>
+                            <th>Permission Name</th>
+                            <th>Add</th>
+                            <th>Show</th>
+                            <th>Update</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var permissionName in permissionNames)
+                        {
+                            <tr>
+                                <td>@StringUtils.InsertSpaceBetweenCamelCaseWords(permissionName)</td>
+                                @{
+                                    var AddPermission = permissions.FirstOrDefault(p => p.Name == permissionName && p.Operation == Operation.Add);
+                                    @if (AddPermission != null)
+                                    {
+                                        @if (Model.Permissions.Contains(AddPermission))
+                                        {
+                                            <td><input type="checkbox" name="@permissionName+Add" value="@AddPermission.Id" class="form-check-input" checked></td>
+                                        }
+                                        else
+                                        {
+
+                                            <td><input type="checkbox" name="@permissionName+Add" value="@AddPermission.Id" class="form-check-input"></td>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+                                }
+                                @{
+                                    var ShowPermission = permissions.FirstOrDefault(p => p.Name == permissionName && p.Operation == Operation.Show);
+                                    @if (ShowPermission != null)
+                                    {
+                                        @if (Model.Permissions.Contains(ShowPermission))
+                                        {
+                                            <td><input type="checkbox" name="@permissionName+Show" value="@ShowPermission.Id" class="form-check-input" checked></td>
+                                        }
+                                        else
+                                        {
+                                            <td><input type="checkbox" name="@permissionName+Show" value="@ShowPermission.Id" class="form-check-input"></td>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+                                }
+                                @{
+                                    var UpdatePermission = permissions.FirstOrDefault(p => p.Name == permissionName && p.Operation == Operation.Update);
+                                    @if (UpdatePermission != null)
+                                    {
+                                        @if (Model.Permissions.Contains(UpdatePermission))
+                                        {
+                                            <td><input type="checkbox" name="@permissionName+Update" value="@UpdatePermission.Id" class="form-check-input" checked></td>
+                                        }
+                                        else
+                                        {
+                                            <td><input type="checkbox" name="@permissionName+Update" value="@UpdatePermission.Id" class="form-check-input"></td>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+                                }
+                                @{
+                                    var DeletePermission = permissions.FirstOrDefault(p => p.Name == permissionName && p.Operation == Operation.Delete);
+                                    @if (DeletePermission != null)
+                                    {
+                                        @if (Model.Permissions.Contains(DeletePermission))
+                                        {
+                                            <td><input type="checkbox" name="@permissionName+Delete" value="@DeletePermission.Id" class="form-check-input" checked></td>
+                                        }
+                                        else
+                                        {
+                                            <td><input type="checkbox" name="@permissionName+Delete" value="@DeletePermission.Id" class="form-check-input"></td>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+                                }
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+
+                <input type="submit" value="Update Permissions" class="btn btn-primary" @(disabledToggle) @(hiddenToggle)>
+                <a asp-action="Index" class="btn " style="color: #fff;
+    background-color: #637381;
+    border-color: #637381">Cancel</a>
+
+            </form>
+        </div>
+
+
+
+            
+
+
+          
+
+        </div>
+
+    </div>
+<script src="~/js/main.js"></script>

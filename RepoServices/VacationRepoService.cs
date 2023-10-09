@@ -39,12 +39,12 @@ namespace FinalProject.RepoServices
 
         public void UpdateVacation(int id, DateTime startDate, Vacation vacation)
         {
-            Vacation editVacation = context.Vacations.Include(v => v.Employee).FirstOrDefault(v => v.EmployeeId == vacation.EmployeeId && vacation.StartDate == startDate);
+            Vacation editVacation = context.Vacations.FirstOrDefault(v => v.EmployeeId == id && v.StartDate == startDate);
             if (editVacation != null)
             {
                 editVacation.Status = vacation.Status;
+                context.SaveChanges();
 
-                context.Update(editVacation);
             }
         }
         public void DeleteVacation(int id, DateTime startDate)

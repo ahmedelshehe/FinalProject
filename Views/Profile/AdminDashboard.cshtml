@@ -1,122 +1,266 @@
 ﻿@model AdminDashboardVM
-@{
-}
-<div class="admin-dashboard content container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="welcome-box">
-                <div class="welcome-img">
-                    <img alt="" src="assets\img\profiles\avatar-02.jpg">
-                </div>
-                <div class="welcome-det">
-                    <h3>Welcome, @Model.adminEmployee.FirstName @Model.adminEmployee.LastName</h3>
-                    <p>@DateTime.Now.ToString("dd MMMM yyyy")</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row mt-5">
-        <div class="col-md-12">
-            <div class="welcome-box">
-                <div class="welcome-img">
-                    <img alt="" src="assets\img\profiles\avatar-02.jpg">
-                </div>
-                <div class="welcome-det">
-                    <h3>Employees Summary</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row gap-3">
-        <div class="col card shadow m-2 flex-column align-items-center justify-content-evenly">
-            <h4 class="card-header">Employee Count</h4>
-            <p class="font-weight-bold custom-font-size">@Model.EmployeesCount</p>
-            <p class="font-weight-bold">Employee </p>
+@using FinalProject.Utilities;
 
+@{
+    var permissions = Context.Items["Permissions"] as List<Permission>;
+    var haveAnyVacation = permissions.HasAnyPermission("Vacation");
+    var haveAnyEmployee = permissions.HasAnyPermission("Employee");
+    var haveAnyAttendance = permissions.HasAnyPermission("Attendance");
+}
+<div class="page-header">
+    <div class="page-title">
+        <h3>Welcome, @Model.adminEmployee.FirstName @Model.adminEmployee.LastName</h3>
+        <p>@DateTime.Now.ToString("dd MMMM yyyy")</p>
+    </div>
+</div>
+
+    <div class="page-header">
+        <div class="page-title">
+            <h3>Employee Summary</h3>
         </div>
-        <div class="col card shadow m-2 flex-column align-items-center">
-            <h5 class="card-header">Employee / Department</h5>
+    </div>
+    <div class="row">
+        <div class="col-lg-3 col-sm-6 col-12">
+            <div class="dash-widget">
+                <div class="dash-widgetimg">
+                <span><i class="fa-solid fa-briefcase fa-2xl"></i></span>
+                </div>
+                <div class="dash-widgetcontent">
+                    <h5><span class="counters" data-count="@Model.EmployeesCount">@Model.EmployeesCount</span></h5>
+                    <h6>Total Employees</h6>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-sm-6 col-12">
+            <div class="dash-widget">
+                <div class="dash-widgetimg">
+                <span><i class="fa-solid fa-gauge-simple fa-2xl"></i></span>
+                </div>
+                <div class="dash-widgetcontent">
+                    <h5><span class="counters" data-count="@Model.EmployeesAgeAverage">@Model.EmployeesAgeAverage</span> Years</h5>
+                    <h6>Average Employee Age</h6>
+                </div>
+            </div>
+        </div>
+
+    <div class="col-lg-3 col-sm-6 col-12 d-flex">
+        <div class="dash-count das1">
+            <div class="dash-counts">
+                <h4>@Model.DepartmentsCount</h4>
+                <h5>Departments</h5>
+            </div>
+            </div>
+            </div>
+    <div class="col-lg-3 col-sm-6 col-12 d-flex">
+        <div class="dash-count das2">
+            <div class="dash-counts">
+                <h4>@Model.BiggestDepartment</h4>
+                <h5>Department with most employees</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-6 col-12 card">
+        <div class="card-header">
+            <h5 class="card-title">Employees / Department</h5>
             @Html.Partial("_DepartmentChart",Model)
         </div>
-        <div class="col card shadow m-2 flex-column align-items-center justify-content-evenly">
-            <h4 class="card-header">Average Employee Age</h4>
-            <p class="font-weight-bold custom-font-size">@Model.EmployeesAgeAverage </p>
-            <p class="font-weight-bold">Years </p>
-        </div>
     </div>
-    <div class="row mt-5">
-        <div class="col-md-12">
-            <div class="welcome-box">
-                <div class="welcome-img">
-                    <img alt="" src="assets\img\profiles\avatar-02.jpg">
-                </div>
-                <div class="welcome-det">
-                    <h3>Attendance Summary</h3>
+    <div class="col-lg-8 col-sm-6 col-12 m-2 ">
+        <div class="page-header">
+            <div class="page-title">
+                <h4>Latest Contracted Employees</h4>
+            </div>
+            <div class="page-btn" @(haveAnyEmployee)>
+                <a asp-action="Index" asp-controller="Employee"
+                   class="btn btn-added"> Dashboard</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+
+                <div id="my-table-div">
+                    <table id="mytable" class=" table hover row-border compact stripe order-column" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Salary </th>
+                                <th>Department</th>
+                                <th>Country</th>
+                                <th>Gender</th>
+                                <th>Age</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.LatestContractedEmployees)
+                            {
+                                <tr>
+                                    <td class="productimgname">
+                                        @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Salary)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Department.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Country)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Gender)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Age)
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col card shadow m-2 flex-column align-items-center justify-content-evenly">
-            <h4 class="card-header text-center">@DateTime.Now.ToString("MMMM")<br /> Extra Hours</h4>
-            <p class="font-weight-bold custom-font-size">@Model.ThisMonthExtraHours </p>
-            <p class="font-weight-bold">Hours </p>
+    <hr />
+    <div class="page-header" >
+        <div class="page-title">
+            <h4>Attendance Summary</h4>
         </div>
-        <div class="col card shadow m-2 flex-column align-items-center justify-content-evenly">
-            <h4 class="card-header text-center">@DateTime.Now.ToString("MMMM")<br /> Discount Hours</h4>
-            <p class="font-weight-bold custom-font-size">@Model.ThisMonthDiscountHours </p>
-            <p class="font-weight-bold">Hours </p>
-        </div>
-        <div class="col card shadow m-2 flex-column align-items-center justify-content-evenly">
-            <h4 class="card-header text-center">@DateTime.Now.ToString("MMMM")<br /> Average Work Hours</h4>
-            <p class="font-weight-bold custom-font-size">@Model.ThisMonthAverageHours </p>
-            <p class="font-weight-bold">Hours </p>
+        <div class="page-btn" @(haveAnyAttendance)>
+            <a asp-action="Index" asp-controller="Attendances"
+               class="btn btn-added" > Dashboard</a>
         </div>
     </div>
-    <div class="row">
-        <div class="col card shadow m-2 flex-column align-items-center justify-content-evenly">
-            <h4 class="card-header text-center">@DateTime.Now.AddMonths(-1).ToString("MMMM")<br /> Extra Hours</h4>
-            <p class="font-weight-bold custom-font-size">@Model.LastMonthExtraHours </p>
-            <p class="font-weight-bold">Hours </p>
-        </div>
-        <div class="col card shadow m-2 flex-column align-items-center justify-content-evenly">
-            <h4 class="card-header text-center">@DateTime.Now.AddMonths(-1).ToString("MMMM")<br /> Discount Hours</h4>
-            <p class="font-weight-bold custom-font-size">@Model.LastMonthDiscountHours </p>
-            <p class="font-weight-bold">Hours </p>
-        </div>
-        <div class="col card shadow m-2 flex-column align-items-center justify-content-evenly">
-            <h4 class="card-header text-center">@DateTime.Now.AddMonths(-1).ToString("MMMM")<br /> Average Work Hours</h4>
-            <p class="font-weight-bold custom-font-size">@Model.LastMonthAverageHours </p>
-            <p class="font-weight-bold">Hours </p>
+    <div class="page-header">
+        <div class="page-title  text-center">
+            <h2 class="text-warning"><strong>@DateTime.Now.ToString("MMMM")</strong></h2>
         </div>
     </div>
-    <div class="row mt-5">
-        <div class="col-md-12">
-            <div class="welcome-box">
-                <div class="welcome-img">
-                    <img alt="" src="assets\img\profiles\avatar-02.jpg">
-                </div>
-                <div class="welcome-det">
-                    <h3>Vacations Summary</h3>
-                </div>
+    <div class="col-lg-4 col-sm-6 col-12 d-flex">
+        <div class="dash-count das3">
+            <div class="dash-counts">
+                <h4>@Model.ThisMonthExtraHours</h4>
+                <h5>Extra Hours</h5>
+            </div>
+            <div class="dash-imgs">
+                <i class="fa-solid fa-hourglass-start fa-2xl"></i>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col card shadow m-2 flex-column align-items-center justify-content-evenly">
-            <h4 class="card-header text-center">@DateTime.Now.ToString("MMMM")<br /> Pending Vacations</h4>
-            <p class="font-weight-bold custom-font-size">@Model.PendingVacations </p>
-            <p class="font-weight-bold">Vacations </p>
+    <div class="col-lg-4 col-sm-6 col-12 d-flex">
+        <div class="dash-count das1">
+            <div class="dash-counts">
+                <h4>@Model.ThisMonthDiscountHours</h4>
+                <h5>Discount Hours</h5>
+            </div>
+            <div class="dash-imgs">
+                <i class="fa-solid fa-hourglass-end fa-2xl"></i>
+            </div>
         </div>
-        <div class="col card shadow m-2 flex-column align-items-center justify-content-evenly">
-            <h4 class="card-header text-center">@DateTime.Now.ToString("MMMM")<br />  Approved Vacations</h4>
-            <p class="font-weight-bold custom-font-size">@Model.AcceptedVacations </p>
-            <p class="font-weight-bold">Vacations </p>
+    </div>
+    <div class="col-lg-4 col-sm-6 col-12 d-flex">
+        <div class="dash-count das2">
+            <div class="dash-counts">
+                <h4>@Model.ThisMonthAverageHours</h4>
+                <h5>Average Work Hours</h5>
+            </div>
+            <div class="dash-imgs">
+                <i class="fa-solid fa-hourglass fa-2xl"></i>
+            </div>
         </div>
-        <div class="col card shadow m-2 flex-column align-items-center justify-content-evenly">
-            <h4 class="card-header text-center">@DateTime.Now.ToString("MMMM")<br /> Official Vacations</h4>
-            <p class="font-weight-bold custom-font-size">@Model.OfficialVactionsCount </p>
-            <p class="font-weight-bold">Vacations </p>
+    </div>
+    <div class="page-header">
+        <div class="page-title  text-center">
+            <h2 class="text-warning">Last Month  <strong>@DateTime.Now.AddMonths(-1).ToString("MMMM")</strong></h2>
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-6 col-12 d-flex">
+        <div class="dash-count das3">
+            <div class="dash-counts">
+                <h4>@Model.LastMonthExtraHours</h4>
+                <h5>Extra Hours</h5>
+            </div>
+            <div class="dash-imgs">
+                <i class="fa-solid fa-hourglass-start fa-2xl"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-6 col-12 d-flex">
+        <div class="dash-count das1">
+            <div class="dash-counts">
+                <h4>@Model.LastMonthDiscountHours</h4>
+                <h5>Discount Hours</h5>
+            </div>
+            <div class="dash-imgs">
+                <i class="fa-solid fa-hourglass-end fa-2xl"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-6 col-12 d-flex">
+        <div class="dash-count das2">
+            <div class="dash-counts">
+                <h4>@Model.LastMonthAverageHours</h4>
+                <h5>Average Work Hours</h5>
+            </div>
+            <div class="dash-imgs">
+                <i class="fa-solid fa-hourglass fa-2xl"></i>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="page-header">
+        <div class="page-title">
+            <h4>Vacations Summary</h4>
+        </div>
+        <div class="page-btn" @(haveAnyVacation)>
+            <a asp-action="Index" asp-controller="Vacation"
+               class="btn btn-added"> Dashboard</a>
+        </div>
+    </div>
+    <div class="page-header">
+        <div class="page-title  text-center">
+            <h2 class="text-warning"><strong>@DateTime.Now.ToString("MMMM")</strong></h2>
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-6 col-12">
+        <div class="dash-widget">
+            <div class="dash-widgetimg">
+                <span><i class="fa-solid fa-briefcase fa-2xl"></i></span>
+            </div>
+            <div class="dash-widgetcontent">
+                <h5><span class="counters" data-count="@Model.AcceptedVacations">@Model.AcceptedVacations</span></h5>
+                <h6>Approved Vacations</h6>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-sm-6 col-12">
+        <div class="dash-widget">
+            <div class="dash-widgetimg">
+                <span><i class="fa-solid fa-pause fa-2xl"></i></span>
+            </div>
+            <div class="dash-widgetcontent">
+                <h5><span class="counters" data-count="@Model.PendingVacations">@Model.PendingVacations</span> Vaction</h5>
+                <h6>Pending Vacations</h6>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-6 col-12">
+        <div class="dash-widget">
+            <div class="dash-widgetimg">
+                <span><i class="fa-solid fa-umbrella fa-2xl"></i></span>
+            </div>
+            <div class="dash-widgetcontent">
+                <h5><span class="counters" data-count="@Model.OfficialVactionsCount">@Model.OfficialVactionsCount</span> Vaction</h5>
+                <h6>Official Vacations</h6>
+            </div>
         </div>
     </div>
 </div>

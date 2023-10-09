@@ -6,7 +6,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+@*<h1>Edit</h1>
 
 <h4>Employee</h4>
 <hr />
@@ -84,8 +84,155 @@
 
 <div>
     <a asp-action="Index">Back to List</a>
-</div>
+</div>*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<div class="content">
+    <div class="page-header">
+        <div class="page-title">
+            <h4> Edit Employee</h4>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+                        <form asp-action="Edit">
+                <div class="row">
+
+                <div class="col-lg-4 col-sm-6 col-12">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="control-label"></label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label asp-for="LastName" class="control-label"></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label asp-for="Street" class="control-label"></label>
+                        <input asp-for="Street" class="form-control" />
+                        <span asp-validation-for="Street" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label asp-for="City" class="control-label"></label>
+                        <input asp-for="City" class="form-control" />
+                        <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label asp-for="Country" class="control-label"></label>
+                        <input asp-for="Country" class="form-control" />
+                        <span asp-validation-for="Country" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label asp-for="Gender" class="control-label"></label>
+                        <select asp-for="Gender" asp-items="@Html.GetEnumSelectList<Gender>()" class="form-control"></select>
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label asp-for="BirthDate" class="control-label"></label>
+                        <input asp-for="BirthDate" class="form-control" />
+                        <span asp-validation-for="BirthDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label asp-for="ContractDate" class="control-label"></label>
+                        <input asp-for="ContractDate" class="form-control" />
+                        <span asp-validation-for="ContractDate" class="text-danger"></span>
+                    </div>
+                </div>
+                    <div class="col-lg-4 col-sm-6 col-12">
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-6 col-12">
+                        <div class="form-group">
+                            <label asp-for="NationalId" class="control-label"></label>
+                            <input asp-for="NationalId" class="form-control" />
+                            <span asp-validation-for="NationalId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-6 col-12">
+                        <div class="form-group">
+                            <label asp-for="Salary" class="control-label"></label>
+                            <input asp-for="Salary" class="form-control" />
+                            <span asp-validation-for="Salary" class="text-danger"></span>
+                        </div>
+                    </div>
+             
+            
+                    <div class="col-lg-4 col-sm-6 col-12">
+                        <div class="form-group">
+                            <label asp-for="DeptID" class="control-label"></label>
+
+                            <div class="select-wrapper">
+                                <select asp-for="DeptID" class="form-control select2-hidden-accessible" tabindex="-1" aria-hidden="true" asp-items="alldept">
+                                </select>
+                                <div class="arrow"></div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                            <a asp-action="Index" class="btn " style="color: #fff;
+    background-color: #637381;
+    border-color: #637381">Cancel</a>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </form>
+
+                </div>
+
+        </div>
+    </div>
+
+                            <style>
+    .select-wrapper {
+        position: relative;
+    }
+
+    .arrow {
+        position: absolute;
+        top: 50%;
+        right: 10px; /* Adjust the right distance as needed */
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 6px solid #000; /* Change the color to your desired arrow color */
+        pointer-events: none; /* Ensure the arrow doesn't interfere with the select element */
+    }
+
+                            </style>
