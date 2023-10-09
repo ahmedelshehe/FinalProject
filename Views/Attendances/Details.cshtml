@@ -6,40 +6,10 @@
 @{
     var permissions = Context.Items["Permissions"] as List<Permission>;
 
-    var canUpdateAttendence = permissions.HasPermission("Attendances", Operation.Update);
+    var canUpdateAttendence = permissions.HasPermission("Attendance", Operation.Update);
    
 }
-@*<h1>Details</h1>
 
-<div>
-    <h4>Attendance</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ArrivalTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ArrivalTime)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DepartureTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DepartureTime)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Employee.FirstName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Employee.FirstName)
-        </dd>
-    </dl>
-</div>
-<div>
-    <p > @Html.ActionLink("Edit", "Edit", new { id=Model.EmployeeId , date=Model.Date }) |</p>
-    <a asp-action="Index">Back to List</a>
-</div>*@
-<div class="content">
     <div class="page-header">
         <div class="page-title">
             <h4>Attendance  Details</h4>
@@ -53,6 +23,19 @@
 
                     <div class="productdetails">
                         <ul class="product-bar">
+                        <li>
+                            <h4>Full Name</h4>
+                            <h6>
+                                @Html.DisplayFor(model => model.Employee.FirstName)
+                                @Html.DisplayFor(model => model.Employee.LastName)
+                            </h6>
+                        </li>
+                            <li>
+                                <h4>
+                                    Date
+                                </h4>
+                                <h6>@Model.Date.ToString("dd MMM yyy")</h6>
+                            </li>
                             <li>
                                 <h4>@Html.DisplayNameFor(model => model.ArrivalTime)</h4>
                                 <h6>@Html.DisplayFor(model => model.ArrivalTime)	</h6>
@@ -64,14 +47,19 @@
                                 </h4>
                                 <h6>@Html.DisplayFor(model => model.DepartureTime)</h6>
                             </li>
+
                             <li>
                                 <h4>
-                                    @Html.DisplayNameFor(model => model.Employee.FirstName)
-
+                                    Extra Hours
                                 </h4>
-                                <h6>@Html.DisplayFor(model => model.Employee.FirstName)</h6>
+                                <h6>@Html.DisplayFor(model => model.ExtraHours)</h6>
                             </li>
-
+                            <li>
+                                <h4>
+                                    Discount Hours
+                                </h4>
+                                <h6>@Html.DisplayFor(model => model.DiscountHours)</h6>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -84,17 +72,14 @@
             <span @(canUpdateAttendence)>
               <a asp-action="Edit"
                    asp-controller="Attendances" 
-   class="btn"
-   style="color: #fff; background-color: #FF9F43; border-color: #FF9F43"
-   asp-route-id="@Model.EmployeeId"
-   asp-route-date="@Model.Date">Edit</a>
+                    class="btn"
+                    style="color: #fff; background-color: #FF9F43; border-color: #FF9F43"
+                    asp-route-id="@Model.EmployeeId"
+                    asp-route-date="@Model.Date">Edit</a>
             </span>
 
             <a asp-action="Index" class="btn " style="color: #fff;
-    background-color: #637381;
-    border-color: #637381">Cancel</a>
-
-
+                    background-color: #637381;
+                    border-color: #637381">Cancel</a>
         </div>
     </div>
-</div>

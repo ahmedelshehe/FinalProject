@@ -57,7 +57,7 @@
                 <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
                         <input class="btn btn-primary" type="submit" value="Search" />
-                        <a asp-action="SearchIndex" type="submit" class="btn btn-dark">Reset</a>
+                        <a asp-action="SearchIndex" type="submit" class="btn btn-dark">Reset</a>`\
                     </div>
                 </div>
  </div>
@@ -118,18 +118,25 @@
                                 @item.Date.ToString("dd MMM yyy")
                             </td>
 
-                            <td class="print-off">
-                                <span @(canUpdateAttendance)>
-                                    <a asp-action="Edit" asp-route-id="@item.EmployeeId" asp-route-date="@item.Date">
-                                        <i class="fa-solid fa-pen-to-square fa-xl" style="color: #000000;"></i>
-                                    </a>
-                                </span>
-                                <span class="print-off" @(canDeleteAttendance)>
-                                    <a asp-action="Delete" asp-route-id="@item.EmployeeId" asp-route-date="@item.Date"><i class="fa-solid fa-trash fa-xl" style="color: #000000;"></i></a>
-
-                                </span>
-
-                            </td>
+                                <td class="print-off">
+                                    <div class="action-links">
+                                        <span @(canUpdateAttendance)>
+                                            <a asp-action="Edit" class="me-3" asp-route-id="@item.EmployeeId" asp-route-date="@item.Date">
+                                                <img src="~/assets/img/icons/edit.svg" alt="Edit">
+                                            </a>
+                                        </span>
+                                        <span @(canShowAttendance)>
+                                            <a asp-action="Details" class="me-3" asp-route-id="@item.EmployeeId" asp-route-date="@item.Date">
+                                                <img src="~/assets/img/icons/eye.svg" alt="Details">
+                                            </a>
+                                        </span>
+                                        <span @(canDeleteAttendance)>
+                                            <a asp-action="Delete" class="me-3" asp-route-id="@item.EmployeeId" asp-route-date="@item.Date" class="confirm-text">
+                                                <img src="~/assets/img/icons/delete.svg" alt="Delete">
+                                            </a>
+                                        </span>
+                                    </div>
+                                </td>
 
                         </tr>
                     }

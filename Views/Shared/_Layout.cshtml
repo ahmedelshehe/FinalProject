@@ -30,6 +30,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 	<!-- Favicon -->
 	<link rel="shortcut icon" type="image/x-icon" href="~/img/favicon.png">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
+
+	<link href="~/css/responsive.css" rel="stylesheet" />
 
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="~/css/bootstrap.min.css">
@@ -46,6 +49,13 @@
 	<link rel="stylesheet" href="~/plugins/morris/morris.css">
 
 	<!-- Main CSS -->
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+
+	<!-- bootstrap core css -->
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+
+	<!-- fonts style -->
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="~/css/style.css" asp-append-version="true">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -62,9 +72,9 @@
 	<link rel="stylesheet" href="~/css/dataTables.bootstrap4.min.css" asp-append-version="true">
 	<link rel="stylesheet" href="~/plugins/fontawesome/css/fontawesome.min.css" asp-append-version="true">
 	<link rel="stylesheet" href="~/plugins/fontawesome/css/all.min.css" asp-append-version="true">
+	<link rel="stylesheet" href="~/css/AllStyles.css" />
+	<link rel="stylesheet" href="~/css/style.css" />
 
-	
-	<link rel="stylesheet" href="~/css/style.css">
 	@RenderSection("Scripts", required: false)
 
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -166,6 +176,15 @@
 							</ul>
                         </li>
 					<li class="submenu">
+						<a href="javascript:void(0);"><img src="~/img/icons/department.png" alt="Department"><span> Departments</span> <span class="menu-arrow"></span></a>
+						<ul>
+							<li><a asp-controller="Department" asp-action="Index">Department List</a></li>
+							<li><a asp-controller="Department" asp-action="Create">Add Department</a></li>
+
+						</ul>
+					</li>
+
+					<li class="submenu">
 						<a href="javascript:void(0);">
 							<img src="~/assets/img/icons/attendance.png" />
 							<span> Attendance</span> <span class="menu-arrow"></span>
@@ -177,35 +196,35 @@
 							<li><a asp-controller="Attendances" asp-action="UploadFile">Uploa File</a></li>
 						</ul>
 					</li>
+					@*<li class="submenu">
+						<a href="javascript:void(0);">
+							<img src="~/assets/img/icons/salary-16.png" />
+							<span> Salary</span> <span class="menu-arrow"></span>
+						</a>
+                        <ul>
+							<li><a asp-controller="Salary" asp-action="Index">Salary List</a></li>
+
+						</ul>
+					</li>*@
+					<li class="submenu">
+						<a href="javascript:void(0);">
+							<img src="~/assets/img/icons/salary-16.png" />
+							<span> Salary</span> <span class="menu-arrow"></span>
+						</a>
+						<ul>
+							<li><a asp-controller="Salary" asp-action="Index">Monthly Salary list</a></li>
+							<li><a asp-controller="Salary" asp-action="YearlyReportSalary"> Yearly Salary List</a></li>
+
+						</ul>
+					</li>
+
+
 						<li class="submenu">
 							<a href="javascript:void(0);"><img src="~/img/icons/product.svg" alt="img"><span> Role</span> <span class="menu-arrow"></span></a>
 							<ul>
 
 								<li><a asp-controller="AppRole" asp-action="Index">Role List</a></li>
 								<li><a asp-controller="AppRole" asp-action="Create">Add Role</a></li>
-							</ul>
-						</li>
-						<li>
-                            <a asp-controller="OfficialVacation" asp-action="Index">
-                                <img src="~/assets/img/icons/sun-umbrella_891911.png" />
-								 <span>
-									Official Vacation
-								</span>
-							</a>
-						</li>
-						<li>
-							<a asp-controller="GeneralSetting" asp-action="Index">
-								<img src="~/assets/img/icons/settings.svg" /> <span>
-									Setting
-								</span>
-							</a>
-						</li>
-					<li class="submenu">
-							<a href="javascript:void(0);"><img src="~/img/icons/department.png" alt="Department"><span> Departments</span> <span class="menu-arrow"></span></a>
-							<ul>
-							<li><a asp-controller="Department" asp-action="Index">Department List</a></li>
-							<li><a asp-controller="Department" asp-action="Create">Add Department</a></li>
-								
 							</ul>
 						</li>
 					<li class="submenu">
@@ -216,18 +235,58 @@
 
 						</ul>
 					</li>
-						<li class="submenu">
-							<a href="javascript:void(0);"><i class="fa-solid fa-umbrella-beach fa-l"></i><span> Vacations</span> <span class="menu-arrow"></span></a>
-							<ul>
-								<li @(haveAnyVacation)><a asp-controller="Vacation" asp-action="Index">Vacations List</a></li>
-								<li><a asp-controller="Vacation" asp-action="MyVacations">My Vacations</a></li>
-								<li><a asp-controller="Vacation" asp-action="Create">Request Vacation</a></li>
-							</ul>
-						</li>
+					<li class="submenu">
+						<a href="javascript:void(0);"><img src="~/img/group.png" alt="Users"><span> Permission</span> <span class="menu-arrow"></span></a>
+						<ul>
+							<li><a asp-controller="Permission" asp-action="Index">Permission List</a></li>
+							<li><a asp-controller="Permission" asp-action="Create">Add Permission</a></li>
+
+						</ul>
+					</li>
+						@*<li>
+                            <a asp-controller="OfficialVacation" asp-action="Index">
+                                <img src="~/assets/img/icons/sun-umbrella_891911.png" />
+								 <span>
+									Official Vacation
+								</span>
+							</a>
+						</li>*@
+					<li class="submenu">
+						<a href="javascript:void(0);"><i class="fa-solid fa-umbrella-beach fa-l"></i><span> Official Vacation</span> <span class="menu-arrow"></span></a>
+						<ul>
+							<li><a asp-controller="OfficialVacation" asp-action="Index">Official Vacation  </a></li>
+							<li><a asp-controller="OfficialVacation" asp-action="Create">Create Official Vacation</a></li>
+						</ul>
+					</li>
+
+					<li class="submenu">
+						<a href="javascript:void(0);"><i class="fa-solid fa-umbrella-beach fa-l"></i><span> Vacations</span> <span class="menu-arrow"></span></a>
+						<ul>
+							<li @(haveAnyVacation)><a asp-controller="Vacation" asp-action="Index">Vacations List</a></li>
+							<li><a asp-controller="Vacation" asp-action="MyVacations">My Vacations</a></li>
+							<li><a asp-controller="Vacation" asp-action="Create">Request Vacation</a></li>
+						</ul>
+					</li>
+
 						<li>
+							<a asp-controller="GeneralSetting" asp-action="Index">
+								<img src="~/assets/img/icons/settings.svg" /> <span>
+									Setting
+								</span>
+							</a>
+						</li>
+@*					<li class="submenu">
+						<a href="javascript:void(0);"><img src="~/img/group.png" alt="Users"><span> Users</span> <span class="menu-arrow"></span></a>
+						<ul>
+							<li><a asp-controller="AppUser" asp-action="Index">Users List</a></li>
+							<li><a asp-controller="AppUser" asp-action="Create">Add User</a></li>
+
+						</ul>
+					</li>
+*@						@*<li>
 							<a href="components.html"><i data-feather="layers"></i><span> Components</span> </a>
 						</li>
-
+*@
 						
 						
 						

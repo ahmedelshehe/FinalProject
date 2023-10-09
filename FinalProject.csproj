@@ -74,6 +74,7 @@
 
   <ItemGroup>
     <PackageReference Include="EFCore.BulkExtensions" Version="6.7.16" />
+    <PackageReference Include="Excel" Version="1.0.0" />
     <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
     <PackageReference Include="Faker.Net" Version="2.0.154" />
     <PackageReference Include="MailKit" Version="4.2.0" />
@@ -105,6 +106,8 @@
     <None Include="Views\Department\Edit.cshtml" />
     <None Include="Views\Department\Index.cshtml" />
     <None Include="Views\Department\_TopBar.cshtml" />
+    <None Include="Views\Shared\403.cshtml" />
+    <None Include="Views\Shared\404.cshtml" />
     <None Include="wwwroot\assetss\fonts\fontawesome-webfont.svg" />
     <None Include="wwwroot\assetss\fonts\fontawesome-webfont.woff2" />
     <None Include="wwwroot\assetss\fonts\line-awesome.svg" />
