@@ -1,12 +1,7 @@
-﻿@using FinalProject.Utilities;
+﻿
+@using FinalProject.Utilities;
 @model IEnumerable<FinalProject.ViewModels.SalaryViewModel>
-@using X.PagedList;
-@using X.PagedList.Mvc.Core;
-@using X.PagedList.Mvc.Core.Fluent
-@using X.PagedList.Web.Common;
-﻿@{
-    var pagedList = (IPagedList)Model;
-}
+
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
@@ -15,6 +10,7 @@
     SelectList empList = new SelectList(ViewBag.Employees, "Id", "FirstName");
 }
 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
 
 @if (!string.IsNullOrEmpty(ViewBag.AlertMessage))
 {
@@ -25,115 +21,158 @@
 
 
 
-<!-- Rest of your HTML and table display code -->
 
-<form action="/Salary/YearlyReportSalary" method="post">
-    <select name="empId" class="form-control" @(canShowSalary)>
-        <option value="" selected disabled hidden>Choose an Employee</option>
-        @foreach (var item in ViewBag.Employees)
-        {
-            <option value="@item.Id">@item.Name</option>
-        }
-    </select>
-    <br />
-    <select name="year" id="year" class="form-control" required>
-        <option value="" selected disabled hidden>Choose an Year</option>
-        @foreach (var item in ViewBag.Year)
-        {
-            <option value="@item">@item</option>
-        }
-    </select>
-    <br />
+<div class="content">
+    <div class="page-header" style="margin-bottom:0px">
+        <div class="page-title">
+            <h4 style="margin-bottom:10px"> Yearly Salary list</h4>
+            <div class="page-btn">
+                <form action="/Salary/YearlyReportSalary" method="post">
+                    <div class="row">
 
-    <br />
-    <button type="submit">Search</button>
-</form>
+                   
 
-<br />
-<table class="table table-striped table-hover">
-    <thead>
-        <tr>
-            <th>
-                <i class="fa fa-briefcase"></i> Department
-            </th>
-            <th>
-                <i class="fa fa-user"></i> Full Name
-            </th>
-            <th>
-                <i class="fa fa-money"></i> Salary
-            </th>
-            <th>
-                <i class="fa fa-money"></i> Total Salary
-            </th>
-            <th>
-                <i class="fa fa-venus-mars"></i> Discount Hour
-            </th>
-            <th>
-                <i class="fa fa-calendar"></i> Discount Hour Price
-            </th>
-            <th>
-                <i class="fa fa-calendar"></i> Extra Time
-            </th>
-            <th>
-                <i class="fa fa-calendar"></i> Extra Time Price
-            </th>
-            <th>
-                <i class="fa fa-calendar"></i> Attandance Day
-            </th>
-            <th>
-                <i class="fa fa-calendar"></i> Absance Day
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DepartmentName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmployeeName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Salary)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TotalSalary)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DiscountHours)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DisccountHoursPrice)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ExtraHours)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ExtraHoursPrice)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NumberOfAttandanceDays)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NumberOfAbsanceDays)
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
 
-<div id="container" style="margin-left: 20px">
-    <div class="pagination" style="margin-left: 400px">
-        @Html.PagedListPager(pagedList, page => Url.Action("Index", new { page = page }), new PagedListRenderOptions
-        {
-        DisplayLinkToIndividualPages = true,
-        DisplayPageCountAndCurrentLocation = false,
-        MaximumPageNumbersToDisplay = 10,
-        UlElementClasses = new string[] { "pagination justify-content-end" },
-        LiElementClasses = new string[] { "page-item" },
-        PageClasses = new string[] { "page-link" },
-        })
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <select name="empId" class="form-control" @(canShowSalary) >
+                                    <option value="" selected disabled hidden>Choose Employee</option>
+                                    @foreach (var item in ViewBag.Employees)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <select name="year" id="year" class="form-control" required>
+                                    <option value="" selected disabled hidden>Choose Year</option>
+                                    @foreach (var item in ViewBag.Year)
+                                    {
+                                        <option value="@item">@item</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <button class=" form-group  btn btn-added" type="submit">
+                                    <img src="~/assets/img/icons/search.svg" />  Search
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+
     </div>
+    <style>
+
+    </style>
+    <div class="card">
+        <div class="card-body">
+
+            <div id="my-table-div" class="table-container">
+                <table id="mytable" class=" table hover row-border compact stripe order-column" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Department</th>
+                            <th>Full Nmae</th>
+                            <th>Salary</th>
+                            <th>Total Salary Salary</th>
+                            <th>Discount Hours</th>
+                            <th>Disccount Hours Price</th>
+                            <th>Extra Hours</th>
+                            <th>Extra Hours price</th>
+                            <th> Attendence Days</th>
+                            <th> Absence Days</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DepartmentName)
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Salary)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TotalSalary)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DiscountHours)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DisccountHoursPrice)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ExtraHours)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ExtraHoursPrice)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NumberOfAttandanceDays)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NumberOfAbsanceDays)
+                                </td>
+
+
+
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+@*<!-- DataTables Buttons JavaScript -->
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script>
+<!-- pdfmake library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/vfs_fonts.js"></script>
+*@
+<script>
+    $(document).ready(function () {
+        $('#mytable').DataTable({
+            "scrollX": true, // Adjust the height as needed
+            dom: 'Bfrtip',
+            buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                {
+                    extend: 'pdfHtml5',
+                    text: 'PDF',
+
+                    customize: function (doc) {
+
+                    }
+                }
+            ]
+        });
+    });
+
+</script>
