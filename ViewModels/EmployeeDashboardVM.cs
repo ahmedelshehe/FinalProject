@@ -63,7 +63,7 @@ namespace FinalProject.ViewModels
 		{
 			get
 			{
-				return HelperShared.GetWorkDaysThisMonth();
+				return HelperShared.GetWorkDaysThisMonth() - _officialVacations.Where(o =>o.Date.Month == DateTime.Today.Month).Count();
 			}
 		}
 		public int ThisMonthWorkDays
@@ -84,7 +84,7 @@ namespace FinalProject.ViewModels
 		{
 			get
 			{
-				return HelperShared.GetWorkDaysLastMonth();
+				return HelperShared.GetWorkDaysLastMonth() - _officialVacations.Where(o => o.Date.Month == DateTime.Today.AddMonths(-1).Month).Count();
 			}
 		}
 

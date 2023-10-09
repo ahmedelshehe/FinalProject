@@ -50,7 +50,6 @@ namespace FinalProject.Controllers
             return View(vacations);
         }
         [HttpGet]
-        [AuthorizeByPermission("Vacation", Operation.Add)]
         public ActionResult Create()
         {
             return View();
@@ -59,7 +58,6 @@ namespace FinalProject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        [AuthorizeByPermission("Vacation", Operation.Add)]
         public async Task<IActionResult> Create(Vacation vacation)
         {
             if (!ModelState.IsValid)
@@ -123,7 +121,7 @@ namespace FinalProject.Controllers
 
             vacation.Status = VacationStatus.Approved;
             VacationRepository.UpdateVacation(id, date, vacation);
-            employee.AvailableVacations -= vacation.VacationDays;
+            employee.AvailableVacations -= VacationRepository.GetVacationDays(id,date);
             EmployeeRepository.UpdateEmployee(id, employee);
 
             return RedirectToAction(nameof(Index));

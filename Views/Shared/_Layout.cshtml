@@ -13,6 +13,17 @@
 	var haveAnySalary = permissions.HasAnyPermission("Salary");
 	var haveAnyAppRole = permissions.HasAnyPermission("AppRole");
 	var haveAnyAppUser = permissions.HasAnyPermission("AppUser");
+	var haveAnyPermission = permissions.HasAnyPermission("Permission");
+	var canAddEmployees = permissions.HasPermission("Employee", Operation.Add);
+	var canAddUsers = permissions.HasPermission("AppUser", Operation.Add);
+	var canAddRoles = permissions.HasPermission("AppRole", Operation.Add);
+	var canAddDepartments = permissions.HasPermission("Department", Operation.Add);
+	var canAddAttendance = permissions.HasPermission("Attendance", Operation.Add);
+	var canShowSalary= permissions.HasPermission("Salary", Operation.Show);
+	var canAddPermissions = permissions.HasPermission("Permission", Operation.Add);
+	var canAddOfficialVacation = permissions.HasPermission("AppUser", Operation.Add);
+	var canUpdateSetting = permissions.HasPermission("GeneralSetting", Operation.Update);
+
 }
 
 
@@ -146,7 +157,7 @@
 		</div>
 
 
-		<div class="sidebar" id="sidebar">
+	<div class="sidebar" id="sidebar" @(IsAuthenticated ? "" : "hidden")>
 			<div class="sidebar-inner slimscroll">
 				<div id="sidebar-menu" class="sidebar-menu">
 					<ul>
@@ -157,24 +168,24 @@
 								<li><a asp-controller="Profile" asp-action="Dashboard">Employee Dashboard</a></li>
 							</ul>
 						</li>
-						<li class="submenu">
+						<li class="submenu" @(haveAnyEmployee)>
 							<a href="javascript:void(0);"><img src="~/img/icons/product.svg" alt="img"><span> Employee</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 
 								<li><a  asp-controller="Employee" asp-action="Index">Employee List</a></li>
-								<li><a asp-controller="Employee" asp-action="Create">Add Employee</a></li>
+							<li @(canAddEmployees)><a asp-controller="Employee" asp-action="Create">Add Employee</a></li>
 							</ul>
                         </li>
-					<li class="submenu">
+					<li class="submenu" @(haveAnyDepartment)>
 						<a href="javascript:void(0);"><img src="~/img/icons/department.png" alt="Department"><span> Departments</span> <span class="menu-arrow"></span></a>
 						<ul>
 							<li><a asp-controller="Department" asp-action="Index">Department List</a></li>
-							<li><a asp-controller="Department" asp-action="Create">Add Department</a></li>
+							<li @(canAddDepartments)><a asp-controller="Department" asp-action="Create">Add Department</a></li>
 
 						</ul>
 					</li>
 
-					<li class="submenu">
+					<li class="submenu" @(haveAnyAttendance)>
 						<a href="javascript:void(0);">
 							<img src="~/assets/img/icons/attendance.png" />
 							<span> Attendance</span> <span class="menu-arrow"></span>
@@ -182,21 +193,11 @@
 						<ul>
                             
 							<li><a asp-controller="Attendances" asp-action="Index">Attendance List</a></li>
-							<li><a asp-controller="Attendances" asp-action="Create">Add Attendance</a></li>
-							<li><a asp-controller="Attendances" asp-action="UploadFile">Upload File</a></li>
+							<li @(canAddAttendance)><a asp-controller="Attendances" asp-action="Create">Add Attendance</a></li>
+							<li @(canAddAttendance)><a asp-controller="Attendances" asp-action="UploadFile">Upload File</a></li>
 						</ul>
 					</li>
-					@*<li class="submenu">
-						<a href="javascript:void(0);">
-							<img src="~/assets/img/icons/salary-16.png" />
-							<span> Salary</span> <span class="menu-arrow"></span>
-						</a>
-                        <ul>
-							<li><a asp-controller="Salary" asp-action="Index">Salary List</a></li>
-
-						</ul>
-					</li>*@
-					<li class="submenu">
+					<li class="submenu" >
 						<a href="javascript:void(0);">
 							<img src="~/assets/img/icons/salary-16.png" />
 							<span> Salary</span> <span class="menu-arrow"></span>
@@ -208,28 +209,27 @@
 						</ul>
 					</li>
 
-
-						<li class="submenu">
+					<li class="submenu" @(haveAnyAppRole)>
 							<a href="javascript:void(0);"><img src="~/img/icons/product.svg" alt="img"><span> Role</span> <span class="menu-arrow"></span></a>
 							<ul>
 
 								<li><a asp-controller="AppRole" asp-action="Index">Role List</a></li>
-								<li><a asp-controller="AppRole" asp-action="Create">Add Role</a></li>
+								<li @(canAddRoles)><a asp-controller="AppRole" asp-action="Create">Add Role</a></li>
 							</ul>
 						</li>
-					<li class="submenu">
+					<li class="submenu" @(haveAnyAppUser)>
 						<a href="javascript:void(0);"><img src="~/img/group.png" alt="Users"><span> Users</span> <span class="menu-arrow"></span></a>
 						<ul>
 							<li><a asp-controller="AppUser" asp-action="Index">Users List</a></li>
-							<li><a asp-controller="AppUser" asp-action="Create">Add User</a></li>
+							<li @(canAddUsers)><a asp-controller="AppUser" asp-action="Create">Add User</a></li>
 
 						</ul>
 					</li>
-					<li class="submenu">
+					<li class="submenu" @(haveAnyPermission)>
 						<a href="javascript:void(0);"><img src="~/img/group.png" alt="Users"><span> Permission</span> <span class="menu-arrow"></span></a>
 						<ul>
 							<li><a asp-controller="Permission" asp-action="Index">Permission List</a></li>
-							<li><a asp-controller="Permission" asp-action="Create">Add Permission</a></li>
+							<li @(canAddPermissions)><a asp-controller="Permission" asp-action="Create">Add Permission</a></li>
 
 						</ul>
 					</li>
@@ -238,7 +238,7 @@
 						<a href="javascript:void(0);"><i class="fa-solid fa-umbrella-beach fa-l"></i><span> Official Vacation</span> <span class="menu-arrow"></span></a>
 						<ul>
 							<li><a asp-controller="OfficialVacation" asp-action="Index">Official Vacation  </a></li>
-							<li><a asp-controller="OfficialVacation" asp-action="Create">Create Official Vacation</a></li>
+							<li @(canAddOfficialVacation)><a asp-controller="OfficialVacation" asp-action="Create">Create Official Vacation</a></li>
 						</ul>
 					</li>
 
@@ -251,27 +251,13 @@
 						</ul>
 					</li>
 
-						<li>
+					<li @(canUpdateSetting)>
 							<a asp-controller="GeneralSetting" asp-action="Index">
 								<img src="~/assets/img/icons/settings.svg" /> <span>
-									Setting
+									Settings
 								</span>
 							</a>
 						</li>
-@*					<li class="submenu">
-						<a href="javascript:void(0);"><img src="~/img/group.png" alt="Users"><span> Users</span> <span class="menu-arrow"></span></a>
-						<ul>
-							<li><a asp-controller="AppUser" asp-action="Index">Users List</a></li>
-							<li><a asp-controller="AppUser" asp-action="Create">Add User</a></li>
-
-						</ul>
-					</li>
-*@						@*<li>
-							<a href="components.html"><i data-feather="layers"></i><span> Components</span> </a>
-						</li>
-*@
-						
-						
 						
 					</ul>
 				</div>
