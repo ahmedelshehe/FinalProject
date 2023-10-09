@@ -149,13 +149,13 @@
     
     <div class="page-header" style="margin-bottom:0px">
         <div class="page-title">
-            <h4 style="margin-bottom:10px"> Yearly  Salary List</h4>
+            <h4 style="margin-bottom:10px"> Monthly  Salary List</h4>
             <div class="page-btn">
                 <form action="/Salary/Index" method="get">
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-5" @(canShowSalary)>
                             <div class="form-group">
-                    <select name="empId" class="form-control" @(canShowSalary)>
+                    <select name="empId" class="form-control" >
                         <option value="" selected disabled hidden>Choose Employee</option>
                         @foreach (var item in ViewBag.Employees)
                         {
@@ -177,7 +177,7 @@
                         </div>
                         <div class="col-md-5">
                             <div class="form-group">
-                    <select name="month" id="month" class="form-control">
+                    <select name="month" id="month" class="form-control" required>
                         <option value="" selected disabled hidden>Choose Month</option>
                         @foreach (var item in ViewBag.months)
                         {
@@ -287,6 +287,7 @@
                 'copyHtml5',
                 'excelHtml5',
                 'csvHtml5',
+                'print',
                 {
                     extend: 'pdfHtml5',
                     text: 'PDF',

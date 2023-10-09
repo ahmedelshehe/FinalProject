@@ -15,8 +15,8 @@ namespace FinalProject.Models
         [Key]
 		[Required(ErrorMessage ="You should choose startdate")]
         [DataType(DataType.Date)]
-        [YesterdayOrToday]
-        public DateTime StartDate { get; set; }
+/*        [YesterdayOrToday]
+*/        public DateTime StartDate { get; set; }
 
         [Required(ErrorMessage = "You should choose enddate")]
 		[DataType(DataType.Date)]

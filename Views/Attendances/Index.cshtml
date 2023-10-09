@@ -24,34 +24,10 @@
         <a asp-action="Create" class="btn btn-added mb-2"><img src="~/img/icons/plus.svg" alt="img" class="me-1">Add New</a>
         <a asp-action="UploadFile" class="btn btn-added"><img src="~/img/icons/excel.svg" alt="img" class="me-1">Import Sheet</a>
     </div>
-   @* <div class="row" @(canAddAttendance)>
-        <div class="col-md-6">
-            <a class="btn btn-added mb-2" asp-action="Create">
-                <img src="/img/icons/plus.svg" alt="img" class="me-1"> Add New
-            </a>
-        </div>
-        <div class="col-md-6">
-            <a class="btn btn-added mb-2" asp-action="UploadFile">
-                <img src="/img/icons/excel.svg" alt="img" class="me-1"> Import Sheet
-            </a>
-        </div>
-    </div>*@
+
 
 </div>
-@* <div class="row m-5 align-content-between align-items-center welcome-box">
-    <div class="col-2 ">
-        <div class="container shadow row align-items-center py-3">
-            <div class="col">
-                <a asp-action="UploadFile">
-                    <i class="fa-regular fa-file-excel fa-2xl" style="color: #135007;"></i>
-                </a>
-            </div>
-            <div class="col">
-                <a asp-action="SearchIndex"><i class="fa-brands fa-searchengin fa-2xl" style="color: #665ecf;"></i></a>
-            </div>
-        </div> 
-    </div>
-</div> *@
+
 
 <div class="card" id="attendance-index-print">
         <div class="card-body">
@@ -65,9 +41,6 @@
                 <ul>
                     <li>
                         <a data-bs-toggle="tooltip" data-bs-placement="top" title="Advanced Search" asp-action="SearchIndex"><i class="fa-brands fa-searchengin fa-xl"></i></a>
-                    </li>
-                    <li>
-                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="Print" onclick="printContent('attendance-index-print')"><img src="~/img/icons/printer.svg" alt="img"></a>
                     </li>
                 </ul>
             </div>

@@ -19,9 +19,6 @@
     </div>
 }
 
-
-
-
 <div class="content">
     <div class="page-header" style="margin-bottom:0px">
         <div class="page-title">
@@ -29,13 +26,9 @@
             <div class="page-btn">
                 <form action="/Salary/YearlyReportSalary" method="post">
                     <div class="row">
-
-                   
-
-
-                        <div class="col-md-6">
+                        <div class=" col-md-6" @(canShowSalary)>
                             <div class="form-group">
-                                <select name="empId" class="form-control" @(canShowSalary) >
+                                <select name="empId" class="form-control"  >
                                     <option value="" selected disabled hidden>Choose Employee</option>
                                     @foreach (var item in ViewBag.Employees)
                                     {
@@ -45,7 +38,7 @@
                             </div>
                         </div>
                         
-                        <div class="col-md-5">
+                        <div class="col-6  col-md-6 w-75">
                             <div class="form-group">
                                 <select name="year" id="year" class="form-control" required>
                                     <option value="" selected disabled hidden>Choose Year</option>
@@ -57,7 +50,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <button class=" form-group  btn btn-added" type="submit">
                                     <img src="~/assets/img/icons/search.svg" />  Search
@@ -163,6 +156,7 @@
                 'copyHtml5',
                 'excelHtml5',
                 'csvHtml5',
+                'print',
                 {
                     extend: 'pdfHtml5',
                     text: 'PDF',

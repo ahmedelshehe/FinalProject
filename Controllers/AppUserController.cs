@@ -79,11 +79,12 @@ namespace FinalProject.Controllers
                 ViewBag.AllRules = allRolesOfUser;
                 var hashedPassword = hasher.HashPassword(null, NewPassword); 
                 user.PasswordHash = hashedPassword;
+				var updatedEmp = employeeRepository.GetEmployee(user.EmpId);
+				user.UserName = updatedEmp.FirstName+updatedEmp.LastName;                
                 var createUserResult = await userManager.CreateAsync(user);
 
                 if (createUserResult.Succeeded)
                 {
-                    var updatedEmp = employeeRepository.GetEmployee(user.EmpId);
                     updatedEmp.Email = user.Email;
                     updatedEmp.Password = hashedPassword;
                     employeeRepository.UpdateEmployee(user.EmpId, updatedEmp);

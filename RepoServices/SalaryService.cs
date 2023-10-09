@@ -108,22 +108,22 @@ namespace FinalProject.RepoServices
                         }
                     }
 
-                    var annVacations = vacationRepository.GetVacationById(emp.Id).
+                    var annVacations = vacationRepository.GetVacationById(1).
                         Where(w => w.StartDate.Year == currentyear && w.EndDate.Year == currentyear &&
-                          w.StartDate.Month == currentmonth && w.EndDate.Month == currentmonth);
+                          w.StartDate.Month == currentmonth && w.EndDate.Month == currentmonth && w.Status == VacationStatus.Approved);
                     foreach (var vac in annVacations)
                     {
-                        numberOfVacations += vacationRepository.GetVacationDays(emp.Id, vac.StartDate);
+                        numberOfVacations += vacationRepository.GetVacationDays(1, vac.StartDate);
                     }
-                    var attandance = db.Attendances.Where(w => w.EmployeeId == emp.Id).ToList();
+                    var attandance = db.Attendances.Where(w => w.EmployeeId == 1).ToList();
                     attandance = attandance.Where(w => w.Date.Month == currentmonth && w.Date.Year == currentyear).ToList();
                     atttendanceDay = attandance.Where(w => w.IsAbsent == false).ToList().Count;
 
                     var officialDay = calcOfficialPerMonth(currentyear, currentmonth);
 
                     weeklyHolidayPerMonth = calcWeeklyHolidayPerMonth(currentyear, currentmonth);
-                    absanceDayPerMonth = DateTime.DaysInMonth(currentyear, currentmonth) -
-                        (atttendanceDay + weeklyHolidayPerMonth + officialDay);
+                    absanceDayPerMonth = DateTime.DaysInMonth(currentyear, currentmonth)- 
+                        (atttendanceDay + weeklyHolidayPerMonth + officialDay + numberOfVacations);
 
                     discountHoursPercentage = generalSettingRepository.DiscountTimePricePerHour();
                     ExtraHoursPercentage = generalSettingRepository.OverTimePricePerHour();
