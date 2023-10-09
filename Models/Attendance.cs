@@ -20,8 +20,8 @@ namespace FinalProject.Models
 
         [Required(ErrorMessage = "You should enter date ")]
         [DataType(DataType.Date)]
-        public DateTime Date { get; set; }
-
+		[Column(TypeName = "Date")]
+		public DateTime Date { get; set; }
 
         // When The Difference Between ArrivalTime And Departure Time is More Than 8 Hours => ExtraHours
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]

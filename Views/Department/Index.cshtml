@@ -58,7 +58,7 @@
 
 
             <div class="table-responsive">
-                <table class="table">
+                <table class="table datanew">
                     <thead>
                         <tr>
 
@@ -73,7 +73,6 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-
 
                                 <td>@item.Name</td>
                                 <td>@item.Employees.Count()</td>
@@ -96,9 +95,6 @@
                                         </span>
                                     </div>
                                 </td>
-
-
-
                             </tr>
 
                         }

@@ -32,7 +32,7 @@
         <div class="card-body">
        
             <div id="my-table-div">
-                <table  id="mytable" class=" table hover row-border compact stripe order-column" style="width:100%">
+                <table  id="mytable" class="table hover row-border compact stripe order-column" style="width:100%">
                 <thead>
                     <tr>
                         <th>Full Name</th>
@@ -98,7 +98,6 @@
                                         <a asp-action="Edit" class="me-3" asp-route-id="@item.employee.Id">
 
                                             <img src="~/img/icons/edit.svg" alt="Edit">
-                                            <img src="~/assets/img/icons/edit.svg" alt="Edit">
 
                                         </a>
                                     </span>
@@ -107,14 +106,12 @@
 
                                             <img src="~/img/icons/eye.svg" alt="Details">
 
-                                            <img src="~/assets/img/icons/eye.svg" alt="Details">
 
                                         </a>
                                     </span>
                                     <span @(canDeleteEmployees)>
                                         <a asp-action="Delete" class="me-3" asp-route-id="@item.employee.Id" class="confirm-text">
                                             <img src="~/img/icons/delete.svg" alt="Delete">
-                                            <img src="~/assets/img/icons/delete.svg" alt="Delete">
                                         </a>
                                     </span>
                                 </div>
