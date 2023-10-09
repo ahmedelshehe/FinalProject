@@ -30,7 +30,7 @@ namespace FinalProject.Utilities
 
 			if (!hasPermission)
 			{
-				context.Result = new RedirectToActionResult("Error", "Home", 403);
+				context.Result = new RedirectToActionResult("Error", "Home", new { code = 403 });
                 return;
 			}
 		}

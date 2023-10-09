@@ -33,11 +33,9 @@ namespace FinalProject.Middleware
                             context.Items.Add("CheckUncheckAllForAdmin", true);
                         }
 
-                        if (!context.Items.ContainsKey("Permissions"))
-                        {
-                            var permissions = appRole.Permissions;
-                            context.Items.Add("Permissions", permissions.ToList());
-                        }
+
+                        var permissions = appRole.Permissions;
+                        context.Items.Add("Permissions", permissions.ToList());
                     }
                 }
             }
