@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FinalProject.ViewModels.EmployeeViewModel>
+@model IEnumerable<FinalProject.ViewModels.EmployeeViewModel>
 @using FinalProject.Utilities
 @using X.PagedList;
 @using X.PagedList.Mvc.Core;
@@ -96,16 +96,24 @@
                                 <div class="action-links">
                                     <span @(canUpdateEmployees)>
                                         <a asp-action="Edit" class="me-3" asp-route-id="@item.employee.Id">
+
+                                            <img src="~/img/icons/edit.svg" alt="Edit">
                                             <img src="~/assets/img/icons/edit.svg" alt="Edit">
+
                                         </a>
                                     </span>
                                     <span @(canShowEmployees)>
                                         <a asp-action="Details" class="me-3" asp-route-id="@item.employee.Id">
+
+                                            <img src="~/img/icons/eye.svg" alt="Details">
+
                                             <img src="~/assets/img/icons/eye.svg" alt="Details">
+
                                         </a>
                                     </span>
                                     <span @(canDeleteEmployees)>
                                         <a asp-action="Delete" class="me-3" asp-route-id="@item.employee.Id" class="confirm-text">
+                                            <img src="~/img/icons/delete.svg" alt="Delete">
                                             <img src="~/assets/img/icons/delete.svg" alt="Delete">
                                         </a>
                                     </span>
