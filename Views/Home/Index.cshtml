@@ -1,8 +1,81 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg custom_nav-container ">
+                <a class="navbar-brand" href="index.html">
+                    <span>
+                        HR System
+                    </span>
+                </a>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div class="d-flex mx-auto flex-column flex-lg-row align-items-center">
+                        <ul class="navbar-nav  ">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="about.html"> About</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="service.html"> Services </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#contactLink">Contact Us</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="quote_btn-container ">
+                        <a href="">
+                            <img src="../wwwroot/img/call.png" alt="">
+                            <span>
+                                Call : + 01 096366618
+                            </span>
+                        </a>
+
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- end header section -->
+    <!-- slider section -->
+    <section class=" slider_section ">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 ">
+                                <div class="detail_box">
+                                    <h1>
+                                        The Best HR System
+                                    </h1>
+                                    <p>
+                                        is a software application that helps organizations manage their human resources. HRMS systems can be used to automate a wide range of HR tasks, such as payroll, benefits administration, recruitment, onboarding, performance management, and time tracking.
+                                    </p>
+                                    <div class="btn-box">
+                                        <a asp-controller="Account" asp-action="Login" class="btn-1">
+                                            Login
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="img-box">
+                                    <img src="../wwwroot/img/slider-img.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end slider section -->
 </div>
