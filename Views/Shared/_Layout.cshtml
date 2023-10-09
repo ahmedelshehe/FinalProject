@@ -186,7 +186,7 @@
 							<li><a asp-controller="Attendances" asp-action="UploadFile">Uploa File</a></li>
 						</ul>
 					</li>
-					<li class="submenu">
+					@*<li class="submenu">
 						<a href="javascript:void(0);">
 							<img src="~/assets/img/icons/salary-16.png" />
 							<span> Salary</span> <span class="menu-arrow"></span>
@@ -195,7 +195,19 @@
 							<li><a asp-controller="Salary" asp-action="Index">Salary List</a></li>
 
 						</ul>
+					</li>*@
+					<li class="submenu">
+						<a href="javascript:void(0);">
+							<img src="~/assets/img/icons/salary-16.png" />
+							<span> Salary</span> <span class="menu-arrow"></span>
+						</a>
+						<ul>
+							<li><a asp-controller="Salary" asp-action="Index">Monthly Salary list</a></li>
+							<li><a asp-controller="Salary" asp-action="YearlyReportSalary"> Yearly Salary List</a></li>
+
+						</ul>
 					</li>
+
 
 						<li class="submenu">
 							<a href="javascript:void(0);"><img src="~/img/icons/product.svg" alt="img"><span> Role</span> <span class="menu-arrow"></span></a>
@@ -221,14 +233,22 @@
 
 						</ul>
 					</li>
-						<li>
+						@*<li>
                             <a asp-controller="OfficialVacation" asp-action="Index">
                                 <img src="~/assets/img/icons/sun-umbrella_891911.png" />
 								 <span>
 									Official Vacation
 								</span>
 							</a>
-						</li>
+						</li>*@
+					<li class="submenu">
+						<a href="javascript:void(0);"><i class="fa-solid fa-umbrella-beach fa-l"></i><span> Official Vacation</span> <span class="menu-arrow"></span></a>
+						<ul>
+							<li><a asp-controller="OfficialVacation" asp-action="Index">Official Vacation  </a></li>
+							<li><a asp-controller="OfficialVacation" asp-action="Create">Create Official Vacation</a></li>
+						</ul>
+					</li>
+
 					<li class="submenu">
 						<a href="javascript:void(0);"><i class="fa-solid fa-umbrella-beach fa-l"></i><span> Vacations</span> <span class="menu-arrow"></span></a>
 						<ul>
@@ -245,7 +265,7 @@
 								</span>
 							</a>
 						</li>
-					<li class="submenu">
+@*					<li class="submenu">
 						<a href="javascript:void(0);"><img src="~/img/group.png" alt="Users"><span> Users</span> <span class="menu-arrow"></span></a>
 						<ul>
 							<li><a asp-controller="AppUser" asp-action="Index">Users List</a></li>
@@ -253,10 +273,10 @@
 
 						</ul>
 					</li>
-						<li>
+*@						@*<li>
 							<a href="components.html"><i data-feather="layers"></i><span> Components</span> </a>
 						</li>
-
+*@
 						
 						
 						
