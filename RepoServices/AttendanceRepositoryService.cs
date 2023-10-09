@@ -236,6 +236,125 @@ namespace FinalProject.RepoServices
             }
             return null;
         }
+        public List<EmployeeAttendanceVM> GetEmployeeAttendancesByDeptNameAndEmployeeNameAndDate(DateTime startDate, DateTime endDate, string depName = "",string empName="")
+        {
+           
+
+           
+                string fname = "";
+                string lname = "";
+
+                if (GetAttendances() != null)
+                {
+                    if (empName == null || empName == "")
+                    {
+
+
+                    }
+                    else
+                    {
+                        var words = empName.Split(' ');
+                        fname = words[0];
+                        lname = "";
+
+                        if (words.Length > 0)
+                        {
+
+                            if (words.Length == 1)
+                            {
+                                fname = words[0];
+
+                            }
+                            else if (words.Length == 2)
+                            {
+                                lname = words[1];
+
+                            }
+                        }
+                    }
+                    var parameter = new List<SqlParameter>();
+                    parameter.Add(new SqlParameter("@FName", fname));
+                    parameter.Add(new SqlParameter("@LName", lname));
+                    parameter.Add(new SqlParameter("@DeptName", depName));
+                    parameter.Add(new SqlParameter("@startDate", startDate));
+                    parameter.Add(new SqlParameter("@EndDate", endDate));
+
+                try
+                {
+                    var list = context.EmployeeAttendanceReport.FromSqlRaw("EXECUTE SelectAllEmployeesByEmpNameAndDeptNameAndDate  @FName ,@LName ,@DeptName ,@startDate,@EndDate", parameter.ToArray()).ToList();
+
+                    return list;
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+
+                    return null;
+
+                }            
+            }
+            return null;
+        }
+        public List<EmployeeAttendanceVM> GetEmployeeAttendancesByDeptNameAndEmployeeName( string depName = "",string empName="")
+        {
+           
+
+           
+                string fname = "";
+                string lname = "";
+
+                if (GetAttendances() != null)
+                {
+                    if (empName == null || empName == "")
+                    {
+
+
+                    }
+                    else
+                    {
+                        var words = empName.Split(' ');
+                        fname = words[0];
+                        lname = "";
+
+                        if (words.Length > 0)
+                        {
+
+                            if (words.Length == 1)
+                            {
+                                fname = words[0];
+
+                            }
+                            else if (words.Length == 2)
+                            {
+                                lname = words[1];
+
+                            }
+                        }
+                    }
+                    var parameter = new List<SqlParameter>();
+                    parameter.Add(new SqlParameter("@FName", fname));
+                    parameter.Add(new SqlParameter("@LName", lname));
+                    parameter.Add(new SqlParameter("@DeptName", depName));
+                 
+
+                try
+                {
+                    var list = context.EmployeeAttendanceReport.FromSqlRaw("EXECUTE SelectAllEmployeesByEmpNameAndDeptName @FName ,@LName, @DeptName ", parameter.ToArray()).ToList();
+
+                    return list;
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+
+                    return null;
+
+                }            
+            }
+            return null;
+        }
         public List<EmployeeAttendanceVM> GetEmployeeAttendancesByDeptNameAndDate(DateTime startDate, DateTime endDate, string name = "")
         {
            
@@ -264,6 +383,7 @@ namespace FinalProject.RepoServices
             }
             return null;
         }
+
 
         public void UpdateAttendance(Attendance attendance)
         {
@@ -576,9 +696,67 @@ namespace FinalProject.RepoServices
             throw new NotImplementedException();
         }
 
+        public  string checkIn(Attendance attendance,string userName)
+        {
+            string msg = "";
+            if (attendance != null)
+            {
+                try
+                {
+                    InsertAttendance(attendance);
+                    msg = "INSERTED SUCCESSFULLY ";
 
+                }
+                catch(Exception ex)
+                {
+                    msg = ex.Message;
+                }
+            }
+            else
+            {
+                msg = "ATTENDANCE IS EMPTY";
+            }
+            return msg;
+        }
+        public string checkOut(Attendance attendance,string userName)
+        {
+            string msg = "";
+            if (attendance != null)
+            {
+                try
+                {
+                    UpdateAttendance(attendance);
+                    msg = "UPDATED SUCCESSFULLY CHECKOUT ,"+userName;
 
+                }
+                catch (Exception ex)
+                {
+                    msg = ex.Message;
 
+                }
+            }
+            else
+            {
+                msg ="ATTENDANCE IS EMPTY";
+            }
+            return msg;
+        }
+
+        public  string createAttendanceOnlineWorkFromHome(Attendance attendance ,string userName)
+        {
+            if(attendance != null)
+            {
+                if(GetAttendance(attendance.EmployeeId,attendance.Date)==null)
+                {
+                    checkIn(attendance, userName);
+                }
+                else
+                {
+                    checkOut(attendance, userName);
+                }
+            }
+            return "";
+        }
     }
 }
 

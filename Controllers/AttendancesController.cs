@@ -46,55 +46,222 @@ namespace FinalProject.Controllers
 
         [HttpPost]
         [HttpGet]
-        public async  Task<IActionResult> SearchIndex(string searchName,DateTime to ,DateTime from)
+        public async  Task<IActionResult> SearchIndex(string searchName, string deptName, DateTime to ,DateTime from)
         {
             var list = new List<EmployeeAttendanceVM>();
+            if(deptName == null)
+            {
+                deptName = "";
+            }
+            if (searchName == null)
+            {
+                searchName = "";
+            }
+            list = list = attendanceRepository.GetEmployeeAttendancesByName(searchName);
+
+            if (to != new DateTime() && from == new DateTime())
+            {
+                from = to;
+            }
+
+
+            else if (to == new DateTime() && from != new DateTime())
+            {
+                to = from;
+            }
             ViewBag.EmployeeName=searchName;
-            ViewBag.DeptName=searchName;
+            ViewBag.DeptName= deptName;
             ViewBag.to=to;
             ViewBag.from=from;
                 if (attendanceRepository.GetAttendances() != null)
                 {
-                if( to == new DateTime() || from == new DateTime())
+                //search by name only
+                if (to == new DateTime() && from == new DateTime() && deptName == "" && searchName != "")
                 {
                     list = attendanceRepository.GetEmployeeAttendancesByName(searchName);
 
                 }
-                if (list == null || list.Count == 0 && to == new DateTime() && from == new DateTime())
+                //search by depname only
+                else if (to == new DateTime() && from == new DateTime() && deptName != "" && searchName == "")
                 {
-                    list = attendanceRepository.GetEmployeeAttendancesByDeptName(searchName);
+                    list = attendanceRepository.GetEmployeeAttendancesByDeptName(deptName);
 
                 }
-                if (list == null || list.Count==0 )
+                //search by date only
+                else if(to != new DateTime() && from != new DateTime())
+                {
+                   //search by employee name and date
+                    if (deptName == "" && searchName != "")
                     {
-                    if (to != new DateTime() && from == new DateTime())
+                        list = attendanceRepository.GetEmployeeAttendancesByNameAndDate(to, from, searchName);
+
+                    }
+                    //search by deptname and date
+
+                    else if (deptName != "" && searchName == "")
                     {
-                        from = to;
+                        list = attendanceRepository.GetEmployeeAttendancesByDeptNameAndDate(to, from, deptName);
+
                     }
 
+                    else if(deptName != "" && searchName !="")
+                    {
+                        list = attendanceRepository.GetEmployeeAttendancesByDeptNameAndEmployeeNameAndDate(to, from,deptName, searchName);
 
-                    else if (to == new DateTime() && from != new DateTime())
-                        {
-                            to = from;
-                        }
-                    list = attendanceRepository.GetEmployeeAttendancesByNameAndDate(to, from, searchName);
-                 
+                    }
+                    list = attendanceRepository.GetEmployeeAttendancesByDeptNameAndEmployeeNameAndDate(to, from, deptName, searchName);
+
                 }
-                if (list == null || list.Count == 0)
+
+                else if (deptName != "" && searchName != "")
                 {
-                    list = attendanceRepository.GetEmployeeAttendancesByDeptNameAndDate(to, from, searchName);
+                    list = attendanceRepository.GetEmployeeAttendancesByDeptNameAndEmployeeName( deptName, searchName);
 
                 }
-
-
 
             }
             return View(list) ;
 
         }
-     
-
         [HttpGet]
+
+        public async Task<IActionResult> CreateAttendanceOnlineWorkFromHome()
+        {
+            var userId = userManager.GetUserId(User);
+            var user = await userManager.FindByIdAsync(userId);
+            var userName = user.UserName;
+            string msg = "";
+            var btnText = "CheckIn";
+            var enable = true;
+            Attendance attendance = new Attendance { ArrivalTime = DateTime.Now, Date = DateTime.Today, EmployeeId = user.EmpId };
+
+            var attendanceStored = attendanceRepository.GetAttendance(attendance.EmployeeId, attendance.Date);
+            if (attendanceStored != null)
+            {
+                enable = false ;
+
+            }
+            ViewBag.msg = msg;
+            ViewBag.enable = enable;
+            ViewBag.btnText = btnText;
+
+            return View("CreateAttendanceOnlineWorkFromHome");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateAttendanceOnlineWorkFromHomeCheckIn()
+        {
+            var userId = userManager.GetUserId(User);
+            var user = await userManager.FindByIdAsync(userId);
+            var userName = user.UserName;
+            string msg = "";
+            var btnText = "CheckIn";
+            var enable = true;
+            Attendance attendance = new Attendance { ArrivalTime = DateTime.Now, Date = DateTime.Today, EmployeeId = user.EmpId };
+
+            var attendanceStored = attendanceRepository.GetAttendance(attendance.EmployeeId, attendance.Date);
+
+            if (attendanceStored == null)
+            {
+                msg = attendanceRepository.checkIn(attendance, userName);
+                btnText = "CheckOut";
+            }
+            else
+            {
+                enable = false;
+            }
+            ViewBag.msg = msg;
+            ViewBag.enable = enable;
+            ViewBag.btnText = btnText;
+            return View("CreateAttendanceOnlineWorkFromHome");
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateAttendanceOnlineWorkFromHomeCheckOut()
+        {
+            var userId = userManager.GetUserId(User);
+            var user = await userManager.FindByIdAsync(userId);
+            var userName = user.UserName;
+            string msg = "";
+            var btnText = "CheckIn";
+            var enable = true;
+         
+            Attendance attendance = new Attendance { ArrivalTime = DateTime.Now, Date = DateTime.Today, EmployeeId = user.EmpId };
+
+            var attendanceStored = attendanceRepository.GetAttendance(attendance.EmployeeId, attendance.Date);
+
+            if (attendanceStored.DepartureTime == new DateTime())
+            {
+                btnText = "CheckOut";
+                attendance.DepartureTime = DateTime.Now;
+                msg = attendanceRepository.checkOut(attendance, userName);
+                enable = false;
+
+            }
+            else if (attendanceStored.ArrivalTime != new DateTime() && attendanceStored.DepartureTime != new DateTime())
+            {
+
+                enable = false;
+
+            }
+            ViewBag.msg = msg;
+            ViewBag.enable = enable;
+            ViewBag.btnText = btnText;
+
+
+            return View("CreateAttendanceOnlineWorkFromHome");
+        }
+
+        //    [HttpPost]
+        //public async Task<IActionResult>  CreateAttendanceOnlineWorkFromHome()
+        //{
+
+
+        //    var userId = userManager.GetUserId(User);
+        //    var user = await userManager.FindByIdAsync(userId);
+        //    var userName = user.UserName;
+        //    string msg = "";
+        //    //var showCheckIn = true;
+        //    //var showCheckout = false;
+        //    var btnText = "CheckIn";
+        //    var enable = true;
+        //    //Attendance attendance = new Attendance { ArrivalTime = TimeOnly.FromDateTime(DateTime.Now), Date = DateOnly.FromDateTime(DateTime.Now), EmployeeId = user.EmpId };
+        //   // DateTime.Today
+        //    Attendance attendance = new Attendance { ArrivalTime = DateTime.Now, Date = DateTime.Today, EmployeeId = user.EmpId };
+
+        //    var attendanceStored = attendanceRepository.GetAttendance(attendance.EmployeeId, attendance.Date);
+
+        //    if (attendanceStored == null)
+        //    {
+        //        msg = attendanceRepository.checkIn(attendance, userName);
+        //        //showCheckIn = false;
+        //        //showCheckout = true;
+        //        btnText = "CheckOut";
+        //    }
+        //    else if (attendanceStored.DepartureTime == new DateTime())
+        //    {
+        //        btnText = "CheckOut";
+        //        attendance.DepartureTime = DateTime.Now;
+        //        msg = attendanceRepository.checkOut(attendance, userName);
+        //        // showCheckout = false;
+        //        enable = false;
+
+        //    }
+        //    else if (attendanceStored.ArrivalTime != new DateTime() && attendanceStored.DepartureTime != new DateTime())
+        //    {
+
+        //        enable = false;
+
+        //    }
+        //    // ViewBag.showCheckIn = showCheckIn;
+        //    // ViewBag.showCheckout = showCheckout;
+        //    ViewBag.msg =msg;
+        //    ViewBag.enable = enable;
+        //    ViewBag.btnText = btnText;
+
+
+        //    return View();
+        //}
+            [HttpGet]
         public async Task<IActionResult> EmployeeReport()
         {
             var userId = userManager.GetUserId(User);
@@ -105,7 +272,6 @@ namespace FinalProject.Controllers
             return View(attendacesEmployeeReport);
 
         }
-
         [HttpPost]
         [AuthorizeByPermission("Attendance",Operation.Show)]
         public async Task<IActionResult> Search(DateTime Date)
@@ -246,7 +412,9 @@ namespace FinalProject.Controllers
             {
                 var dt = attendanceRepository.ReadExcel(postedFile);
                 var attendanceList = attendanceRepository.convertDataTableToListAttendance(dt);
-                attendanceRepository.insertBulk(attendanceList);
+                // attendanceRepository.insertBulk(attendanceList);
+                var statusList = attendanceRepository.InsertBulkAttendanceAndUpdateIFExist(attendanceList);
+
 
             }
             return RedirectToAction("Index", attendanceRepository.GetAttendances().ToList());
