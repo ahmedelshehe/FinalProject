@@ -1,0 +1,68 @@
+﻿@model FinalProject.Models.Attendance
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Attendance for work from Home </h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @if (ViewBag.btnText == "CheckIn")
+        {
+            <form asp-action="CreateAttendanceOnlineWorkFromHomeCheckIn">
+                @if (ViewBag.enable)
+                {
+                    <div class="form-group">
+                        <input type="submit" value="@ViewBag.btnText" class="btn btn-primary" />
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <input type="submit" value="@ViewBag.btnText" class="btn btn-primary" disabled />
+                    </div>
+                }
+            </form>
+
+        }
+        else{
+                <form asp-action="CreateAttendanceOnlineWorkFromHomeCheckOut">
+                @if (ViewBag.enable)
+                {
+                    <div class="form-group">
+                        <input type="submit" value="@ViewBag.btnText" class="btn btn-primary" />
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <input type="submit" value="@ViewBag.btnText" class="btn btn-primary" disabled />
+                    </div>
+                }
+            </form>
+        }
+            @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                @Html.CheckBox("CheckIn", true)
+                <label  class="control-label">CheckIn</label>
+            </div>
+            <div class="form-group">
+                @Html.CheckBox("CheckIn", true)
+                <label class="control-label">CheckIn</label>
+            </div>*@
+           
+            
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

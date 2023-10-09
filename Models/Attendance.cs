@@ -10,16 +10,19 @@ namespace FinalProject.Models
         [Required(ErrorMessage = "You should enter arrival time")]
         [Display(Name = "Arrival Time")]
         [DataType(DataType.Time)]
+        //public TimeOnly ArrivalTime { get; set; }
         public DateTime ArrivalTime { get; set; }
 
 
         [Required(ErrorMessage = "You should enter departure time")]
         [Display(Name = "Departure Time")]
         [DataType(DataType.Time)]
+       // public TimeOnly DepartureTime { get; set; }
         public DateTime DepartureTime { get; set; }
 
         [Required(ErrorMessage = "You should enter date ")]
         [DataType(DataType.Date)]
+        //public DateOnly Date { get; set; }
         public DateTime Date { get; set; }
 
 
