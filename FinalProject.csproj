@@ -74,6 +74,7 @@
 
   <ItemGroup>
     <PackageReference Include="EFCore.BulkExtensions" Version="6.7.16" />
+    <PackageReference Include="Excel" Version="1.0.0" />
     <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
     <PackageReference Include="Faker.Net" Version="2.0.154" />
     <PackageReference Include="MailKit" Version="4.2.0" />
