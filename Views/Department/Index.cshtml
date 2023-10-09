@@ -62,12 +62,9 @@
                     <thead>
                         <tr>
 
-                            <th>ID</th>
                             <th>Name</th>
                             <td>Num Of Employees</td>
-                            <th></th>
                             <th>Action</th>
-                            <th></th>
 
                         </tr>
                     </thead>
@@ -78,24 +75,28 @@
                             <tr>
 
 
-                                <td>@item.Id</td>
                                 <td>@item.Name</td>
                                 <td>@item.Employees.Count()</td>
-                                <td @(canShowDepartments)>
-                                    <a asp-action="Details" asp-route-id="@item.Id" class="me-3">
-                                        <img src="~/img/icons/file.png" width="30px" alt="img">
-                                    </a>
+                                <td class="print-off">
+                                    <div class="action-links">
+                                        <span @(canUpdateDepartments)>
+                                            <a asp-action="Edit" class="me-3" asp-route-id="@item.Id">
+                                                <img src="~/assets/img/icons/edit.svg" alt="Edit">
+                                            </a>
+                                        </span>
+                                        <span @(canShowDepartments)>
+                                            <a asp-action="Details" class="me-3" asp-route-id="@item.Id">
+                                                <img src="~/assets/img/icons/eye.svg" alt="Details">
+                                            </a>
+                                        </span>
+                                        <span @(canDeleteDepartments)>
+                                            <a asp-action="Delete" class="me-3" asp-route-id="@item.Id" class="confirm-text">
+                                                <img src="~/assets/img/icons/delete.svg" alt="Delete">
+                                            </a>
+                                        </span>
+                                    </div>
                                 </td>
-                                <td @(canUpdateDepartments)>
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="me-3">
-                                        <img src="~/img/icons/pencil.png" width="30px" alt="img">
-                                    </a>
-                                </td>
-                                <td @(canDeleteDepartments)>
-                                    <a asp-action="Delete" asp-route-id="@item.Id" class="me-3 confirm-text">
-                                        <img src="~/img/icons/delete.png" width="30px" alt="img">
-                                    </a>
-                                </td>
+
 
 
                             </tr>

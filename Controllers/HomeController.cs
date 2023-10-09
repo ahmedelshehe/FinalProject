@@ -26,8 +26,17 @@ namespace FinalProject.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Error(int code)
         {
+            if (code == 403)
+            {
+                return View("403");
+            }
+            else if (code == 404)
+            {
+                return View("404")
+;
+            }
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }

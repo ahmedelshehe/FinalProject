@@ -105,6 +105,8 @@
     <None Include="Views\Department\Edit.cshtml" />
     <None Include="Views\Department\Index.cshtml" />
     <None Include="Views\Department\_TopBar.cshtml" />
+    <None Include="Views\Shared\403.cshtml" />
+    <None Include="Views\Shared\404.cshtml" />
     <None Include="wwwroot\assetss\fonts\fontawesome-webfont.svg" />
     <None Include="wwwroot\assetss\fonts\fontawesome-webfont.woff2" />
     <None Include="wwwroot\assetss\fonts\line-awesome.svg" />
