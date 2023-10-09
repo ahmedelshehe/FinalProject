@@ -79,11 +79,16 @@ namespace FinalProject.Models
         [Range(5000,500000,ErrorMessage ="You should enter a salary between 5K and 500K")]
         public double Salary { get; set; }
 
+        [Required(ErrorMessage = "You should enter a phone number")]
+        [DataType(DataType.PhoneNumber)]
+        [MaxLength(11, ErrorMessage = "Phone numbers should be 11 digits")]
+        [MinLength(11, ErrorMessage = "Phone numbers should be 11 digits")]
+        [UniqueEmployeePhoneNumber(ErrorMessage = "Phone Number already exists")]
+        public string PhoneNumber { get; set; }
+
 
         // Navigation Properties
 
-        // MultivaluedAttribute
-        public virtual ICollection<PhoneNumber>? PhoneNumbers { get; set; }
 
 
         // Employee's Departments

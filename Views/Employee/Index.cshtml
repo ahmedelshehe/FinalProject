@@ -53,6 +53,7 @@
                         <th>Country</th>
                         <th>Gender</th>
                         <th>Age</th>
+                        <th>Phone</th>
                         <th>Add User</th>
                         <th>Action</th>
                     </tr>
@@ -90,6 +91,9 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.employee.Age)
                             </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.employee.PhoneNumber)
+                                </td>
 
                             <td class="print-off">
                                 @if (!item.isUserAdded)

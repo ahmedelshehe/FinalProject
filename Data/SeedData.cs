@@ -83,7 +83,8 @@ namespace FinalProject.Data
                     City= Faker.Address.City(),
                     Country = Faker.Address.Country(),
                     Street = Faker.Address.StreetName(),
-                    AvailableVacations = 21
+                    AvailableVacations = 21,
+                    PhoneNumber = "01096366618",
                 };
 
                 employees.Add(employee);
