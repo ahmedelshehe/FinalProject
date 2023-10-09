@@ -165,6 +165,18 @@
 								<li><a asp-controller="Employee" asp-action="Create">Add Employee</a></li>
 							</ul>
                         </li>
+					<li class="submenu">
+						<a href="javascript:void(0);">
+							<img src="~/assets/img/icons/attendance.png" />
+							<span> Attendance</span> <span class="menu-arrow"></span>
+						</a>
+						<ul>
+                            
+							<li><a asp-controller="Attendances" asp-action="Index">Attendance List</a></li>
+							<li><a asp-controller="Attendances" asp-action="Create">Add Attendance</a></li>
+							<li><a asp-controller="Attendances" asp-action="UploadFile">Uploa File</a></li>
+						</ul>
+					</li>
 						<li class="submenu">
 							<a href="javascript:void(0);"><img src="~/img/icons/product.svg" alt="img"><span> Role</span> <span class="menu-arrow"></span></a>
 							<ul>
