@@ -71,7 +71,7 @@ namespace FinalProject
             app.UseMiddleware<PermissionsMiddleware>();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Account}/{action=Login}/{id?}");
 			var env = app.Environment;
 			app.Run();
         }
