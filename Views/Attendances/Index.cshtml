@@ -1,13 +1,6 @@
-﻿@model X.PagedList.StaticPagedList<Attendance>
+﻿@model IEnumerable<Attendance>
 @using FinalProject.Utilities;
-@using X.PagedList;
-@using X.PagedList.Mvc.Core;
-@using X.PagedList.Mvc.Core.Fluent
-@using X.PagedList.Web.Common;
-﻿@{
-    var pagedList = (IPagedList)Model;
-}
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
 
 @{
     ViewData["Title"] = "Attendance Dashboard";
@@ -19,32 +12,20 @@
     var canUpdateAttendance = permissions.HasPermission("Attendance", Operation.Update);
     var canDeleteAttendance = permissions.HasPermission("Attendance", Operation.Delete);
 }
+<div class="page-header">
+    <div class="page-title">
+        <h4>Attendance Dashboard</h4>
+        <h6>Manage your Attendance</h6>
 
-<div class="row m-5 align-content-between align-items-center welcome-box">
-    <div class="col ">
-        <div>
-            <div class="welcome-det">
-                <h3>Attendance Dashboard</h3>
-            </div>
-        </div>
     </div>
-    <div class="col-3 container shadow row align-items-center py-3 mr-3">
-        <div >
-            <form asp-action="Search" class="form-inline">
-                <div class="form-group">
-                    <input type="date" name="Date" class="form-control mr-2" />
-                    <button type="submit" class="btn btn-outline-info  mr-2">Search</button>
-                    <a asp-action="Index"><i class="fa-solid fa-arrows-rotate fa-l" style="color: #000000;"></i></a>
-                </div>
-            </form>
-        </div>
+    <div class="page-btn" @(canAddAttendance)>
+        <a asp-action="Create" class="btn btn-added mb-2"><img src="~/img/icons/plus.svg" alt="img" class="me-1">Add New</a>
+        <a asp-action="UploadFile" class="btn btn-added"><img src="~/img/icons/excel.svg" alt="img" class="me-1">Import Sheet</a>
     </div>
-    <div class="col-2 " @(canAddAttendance)>
+</div>
+@* <div class="row m-5 align-content-between align-items-center welcome-box">
+    <div class="col-2 ">
         <div class="container shadow row align-items-center py-3">
-            <div class="col">
-                <a asp-action="Create"><i class="fa-sharp fa-solid fa-plus fa-2xl"></i></a>
-            </div>
-            
             <div class="col">
                 <a asp-action="UploadFile">
                     <i class="fa-regular fa-file-excel fa-2xl" style="color: #135007;"></i>
@@ -55,15 +36,30 @@
             </div>
         </div> 
     </div>
-</div>
+</div> *@
 
-<div class="row align-items-start align-content-between">
-    <div class="card p-3 shadow col-10 ml-5" id="attendance-index-print">
-        <div class="welcome-det print-on">
-            <h3>Attendance Report</h3>
+<div class="card" id="attendance-index-print">
+        <div class="card-body">
+        <div class="table-top print-off">
+            <form asp-action="Search" class="form-inline">
+                    <label>Choose Date</label>
+                <a asp-action="Index"><i class="fa-solid fa-arrows-rotate fa-l"></i></a>
+                    <input type="date" id="date-picker" name="Date" placeholder="Choose Date" class="form-control" />
+            </form>
+            <div class="wordset print-off">
+                <ul>
+                    <li>
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="Advanced Search" asp-action="SearchIndex"><i class="fa-brands fa-searchengin fa-xl"></i></a>
+                    </li>
+                    <li>
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="Print" onclick="printContent('attendance-index-print')"><img src="~/img/icons/printer.svg" alt="img"></a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <table class="table table-striped">
-            <thead>
+        <div class="table-responsive">
+            <table class="table  datanew">
+                <thead>
                 <tr>
                     <th>
                         Employee
@@ -75,12 +71,19 @@
                         Departure Time
                     </th>
                     <th>
+                        Extra Hours
+                    </th>
+                    <th>
+                        Discount Hours
+                    </th>
+                    <th>
+                        Absent
+                    </th>
+                    <th>
                         Date
                     </th>
 
-                    <th colspan="3" class="print-off">
-                        Actions
-                    </th>
+                    <th class="print-off"> Actions</th>
 
                 </tr>
             </thead>
@@ -97,44 +100,59 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.DepartureTime)
                         </td>
+                            <td>
+                                @if(item.ExtraHours == 0)
+                                {
+                                    <span>-</span>
+                                }
+                                else
+                                {
+                                   @Html.DisplayFor(modelItem => item.ExtraHours)
+                                }
+                            </td>
+                            <td>
+                                @if (item.DiscountHours == 0)
+                                {
+                                    <span>-</span>
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.DiscountHours)
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IsAbsent)
+                            </td>
                         <td>
                             @item.Date.ToString("dd MMM yyy")
                         </td>
 
-                        <td class ="print-off" @(canUpdateAttendance)>
-                            <a asp-action="Edit" asp-route-id="@item.EmployeeId" asp-route-date="@item.Date">
-                                <i class="fa-solid fa-pen-to-square fa-lg" style="color: #000000;"></i>
-                            </a>
-                        </td>
-                        <td class="print-off" @(canShowAttendance)>
-                            <a asp-action="Details" asp-route-id="@item.EmployeeId" asp-route-date="@item.Date"><i class="fa-solid fa-circle-info fa-l" style="color: #000000;"></i></a>
-                        </td>
-                        <td class ="print-off" @(canDeleteAttendance)>
-                            <a asp-action="Delete" asp-route-id="@item.EmployeeId" asp-route-date="@item.Date"><i class="fa-solid fa-trash fa-l" style="color: #000000;"></i></a>
+                        <td class ="print-off">
+                                <span @(canUpdateAttendance)>
+                                    <a asp-action="Edit" asp-route-id="@item.EmployeeId" asp-route-date="@item.Date">
+                                        <i class="fa-solid fa-pen-to-square fa-xl" style="color: #000000;"></i>
+                                    </a>
+                                </span>
+                                <span class ="print-off" @(canDeleteAttendance)>
+                                    <a asp-action="Delete" asp-route-id="@item.EmployeeId" asp-route-date="@item.Date"><i class="fa-solid fa-trash fa-xl" style="color: #000000;"></i></a>
+
+                                </span>
+
                         </td>
 
                     </tr>
                 }
             </tbody>
         </table>
-    </div>
-    <div class="col">
+        </div>
+        </div>
+        </div>
+@*     <div class="col">
         <a  onclick="printContent('attendance-index-print')" style="cursor:pointer;"><i class="fa-solid fa-print fa-2xl" style="color: #00276b;"></i></a>
-    </div>
-</div>
+    </div> *@
 
-
-<div id="container" style="margin-left: 20px">
-    <div class="pagination" style="margin-left: 400px">
-        @Html.PagedListPager(pagedList, page => Url.Action("Index", new { page }), new PagedListRenderOptions
-               {                       
-                        DisplayLinkToIndividualPages = true,
-                        DisplayPageCountAndCurrentLocation = false,
-                        MaximumPageNumbersToDisplay = 10,
-                        UlElementClasses =new string[] {"pagination justify-content-end"},
-                        LiElementClasses = new string[] { "page-item" },
-                        PageClasses = new string[] { "page-link" },
-                   
-                    })
-    </div>
-</div>
+<script>
+    document.getElementById("date-picker").addEventListener("change", function () {
+        this.form.submit();
+    });
+</script>
