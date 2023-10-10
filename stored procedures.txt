@@ -1,0 +1,108 @@
+---stored procedure search by fname and lname
+
+create PROCEDURE SelectAllEmployeesByName @FName nvarchar(30) , @LName nvarchar(30) 
+AS
+SELECT EmployeeId,FirstName+ ' '+LastName as [FullName],FirstName,LastName ,d.Name as DeptName,ArrivalTime,DepartureTime,a.Date
+FROM Employees as e,Attendances as a,Departments as d 
+WHERE 
+
+(FirstName Like '%' + ISNULL(@FName,FirstName) + '%' )
+
+ and
+ 
+(LastName Like '%' + ISNULL(@LName,LastName) + '%' )
+and e.Id = a.EmployeeId and d.Id = e.DeptID 
+
+
+---stored Date and name
+create PROCEDURE SelectAllEmployeesByNameAndDate @FName nvarchar(30) , @LName nvarchar(30) ,@startDate DateTime , @EndDate DateTime
+AS
+SELECT EmployeeId,FirstName+ ' '+LastName as [FullName],FirstName,LastName ,d.Name as DeptName,ArrivalTime,DepartureTime,a.Date
+FROM Employees as e,Attendances as a,Departments as d 
+WHERE 
+(FirstName Like '%' + ISNULL(@FName,FirstName) + '%' )
+and
+(LastName Like '%' + ISNULL(@LName,LastName) + '%' )
+ and
+Date >= ISNULL(@startDate,Date) 
+and  
+Date <= ISNULL(@EndDate,a.Date )
+
+and e.Id = a.EmployeeId and d.Id = e.DeptID 
+
+
+---stored Date ,deptName
+create PROCEDURE SelectAllEmployeesByDeptNameAndDate @DeptName nvarchar(30) ,@startDate DateTime , @EndDate DateTime
+AS
+SELECT EmployeeId,FirstName+ ' '+LastName as [FullName],FirstName,LastName ,d.Name as DeptName,ArrivalTime,DepartureTime,a.Date
+FROM Employees as e,Attendances as a,Departments as d 
+WHERE 
+
+( d.Name Like '%' + ISNULL(@DeptName,d.Name) + '%' )
+and
+(Date >= ISNULL(@startDate,Date) 
+and  
+Date <= ISNULL(@EndDate,a.Date )
+ )
+and e.Id = a.EmployeeId and d.Id = e.DeptID 
+
+---stored deptname
+create PROCEDURE SelectAllEmployeesByDeptName @DeptName nvarchar(30) 
+AS
+SELECT EmployeeId,FirstName+ ' '+LastName as [FullName],FirstName,LastName ,d.Name as DeptName,ArrivalTime,DepartureTime,a.Date
+FROM Employees as e,Attendances as a,Departments as d 
+WHERE 
+
+ (d.Name Like  '%'+  @DeptName + '%' )
+and e.Id = a.EmployeeId and d.Id = e.DeptID
+
+
+--stored by employee id
+create PROCEDURE SelectAllEmployeesByEmployeeId @EmpID int
+AS
+SELECT EmployeeId,FirstName+ ' '+LastName as [FullName],FirstName,LastName ,d.Name as DeptName,ArrivalTime,DepartureTime,a.Date
+FROM Employees as e,Attendances as a,Departments as d 
+WHERE 
+a.EmployeeId = @EmpID
+and e.Id = a.EmployeeId and d.Id = e.DeptID 
+
+---stored procedure by depname and date
+create PROCEDURE SelectAllEmployeesByEmpNameAndDeptNameAndDate @FName nvarchar(30) , @LName nvarchar(30) , @DeptName nvarchar(30),@startDate DateTime , @EndDate DateTime
+AS
+SELECT EmployeeId,FirstName+ ' '+LastName as [FullName],FirstName,LastName ,d.Name as DeptName,ArrivalTime,DepartureTime,a.Date
+FROM Employees as e,Attendances as a,Departments as d 
+WHERE 
+
+
+--FirstName like @FName and LastName like @LName 
+ --(FirstName Like '%' + @FName + '%' )
+  (FirstName Like '%' + ISNULL(@FName,FirstName) + '%' )
+
+ and
+ --(LastName Like  '%' + @LName + '%' )
+   (LastName Like '%' + ISNULL(@LName,LastName) + '%' )
+  and
+     ---  Date BETWEEN @startDate AND @EndDate 
+	   (d.Name Like  '%'+  @DeptName + '%' )
+and
+ Date >= ISNULL(@startDate,Date) 
+ and  
+ Date <= ISNULL(@EndDate,a.Date )
+
+and e.Id = a.EmployeeId and d.Id = e.DeptID 
+
+--stored by name and depname
+create PROCEDURE SelectAllEmployeesByEmpNameAndDeptName @FName nvarchar(30) , @LName nvarchar(30) , @DeptName nvarchar(30)
+AS
+SELECT EmployeeId,FirstName+ ' '+LastName as [FullName],FirstName,LastName ,d.Name as DeptName,ArrivalTime,DepartureTime,a.Date
+FROM Employees as e,Attendances as a,Departments as d 
+WHERE 
+
+--FirstName like @FName and LastName like @LName 
+ (FirstName Like '%' + @FName + '%' )
+ and
+ (LastName Like  '%' + @LName + '%' )
+ and
+  (d.Name Like  '%'+  @DeptName + '%' )
+
+and e.Id = a.EmployeeId and d.Id = e.DeptID

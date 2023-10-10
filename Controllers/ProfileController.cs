@@ -98,10 +98,8 @@ namespace FinalProject.Controllers
 				user.PasswordHash = hashedPassword;
                 await userManager.UpdateAsync(user);
 
-                // Log the user out
-                await HttpContext.SignOutAsync();
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Dashboard", "Profile");
             }
 
             return View(model);
