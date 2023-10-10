@@ -49,9 +49,7 @@ namespace FinalProject.Data
             builder.Entity<Attendance>(
                 entity => entity.HasKey("Date", "EmployeeId")
                 );
-            builder.Entity<PhoneNumber>(
-                entity => entity.HasKey("Number", "EmployeeId")
-                );
+            
             builder.Entity<Vacation>(
                 entity => entity.HasKey("StartDate", "EmployeeId")
                 );
@@ -103,7 +101,6 @@ namespace FinalProject.Data
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Attendance> Attendances { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
-        public virtual DbSet<PhoneNumber> PhoneNumbers { get; set; }
         public virtual DbSet<OfficialVacation> OfficalVacations { get; set; }
         public virtual DbSet<GeneralSetting> GeneralSetting { get; set; }
 

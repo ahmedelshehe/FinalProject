@@ -77,6 +77,30 @@ namespace FinalProject.Utilities
             return ValidationResult.Success;
         }
     }
+    public class UniqueEmployeePhoneNumber : ValidationAttribute
+    {
+        private const string DefaultErrorMessage = "Please Enter Unique Value";
+        private const string DefaultEmptyErrorMessage = "This Field is Required";
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        {
+            var applicationDbContext = (ApplicationDbContext)validationContext.GetService(typeof(ApplicationDbContext));
+
+            if (value == null)
+                return new ValidationResult(ErrorMessage ?? DefaultEmptyErrorMessage);
+            else
+            {
+                var isUnique =
+                    applicationDbContext.Employees.FirstOrDefault(n => (string)value == n.PhoneNumber);
+                if (isUnique != null)
+                {
+                    return new ValidationResult(ErrorMessage ?? DefaultErrorMessage);
+                }
+
+            }
+            return ValidationResult.Success;
+        }
+    }
+
     public class EndDateAfterStartDateAttribute : ValidationAttribute
     {
         public EndDateAfterStartDateAttribute(string errorMessage,string property)

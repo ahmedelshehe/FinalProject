@@ -263,7 +263,7 @@ namespace FinalProject.RepoServices
                     }
 
                     var annVacations = vacationRepository.GetVacationById(emp.Id).
-                          Where(w => w.StartDate.Year == currentyear && w.EndDate.Year == currentyear);
+                          Where(w => w.StartDate.Year == currentyear && w.EndDate.Year == currentyear && w.Status == VacationStatus.Approved);
                     foreach (var vac in annVacations)
                     {
                         numberOfVacations += vacationRepository.GetVacationDays(emp.Id, vac.StartDate);
@@ -276,7 +276,7 @@ namespace FinalProject.RepoServices
                     var officialDay = calcOfficialPerYear(currentyear);
                     weeklyHolidayPerYear = calcWeeklyHolidayPerYear(currentyear);
                     DateTime date = new DateTime(currentyear);
-                    absanceDayPerYear = HelperShared.GetDaysInYear(date) - (atttendanceDay + weeklyHolidayPerYear + officialDay);
+                    absanceDayPerYear = HelperShared.GetDaysInYear(date) - (atttendanceDay + weeklyHolidayPerYear + officialDay +numberOfVacations);
                     discountHoursPercentage = generalSettingRepository.DiscountTimePricePerHour();
                     ExtraHoursPercentage = generalSettingRepository.OverTimePricePerHour();
                     discountHourPrice = (discountHoursPercentage / 100) * emp.Salary;

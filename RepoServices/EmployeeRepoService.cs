@@ -13,12 +13,12 @@ namespace FinalProject.RepoServices
         }
         public List<Employee> GetEmployees()
         {
-            return context.Employees.Include(e => e.Attendances).Include(e => e.Department).Include(e => e.PhoneNumbers).ToList();
+            return context.Employees.Include(e => e.Attendances).Include(e => e.Department).ToList();
         }
 
         public Employee GetEmployee(int id)
         {
-            return context.Employees.Include(e => e.Attendances).Include(e => e.Department).Include(e => e.PhoneNumbers).FirstOrDefault(e => e.Id == id);
+            return context.Employees.Include(e => e.Attendances).Include(e => e.Department).FirstOrDefault(e => e.Id == id);
         }
 
        
@@ -48,6 +48,7 @@ namespace FinalProject.RepoServices
                 editEmployee.NationalId = employee.NationalId;
                 editEmployee.Salary = employee.Salary;
                 editEmployee.DeptID = employee.DeptID;
+                editEmployee.PhoneNumber = employee.PhoneNumber;
                 context.SaveChanges();
 
 
