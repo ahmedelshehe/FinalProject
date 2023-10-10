@@ -1,34 +1,4 @@
-﻿@* @model FinalProject.ViewModels.OfficialVacation
- *@
-@model FinalProject.ViewModels.OfficialVacationViewModel
-@*<h1>Add New Official Vacation</h1>
-
-
-
-<div class="container">
-
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.Name)
-            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.Date)
-            <input asp-for="Date" type="date" class="form-control" />
-        </div>
-
-        <div class="form-group">
-            <input type="submit" value="Create" class="btn btn-primary" />
-        </div>
-    }
-</div>
-<div>
-    <a asp-action="Index" class="btn btn-info">Back to List</a>
-</div>*@
+﻿@model FinalProject.ViewModels.OfficialVacationViewModel
 
 <div class="content">
     <div class="page-header">
@@ -57,9 +27,6 @@
                             <span asp-validation-for="Date" class="text-danger"></span>
                         </div>
                     </div>
-                    
-                   
-                    
                     </div>
                    
 
@@ -68,8 +35,8 @@
                         <div class="form-group">
                             <input type="submit" value="Create" class="btn btn-primary" />
                             <a asp-action="Index" class="btn " style="color: #fff;
-    background-color: #637381;
-    border-color: #637381">Cancel</a>
+                                            background-color: #637381;
+                                            border-color: #637381">Cancel</a>
 
 
                         </div>

@@ -34,12 +34,7 @@ namespace FinalProject.Controllers
         [AuthorizeByPermission("OfficialVacation", Operation.Add)]
         public ActionResult Create()
         {
-            var model = new OfficialVacationViewModel
-            {
-                offvac = officialVacationRepository.GetOfficialVacations()
-
-            };
-            return View(model);
+            return View();
         }
 
 

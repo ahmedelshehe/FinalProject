@@ -80,21 +80,21 @@ namespace FinalProject.Controllers
                 ModelState.AddModelError(nameof(vacation.StartDate), "Start date must be earlier than the end date.");
                 return View(vacation);
             }
+            var officialHolidays = officialVacationRepository
+                            .GetOfficialVacations()
+                            .Where(o => o.Date.Year == vacation.StartDate.Year 
+                            || o.Date.Year == vacation.StartDate.AddYears(1).Year).Select(o => o.Date).ToList();
+            var weeklyHoildays = weeklyHolidayRepository.GetAllHolidays().Select(w => w.Holiday).ToList();
+            int numberOfDays = HelperShared
+                .GetWorkDays(vacation.StartDate, vacation.EndDate, weeklyHoildays, officialHolidays);
 
-            TimeSpan duration = (TimeSpan)(vacation.EndDate - vacation.StartDate);
-            int numberOfDays = (int)duration.TotalDays + 1;
-
-            if (numberOfDays <= 0)
+			if (numberOfDays <= 0)
             {
                 ModelState.AddModelError(string.Empty, "The vacation duration must be at least 1 day.");
                 return View(vacation);
             }
-            var officialHolidays = officialVacationRepository
-                .GetOfficialVacations()
-                .Where(o => o.Date.Year == vacation.StartDate.Year 
-                || o.Date.Year == vacation.StartDate.AddYears(1).Year).Select(o => o.Date).ToList();
-            var weeklyHoildays = weeklyHolidayRepository.GetAllHolidays().Select(w => w.Holiday).ToList();
-            if (HelperShared.GetWorkDays(vacation.StartDate,vacation.EndDate,weeklyHoildays,officialHolidays) > employee.AvailableVacations)
+            
+            if (numberOfDays > employee.AvailableVacations)
             {
                 ModelState.AddModelError(string.Empty, "You do not have enough available vacations for this request.");
                 return View(vacation);
@@ -119,14 +119,15 @@ namespace FinalProject.Controllers
 
             var employee = EmployeeRepository.GetEmployee(id);
 
-            if (employee.AvailableVacations == 0)
+            
+            var numOfDays = VacationRepository.GetVacationDays(id, date);
+            if (employee.AvailableVacations < numOfDays)
             {
                 return RedirectToAction(nameof(Index));
             }
-
-            vacation.Status = VacationStatus.Approved;
+			vacation.Status = VacationStatus.Approved;
             VacationRepository.UpdateVacation(id, date, vacation);
-            employee.AvailableVacations -= VacationRepository.GetVacationDays(id,date);
+            employee.AvailableVacations -= numOfDays;
             EmployeeRepository.UpdateEmployee(id, employee);
 
             return RedirectToAction(nameof(Index));

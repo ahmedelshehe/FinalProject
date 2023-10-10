@@ -11,10 +11,11 @@
         <h4>Request A Vacation</h4>
     </div>
 </div>
-<form asp-action="Create">
+<form asp-action="Create" >
     <div class="card">
         <div class="card-body">
             <div class="row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">

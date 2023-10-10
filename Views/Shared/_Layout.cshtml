@@ -1,7 +1,7 @@
 @using FinalProject.Middleware;
 @using FinalProject.Utilities;
 @{
-	ViewData["Title"] = "Index";
+	ViewData["Title"] = "Home";
 	var permissions = Context.Items["Permissions"] as List<Permission>;
 	var canViewPermissions = Context.Items["CanViewPermissions"] as bool?;
 	var haveAnyVacation = permissions.HasAnyPermission("Vacation");
@@ -33,13 +33,13 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>@ViewData["Title"] - HRMS</title>
+	<title>HRMS</title>
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="~/FinalProject.styles.css" asp-append-version="true" />
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 	<!-- Favicon -->
-	<link rel="shortcut icon" type="image/x-icon" href="~/img/favicon.png">
+	<link rel="shortcut icon" type="image/x-icon" href="~/img/logo23.png">
 
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="~/css/bootstrap.min.css">
@@ -63,7 +63,7 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;700&family=Young+Serif&display=swap" rel="stylesheet">
-	<link rel="shortcut icon" type="image/x-icon" href="~/img/favicon.png">
+	<link rel="shortcut icon" type="image/x-icon" href="~/img/favicon.ico>
 
 	<link rel="stylesheet" href="~/css/bootstrap.min.css" asp-append-version="true">
 
