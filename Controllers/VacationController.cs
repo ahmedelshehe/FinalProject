@@ -99,7 +99,12 @@ namespace FinalProject.Controllers
                 ModelState.AddModelError(string.Empty, "You do not have enough available vacations for this request.");
                 return View(vacation);
             }
-
+            var isUnique = VacationRepository.GetVacation(user.EmpId,vacation.StartDate);
+            if(isUnique != null)
+            {
+				ModelState.AddModelError(nameof(vacation.StartDate), "You have requested With the same start date before");
+				return View(vacation);
+			}
             VacationRepository.InsertVacation(vacation);
             return RedirectToAction("MyVacations");
         }

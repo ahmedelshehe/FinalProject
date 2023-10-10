@@ -1,5 +1,6 @@
 ﻿using FinalProject.Data;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Principal;
 
 namespace FinalProject.Utilities
 {
@@ -52,7 +53,8 @@ namespace FinalProject.Utilities
         }
     }
 
-    public class UniqueEmployeeNationalId : ValidationAttribute
+
+	public class UniqueEmployeeNationalId : ValidationAttribute
     {
         private const string DefaultErrorMessage = "Please Enter Unique Value";
         private const string DefaultEmptyErrorMessage = "This Field is Required";
@@ -64,7 +66,7 @@ namespace FinalProject.Utilities
                 return new ValidationResult(ErrorMessage ?? DefaultEmptyErrorMessage);
             else
             {
-                var isUnique =
+				var isUnique =
                     applicationDbContext.Employees.FirstOrDefault(n => (string)value == n.NationalId);
                 if (isUnique != null)
                 {

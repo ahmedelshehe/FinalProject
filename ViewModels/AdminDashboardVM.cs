@@ -48,7 +48,7 @@ namespace FinalProject.ViewModels
         {
             get
             {
-                return employees != null ? employees.Average(e=>e.Age) : 0;
+                return employees != null ? Math.Round(employees.Average(e => e.Age), 1) : 0;
             }
         }
         public string DepartmentNames { get
